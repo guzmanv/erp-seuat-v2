@@ -31,7 +31,7 @@
                             <div class="card-body">
 <!--                                 <h3 class="card-title">Listado de planteles</h3>
  -->                                <p class="card-text">
-                                    <table id="tablePlantel" class="table table-bordered table-striped table-sm">
+                                    <table id="tablePlantel" class="table table-bordered table-striped table-hover table-sm">
                                         <thead>
                                             <tr>
                                                 <th>#</th>

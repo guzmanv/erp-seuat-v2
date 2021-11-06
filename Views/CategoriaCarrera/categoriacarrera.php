@@ -29,7 +29,7 @@
                             <div class="card-body">
 <!--                                 <h3 class="card-title">Listado de Categorias de Carreras</h3>
  -->                                <p class="card-text">
-                                    <table id="tableCategoriaCarreras" class="table table-bordered table-striped table-sm">
+                                    <table id="tableCategoriaCarreras" class="table table-bordered table-striped table-hover table-sm">
                                         <thead>
                                             <tr>
                                                 <th width="5%">#</th>

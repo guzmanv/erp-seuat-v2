@@ -28,7 +28,7 @@
                             <div class="card-body">
 <!--                                 <h3 class="card-title">Listado de Niveles Educativos</h3>
  -->                                <p class="card-text">
-                                    <table id="tableNivelEducativo" class="table table-bordered table-striped table-sm">
+                                    <table id="tableNivelEducativo" class="table table-bordered table-striped table-hover table-sm">
                                         <thead>
                                             <tr>
                                                 <th>#</th>

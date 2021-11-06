@@ -29,7 +29,8 @@
                             <div class="card-body">
 <!--                                 <h3 class="card-title">Listado de Materias</h3>
  -->                                <p class="card-text">
-                                    <table id="tableMaterias" class="table table-bordared table-striped table-sm">
+                                    <table id="tableMaterias" class="table table-bordared table-striped table-hover 
+                                    table-sm">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
