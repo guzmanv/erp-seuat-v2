@@ -294,6 +294,8 @@
               </li>
             </ul>
           </li>
+
+          <li class="nav-header"><h6>Administración</h6></li>
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="ml-3 mr-2" data-feather="settings"></i>
