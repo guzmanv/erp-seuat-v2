@@ -295,6 +295,25 @@
             </ul>
           </li>
 
+          <li class="nav-header"><h6>Admisión</h6></li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Persona" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="users"></i>
+                  <p>
+                      Persona
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Inscripcion/admision" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="layers"></i>
+                  <p>
+                      Inscripcion
+                  </p>
+              </a>
+          </li>
+        
+
           <li class="nav-header"><h6>Administración</h6></li>
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -315,27 +334,7 @@
               </li>
             </ul>
           </li>
-
-          <li class="nav-header"><h6>Admisión</h6></li>
-          <li class="nav-item">
-              <a href="<?php echo BASE_URL ?>/Persona" class="nav-link">
-                  <i class="ml-3 mr-2" data-feather="users"></i>
-                  <p>
-                      Persona
-                  </p>
-              </a>
-          </li>
-          <li class="nav-item">
-              <a href="<?php echo BASE_URL ?>/Inscripcion/admision" class="nav-link">
-                  <i class="ml-3 mr-2" data-feather="layers"></i>
-                  <p>
-                      Inscripcion
-                  </p>
-              </a>
-          </li>
-        
-
-
+          
 
         </ul>
       </nav>
