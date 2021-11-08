@@ -1,7 +1,7 @@
 <?php
 
 	//define("BASE_URL", "http://localhost/erp-seuat-v1/");
-	const BASE_URL = "http://localhost/erp-seuat";
+	const BASE_URL = "http://localhost/erp-seuat-v2";
 
 	//Zona horaria
 	date_default_timezone_set('America/Mexico_City');
