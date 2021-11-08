@@ -15,43 +15,8 @@ mostrarTab(tabActual);
 mostrarTabEdit(tabActualEdit);
 
 document.addEventListener('DOMContentLoaded', function(){
-	tableInscripciones = $('#tableInscripciones').dataTable( {
-		"aProcessing":true,
-		"aServerSide":true,
-        "language": {
-        	"url": " "+base_url+"/Assets/plugins/Spanish.json"
-        },
-        "ajax":{
-            "url": " "+base_url+"/Inscripcion/getInscripcionesAdmision",
-            "dataSrc":""
-        },
-        "columns":[
-            {"data":"numeracion"},
-            {"data":"nombre_persona"},
-            {"data":"nombre_plantel"},
-            {"data":"nombre_carrera"},
-            {"data":"grado"},
-            {"data":"grupo"},
-            {"data":"validacion"},
-            {"data":"options"}
-
-        ],
-        "responsive": true,
-	    "paging": true,
-	    "lengthChange": true,
-	    "searching": true,
-	    "ordering": true,
-	    "info": true,
-	    "autoWidth": false,
-	    "scrollY": '42vh',
-	    "scrollCollapse": true,
-	    "bDestroy": true,
-	    "order": [[ 0, "asc" ]],
-	    "iDisplayLength": 25
-    });
+	fnPlantelSeleccionadoDatatable(document.querySelector('#listPlantelDatatable').value);
 });
-$('#tableInscripciones').DataTable();
-
 function buscarPersona(){
     var textoBusqueda = $("input#busquedaPersona").val();
     var tablePersonas;
@@ -68,6 +33,7 @@ function buscarPersona(){
         },
         "columns":[
             {"data":"nombre"},
+            {"data":"estatus"},
             {"data":"options"}
         ],
         "responsive": true,
@@ -86,6 +52,30 @@ function buscarPersona(){
     $('#tablePersonas').DataTable();
 }
 
+//Lista de Inscritos en una Carrera y Mostrar en un MODAL
+
+function fnListaInscritos(answer){
+    var idCarrera = answer.id;
+    var grado = answer.getAttribute('gr');
+    var turno = answer.getAttribute('tr');
+    //console.log(answer);
+    var url= base_url+"/Inscripcion/getInscritos?idCarrera="+idCarrera+"&grado="+grado+"&turno="+turno;
+    fetch(url)
+        .then(res => res.json())
+        .then((resultado) => {
+            document.getElementById('valoresListaInscritos').innerHTML = "";
+            var contador = 0;
+			resultado.forEach(element => {
+                contador += 1;
+                //console.log(element);
+                document.getElementById('valoresListaInscritos').innerHTML +='<tr><td>'+contador+'</td><td>'+element.nombre_persona+'</td><td>'+element.apellidos+'</td></tr>'
+            });
+        })
+        .catch(err => { throw err });
+
+}
+
+
 function seleccionarPersona(answer){
     idPersonaSeleccionada = answer.id;
     let nombrePersona = answer.getAttribute('rl');
@@ -99,10 +89,13 @@ formInscripcionNueva.onsubmit = function(e){
     var strNombrePersona = document.querySelector('#txtNombreNuevo').value;
     var intPlantel = document.querySelector('#listPlantelNuevo').value;
     var intCarrera = document.querySelector('#listCarreraNuevo').value;
+    var intGrado = document.querySelector('#listGradoNuevo').value;
+    var intTurno = document.querySelector('#listTurnoNuevo').value;
     var strNombreTutor = document.querySelector('#txtNombreTutorAgregar').value;
     var strAppPaternoTutor = document.querySelector('#txtAppPaternoTutorAgregar').value;
     var strAppMaternoTutor = document.querySelector('#txtAppMaternoTutorAgregar').value;
-    if(strNombrePersona == '' || intPlantel == '' || intCarrera == '' || strNombreTutor == '' || strAppPaternoTutor == ''|| strAppMaternoTutor == '' ){
+    console.log(strNombrePersona);
+    if(strNombrePersona == '' || intPlantel == '' || intCarrera == '' || intGrado == '' || intTurno == '' || strNombreTutor == '' || strAppPaternoTutor == ''|| strAppMaternoTutor == '' ){
         swal.fire("Atención","Atención todos los campos son obligatorios","warning");
         return false;
     }
@@ -118,7 +111,7 @@ formInscripcionNueva.onsubmit = function(e){
             if(objData.estatus){
                 formInscripcionNueva.reset();
                 swal.fire("Inscripcion",objData.msg,"success").then((result) =>{
-                    $('#dimissModalNuevo').click();
+                    $('.close').click();
                 });
                 tableInscripciones.api().ajax.reload();
             }else{
@@ -366,3 +359,45 @@ function pasarTab(n) {
         }
     }
 }
+function fnPlantelSeleccionadoDatatable(value){
+    var idPlantel = value;
+    var nombrePlantel = document.querySelector('#listPlantelDatatable');
+    var text= nombrePlantel.options[nombrePlantel.selectedIndex].text;
+    document.querySelector('#nombrePlantelDatatable').innerHTML = text;
+    tableInscripciones = $('#tableInscripciones').dataTable( {
+		"aProcessing":true,
+		"aServerSide":true,
+        "language": {
+        	"url": " "+base_url+"/Assets/plugins/Spanish.json"
+        },
+        "ajax":{
+            "url": " "+base_url+"/Inscripcion/getInscripcionesAdmision?idplantel="+idPlantel,
+            "dataSrc":""
+        },
+        "columns":[
+            {"data":"numeracion"},
+            {"data":"nombre_carrera"},
+            {"data":"nombre_nivel_educativo"},
+            {"data":"grado"},
+            {"data":"nombre_plan"},
+            {"data":"nombre_turno"},
+            {"data":"nombre_grupo"},
+            {"data":"total"},
+            {"data":'options'}
+
+        ],
+        "responsive": true,
+	    "paging": true,
+	    "lengthChange": true,
+	    "searching": true,
+	    "ordering": true,
+	    "info": true,
+	    "autoWidth": false,
+	    "scrollY": '42vh',
+	    "scrollCollapse": true,
+	    "bDestroy": true,
+	    "order": [[ 0, "asc" ]],
+	    "iDisplayLength": 25
+    });
+}$('#tableInscripciones').DataTable();
+

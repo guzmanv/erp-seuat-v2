@@ -21,33 +21,65 @@
                         <input type="hidden" id="idPersonaSeleccionada" name="idPersonaSeleccionada" value="">
                         <div class="card-body"> 
                                 <div class="tab">
-                                    <div class = "col-8">
-                                        <div class="form-group">
-                                            <label>Nombre de la Persona</label>
-                                            <div class="row">
-                                                <input type="text" id="txtNombreNuevo" name="txtNombreNuevo" class="form-control col-8" placeholder="Nombre de la Persona"  name="" readonly required>
-                                                <p class="col-1"></p>
-                                                <button type="button" class="btn btn-primary col-3" data-toggle="modal" data-target="#modalNombrePersona"><i class="fa fa-search"></i> Buscar</button>
-                                            </div>    
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Plantel</label>
-                                            <select class="form-control" id="listPlantelNuevo" name="listPlantelNuevo" onchange="fnPlantelSeleccionado(value)" required>
-                                                <option value="">Selecciona el Plantel</option>
-                                                <?php 
-                                                    foreach ($data['planteles'] as $value) {
-                                                        ?>
-                                                            <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_plantel'] ?></option>
-                                                        <?php
-                                                    }    
-                                                ?>
-                                            </select>                                    
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Carrera</label>
-                                            <select class="form-control" id="listCarreraNuevo" name="listCarreraNuevo" required>
-                                                <option value="">Selecciona la Carrera</option>
-                                            </select>                                    
+                                    <div class = "col-12">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Nombre de la Persona</label>
+                                                    <div class="row">
+                                                        <div class="col-md-8"><input type="text" id="txtNombreNuevo" name="txtNombreNuevo" class="form-control form-control-sm" placeholder="Nombre de la Persona"  name="" readonly required></div>
+                                                        <div class="col-md-4"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalNombrePersona"><i class="fa fa-search"></i> Buscar</button></div>
+                                                    </div>    
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-7">
+                                                <label>Plantel</label>
+                                                <select class="form-control form-control-sm" id="listPlantelNuevo" name="listPlantelNuevo" onchange="fnPlantelSeleccionado(value)" required>
+                                                    <option value="">Selecciona el Plantel</option>
+                                                    <?php 
+                                                        foreach ($data['planteles'] as $value) {
+                                                            ?>
+                                                                <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_plantel'].' ('.$value['municipio'].')'  ?></option>
+                                                            <?php
+                                                        }    
+                                                    ?>
+                                                </select>                                    
+                                            </div>
+                                            <div class="form-group col-md-5">
+                                                <label>Carrera</label>
+                                                <select class="form-control form-control-sm" id="listCarreraNuevo" name="listCarreraNuevo" required>
+                                                    <option value="">Selecciona la Carrera</option>
+                                                </select>                                    
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label>Grado</label>
+                                                <select class="form-control form-control-sm" id="listGradoNuevo" name="listGradoNuevo" required>
+                                                    <option value="">Seleccionar</option>
+                                                    <?php
+                                                        foreach ($data['grados'] as $key => $value) { ?>
+                                                            <option value="<?php echo $value['numero_natural'] ?>"><?php echo $value['numero_natural']?></option>
+
+                                                        <?php }
+                                                    ?>
+                                                </select>                                    
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label>Turno</label>
+                                                <select class="form-control form-control-sm" id="listTurnoNuevo" name="listTurnoNuevo" required>
+                                                    <option value="">Seleccionar</option>
+                                                    <?php
+                                                        foreach ($data['turnos'] as $key => $value) { ?>
+                                                            <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_turno']?></option>
+
+                                                        <?php }
+                                                    ?>
+                                                </select>                                    
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <label><b>Campaña</b></label>
+                                                <input type="hidden" id="idSubcampaniaNuevo" name="idSubcampaniaNuevo" value="<?php echo $data['subcampanias']['id_subcampania']?>">
+                                                <p>Estas inscribiendo a la <span class="badge badge-warning"><?php echo $data['subcampanias']['nombre_sub_campania']?></span></p>                            
+                                            </div>
                                         </div>
                                     </div>    
                                 </div>
@@ -60,29 +92,29 @@
                                             </div><br>
                                             <div class="form-group">
                                                 <label>Nombre</label>
-                                                <input type="text" id="txtNombreTutorAgregar" name="txtNombreTutorAgregar" class="form-control" placeholder="Nombre"  name="" required>
+                                                <input type="text" id="txtNombreTutorAgregar" name="txtNombreTutorAgregar" class="form-control form-control-sm" placeholder="Nombre"  name="" required>
                                             </div>
                                             <div class="form-group">
                                                 <label>Apellido Paterno</label>
-                                                <input type="text" id="txtAppPaternoTutorAgregar" name="txtAppPaternoTutorAgregar" class="form-control" placeholder="Apellido Paterno"  name="" required>
+                                                <input type="text" id="txtAppPaternoTutorAgregar" name="txtAppPaternoTutorAgregar" class="form-control form-control-sm" placeholder="Apellido Paterno"  name="" required>
                                             </div>
                                             <div class="form-group">
                                                 <label>Apellido Materno</label>
-                                                <input type="text" id="txtAppMaternoTutorAgregar" name="txtAppMaternoTutorAgregar" class="form-control" placeholder="Apellido Materno"  name="" required>
+                                                <input type="text" id="txtAppMaternoTutorAgregar" name="txtAppMaternoTutorAgregar" class="form-control form-control-sm" placeholder="Apellido Materno"  name="" required>
                                             </div>
                                         </div>    
                                         <div class = "col-6">
                                             <div class="form-group">
                                                 <label>Teléfono Celular</label>
-                                                <input type="text" id="txtTelCelularTutorAgregar" name="txtTelCelularTutorAgregar" class="form-control" placeholder="Telefono Celular"  name="">
+                                                <input type="text" id="txtTelCelularTutorAgregar" name="txtTelCelularTutorAgregar" class="form-control form-control-sm" placeholder="Telefono Celular"  name="">
                                             </div>
                                             <div class="form-group">
                                                 <label>Teléfono Fijo</label>
-                                                <input type="text" id="txtTelFijoTutorAgregar" name="txtTelFijoTutorAgregar" class="form-control" placeholder="Telefono Fijo"  name="">
+                                                <input type="text" id="txtTelFijoTutorAgregar" name="txtTelFijoTutorAgregar" class="form-control form-control-sm" placeholder="Telefono Fijo"  name="">
                                             </div>
                                             <div class="form-group">
                                                 <label>Email</label>
-                                                <input type="text" id="txtEmailTutorAgregar" name="txtEmailTutorAgregar" class="form-control" placeholder="Email"  name="">
+                                                <input type="text" id="txtEmailTutorAgregar" name="txtEmailTutorAgregar" class="form-control form-control-sm" placeholder="Email"  name="">
                                             </div>
                                         </div>    
                                     </div>   
@@ -92,25 +124,20 @@
                 </div>
                 <div class="modal-footer">
                     <div class="row col-12">
-                        <div class="col-4">
-                            <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalNuevo"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>
-                        </div>
-                        <div class="col-4 text-center">
+                        <div class="col-6 text-right">
                                 <span class="step"></span>
                                 <span class="step"></span>
                         </div>
-                        <div class="col-4">
+                        <div class="col-6">
                             <div style="overflow:auto;">
                                 <div style="float:right;">
-                                    <button class="btn btn-primary" type="button" id="btnAnterior" onclick="pasarTab(-1)">Anterior</button>
-                                    <button class="btn btn-primary" type="button" id="btnSiguiente" onclick="pasarTab(1)">Siguiente</button>
-                                    <button class="btn btn-success" type="submit" id="btnActionFormNuevo">Guardar</button>
+                                    <button class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" onclick="pasarTab(-1)"  id="btnAnterior"><i class="fas fa-fw fa-lg fa-arrow-circle-left icono-azul"></i>Anterior</button>
+                                    <button class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" onclick="pasarTab(1)"  id="btnSiguiente"><i class="fas fa-fw fa-lg fa-arrow-circle-right icono-azul"></i>Siguiente</button>
+                                    <button id="btnActionFormNuevo" type="submit" class="btn btn-outline-secondary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Guardar</span></button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!--a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalNuevo"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>-->
-                    <!--<button id="btnActionFormNuevo" type="submit" class="btn btn-outline-secondary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Guardar</span></button>-->
                 </div>   
             </form> 
         </div>
@@ -134,12 +161,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input type="text" class="form-control" id="busquedaPersona" placeholder="Nombre de la Persona" maxlength="100" autocomplete="off" onKeyUp="buscarPersona();" />
+                <input type="text" class="form-control form-control-sm" id="busquedaPersona" placeholder="Nombre de la Persona" maxlength="100" autocomplete="off" onKeyUp="buscarPersona();" />
                 <br>
                 <table id="tablePersonas" class="table table-bordered table-striped table-sm">
                     <thead>
                         <tr>
                             <th>Nombre Alumno</th>
+                            <th>Estatus</th>
                             <th width="15%">Acciones</th>
                         </tr>
                     </thead>
