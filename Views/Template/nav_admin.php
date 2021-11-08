@@ -198,43 +198,73 @@
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                   <i class="ml-3 mr-2" data-feather="circle"></i>
-                  <p>RVOES</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                   <i class="ml-3 mr-2" data-feather="circle"></i>
-                  <p>Prospección</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                   <i class="ml-3 mr-2" data-feather="circle"></i>
-                  <p>Inscripción</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="dashboard" class="nav-link">
-                   <i class="ml-3 mr-2" data-feather="circle"></i>
-                  <p>Ingresos y egresos</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="plantel" class="nav-link">
-              <i class="ml-3 mr-2" data-feather="layout"></i>
-              <!--<i class="nav-icon fas fa-university"></i>-->
-              <p>
-                Planteles
-              </p>
-            </a>
           </li>
 
+          <li class="nav-header"><h6>DIRC</h6></li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Plantel" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="layout"></i>
+                  <!--<i class="nav-icon fas fa-university"></i>-->
+                  <p>
+                      Planteles
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Modalidades" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="layers"></i>
+                  <p>
+                      Modalidades
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/CategoriaCarrera" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="server"></i>
+                  <!--<i class="nav-icon fas fa-university"></i>-->
+                  <p>
+                      Categorias Carreras
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/NivelEducativo" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="tag"></i>
+                  <!--<i class="nav-icon fas fa-university"></i>-->
+                  <p>
+                      Nivel Educativo
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Plan" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="layout"></i>
+                  <!--<i class="nav-icon fas fa-university"></i>-->
+                  <p>
+                      Org. plan de programas
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/PlanEstudios" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="server"></i>
+                  <!--<i class="nav-icon fas fa-university"></i>-->
+                  <p>
+                      Plan de Estudios
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Materias" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="layers"></i>
+                  <!--<i class="nav-icon fas fa-university"></i>-->
+                  <p>
+                      Materias
+                  </p>
+              </a>
+          </li>
+
+          <li class="nav-header"><h6>Ingresos y Egresos</h6></li>                        
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="ml-3 mr-2" data-feather="dollar-sign"></i>
@@ -282,6 +312,24 @@
                 </a>
               </li>
             </ul>
+          </li>
+
+          <li class="nav-header"><h6>Admisión</h6></li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Persona" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="users"></i>
+                  <p>
+                      Persona
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Inscripcion/admision" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="layers"></i>
+                  <p>
+                      Inscripcion
+                  </p>
+              </a>
           </li>
         
 
