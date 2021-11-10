@@ -31,11 +31,11 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Nombre de salon</th>
-                                                <th>Cantidad max. de estudiantes</th>
-                                                <th>Estatus</th>
+                                                <th>Capacidad max. de estudiantes</th>
                                                 <th>Periodo</th>
                                                 <th>Grado</th>
                                                 <th>Grupo</th>
+                                                <th>Plantel</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
