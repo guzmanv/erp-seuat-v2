@@ -1,7 +1,7 @@
 <?php
     headerAdmin($data);
     getModal("Alumnos/modalDocumentacion",$data);
-    //getModal("Materia/modalVerMateria",$data);
+    getModal("Alumnos/modalDatosPersonalesVerificar",$data);
     //getModal("Materia/modalEditMateria",$data);
 ?>
 <div id="contentAjax"></div>
@@ -12,6 +12,7 @@
                 <div class="row mb-2">
                     <div class="col-sm-7">
                         <h1 class="m-0"> <?= $data['page_title'] ?></h1>
+                        <h1 class="nombre_pagina" hidden><?= $data['page_name'] ?></h1>
                     </div>
                     <div class="col-sm-5">
                         <ol class="breadcrumb float-sm-right btn-block">
@@ -38,8 +39,12 @@
                                                 <th>Plantel</th>
                                                 <th>Carrera</th>
                                                 <th>Grado</th>
-                                                <th>Salon</th>
-                                                <th>Estatus</th>
+                                                <th>Salón</th>
+                                                <th>Documentación</th>
+                                                <th>Datos</th>
+                                                <!-- <?php if($data['page_name'] == 'estudiantes'){?><th>Documentacion</th><?php }?>
+                                                <?php if($data['page_name'] == 'estudiantes'){?><th>Datos</th><?php }?>
+                                                <?php if($data['page_name'] == 'verificados'){?><th>Estatus</th><?php }?> -->
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
