@@ -11,7 +11,7 @@
             <div class="modal-body">
                 <div class="card card-secondary">
                     <form id="formDocumentacionNueva" name="formDocumentacionNueva">
-                        <input type="hidden" id="idEstudiante" name="idEstudiante" value="">
+                        <input type="hidden" id="idInscripcion" name="idInscripcion" value="">
                         <div class="card-body"> 
                             <h5 class="card-title">Documentacion</h5>
                             <table class="table table-striped">
@@ -21,69 +21,16 @@
                                     <th scope="col">Nombre del Documento</th>
                                     <th scope="col">Original</th>
                                     <th scope="col">Copia</th>
-                                    <th scope="col">Pendiente</th>
+                                    <th scope="col" width='20%'>Candidad copias</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbDocumentacionIns">
-                                    <!-- tr>
-                                        <th scope="row">1</th>
-                                        <td>Acta de Nacimiento</td>
-                                        <td>
-                                            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                                <input type="checkbox" aria-label="Checkbox for following text input">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                                <input type="checkbox" aria-label="Checkbox for following text input">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                                <input type="checkbox" aria-label="Checkbox for following text input">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                            <td>CURP</td>
-                                            <td>
-                                                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                            <input type="checkbox" aria-label="Checkbox for following text input">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                            <input type="checkbox" aria-label="Checkbox for following text input">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                            <input type="checkbox" aria-label="Checkbox for following text input">
-                                        </div>
-                                    </td>
-                                    </tr>
-                                    <tr>
-                                    <th scope="row">3</th>
-                                    <td>Certificado de Preparatoria o Bachillerato</td>
-                                    <td>
-                                        <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                            <input type="checkbox" aria-label="Checkbox for following text input">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                            <input type="checkbox" aria-label="Checkbox for following text input">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                            <input type="checkbox" aria-label="Checkbox for following text input">
-                                        </div>
-                                    </td>
-                                    </tr>  -->
                                 </tbody>
                                 </table>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="checkDocumentacion" onclick="validacionDocumentacion(this)">
+                                    <label class="form-check-label" for="checkDocumentacion">Para <b style='color:blue'>validar</b> marca esta casilla</label>
+                                </div>
                         </div>
                     </div>
                 </div>
