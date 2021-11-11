@@ -1,0 +1,231 @@
+<?php
+	class Estudiantes extends Controllers{
+		public function __construct()
+		{
+			parent::__construct();
+		}
+		//Funcion para la Vista de Estudiantes
+		public function estudiantes()
+		{
+			$data['page_id'] = 0;
+			$data['page_tag'] = "Estudiantes";
+			$data['page_title'] = "Estudiantes";
+			$data['page_name'] = "estudiantes";
+			$data['page_content'] = "";
+			$data['estados'] = $this->model->selectEstados();
+            $data['grados_estudios'] = $this->model->selectGradosEstudios();
+			$data['page_functions_js'] = "functions_estudiantes.js";
+			$this->views->getView($this,"estudiantes",$data);
+		}
+		/* public function verificados(){
+			$data['page_id'] = 0;
+			$data['page_tag'] = "Estudiantes";
+			$data['page_title'] = "Estudiantes verificados";
+			$data['page_name'] = "verificados";
+			$data['page_content'] = "";
+			$data['estados'] = $this->model->selectEstados();
+            $data['grados_estudios'] = $this->model->selectGradosEstudios();
+			$data['page_functions_js'] = "functions_estudiantes.js";
+			$this->views->getView($this,"estudiantes",$data);
+		} */
+		/* public function verificar_datos_personales(){
+			$data['page_id'] = 0;
+			$data['page_tag'] = "Estudiantes";
+			$data['page_title'] = "Estudiantes sin verificar datos personales";
+			$data['page_name'] = "verificar_datos_personales";
+			$data['page_content'] = "";
+			$data['estados'] = $this->model->selectEstados();
+            $data['grados_estudios'] = $this->model->selectGradosEstudios();
+			$data['page_functions_js'] = "functions_estudiantes.js";
+			$this->views->getView($this,"estudiantes",$data);
+		} */
+		/* public function verificar_documentos(){
+			$data['page_id'] = 0;
+			$data['page_tag'] = "Estudiantes";
+			$data['page_title'] = "Estudiantes sin verificar documentos";
+			$data['page_name'] = "verificar_documentos";
+			$data['page_content'] = "";
+			$data['page_functions_js'] = "functions_estudiantes.js";
+			$this->views->getView($this,"estudiantes",$data);
+		} */
+        public function getEstudiantes(){
+            $arrData = $this->model->selectEstudiantes();
+            for ($i=0; $i<count($arrData); $i++){
+                $arrData[$i]['numeracion'] = $i+1;
+                $arrData[$i]['nombre_plantel'] = $arrData[$i]['nombre_plantel'].' ('.$arrData[$i]['municipio'].')';
+                if($arrData[$i]['validacion_doctos'] == 0){
+                    $arrData[$i]['validacion_doctos'] = '<span class="badge badge-danger">No validado</span>';
+                }else{
+                    $arrData[$i]['validacion_doctos'] = '<span class="badge badge-success">Validado</span>';
+                }
+				if($arrData[$i]['validacion_datos_personales'] == 0){
+                    $arrData[$i]['validacion_datos_personales'] = '<span class="badge badge-danger">No validado</span>';
+                }else{
+                    $arrData[$i]['validacion_datos_personales'] = '<span class="badge badge-success">Validado</span>';
+                }
+                $arrData[$i]['options'] = '<div class="text-center">
+				<div class="btn-group">
+					<button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="fas fa-layer-group"></i> &nbsp; Acciones
+					</button>
+					<div class="dropdown-menu">
+						<!--<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditPlan" onClick="fntEditPlan('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalFormEditPlan" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>-->
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal datosPersonalesVerficar" onClick="fnDatosPersonalesVerificacion('.$arrData[$i]['id_persona'].')" data-toggle="modal" data-target="#ModalFormEditPersona" title="Datos Personales"> &nbsp;&nbsp; <i class="fas fa-copy"></i> &nbsp;Verificar datos personales</button>
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal documentacionInscripcion" onclick="fntDocumentacionInscripcion('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalFormDocumentacion" title="Documentacion"> &nbsp;&nbsp; <i class="fas fa-copy"></i> &nbsp;Verificar documentos</button>
+						<div class="dropdown-divider"></div>
+						<!--<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelPlan" onClick="fntDelPlan('.$arrData[$i]['id'].')" title="Eliminar"> &nbsp;&nbsp; <i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>-->
+						<!--<a class="dropdown-item" href="#">link</a>-->
+					</div>
+				</div>
+				</div>'; 
+            }
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+		/* public function getEstudiantesVerificados(){
+			$arrData = $this->model->selectEstudiantesVerificados();
+            for ($i=0; $i<count($arrData); $i++){
+                $arrData[$i]['numeracion'] = $i+1;
+                $arrData[$i]['nombre_plantel'] = $arrData[$i]['nombre_plantel'].' ('.$arrData[$i]['municipio'].')';
+ 
+                $arrData[$i]['validacion'] = '<span class="badge badge-success">Validado</span>';
+                
+                $arrData[$i]['options'] = '<div class="text-center">
+				<div class="btn-group">
+					<button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="fas fa-layer-group"></i> &nbsp; Acciones
+					</button>
+					<div class="dropdown-menu">
+						<!--<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditPlan" onClick="fntEditPlan('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalFormEditPlan" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>-->
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal documentacionInscripcion" onClick="fntDocumentacionInscripcion('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalFormDocumentacion" title="Documentacion"> &nbsp;&nbsp; <i class="fas fa-copy"></i> &nbsp;Documentos</button>
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal plataformasInscripcion" onClick="fntPlataformasInscripcion('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalFormPlataformasInscripcion" title="Plataformas"> &nbsp;&nbsp; <i class="fas fa-cat"></i> &nbsp;Tutores</button>
+						<div class="dropdown-divider"></div>
+						<!--<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelPlan" onClick="fntDelPlan('.$arrData[$i]['id'].')" title="Eliminar"> &nbsp;&nbsp; <i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>-->
+						<!--<a class="dropdown-item" href="#">link</a>-->
+					</div>
+				</div>
+				</div>'; 
+            }
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+		} */
+		/* public function getEstudiantesVerificarDatosPersonales(){
+			$arrData = $this->model->selectEstudiantesVerificarDatosPersonales();
+            for ($i=0; $i<count($arrData); $i++){
+                $arrData[$i]['numeracion'] = $i+1;
+                $arrData[$i]['nombre_plantel'] = $arrData[$i]['nombre_plantel'].' ('.$arrData[$i]['municipio'].')';
+                $arrData[$i]['options'] = '<div class="text-center">
+				<div class="btn-group">
+					<button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="fas fa-layer-group"></i> &nbsp; Acciones
+					</button>
+					<div class="dropdown-menu">
+						<!--<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditPlan" onClick="fntEditPlan('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalFormEditPlan" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>-->
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal datosPersonalesVerficar" onClick="fnDatosPersonalesVerificacion('.$arrData[$i]['id_persona'].')" data-toggle="modal" data-target="#ModalFormEditPersona" title="Datos Personales"> &nbsp;&nbsp; <i class="fas fa-copy"></i> &nbsp;Verificar datos personales</button>
+						<!--<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal plataformasInscripcion" onClick="fntPlataformasInscripcion('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalFormPlataformasInscripcion" title="Plataformas"> &nbsp;&nbsp; <i class="fas fa-cat"></i> &nbsp;Tutores</button>-->
+						<!--<div class="dropdown-divider"></div>-->
+						<!--<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelPlan" onClick="fntDelPlan('.$arrData[$i]['id'].')" title="Eliminar"> &nbsp;&nbsp; <i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>-->
+						<!--<a class="dropdown-item" href="#">link</a>-->
+					</div>
+				</div>
+				</div>'; 
+            }
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+		} */
+		/* public function getEstudiantesVerificarDocumentos(){
+			$arrData = $this->model->selectEstudiantesVerificarDocumentos();
+            for ($i=0; $i<count($arrData); $i++){
+                $arrData[$i]['numeracion'] = $i+1;
+                $arrData[$i]['nombre_plantel'] = $arrData[$i]['nombre_plantel'].' ('.$arrData[$i]['municipio'].')';
+                if($arrData[$i]['validacion_doctos'] == 0){
+                    $arrData[$i]['validacion_doctos'] = '<span class="badge badge-danger">No validado</span>';
+                }else{
+                    $arrData[$i]['validacion_doctos'] = '<span class="badge badge-success">validado</span>';
+                }
+                $arrData[$i]['options'] = '<div class="text-center">
+				<div class="btn-group">
+					<button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="fas fa-layer-group"></i> &nbsp; Acciones
+					</button>
+					<div class="dropdown-menu">
+						<!--<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditPlan" onClick="fntEditPlan('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalFormEditPlan" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>-->
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal documentacionInscripcion" onclick="fntDocumentacionInscripcion('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalFormDocumentacion" title="Documentacion"> &nbsp;&nbsp; <i class="fas fa-copy"></i> &nbsp;Verificar documentos</button>
+						<!--<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal plataformasInscripcion" onClick="fntPlataformasInscripcion('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalFormPlataformasInscripcion" title="Plataformas"> &nbsp;&nbsp; <i class="fas fa-cat"></i> &nbsp;Tutores</button>-->
+						<!--<div class="dropdown-divider"></div>-->
+						<!--<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelPlan" onClick="fntDelPlan('.$arrData[$i]['id'].')" title="Eliminar"> &nbsp;&nbsp; <i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>-->
+						<!--<a class="dropdown-item" href="#">link</a>-->
+					</div>
+				</div>
+				</div>'; 
+            }
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+		} */
+        public function getDocumentacion(){
+            $idInscripcion = $_GET['idIns'];
+            $arrData = $this->model->selectDocumentacion($idInscripcion);
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function setValidacionDocumentacion(){
+            $data = $_POST;
+			$arrData = $this->model->insertValidacionDocumentacion($data);
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+		public function setValidacionDatosPersonales(){
+			$data = $_POST;
+			$arrData = $this->model->insertValidacionDatosPersonales($data);
+			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+			die();
+		}
+        public function setOriginalDocumentacion(){
+            $data = $_GET;
+            $arrData = $this->model->insertOriginalDocumentacion($data);
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function setCopiaDocumentacion(){
+            $data = $_GET;
+            $arrData = $this->model->insertCopiaDocumentacion($data);
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function setCantidadCopiaDocumentacion(){
+            $data = $_GET;
+            $arrData = $this->model->insertCantidadCopiaDocumentacion($data);
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function getEstatusDocumentacion(){
+            $data = $_GET;
+            $arrData = $this->model->selectEstatusDocumentacion($data);
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+		public function getMunicipios(){
+            $idEstado = $_GET['idestado'];
+            $arrData = $this->model->selectMunicipios($idEstado);
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+            die();
+        }
+		public function getLocalidades(){
+            $idMunicipio = $_GET['idmunicipio'];
+            $arrData = $this->model->selectLocalidades($idMunicipio);
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+            die();
+        }
+		public function getPersonaEdit($idPersona){
+            $idPersona = $idPersona;
+            $arrData = $this->model->selectPersonaEdit($idPersona);
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+            die();
+        }
+		public function getListEstados(){
+			$arrResponse = $this->model->selectEstados();
+			echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+			die();
+		}
+    }
+?>

@@ -8,7 +8,7 @@
 
 	//const LIBS = "Libraries/";
 	//const VIEWS = "Views/";
-	const DB_HOST = "10.10.0.45";
+	const DB_HOST = "localhost";
 	const DB_NAME = "erpseuat";
 	const DB_USER = "user_seuat";
 	const DB_PASSWORD = "seuat21";
