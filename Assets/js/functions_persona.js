@@ -97,6 +97,40 @@ function estadoSeleccionado(value){
     })
     .catch(err =>{throw err});
 }
+function nivelCarreraInteresSeleccionado(value){
+    const selCarreraInteres = document.querySelector('#listCarreraInteres');
+    let url = base_url+"/Persona/getCarrerasInteres?idNivel="+value;
+    fetch(url)
+    .then(res => res.json())
+    .then((resultado) => {
+        selCarreraInteres.innerHTML = "";
+        for (let i = 0; i < resultado.length; i++) {
+            opcion = document.createElement('option');
+            opcion.text = resultado[i]['nombre_carrera'];
+            opcion.value = resultado[i]['id'];
+            selCarreraInteres.appendChild(opcion);
+            
+        }
+    })
+    .catch(err =>{throw err});
+}
+function nivelCarreraInteresSeleccionadoEdit(value){
+    const selCarreraInteres = document.querySelector('#listCarreraInteresEdit');
+    let url = base_url+"/Persona/getCarrerasInteres?idNivel="+value;
+    fetch(url)
+    .then(res => res.json())
+    .then((resultado) => {
+        selCarreraInteres.innerHTML = "";
+        for (let i = 0; i < resultado.length; i++) {
+            opcion = document.createElement('option');
+            opcion.text = resultado[i]['nombre_carrera'];
+            opcion.value = resultado[i]['id'];
+            selCarreraInteres.appendChild(opcion);
+            
+        }
+    })
+    .catch(err =>{throw err});
+}
 
 function estadoSeleccionadoEdit(value){
     const selMunicipio = document.querySelector('#listMunicipioEdit');
@@ -159,7 +193,7 @@ function fntEditPersona(idPersona){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
             if(objData){
-                console.log(objData);
+                //console.log(objData);
                 document.querySelector("#idEdit").value = objData.id;
                 document.querySelector("#txtNombreEdit").value = objData.nombre_persona;    
                 document.querySelector("#txtApellidoPaEdit").value = objData.ap_paterno;
@@ -174,8 +208,24 @@ function fntEditPersona(idPersona){
                 document.querySelector("#txtEmailEdit").value = objData.email;
                 document.querySelector('#listEstadoCivilEdit').querySelector('option[value="'+objData.edo_civil+'"]').selected = true;
                 document.querySelector("#txtOcupacionEdit").value = objData.ocupacion;
-                document.querySelector("#txtValidacionEdit").value = objData.validacion;
-                document.querySelector('#listEscolaridadEdit').querySelector('option[value="'+objData.id_grado_estudio+'"]').selected = true;
+                //document.querySelector("#txtValidacionEdit").value = objData.validacion;
+                document.querySelector('#listEscolaridadEdit').querySelector('option[value="'+objData.id_escolaridad+'"]').selected = true;
+                document.querySelector("#txtFechaNacimientoEdit").value = objData.fecha_nacimiento;
+                document.querySelector('#listNivelCarreraInteresEdit').querySelector('option[value="'+objData.id_nivel_carrera_interes+'"]').selected = true;
+                let urlCarreraInteres = base_url+"/Persona/getCarrerasInteres?idNivel="+objData.id_nivel_carrera_interes;
+                fetch(urlCarreraInteres)
+                .then(res => res.json())
+                .then((resultadoCarreraInteres) =>{
+                    resultadoCarreraInteres.forEach(element => {
+                        document.querySelector('#listCarreraInteresEdit').innerHTML += "<option value='"+element['id']+"'>"+element['nombre_carrera']+"</option>"
+                        if(element['id'] == objData.id_carrera_interes){
+                            document.querySelector('#listCarreraInteresEdit').querySelector('option[value="'+objData.id_carrera_interes+'"]').selected = true;
+
+                        }
+                    });
+                })
+                .catch(err => {throw err});
+                document.querySelector("#txtCURPEdit").value = objData.curp;
                 var idEstadoPersona = "";
                 var idMunicipioPersona = "";
                 var idLocalidadPersona = "";
@@ -239,6 +289,7 @@ function fntEditPersona(idPersona){
                 document.querySelector('#listCategoriaEdit').querySelector('option[value="'+objData.id_categoria_persona+'"]').selected = true;
                 document.querySelector('#listEstatusEdit').querySelector('option[value="'+objData.estatus+'"]').selected = true;
 
+
             }
         }
     }
@@ -261,7 +312,7 @@ var formEditPersona = document.querySelector("#formPersonaEdit");
         var strEmail = document.querySelector("#txtEmailEdit").value;
         var strEstadoC = document.querySelector('#listEstadoCivilEdit').value;
         var strOcupacion = document.querySelector("#txtOcupacionEdit").value;
-        var intValidacion = document.querySelector("#txtValidacionEdit").value;
+        //var intValidacion = document.querySelector("#txtValidacionEdit").value;
         var strEscolaridad = document.querySelector('#listEscolaridadEdit').value;
         var intEstado = document.querySelector('#listEstadoEdit').value;
         var intMunicipio = document.querySelector('#listMunicipioEdit').value;
@@ -271,7 +322,7 @@ var formEditPersona = document.querySelector("#formPersonaEdit");
 
         if (intId == '' || strNombre == '' || strApellidoPat == '' || strApellidoMat == '' || strDireccion == '' 
         || intEdad == '' || strSexo == '' || intCP == '' || strColonia == '' || strTelCel == '' || strTelFij == '' 
-        || strEmail == '' || strEstadoC == '' || strOcupacion == '' || intValidacion == '' || strEscolaridad == '' || intEstado == ''
+        || strEmail == '' || strEstadoC == '' || strOcupacion == ''  || strEscolaridad == '' || intEstado == ''
         || intMunicipio == '' || intLocalidad == '' || intCategoria == '' || intEstatus == ''){
             swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
             return false;
@@ -309,6 +360,7 @@ function fntVerPersona(idPersona){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
             if(objData){
+                //console.log(objData);
                 document.querySelector("#idVer").value = objData.id;
                 document.querySelector("#txtNombreVer").value = objData.nombre_persona;    
                 document.querySelector("#txtApellidoPaVer").value = objData.ap_paterno;
@@ -323,12 +375,17 @@ function fntVerPersona(idPersona){
                 document.querySelector("#txtEmailVer").value = objData.email;
                 document.querySelector('#listEstadoCivilVer').innerHTML = "<option>"+objData.edo_civil+"</option>";
                 document.querySelector("#txtOcupacionVer").value = objData.ocupacion;
-                document.querySelector("#txtValidacionVer").value = objData.validacion;
+                //document.querySelector("#txtValidacionVer").value = objData.validacion;
                 document.querySelector('#listEscolaridadVer').innerHTML = "<option>"+objData.nombre_escolaridad+"</option>";
                 document.querySelector('#listEstadoVer').innerHTML = "<option>"+objData.nomestado+"</option>";
                 document.querySelector('#listMunicipioVer').innerHTML = "<option>"+objData.nommunicipio+"</option>";
                 document.querySelector('#listLocalidadVer').innerHTML = "<option>"+objData.nomlocalidad+"</option>";
                 document.querySelector('#listCategoriaVer').innerHTML = "<option>"+objData.edo_civil+"</option>";
+                document.querySelector('#txtFechaNacimientOVer').value = objData.fecha_nacimiento;
+                document.querySelector('#txtCURPVer').value = objData.curp;
+                document.querySelector('#listNivelCarreraInteresVer').innerHTML = "<option>"+objData.nivel_carrera_interes+"</option>";
+                document.querySelector('#listNivelCarreraInteresVer').innerHTML = "<option>"+objData.nivel_carrera_interes+"</option>";
+                document.querySelector('#listCarreraInteresVer').innerHTML = "<option>"+objData.carrera_interes+"</option>";
                 if(objData.estatus == 1){
                     document.querySelector('#listEstatusVer').innerHTML = "<option>Activo</option>";
                 }else{
