@@ -8,7 +8,7 @@
 		//Funcion para consultar lista de Estudiantes
 		public function selectEstudiantes(){
 			$sql = "SELECT ins.id,per.id AS id_persona,per.nombre_persona,CONCAT(per.ap_paterno,' ',per.ap_materno) AS apellidos,
-            plante.nombre_plantel,plante.municipio,planest.nombre_carrera,ins.grado,sal.nombre_salon,per.validacion_doctos,per.validacion_datos_personales FROM t_inscripciones AS ins
+            plante.nombre_plantel,plante.municipio,planest.nombre_carrera,ins.grado,sal.nombre_salon,per.validacion_doctos,per.validacion_datos_personales,per.id_usuario_verificacion_doctos,per.id_usuario_verificacion_datos_personales FROM t_inscripciones AS ins
             LEFT JOIN t_historiales AS his ON ins.id_historial = his.id
             INNER JOIN t_personas AS per ON ins.id_personas = per.id
             INNER JOIN t_plan_estudios AS planest ON ins.id_plan_estudios = planest.id
@@ -148,8 +148,8 @@
             $sqlPersona = "SELECT id_personas FROM t_inscripciones WHERE id = $idInscripcion LIMIT 1";
             $requestPersona = $this->select($sqlPersona);
             $idPersona = $requestPersona['id_personas'];
-            $sql = "UPDATE t_personas SET validacion_doctos = ? WHERE id = $idPersona";
-            $request = $this->update($sql,array(1));
+            $sql = "UPDATE t_personas SET validacion_doctos = ?,id_usuario_verificacion_doctos = ? WHERE id = $idPersona";
+            $request = $this->update($sql,array(1,1));
             return $request;
         }
         public function insertValidacionDatosPersonales($data){
@@ -172,8 +172,8 @@
             $colonia = $data['txtColoniaEdit'];
             $CP = $data['txtCPEdit'];
             $direccion = $data['txtDireccionEdit'];
-            $sql = "UPDATE t_personas SET nombre_persona = ?,ap_paterno = ?,ap_materno = ?,direccion = ?,edad = ?,sexo = ?,cp = ?,colonia = ?,tel_celular = ?,tel_fijo = ?,email = ?,edo_civil = ?,ocupacion = ?,fecha_nacimiento = ?,validacion_datos_personales = ?,id_localidad = ? WHERE id = $idPersona";
-            $request = $this->update($sql,array($nombre,$appPaterno,$appMaterno,$direccion,$edad,$sexo,$CP,$colonia,$telefonoCel,$telefonofijo,$email,$estadoCivil,$ocupacion,$fechaNacimiento,1,$localidad));
+            $sql = "UPDATE t_personas SET nombre_persona = ?,ap_paterno = ?,ap_materno = ?,direccion = ?,edad = ?,sexo = ?,cp = ?,colonia = ?,tel_celular = ?,tel_fijo = ?,email = ?,edo_civil = ?,ocupacion = ?,fecha_nacimiento = ?,validacion_datos_personales = ?,id_localidad = ? ,id_usuario_verificacion_datos_personales = ? WHERE id = $idPersona";
+            $request = $this->update($sql,array($nombre,$appPaterno,$appMaterno,$direccion,$edad,$sexo,$CP,$colonia,$telefonoCel,$telefonofijo,$email,$estadoCivil,$ocupacion,$fechaNacimiento,1,$localidad,1));
             return $request;
         }
         public function selectEstados(){
@@ -213,6 +213,12 @@
             $request = $this->select($sql);
             return $request;
         }
-        
+        public function selectUsuarioValidacion(int $idPersonaValidacion){
+            $idUsuarioVerificado = $idPersonaValidacion;
+            $sql = "SELECT CONCAT(per.nombre_persona,'&nbsp;',per.ap_paterno,'&nbsp;',per.ap_materno) AS nombre_persona_validacion FROM t_personas AS per 
+            INNER JOIN t_usuarios AS us ON us.id_persona = per.id WHERE us.id = $idUsuarioVerificado";
+            $request = $this->select($sql);
+            return $request['nombre_persona_validacion'];
+        }        
 	}
 ?>

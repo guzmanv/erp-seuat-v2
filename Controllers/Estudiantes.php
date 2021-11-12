@@ -53,15 +53,35 @@
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
                 $arrData[$i]['nombre_plantel'] = $arrData[$i]['nombre_plantel'].' ('.$arrData[$i]['municipio'].')';
+                $valorDoctos;
+                $valorDatPer;
                 if($arrData[$i]['validacion_doctos'] == 0){
-                    $arrData[$i]['validacion_doctos'] = '<span class="badge badge-danger">No validado</span>';
+                    $arrData[$i]['validacion_doctos_status'] = '<span class="badge badge-danger">No validado</span>';
+                    $valorDoctos['modal'] = "#ModalFormDocumentacion";
+                    $valorDoctos['class'] = "documentacionInscripcion";
+                    $valorDoctos['onclick'] = "fntDocumentacionInscripcion";
+                    //$arrData[$i]['usuario_validacion'] = "null";
+                    $valorDoctos['usuario_validacion'] = "null";
+                    $valorDoctos['value'] = "Validar documentos";
                 }else{
-                    $arrData[$i]['validacion_doctos'] = '<span class="badge badge-success">Validado</span>';
+                    $arrData[$i]['validacion_doctos_status'] = '<span class="badge badge-success">Validado</span>';
+                    $valorDoctos['modal'] = "#ModalFormDocumentacionVerificado";
+                    $valorDoctos['class'] = "documentacionInscripcionVerificado";
+                    $valorDoctos['onclick'] = "fntDocumentacionInscripcionVerificado";
+                    //$arrData[$i]['usuario_validacion'] = $this->model->selectUsuarioValidacion($arrData[$i]['id_usuario_verificacion_doctos']);
+                    $valorDoctos['usuario_validacion'] = "usuario";
+                    $valorDoctos['value'] = "Ver documentos";
                 }
 				if($arrData[$i]['validacion_datos_personales'] == 0){
-                    $arrData[$i]['validacion_datos_personales'] = '<span class="badge badge-danger">No validado</span>';
+                    $arrData[$i]['validacion_datos_personales_status'] = '<span class="badge badge-danger">No validado</span>';
+                    //$valorDatPer['usuario_validacion'] = "null";
+                    $valorDatPer['usuario_validacion'] = "null";
+                    $valorDatPer['value'] = "Validar datos personales";
                 }else{
-                    $arrData[$i]['validacion_datos_personales'] = '<span class="badge badge-success">Validado</span>';
+                    $arrData[$i]['validacion_datos_personales_status'] = '<span class="badge badge-success">Validado</span>';
+                    //$valorDatPer['usuario_validacion'] = $this->model->selectUsuarioValidacion($arrData[$i]['id_usuario_verificacion_datos_personales']);
+                    $valorDatPer['usuario_validacion'] = "usuario";
+                    $valorDatPer['value'] = "Ver datos personales";
                 }
                 $arrData[$i]['options'] = '<div class="text-center">
 				<div class="btn-group">
@@ -69,16 +89,19 @@
 					<i class="fas fa-layer-group"></i> &nbsp; Acciones
 					</button>
 					<div class="dropdown-menu">
-						<!--<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditPlan" onClick="fntEditPlan('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalFormEditPlan" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>-->
-						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal datosPersonalesVerficar" onClick="fnDatosPersonalesVerificacion('.$arrData[$i]['id_persona'].')" data-toggle="modal" data-target="#ModalFormEditPersona" title="Datos Personales"> &nbsp;&nbsp; <i class="fas fa-copy"></i> &nbsp;Verificar datos personales</button>
-						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal documentacionInscripcion" onclick="fntDocumentacionInscripcion('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalFormDocumentacion" title="Documentacion"> &nbsp;&nbsp; <i class="fas fa-copy"></i> &nbsp;Verificar documentos</button>
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal datosPersonalesVerficar" onClick="fnDatosPersonalesVerificacion(this)" idper = '.$arrData[$i]['id_persona'].' valda = '.$arrData[$i]['validacion_datos_personales'].' usv = "'.$arrData[$i]['id_usuario_verificacion_datos_personales'].'" data-toggle="modal" data-target="#ModalFormEditPersona" title="Datos Personales"> &nbsp;&nbsp; <i class="far fa-address-book"></i> &nbsp;'.$valorDatPer['value'].'</button>
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal '.$valorDoctos['class'].'" onclick="'.$valorDoctos['onclick'].'(this)" idins = '.$arrData[$i]['id'].' valdo = '.$arrData[$i]['validacion_doctos'].' usv = "'.$arrData[$i]['id_usuario_verificacion_doctos'].'" data-toggle="modal" data-target="'.$valorDoctos['modal'].'" title="Documentacion"> &nbsp;&nbsp; <i class="far fa-file-word"></i> &nbsp;'.$valorDoctos['value'].'</button>
 						<div class="dropdown-divider"></div>
-						<!--<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelPlan" onClick="fntDelPlan('.$arrData[$i]['id'].')" title="Eliminar"> &nbsp;&nbsp; <i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>-->
-						<!--<a class="dropdown-item" href="#">link</a>-->
 					</div>
 				</div>
-				</div>'; 
+				</div>';
             }
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function gettUsuarioValidacion(){
+            $idUsuario = $_GET['idUser'];
+            $arrData = $this->model->selectUsuarioValidacion($idUsuario);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }

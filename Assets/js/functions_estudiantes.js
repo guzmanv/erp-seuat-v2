@@ -29,8 +29,8 @@ if(getPagina() == "estudiantes"){
                 {"data":"nombre_carrera"},
                 {"data":"grado"},
                 {"data":"nombre_salon"},
-                {"data":"validacion_doctos"},
-                {"data":"validacion_datos_personales"},
+                {"data":"validacion_doctos_status"},
+                {"data":"validacion_datos_personales_status"},
                 {"data":"options"}
             ],
             "responsive": true,
@@ -163,7 +163,9 @@ if(getPagina() == "estudiantes"){
 }
 
 function fntDocumentacionInscripcion(value){
-    var idInscripcion = value;
+    var idInscripcion = value.getAttribute('idins');
+    var estatusValidacionDocumentacion = value.getAttribute('valdo');
+    var usuarioValidado = value.getAttribute('usv');
     document.querySelector('#idInscripcion').value = idInscripcion;
     let urlDocumentacion = base_url+"/Estudiantes/getDocumentacion?idIns="+idInscripcion;
     fetch(urlDocumentacion)
@@ -178,6 +180,36 @@ function fntDocumentacionInscripcion(value){
         checkEstatusDocumentacion(idInscripcion);
     })
     .catch(err => {throw err});
+}
+function fntDocumentacionInscripcionVerificado(value){
+   var idInscripcion = value.getAttribute('idins');
+   var estatusValidacionDocumentacion = value.getAttribute('valdo');
+   var usuarioValidado = value.getAttribute('usv');
+   if(estatusValidacionDocumentacion == 1){
+        document.querySelector('#checkDocumentacionValidado').checked = true;
+        document.querySelector('#checkDocumentacionValidado').disabled = true;
+        let urlUsuarioValidacion = base_url+"/Estudiantes/gettUsuarioValidacion?idUser="+usuarioValidado;
+        fetch(urlUsuarioValidacion)
+        .then(res => res.json())
+        .then((resulUsuario) =>{
+            document.querySelector('#nombre_usuarios_verificacion').innerHTML = resulUsuario;
+        })
+        .catch(err => {throw err});
+   }else{
+
+   }
+   /*let urlDocumentacion = base_url+"/Estudiantes/getDocumentosEntregados?idIns="+idInscripcion;
+    fetch(urlDocumentacion)
+    .then(res => res.json())
+    .then((resultDocumentacion) =>{
+        var numeracion = 0;
+        document.querySelector('#tbDocumentacionInsvalidado').innerHTML="";
+        resultDocumentacion.forEach(element => {
+            numeracion +=1;
+            //document.querySelector('#tbDocumentacionInsvalidado').innerHTML+="<tr class='fila"+numeracion+"'><th scope='row'>"+numeracion+"</th><td>"+element.tipo_documento+"</td><td><div class='custom-control custom-switch custom-switch-off-danger custom-switch-on-success'><input id='"+element.id_detalle_documento+"' t='original' in='"+idInscripcion+"'class='original"+numeracion+" original"+element.id_detalle_documento+idInscripcion+"'type='checkbox' aria-label='Checkbox for following text input' onclick='clickOriginal(this)'></div></td><td><div class='custom-control custom-switch custom-switch-off-danger custom-switch-on-success'><input id='"+element.id_detalle_documento+"' t='copia' in='"+idInscripcion+"'class = 'copia"+numeracion+" copia"+element.id_detalle_documento+idInscripcion+"' type='checkbox' aria-label='Checkbox for following text input' onclick='clickCopia(this)'></div></td><td><div class='custom-control custom-switch custom-switch-off-danger custom-switch-on-success'><input type='text' id='cantidadCopia' idet='"+element.id_detalle_documento+"' t='cantidad_copia' in='"+idInscripcion+"'class='form-control form-control-sm detalledoc"+element.id_detalle_documento+" cantidad"+element.id_detalle_documento+idInscripcion+"' placeholder='Ej:1' maxlength ='1' required onKeyUp='inputCantidadCopia(this)'></div></td></tr>";
+        });
+    })
+    .catch(err => {throw err});*/
 }
 
 function getPagina(){
@@ -330,7 +362,7 @@ function checkEstatusDocumentacion(value){
                 estatusCopia = false;
             }
             //console.log(idDocumentacion+value);
-            console.log(element);
+            //console.log(element);
             document.querySelector('.original'+idDocumentacion+value).checked = estatusOriginal;
             document.querySelector('.copia'+idDocumentacion+value).checked = estatusCopia;
             document.querySelector('.cantidad'+idDocumentacion+value).value = element.entrego_cantidad_copias;
@@ -383,8 +415,10 @@ function municipioSeleccionadoEdit(value){
         .catch(err => {throw err});
 }
 
-function fnDatosPersonalesVerificacion(idPersona){
-    var idPersona = idPersona;
+function fnDatosPersonalesVerificacion(value){
+    var idPersona = value.getAttribute('idper');
+    var estatusValidacion = value.getAttribute('valda');
+    var usuarioValidacion = value.getAttribute('usv');
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl = base_url+'/Estudiantes/getPersonaEdit/'+idPersona;
     request.open("GET",ajaxUrl,true);
@@ -475,6 +509,26 @@ function fnDatosPersonalesVerificacion(idPersona){
 
             }
         }
+    }
+    var inputDesabilitar = ['txtNombreEdit','txtApellidoPaEdit','txtApellidoMaEdit','listSexoEdit','txtEdadEdit','listEstadoCivilEdit','txtFechaNacimientoEdit','txtOcupacionEdit','txtTelCelEdit','txtTelFiEdit','txtEmailEdit','listEscolaridadEdit','listEstadoEdit','listMunicipioEdit','listLocalidadEdit','txtColoniaEdit','txtCPEdit','txtDireccionEdit'];
+    if(estatusValidacion == 1){
+        document.querySelector('#checkValidacionDatos').disabled = true;
+        inputDesabilitar.forEach(element => {
+            document.querySelector('#'+element).disabled = true;
+        });formPersonaEdit 
+        let urlUsuarioValidacion = base_url+"/Estudiantes/gettUsuarioValidacion?idUser="+usuarioValidacion;
+        fetch(urlUsuarioValidacion)
+        .then(res => res.json())
+        .then((resulUsuario) =>{
+            document.querySelector('#usuario_verificacion_datper').innerHTML = '<p>Ya está <b style="color:#3b7ddd">validado</b> por: <span class="badge badge-success">'+resulUsuario+'</span></p>';
+        })
+        .catch(err => {throw err});    
+    }else{
+        document.querySelector('#checkValidacionDatos').disabled = false;
+        document.querySelector('#usuario_verificacion_datper').innerHTML = "";
+        inputDesabilitar.forEach(element => {
+            document.querySelector('#'+element).disabled = false;
+        });formPersonaEdit 
     }
 }
 function validacionDatosPersonales(value){

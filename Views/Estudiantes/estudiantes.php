@@ -2,7 +2,7 @@
     headerAdmin($data);
     getModal("Alumnos/modalDocumentacion",$data);
     getModal("Alumnos/modalDatosPersonalesVerificar",$data);
-    //getModal("Materia/modalEditMateria",$data);
+    getModal("Alumnos/modalDocumentacionVerificado",$data);
 ?>
 <div id="contentAjax"></div>
 <div class="wrapper">
