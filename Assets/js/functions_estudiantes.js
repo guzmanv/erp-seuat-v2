@@ -3,6 +3,12 @@ document.getElementById("btnActionFormNueva").style.display = "none";
 document.getElementById("btnActionFormEdit").style.display = "none";
 var formDocumentacion = document.querySelector("#formDocumentacionNueva");
 var formDatosPersonales = document.querySelector("#formPersonaEdit");
+var formPrestamoDocumentos = document.querySelector("#formDocumentosEntregados");
+document.getElementById("btnAnterior").style.display = "none";
+document.getElementById("btnSiguiente").style.display = "none";
+document.getElementById("btnConfirmPrestamo").style.display = "none";
+var tabActual = 0;
+mostrarTab(tabActual);
 
 document.addEventListener('DOMContentLoaded',function(){
     
@@ -171,45 +177,89 @@ function fntDocumentacionInscripcion(value){
     fetch(urlDocumentacion)
     .then(res => res.json())
     .then((resultDocumentacion) =>{
-        var numeracion = 0;
-        document.querySelector('#tbDocumentacionIns').innerHTML="";
-        resultDocumentacion.forEach(element => {
-            numeracion +=1;
-            document.querySelector('#tbDocumentacionIns').innerHTML+="<tr class='fila"+numeracion+"'><th scope='row'>"+numeracion+"</th><td>"+element.tipo_documento+"</td><td><div class='custom-control custom-switch custom-switch-off-danger custom-switch-on-success'><input id='"+element.id_detalle_documento+"' t='original' in='"+idInscripcion+"'class='original"+numeracion+" original"+element.id_detalle_documento+idInscripcion+"'type='checkbox' aria-label='Checkbox for following text input' onclick='clickOriginal(this)'></div></td><td><div class='custom-control custom-switch custom-switch-off-danger custom-switch-on-success'><input id='"+element.id_detalle_documento+"' t='copia' in='"+idInscripcion+"'class = 'copia"+numeracion+" copia"+element.id_detalle_documento+idInscripcion+"' type='checkbox' aria-label='Checkbox for following text input' onclick='clickCopia(this)'></div></td><td><div class='custom-control custom-switch custom-switch-off-danger custom-switch-on-success'><input type='text' id='cantidadCopia' idet='"+element.id_detalle_documento+"' t='cantidad_copia' in='"+idInscripcion+"'class='form-control form-control-sm detalledoc"+element.id_detalle_documento+" cantidad"+element.id_detalle_documento+idInscripcion+"' placeholder='Ej:1' maxlength ='1' required onKeyUp='inputCantidadCopia(this)'></div></td></tr>";
-        });
-        checkEstatusDocumentacion(idInscripcion);
+        if(resultDocumentacion != 0){
+            document.querySelector('#nomPersonaDocumentacion').innerHTML = resultDocumentacion[0]['nom_persona'];
+            var numeracion = 0;
+            document.querySelector('#tbDocumentacionIns').innerHTML="";
+            resultDocumentacion.forEach(element => {
+                numeracion +=1;
+                document.querySelector('#card-documentacion').style.display = "block";
+                document.querySelector('#alertSinDocumentacion').style.display = "none";
+                document.querySelector('#tbDocumentacionIns').innerHTML+="<tr class='fila"+numeracion+"'><th scope='row'>"+numeracion+"</th><td>"+element.tipo_documento+"</td><td><div class='custom-control custom-switch custom-switch-off-danger custom-switch-on-success'><input id='"+element.id_detalle_documento+"' t='original' in='"+idInscripcion+"'class='original"+numeracion+" original"+element.id_detalle_documento+idInscripcion+"'type='checkbox' aria-label='Checkbox for following text input' onclick='clickOriginal(this)'></div></td><td><div class='custom-control custom-switch custom-switch-off-danger custom-switch-on-success'><input id='"+element.id_detalle_documento+"' t='copia' in='"+idInscripcion+"'class = 'copia"+numeracion+" copia"+element.id_detalle_documento+idInscripcion+"' type='checkbox' aria-label='Checkbox for following text input' onclick='clickCopia(this)'></div></td><td><div class='custom-control custom-switch custom-switch-off-danger custom-switch-on-success'><input type='number' id='cantidadCopia' idet='"+element.id_detalle_documento+"' t='cantidad_copia' in='"+idInscripcion+"'class='form-control form-control-sm detalledoc"+element.id_detalle_documento+" cantidad"+element.id_detalle_documento+idInscripcion+"' min='0' patten='[0-9]+' max='9' required onchange='inputCantidadCopia(this)'></div></td></tr>";
+            });
+            checkEstatusDocumentacion(idInscripcion);
+        }else{
+            document.querySelector('#nomPersonaDocumentacion').innerHTML = "";
+            document.querySelector('#card-documentacion').style.display = "none";
+            document.querySelector('#alertSinDocumentacion').style.display = "block";
+        }
     })
     .catch(err => {throw err});
 }
 function fntDocumentacionInscripcionVerificado(value){
-   var idInscripcion = value.getAttribute('idins');
-   var estatusValidacionDocumentacion = value.getAttribute('valdo');
-   var usuarioValidado = value.getAttribute('usv');
-   if(estatusValidacionDocumentacion == 1){
+    //console.log(value);
+    var idInscripcion = value.getAttribute('idins');
+    var nombre = value.getAttribute('n');
+    var estatusValidacionDocumentacion = value.getAttribute('valdo');
+    var usuarioValidado = value.getAttribute('usv');
+    document.querySelector('#idInscripcionPrestamo').value = idInscripcion;
+    if(estatusValidacionDocumentacion == 1){
         document.querySelector('#checkDocumentacionValidado').checked = true;
         document.querySelector('#checkDocumentacionValidado').disabled = true;
         let urlUsuarioValidacion = base_url+"/Estudiantes/gettUsuarioValidacion?idUser="+usuarioValidado;
         fetch(urlUsuarioValidacion)
         .then(res => res.json())
         .then((resulUsuario) =>{
+            if(resulUsuario){document.querySelector('#nomPersonaDocumentacionVerificado').innerHTML = nombre;}
             document.querySelector('#nombre_usuarios_verificacion').innerHTML = resulUsuario;
         })
         .catch(err => {throw err});
-   }else{
+    }else{
 
-   }
-   /*let urlDocumentacion = base_url+"/Estudiantes/getDocumentosEntregados?idIns="+idInscripcion;
+    }
+    fnGetDocumentosEntregados(idInscripcion);
+    gnGetHistorialPrestamoDocumentos(idInscripcion);
+}
+function fnGetDocumentosEntregados(value){
+    var idInscripcion = value;
+    let urlDocumentacion = base_url+"/Estudiantes/getDocumentosEntregados?idIns="+idInscripcion;
     fetch(urlDocumentacion)
     .then(res => res.json())
     .then((resultDocumentacion) =>{
+        //console.log(resultDocumentacion);
         var numeracion = 0;
-        document.querySelector('#tbDocumentacionInsvalidado').innerHTML="";
+        document.querySelector('#tbDocumentosEntregados').innerHTML="";
+        document.querySelector('#tbDocumentosEntregadosPrestamos').innerHTML="";
         resultDocumentacion.forEach(element => {
+            
             numeracion +=1;
-            //document.querySelector('#tbDocumentacionInsvalidado').innerHTML+="<tr class='fila"+numeracion+"'><th scope='row'>"+numeracion+"</th><td>"+element.tipo_documento+"</td><td><div class='custom-control custom-switch custom-switch-off-danger custom-switch-on-success'><input id='"+element.id_detalle_documento+"' t='original' in='"+idInscripcion+"'class='original"+numeracion+" original"+element.id_detalle_documento+idInscripcion+"'type='checkbox' aria-label='Checkbox for following text input' onclick='clickOriginal(this)'></div></td><td><div class='custom-control custom-switch custom-switch-off-danger custom-switch-on-success'><input id='"+element.id_detalle_documento+"' t='copia' in='"+idInscripcion+"'class = 'copia"+numeracion+" copia"+element.id_detalle_documento+idInscripcion+"' type='checkbox' aria-label='Checkbox for following text input' onclick='clickCopia(this)'></div></td><td><div class='custom-control custom-switch custom-switch-off-danger custom-switch-on-success'><input type='text' id='cantidadCopia' idet='"+element.id_detalle_documento+"' t='cantidad_copia' in='"+idInscripcion+"'class='form-control form-control-sm detalledoc"+element.id_detalle_documento+" cantidad"+element.id_detalle_documento+idInscripcion+"' placeholder='Ej:1' maxlength ='1' required onKeyUp='inputCantidadCopia(this)'></div></td></tr>";
+            var nombreDocumento = element.tipo_documento;
+            var statusOriginal = "";
+            var statusCopia = "";
+            var statusPrestamo = "";
+            if(element.entrego_cantidad_original != 0){
+                statusOriginal = "<span class='badge badge-success'>Entregado</span>";
+            }else{
+                statusOriginal = "<span class='badge badge-warning'>No entregado</span>"; 
+            }
+            if(element.entrego_cantidad_copias != 0){
+                statusCopia = "<span class='badge badge-success'>"+element.entrego_cantidad_copias+"</span> copias entregadas";
+            }else{
+                statusCopia = "<span class='badge badge-warning'>No entregado</span>"; 
+            }
+            if(element.prestamo_original != 0){
+                statusPrestamo = "<span class='badge badge-success'>Prestado</span>";
+                var checked = "checked";
+            }else{
+                statusPrestamo = "<span class='badge badge-warning'>No prestado</span>"; 
+                var checked = "";
+            }
+            document.querySelector('#tbDocumentosEntregados').innerHTML+="<tr><th scope='row'>"+numeracion+"</th><td>"+nombreDocumento+"</td><td>"+statusOriginal+"</div></td><td>"+statusCopia+"</td><td>"+statusPrestamo+"</td></tr>";
+            document.querySelector('#tbDocumentosEntregadosPrestamos').innerHTML+="<tr><th scope='row'>"+numeracion+"</th><td>"+nombreDocumento+"</td><td><div class='custom-control custom-switch custom-switch-off-danger custom-switch-on-success'><input name='"+element.id+"' type='checkbox' aria-label='Checkbox for following text input' "+checked+"></div></td></td></tr>";
         });
+
     })
-    .catch(err => {throw err});*/
+    .catch(err => {throw err});
 }
 
 function getPagina(){
@@ -235,7 +285,7 @@ function comprobarDocumentosEntregados(){
         document.querySelector('#checkDocumentacion').checked = false;
         Swal.fire({
             title: 'Mensaje!',
-            text: "faltan documentos por entregar",
+            html: "<p>Faltan documentos por entregar</p><small style='color:#3085d6'>Es importante que el estudiante tenga su documentación completa</small>",
             icon: 'warning',
             confirmButtonColor: '#3085d6',
             confirmButtonText: 'OK'
@@ -284,7 +334,7 @@ formDocumentacion.onsubmit = function(e){
     }else{
         Swal.fire({
             title: 'Mensaje!',
-            text: "Faltan documentos por entregar",
+            html: "<p>Faltan documentos por entregar</p><small style='color:#3085d6'>Es importante que el estudiante tenga su documentación completa</small>",
             icon: 'warning',
             confirmButtonColor: '#3085d6',
             confirmButtonText: 'OK'
@@ -305,7 +355,7 @@ function clickOriginal(value){
     fetch(url)
     .then(res => res.json())
     .then((resultado) => {
-		console.log(resultado);
+		//console.log(resultado);
     })
     .catch(err => { throw err });
 }
@@ -317,6 +367,7 @@ function clickCopia(value){
         document.querySelector('.detalledoc'+idDetalleDocumentacion).value = 0;
     }else{
         document.querySelector('.detalledoc'+idDetalleDocumentacion).value = 1;
+        document.querySelector("input[idet='"+value.id+"']").focus();
     }
     var idInscripcion = value.getAttribute('in');
     var cantidad = document.querySelector('.detalledoc'+idDetalleDocumentacion).value;
@@ -589,3 +640,124 @@ formDatosPersonales.onsubmit = function(e){
     }
 }
 
+
+function fnNavTab(numTab){
+    var x = document.getElementsByClassName("tab");
+    for( var i = 0; i<x.length;i++){
+        x[i].style.display = "none";
+    }
+    x[numTab].style.display = "block";
+    if (numTab == 0) {
+        document.getElementById("btnSiguiente").style.display = "inline";
+        document.getElementById("btnAnterior").style.display = "none";
+    } else {
+        document.getElementById("btnAnterior").style.display = "inline";
+    }
+    if (numTab == (x.length - 1)) {
+        document.getElementById("btnSiguiente").style.display = "none";
+    } else {
+        document.getElementById("btnSiguiente").style.display = "inline";
+    }
+    if(numTab == 1){
+        document.getElementById("btnConfirmPrestamo").style.display = "inline";
+    }else{
+        document.getElementById("btnConfirmPrestamo").style.display = "none";
+    }
+    estadoIndicadores(numTab);
+}
+function mostrarTab(tabActual) {
+    var tab = document.getElementsByClassName("tab");
+    tab[tabActual].style.display = "block";
+    if (tabActual == 0) {
+        document.getElementById("btnSiguiente").style.display = "inline";
+        document.getElementById("btnAnterior").style.display = "none";
+    } else {
+        document.getElementById("btnAnterior").style.display = "inline";
+    }
+    if (tabActual == (tab.length - 1)) {
+        document.getElementById("btnSiguiente").style.display = "none";
+    } else {
+        document.getElementById("btnSiguiente").style.display = "inline";
+    }
+    if(tabActual == 1){
+        document.getElementById("btnConfirmPrestamo").style.display = "inline";
+    }else{
+        document.getElementById("btnConfirmPrestamo").style.display = "none";
+    }
+    estadoIndicadores(tabActual)
+}
+function pasarTab(n) {
+    var x = document.getElementsByClassName("tab");
+    x[tabActual].style.display = "none";
+    tabActual = tabActual + n;
+    if (tabActual >= x.length) {
+
+    }
+    mostrarTab(tabActual);
+}
+function estadoIndicadores(tabActual){
+    //console.log(tabActual);
+    var posStep, step = document.getElementsByClassName("step");
+    var posTab, tab = document.getElementsByClassName("tab-nav");
+    for (posStep = 0; posStep < step.length; posStep++) {
+        step[posStep].className = step[posStep].className.replace(" active", "");
+    }
+    step[tabActual].className += " active";
+    for (posTab = 0; posTab < tab.length; posTab++) {
+        tab[posTab].className = tab[posTab].className.replace(" active", "");
+    }
+    tab[tabActual].className += " active";
+}
+
+
+formPrestamoDocumentos.onsubmit = function(e){
+    e.preventDefault();
+    var strComentario = document.querySelector('#txtComentarioPrestamo').value;
+    var strFechaDevolucion = document.querySelector('#txtFechaDevolucion').value;
+    var idInscripcion = document.querySelector('#idInscripcionPrestamo').value;
+    if(strComentario == ''){
+        swal.fire("Atención", "Escribe un comentario para hacer el prestamo", "warning");
+        return false;
+    }
+    var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    var ajaxUrl = base_url+'/Estudiantes/setPrestamoDocumentos';
+    var formData = new FormData(formPrestamoDocumentos);
+    request.open("POST",ajaxUrl,true);
+    request.send(formData);
+    request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+            var objData = JSON.parse(request.responseText);
+            if(objData.status){
+                formPrestamoDocumentos.reset();
+                swal.fire("Prestamos", objData.msg, "success").then((result) =>{
+                    $('#step3-tab').click();
+                    fnGetDocumentosEntregados(idInscripcion);
+                    gnGetHistorialPrestamoDocumentos(idInscripcion);
+
+                });
+            }else{
+                swal.fire("Prestamos", objData.msg, "error").then((result) =>{
+                    //$('.close').click();
+                });
+            }
+        }
+        return false;
+    }
+}
+function gnGetHistorialPrestamoDocumentos(idInscripcion){
+    let urlHistorialDoc = base_url+"/Estudiantes/getHistorialPrestamoDocumentos?idIns="+idInscripcion;
+    fetch(urlHistorialDoc)
+    .then(res => res.json())
+    .then((resHistorialDoc) =>{
+        //console.log(resHistorialDoc);
+        document.querySelector('#tbHistorialPrestamoDoc').innerHTML = "";
+        var numeracion = 0;
+        resHistorialDoc.forEach(element => {
+            console.log(element);
+            numeracion += 1;
+            var opciones = '<div class="btn-group"><button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-layer-group"></i> &nbsp; Acciones</button><div class="dropdown-menu"><button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal datosPersonalesVerficar" onClick="fnDatosPersonalesVerificacion(this)" data-toggle="modal" data-target="#ModalFormEditPersona" title="Datos Personales"> &nbsp;&nbsp; <i class="far fa-address-book"></i> &nbsp;Imprimir</button><button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal" onclick="" data-toggle="modal" data-target="oojojoj" title="Documentacion"> &nbsp;&nbsp; <i class="far fa-file-word"></i> &nbsp;Ver</button><div class="dropdown-divider"></div></div></div></div>';
+            document.querySelector('#tbHistorialPrestamoDoc').innerHTML += "<tr><th scope='row'>"+numeracion+"</th><td>"+element.folio+"</td><td>"+element.fecha_prestamo+"</div></td><td>"+element.fecha_estimada_devolucion+"</td><td>"+element.nombre_usuario+"</td><td>Prestamo</td><td>"+opciones+"</td></tr>";
+        });
+    })
+    .catch(err => {throw err});
+}

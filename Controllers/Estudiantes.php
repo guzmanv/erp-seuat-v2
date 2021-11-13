@@ -63,6 +63,7 @@
                     //$arrData[$i]['usuario_validacion'] = "null";
                     $valorDoctos['usuario_validacion'] = "null";
                     $valorDoctos['value'] = "Validar documentos";
+                    $valorDoctos['nombre'] = $arrData[$i]['nombre_persona'].'&nbsp;'.$arrData[$i]['apellidos'];
                 }else{
                     $arrData[$i]['validacion_doctos_status'] = '<span class="badge badge-success">Validado</span>';
                     $valorDoctos['modal'] = "#ModalFormDocumentacionVerificado";
@@ -71,6 +72,7 @@
                     //$arrData[$i]['usuario_validacion'] = $this->model->selectUsuarioValidacion($arrData[$i]['id_usuario_verificacion_doctos']);
                     $valorDoctos['usuario_validacion'] = "usuario";
                     $valorDoctos['value'] = "Ver documentos";
+                    $valorDoctos['nombre'] = $arrData[$i]['nombre_persona'].'&nbsp;'.$arrData[$i]['apellidos'];
                 }
 				if($arrData[$i]['validacion_datos_personales'] == 0){
                     $arrData[$i]['validacion_datos_personales_status'] = '<span class="badge badge-danger">No validado</span>';
@@ -90,7 +92,7 @@
 					</button>
 					<div class="dropdown-menu">
 						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal datosPersonalesVerficar" onClick="fnDatosPersonalesVerificacion(this)" idper = '.$arrData[$i]['id_persona'].' valda = '.$arrData[$i]['validacion_datos_personales'].' usv = "'.$arrData[$i]['id_usuario_verificacion_datos_personales'].'" data-toggle="modal" data-target="#ModalFormEditPersona" title="Datos Personales"> &nbsp;&nbsp; <i class="far fa-address-book"></i> &nbsp;'.$valorDatPer['value'].'</button>
-						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal '.$valorDoctos['class'].'" onclick="'.$valorDoctos['onclick'].'(this)" idins = '.$arrData[$i]['id'].' valdo = '.$arrData[$i]['validacion_doctos'].' usv = "'.$arrData[$i]['id_usuario_verificacion_doctos'].'" data-toggle="modal" data-target="'.$valorDoctos['modal'].'" title="Documentacion"> &nbsp;&nbsp; <i class="far fa-file-word"></i> &nbsp;'.$valorDoctos['value'].'</button>
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal '.$valorDoctos['class'].'" onclick="'.$valorDoctos['onclick'].'(this)" idins = '.$arrData[$i]['id'].' valdo = '.$arrData[$i]['validacion_doctos'].' n = "'.$valorDoctos['nombre'].'" usv = "'.$arrData[$i]['id_usuario_verificacion_doctos'].'" data-toggle="modal" data-target="'.$valorDoctos['modal'].'" title="Documentacion"> &nbsp;&nbsp; <i class="far fa-file-word"></i> &nbsp;'.$valorDoctos['value'].'</button>
 						<div class="dropdown-divider"></div>
 					</div>
 				</div>
@@ -191,6 +193,12 @@
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
+        public function getDocumentosEntregados(){
+            $idInscripcion = $_GET['idIns'];
+            $arrData = $this->model->selectDocumentacionEntregados($idInscripcion);
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
         public function setValidacionDocumentacion(){
             $data = $_POST;
 			$arrData = $this->model->insertValidacionDocumentacion($data);
@@ -250,5 +258,52 @@
 			echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 			die();
 		}
+        public function setPrestamoDocumentos(){
+            $data = $_POST;
+            $idDocumentosDetalles = array();
+            $idInscripion = $data['idInscripcionPrestamo'];
+            $comentario = $data['txtComentarioPrestamo'];
+            $fechaDevolucion = $data['txtFechaDevolucion'];
+            foreach ($data as $key => $value) {
+                if(gettype($key) == 'integer'){
+                    $idDocumentosDetalles[$key] = $value;
+                }
+            }
+            if(count($idDocumentosDetalles) >= 1){
+                $arrPrestamo = $this->model->insertPrestamoDocumentos($idDocumentosDetalles,$idInscripion,$comentario,$fechaDevolucion);
+                if($arrPrestamo){
+                    $arrResponse['status'] = true;
+                    $arrResponse['msg'] = "Prestamo realizado correctamente";
+                }
+            }else{
+                $arrResponse['status'] = false;
+                $arrResponse['msg'] = "Selecciona al menos un documento";
+            }
+			echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+			die();
+        }
+        public function getHistorialPrestamoDocumentos(){
+            $idInscripcion = $_GET['idIns'];
+            //$array;
+            $arrHistorialFoliosDoc = $this->model->selectHistorialFoliosPrestamoDoctos($idInscripcion);
+            /* //$arrHistorialDoc = $this->model->selectHistotrialPrestamoDocumentos($idInscripcion);
+            foreach ($arrHistorialFoliosDoc as $key => $value) {
+                    $folio = $value['folio'];
+                    $arrData = $this->model->selectDocHistorialPrestamoDoc($folio);
+                    $respuestas;
+                    foreach ($arrData as $key1 => $value1) {
+                        if($respuestas[$value1['id']] == null){
+                            $respuestas[$value1['id']] = ""; 
+                        }
+                        $respuestas[$value1['id']] = $value;
+                    }
+                    arsort($respuestas); 
+                  $array[$folio] =  array('id_pregunta' => $respuestas);
+                  //$array[$folio] = $folio;
+                  //$respuestas = array();
+            } */
+            echo json_encode($arrHistorialFoliosDoc,JSON_UNESCAPED_UNICODE);
+            die();
+        }
     }
 ?>
