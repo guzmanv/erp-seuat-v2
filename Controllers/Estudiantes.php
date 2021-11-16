@@ -260,49 +260,55 @@
 		}
         public function setPrestamoDocumentos(){
             $data = $_POST;
-            $idDocumentosDetalles = array();
             $idInscripion = $data['idInscripcionPrestamo'];
             $comentario = $data['txtComentarioPrestamo'];
-            $fechaDevolucion = $data['txtFechaDevolucion'];
-            foreach ($data as $key => $value) {
-                if(gettype($key) == 'integer'){
-                    $idDocumentosDetalles[$key] = $value;
+            $idDocumentosDetalles = array();
+            if($data['tipo'] == 'dev'){
+                $folio = $data['folioDoc'];
+                foreach ($data as $key => $value) {
+                    if(gettype($key) == 'integer'){
+                        $idDocumentosDetalles[$key] = $value;
+                    }
                 }
-            }
-            if(count($idDocumentosDetalles) >= 1){
-                $arrPrestamo = $this->model->insertPrestamoDocumentos($idDocumentosDetalles,$idInscripion,$comentario,$fechaDevolucion);
-                if($arrPrestamo){
-                    $arrResponse['status'] = true;
-                    $arrResponse['msg'] = "Prestamo realizado correctamente";
+                if(count($idDocumentosDetalles) >= 1){
+                    $arrDevolucion = $this->model->insertDevolucionDocumentos($idDocumentosDetalles,$folio,$idInscripion,$comentario);
+                    if($arrDevolucion){
+                        $arrResponse['status'] = true;
+                        $arrResponse['msg'] = "Devolucipon realizado correctamente";
+                    }
                 }
             }else{
-                $arrResponse['status'] = false;
-                $arrResponse['msg'] = "Selecciona al menos un documento";
+                $fechaDevolucion = $data['txtFechaDevolucion'];
+                foreach ($data as $key => $value) {
+                    if(gettype($key) == 'integer'){
+                        $idDocumentosDetalles[$key] = $value;
+                    }
+                }
+                if(count($idDocumentosDetalles) >= 1){
+                    $arrPrestamo = $this->model->insertPrestamoDocumentos($idDocumentosDetalles,$idInscripion,$comentario,$fechaDevolucion);
+                    if($arrPrestamo){
+                        $arrResponse['status'] = true;
+                        $arrResponse['msg'] = "Prestamo realizado correctamente";
+                    }
+                }else{
+                    $arrResponse['status'] = false;
+                    $arrResponse['msg'] = "Selecciona al menos un documento";
+                } 
             }
-			echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+			echo json_encode($arrDevolucion,JSON_UNESCAPED_UNICODE);
 			die();
         }
         public function getHistorialPrestamoDocumentos(){
             $idInscripcion = $_GET['idIns'];
-            //$array;
             $arrHistorialFoliosDoc = $this->model->selectHistorialFoliosPrestamoDoctos($idInscripcion);
-            /* //$arrHistorialDoc = $this->model->selectHistotrialPrestamoDocumentos($idInscripcion);
-            foreach ($arrHistorialFoliosDoc as $key => $value) {
-                    $folio = $value['folio'];
-                    $arrData = $this->model->selectDocHistorialPrestamoDoc($folio);
-                    $respuestas;
-                    foreach ($arrData as $key1 => $value1) {
-                        if($respuestas[$value1['id']] == null){
-                            $respuestas[$value1['id']] = ""; 
-                        }
-                        $respuestas[$value1['id']] = $value;
-                    }
-                    arsort($respuestas); 
-                  $array[$folio] =  array('id_pregunta' => $respuestas);
-                  //$array[$folio] = $folio;
-                  //$respuestas = array();
-            } */
             echo json_encode($arrHistorialFoliosDoc,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        
+        public function getListaDocumentosFolio(){
+            $folioDoc = $_GET['idFolio'];
+            $arrListaDocFolio = $this->model->selectListaDocumentosFolio($folioDoc);
+            echo json_encode($arrListaDocFolio,JSON_UNESCAPED_UNICODE);
             die();
         }
     }

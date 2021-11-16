@@ -7,12 +7,17 @@ var formPrestamoDocumentos = document.querySelector("#formDocumentosEntregados")
 document.getElementById("btnAnterior").style.display = "none";
 document.getElementById("btnSiguiente").style.display = "none";
 document.getElementById("btnConfirmPrestamo").style.display = "none";
+document.getElementById("btnConfirmDevolucion").style.display = "none";
 var tabActual = 0;
+var cantidadDocPrestados = 0;
+var statusConfirmacionDevolucionDoc = false;
 mostrarTab(tabActual);
 
-document.addEventListener('DOMContentLoaded',function(){
-    
+document.addEventListener('DOMContentLoaded',function(){ 
     resaltarInputsObligatoriosDatosPersonales();
+    $('#ModalFormDocumentacionVerificado').on('hidden.bs.modal', function(){
+        formDocumentosEntregados.reset();
+      });
 });
 //Funcion para Datatable de Mostrar todos los Estudiantes Verificados
 if(getPagina() == "estudiantes"){
@@ -197,12 +202,15 @@ function fntDocumentacionInscripcion(value){
     .catch(err => {throw err});
 }
 function fntDocumentacionInscripcionVerificado(value){
-    //console.log(value);
+    cantidadDocPrestados = 0;
+    statusConfirmacionDevolucionDoc = false;
     var idInscripcion = value.getAttribute('idins');
     var nombre = value.getAttribute('n');
     var estatusValidacionDocumentacion = value.getAttribute('valdo');
     var usuarioValidado = value.getAttribute('usv');
     document.querySelector('#idInscripcionPrestamo').value = idInscripcion;
+    document.querySelector('#btnConfirmDevolucion').style.display = 'none';
+    document.querySelector('#tipo').value = "";
     if(estatusValidacionDocumentacion == 1){
         document.querySelector('#checkDocumentacionValidado').checked = true;
         document.querySelector('#checkDocumentacionValidado').disabled = true;
@@ -214,6 +222,7 @@ function fntDocumentacionInscripcionVerificado(value){
             document.querySelector('#nombre_usuarios_verificacion').innerHTML = resulUsuario;
         })
         .catch(err => {throw err});
+
     }else{
 
     }
@@ -226,12 +235,10 @@ function fnGetDocumentosEntregados(value){
     fetch(urlDocumentacion)
     .then(res => res.json())
     .then((resultDocumentacion) =>{
-        //console.log(resultDocumentacion);
         var numeracion = 0;
         document.querySelector('#tbDocumentosEntregados').innerHTML="";
         document.querySelector('#tbDocumentosEntregadosPrestamos').innerHTML="";
         resultDocumentacion.forEach(element => {
-            
             numeracion +=1;
             var nombreDocumento = element.tipo_documento;
             var statusOriginal = "";
@@ -248,6 +255,7 @@ function fnGetDocumentosEntregados(value){
                 statusCopia = "<span class='badge badge-warning'>No entregado</span>"; 
             }
             if(element.prestamo_original != 0){
+                cantidadDocPrestados += 1;
                 statusPrestamo = "<span class='badge badge-success'>Prestado</span>";
                 var checked = "checked";
             }else{
@@ -255,9 +263,16 @@ function fnGetDocumentosEntregados(value){
                 var checked = "";
             }
             document.querySelector('#tbDocumentosEntregados').innerHTML+="<tr><th scope='row'>"+numeracion+"</th><td>"+nombreDocumento+"</td><td>"+statusOriginal+"</div></td><td>"+statusCopia+"</td><td>"+statusPrestamo+"</td></tr>";
-            document.querySelector('#tbDocumentosEntregadosPrestamos').innerHTML+="<tr><th scope='row'>"+numeracion+"</th><td>"+nombreDocumento+"</td><td><div class='custom-control custom-switch custom-switch-off-danger custom-switch-on-success'><input name='"+element.id+"' type='checkbox' aria-label='Checkbox for following text input' "+checked+"></div></td></td></tr>";
+            document.querySelector('#tbDocumentosEntregadosPrestamos').innerHTML+="<tr><th scope='row'>"+numeracion+"</th><td>"+nombreDocumento+"</td><td><div class='custom-control custom-switch custom-switch-off-danger custom-switch-on-success'><input name='"+element.id+"' type='checkbox' aria-label='Checkbox for following text input' "+checked+" onclick='fnCheckDevolucionDoc(this)'></div></td></td></tr>";
         });
-
+        if(cantidadDocPrestados != 0){
+            document.querySelector('#btnConfirmPrestamo').disabled = true;
+            document.querySelector('#txtFechaDevolucion').disabled = true;
+        }else{
+            document.querySelector('#btnConfirmPrestamo').disabled = false;
+            document.querySelector('#txtFechaDevolucion').disabled = false;
+            document.querySelector('#btnConfirmDevolucion').style.display = 'none';
+        }
     })
     .catch(err => {throw err});
 }
@@ -412,15 +427,9 @@ function checkEstatusDocumentacion(value){
             }else{
                 estatusCopia = false;
             }
-            //console.log(idDocumentacion+value);
-            //console.log(element);
             document.querySelector('.original'+idDocumentacion+value).checked = estatusOriginal;
             document.querySelector('.copia'+idDocumentacion+value).checked = estatusCopia;
-            document.querySelector('.cantidad'+idDocumentacion+value).value = element.entrego_cantidad_copias;
-            //document.querySelector('.copia'+idDocumentacion).checked = estatusCopia;
-            //var arrFiltered = document.querySelectorAll('input[id=1][t=original][in=73]');
-            
-
+            document.querySelector('.cantidad'+idDocumentacion+value).value = element.entrego_cantidad_copias;     
         });
     })
     .catch(err => { throw err });
@@ -662,6 +671,7 @@ function fnNavTab(numTab){
         document.getElementById("btnConfirmPrestamo").style.display = "inline";
     }else{
         document.getElementById("btnConfirmPrestamo").style.display = "none";
+        document.getElementById("btnConfirmDevolucion").style.display = "none";
     }
     estadoIndicadores(numTab);
 }
@@ -680,9 +690,10 @@ function mostrarTab(tabActual) {
         document.getElementById("btnSiguiente").style.display = "inline";
     }
     if(tabActual == 1){
-        document.getElementById("btnConfirmPrestamo").style.display = "inline";
+        document.getElementById("btnConfirmPrestamo").style.display = "inline";   
     }else{
         document.getElementById("btnConfirmPrestamo").style.display = "none";
+        document.getElementById("btnConfirmDevolucion").style.display = "none";
     }
     estadoIndicadores(tabActual)
 }
@@ -727,7 +738,8 @@ formPrestamoDocumentos.onsubmit = function(e){
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
-            if(objData.status){
+            console.log(objData);
+            /* if(objData.status){
                 formPrestamoDocumentos.reset();
                 swal.fire("Prestamos", objData.msg, "success").then((result) =>{
                     $('#step3-tab').click();
@@ -739,7 +751,7 @@ formPrestamoDocumentos.onsubmit = function(e){
                 swal.fire("Prestamos", objData.msg, "error").then((result) =>{
                     //$('.close').click();
                 });
-            }
+            } */
         }
         return false;
     }
@@ -749,15 +761,63 @@ function gnGetHistorialPrestamoDocumentos(idInscripcion){
     fetch(urlHistorialDoc)
     .then(res => res.json())
     .then((resHistorialDoc) =>{
-        //console.log(resHistorialDoc);
         document.querySelector('#tbHistorialPrestamoDoc').innerHTML = "";
         var numeracion = 0;
         resHistorialDoc.forEach(element => {
-            console.log(element);
             numeracion += 1;
-            var opciones = '<div class="btn-group"><button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-layer-group"></i> &nbsp; Acciones</button><div class="dropdown-menu"><button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal datosPersonalesVerficar" onClick="fnDatosPersonalesVerificacion(this)" data-toggle="modal" data-target="#ModalFormEditPersona" title="Datos Personales"> &nbsp;&nbsp; <i class="far fa-address-book"></i> &nbsp;Imprimir</button><button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal" onclick="" data-toggle="modal" data-target="oojojoj" title="Documentacion"> &nbsp;&nbsp; <i class="far fa-file-word"></i> &nbsp;Ver</button><div class="dropdown-divider"></div></div></div></div>';
+            var opciones = '<div class="btn-group"><button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-layer-group"></i> &nbsp; Acciones</button><div class="dropdown-menu"><button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal imprimirCompHistorialDoc" onClick="fnimprimirCompHistorialDoc(this)" data-toggle="modal" data-target="#ModalimprimirCompHistorialDoc" title="Imprimir Comprobante"> &nbsp;&nbsp; <i class="far fa-address-book"></i> &nbsp;Imprimir</button><button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal" f="'+element.folio+'"onclick="fnListadocumentosFolio(this)" data-toggle="modal" data-target="#ModalListaDocFolio" title="Historial Documentacion"> &nbsp;&nbsp; <i class="far fa-file-word"></i> &nbsp;Ver</button><div class="dropdown-divider"></div></div></div></div>';
+
             document.querySelector('#tbHistorialPrestamoDoc').innerHTML += "<tr><th scope='row'>"+numeracion+"</th><td>"+element.folio+"</td><td>"+element.fecha_prestamo+"</div></td><td>"+element.fecha_estimada_devolucion+"</td><td>"+element.nombre_usuario+"</td><td>Prestamo</td><td>"+opciones+"</td></tr>";
+            document.querySelector('#folioDoc').value = element.folio;
         });
     })
     .catch(err => {throw err});
 }
+function fnListadocumentosFolio(value){
+    var folio = value.getAttribute('f');
+    let urlListaDocFolio = base_url+"/Estudiantes/getListaDocumentosFolio?idFolio="+folio;
+    fetch(urlListaDocFolio)
+    .then(res => res.json())
+    .then((resDocFolio) =>{
+        var numeracion = 0;
+        document.querySelector('#tbVerHistorialDocumentacion').innerHTML = "";
+        resDocFolio.forEach(element => {
+            numeracion += 1;
+            document.querySelector('#tbVerHistorialDocumentacion').innerHTML += "<tr><th scope='row'>"+numeracion+"</th><td>"+element.folio+"</td><td>"+element.tipo_documento+"</td></tr>";
+        });
+    })
+    .catch(err => {throw err});
+}
+
+
+function fnCheckDevolucionDoc(value){
+    if(cantidadDocPrestados != 0){
+        if(value.checked == false){
+            if(statusConfirmacionDevolucionDoc == false){
+                Swal.fire({
+                title: 'Devolución?',
+                html: "Decea hacer una devolución?<br><span class='badge badge-warning'>Selecciona todos los documentos en la lista que desa devolver</span>",
+                icon: 'question',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK!'
+              }).then((result) =>{
+                  if(result.isConfirmed){
+                    statusConfirmacionDevolucionDoc = true;
+                    value.checked = true;
+                  }
+              })
+            }else{
+                document.querySelector('#btnConfirmDevolucion').style.display = 'inline';
+                document.querySelector('#tipo').value = "dev";
+            }
+        }
+    }else{
+        comprobarDocumentosEntregados();
+
+    }
+}
+function fnSetDevolucionDoctos(value){
+    
+}
+
+

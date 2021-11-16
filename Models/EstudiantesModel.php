@@ -258,6 +258,32 @@
             }
             return $request;
         }
+        public function insertDevolucionDocumentos($idDocumentosDetalles,$idInscripcion,$comentario,$folio){
+            $documentosDetalles = $idDocumentosDetalles;
+            $inscripcion = $idInscripcion;
+            $comentario = $comentario;
+            $folio = $folio;
+            $sqlFolioPlantel = "SELECT plant.codigo_plantel FROM t_inscripciones AS ins 
+                INNER JOIN t_plan_estudios AS pln ON ins.id_plan_estudios = pln.id 
+                INNER JOIN t_planteles AS plant ON pln.id_planteles = plant.id WHERE ins.id = $idInscripcion LIMIT 1";
+            $requestFolioPlantel = $this->select($sqlFolioPlantel);
+            $codigoPlantel = $requestFolioPlantel['codigo_plantel'];
+            /*$sqlFolioCosecutivo = "SELECT COUNT(folio) AS num_folios FROM  t_prestamo_documentos WHERE folio LIKE '%$codigoPlantel%'";
+            $requestFolioConsecutivo = $this->select($sqlFolioCosecutivo);
+            $cantidadFolios = $requestFolioConsecutivo['num_folios'];
+            $nuevoFolio = $cantidadFolios+1;
+            $nuevoFolioConsecutivo = $codigoPlantel.'PD'.date("mY").substr(str_repeat(0,4).$nuevoFolio,-4);
+            foreach ($documentosDetalles as $key => $value) {
+                $sqlPrestamo = "INSERT INTO t_prestamo_documentos(folio,fecha_prestamo,fecha_devolucion,id_documentos_estudiante,id_usuario_prestamo,comentario) VALUES(?,NOW(),?,?,?,?)";
+                $requestPrestamo = $this->insert($sqlPrestamo,array($nuevoFolioConsecutivo,$fechaDevolucion,$key,1,$comentario));
+                if($requestPrestamo){
+                    $sql = "UPDATE t_documentos_estudiante SET prestamo_original = ? WHERE id = $key";
+                    $request = $this->update($sql,array(1));
+                }else{
+                }
+            } */
+            return $folio;
+        }
 
         public function selectHistorialFoliosPrestamoDoctos($idInscripcion){
             $idInscripcion = $idInscripcion;
@@ -273,18 +299,19 @@
             $request = $this->select_all($sql);
             return $request;
         }
-       /*  public function selectHistorialFoliosPrestamoDoctos($idInscripcion){
-            $idInscripcion = $idInscripcion;
-            $sql = "SELECT pres.id,pres.folio,det.tipo_documento,pres.fecha_prestamo,pres.fecha_devolucion,pres.comentario,pres.id_usuario_prestamo,
+
+        public function selectListaDocumentosFolio($folio){
+            $folioDocumento = $folio;
+            $sql = "SELECT pres.id,pres.folio,det.tipo_documento,pres.fecha_prestamo,pres.fecha_estimada_devolucion,pres.comentario_prestamo,pres.id_usuario_prestamo,
             CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) AS nombre_usuario FROM t_prestamo_documentos AS pres
             INNER JOIN t_documentos_estudiante AS doc ON pres.id_documentos_estudiante = doc.id
             INNER JOIN t_historiales AS his ON doc.id_historial = his.id
             INNER JOIN t_inscripciones AS ins ON ins.id_historial = his.id 
             INNER JOIN t_detalle_documentos AS det ON doc.id_detalle_documentos = det.id 
             INNER JOIN t_usuarios AS us ON pres.id_usuario_prestamo = us.id 
-            INNER JOIN t_personas AS per ON us.id_persona = per.id WHERE ins.id = $idInscripcion";
-            $request = $this->select_all($sql);
+            INNER JOIN t_personas AS per ON us.id_persona = per.id WHERE pres.folio = '$folioDocumento'";
+            $request = $this->select_all($sql) ;
             return $request;
-        } */
+        }
 	}
 ?>  
