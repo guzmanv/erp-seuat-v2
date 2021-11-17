@@ -263,39 +263,43 @@
             $idInscripion = $data['idInscripcionPrestamo'];
             $comentario = $data['txtComentarioPrestamo'];
             $idDocumentosDetalles = array();
-            if($data['tipo'] == 'dev'){
-                $folio = $data['folioDoc'];
-                foreach ($data as $key => $value) {
-                    if(gettype($key) == 'integer'){
-                        $idDocumentosDetalles[$key] = $value;
-                    }
+            $fechaDevolucion = $data['txtFechaDevolucion'];
+            foreach ($data as $key => $value) {
+                if(gettype($key) == 'integer'){
+                    $idDocumentosDetalles[$key] = $value;
                 }
-                if(count($idDocumentosDetalles) >= 1){
-                    $arrDevolucion = $this->model->insertDevolucionDocumentos($idDocumentosDetalles,$folio,$idInscripion,$comentario);
-                    if($arrDevolucion){
-                        $arrResponse['status'] = true;
-                        $arrResponse['msg'] = "Devolucipon realizado correctamente";
-                    }
+            }
+            if(count($idDocumentosDetalles) >= 1){
+                $arrPrestamo = $this->model->insertPrestamoDocumentos($idDocumentosDetalles,$idInscripion,$comentario,$fechaDevolucion);
+                if($arrPrestamo){
+                    $arrResponse['status'] = true;
+                    $arrResponse['msg'] = "Prestamo realizado correctamente";
                 }
             }else{
-                $fechaDevolucion = $data['txtFechaDevolucion'];
-                foreach ($data as $key => $value) {
-                    if(gettype($key) == 'integer'){
-                        $idDocumentosDetalles[$key] = $value;
-                    }
-                }
-                if(count($idDocumentosDetalles) >= 1){
-                    $arrPrestamo = $this->model->insertPrestamoDocumentos($idDocumentosDetalles,$idInscripion,$comentario,$fechaDevolucion);
-                    if($arrPrestamo){
-                        $arrResponse['status'] = true;
-                        $arrResponse['msg'] = "Prestamo realizado correctamente";
-                    }
-                }else{
-                    $arrResponse['status'] = false;
-                    $arrResponse['msg'] = "Selecciona al menos un documento";
-                } 
+                $arrResponse['status'] = false;
+                $arrResponse['msg'] = "Selecciona al menos un documento";
+            } 
+			echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+			die();
+        }
+        public function setDevolucionDocumentos(){
+            $datos = $_GET['data'];
+            $valor = json_decode($datos,true);
+            $folio = "";
+            $data;
+            if(count($valor) >= 1){
+                $folio = $valor[0]['folio'];
+                $data = $valor[1];
             }
-			echo json_encode($arrDevolucion,JSON_UNESCAPED_UNICODE);
+            $arrDevolucion = $this->model->insertDevolucionDocumentos($folio,$data);
+            if($arrDevolucion){
+                $arrResponse['estatus'] = true;
+                $arrResponse['msg'] = "Devolución realizado correctamente";
+            }else{
+                $arrResponse['estatus'] = false;
+                $arrResponse['msg'] = "Error en la Devolución";
+            }
+			echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 			die();
         }
         public function getHistorialPrestamoDocumentos(){

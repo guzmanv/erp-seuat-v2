@@ -738,8 +738,8 @@ formPrestamoDocumentos.onsubmit = function(e){
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
-            console.log(objData);
-            /* if(objData.status){
+            //console.log(objData);
+            if(objData.status){
                 formPrestamoDocumentos.reset();
                 swal.fire("Prestamos", objData.msg, "success").then((result) =>{
                     $('#step3-tab').click();
@@ -751,7 +751,7 @@ formPrestamoDocumentos.onsubmit = function(e){
                 swal.fire("Prestamos", objData.msg, "error").then((result) =>{
                     //$('.close').click();
                 });
-            } */
+            }
         }
         return false;
     }
@@ -816,8 +816,42 @@ function fnCheckDevolucionDoc(value){
 
     }
 }
-function fnSetDevolucionDoctos(value){
-    
+function btnConfirmDevolucion(value){
+    var checks = document.querySelector('#tbDocumentosEntregadosPrestamos');
+    var comentario = document.querySelector('#txtComentarioPrestamo').value;
+    var folio = document.querySelector('#folioDoc').value;
+    var idInsc = document.querySelector('#idInscripcionPrestamo').value;
+    var input = checks.getElementsByTagName('INPUT');
+    var resultados = new Array();
+    var inputs = new Array();
+    var folioDoc = {'folio': folio};
+    resultados.push(folioDoc);
+    input.forEach(element => {
+        var valores = {'id_doc': element.getAttribute('name'),'check':element.checked,'comentario':comentario};
+        inputs.push(valores);
+    });
+    resultados.push(inputs);
+    var data = JSON.stringify(resultados);
+    if(comentario == ''){
+        swal.fire("Atención","Atención todos los campos son obligatorios","warning");
+        return false;
+    }
+    let urlDevolucionDoctos = base_url+"/Estudiantes/setDevolucionDocumentos?data="+data;
+    fetch(urlDevolucionDoctos)
+    .then(res => res.json())
+    .then((resDevDoc) =>{
+        if(resDevDoc.estatus){
+            swal.fire("Devolución",resDevDoc.msg,"success").then((result) =>{
+                fnGetDocumentosEntregados(idInsc);
+                gnGetHistorialPrestamoDocumentos(idInsc);
+                $('#step3-tab').click();
+            });
+            
+        }else{
+            swal.fire("Error",resDevDoc.msg,"error");
+        }
+    })  
+    .catch(err => {throw err});
 }
 
 

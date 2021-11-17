@@ -248,7 +248,7 @@
             $nuevoFolio = $cantidadFolios+1;
             $nuevoFolioConsecutivo = $codigoPlantel.'PD'.date("mY").substr(str_repeat(0,4).$nuevoFolio,-4);
             foreach ($documentosDetalles as $key => $value) {
-                $sqlPrestamo = "INSERT INTO t_prestamo_documentos(folio,fecha_prestamo,fecha_devolucion,id_documentos_estudiante,id_usuario_prestamo,comentario) VALUES(?,NOW(),?,?,?,?)";
+                $sqlPrestamo = "INSERT INTO t_prestamo_documentos(folio,fecha_prestamo,fecha_estimada_devolucion,id_documentos_estudiante,id_usuario_prestamo,comentario_prestamo) VALUES(?,NOW(),?,?,?,?)";
                 $requestPrestamo = $this->insert($sqlPrestamo,array($nuevoFolioConsecutivo,$fechaDevolucion,$key,1,$comentario));
                 if($requestPrestamo){
                     $sql = "UPDATE t_documentos_estudiante SET prestamo_original = ? WHERE id = $key";
@@ -258,31 +258,24 @@
             }
             return $request;
         }
-        public function insertDevolucionDocumentos($idDocumentosDetalles,$idInscripcion,$comentario,$folio){
-            $documentosDetalles = $idDocumentosDetalles;
-            $inscripcion = $idInscripcion;
-            $comentario = $comentario;
-            $folio = $folio;
-            $sqlFolioPlantel = "SELECT plant.codigo_plantel FROM t_inscripciones AS ins 
-                INNER JOIN t_plan_estudios AS pln ON ins.id_plan_estudios = pln.id 
-                INNER JOIN t_planteles AS plant ON pln.id_planteles = plant.id WHERE ins.id = $idInscripcion LIMIT 1";
-            $requestFolioPlantel = $this->select($sqlFolioPlantel);
-            $codigoPlantel = $requestFolioPlantel['codigo_plantel'];
-            /*$sqlFolioCosecutivo = "SELECT COUNT(folio) AS num_folios FROM  t_prestamo_documentos WHERE folio LIKE '%$codigoPlantel%'";
-            $requestFolioConsecutivo = $this->select($sqlFolioCosecutivo);
-            $cantidadFolios = $requestFolioConsecutivo['num_folios'];
-            $nuevoFolio = $cantidadFolios+1;
-            $nuevoFolioConsecutivo = $codigoPlantel.'PD'.date("mY").substr(str_repeat(0,4).$nuevoFolio,-4);
-            foreach ($documentosDetalles as $key => $value) {
-                $sqlPrestamo = "INSERT INTO t_prestamo_documentos(folio,fecha_prestamo,fecha_devolucion,id_documentos_estudiante,id_usuario_prestamo,comentario) VALUES(?,NOW(),?,?,?,?)";
-                $requestPrestamo = $this->insert($sqlPrestamo,array($nuevoFolioConsecutivo,$fechaDevolucion,$key,1,$comentario));
-                if($requestPrestamo){
-                    $sql = "UPDATE t_documentos_estudiante SET prestamo_original = ? WHERE id = $key";
-                    $request = $this->update($sql,array(1));
-                }else{
+        public function insertDevolucionDocumentos($folio,$data){
+            $folioDoc = $folio;
+            $datos = $data;
+            $resultados;
+            foreach ($datos as $key => $value) {
+                $idDoc = $value['id_doc'];
+                $comentario = $value['comentario'];
+                if($value['check'] != true){
+                    $sqlDevolucion = "UPDATE t_prestamo_documentos SET fecha_devolucion = NOW(),comentario_devolucion = ?,id_usuario_devolucion = ? WHERE folio = '$folioDoc' AND id_documentos_estudiante = $idDoc";
+                    $requestDevolucion = $this->update($sqlDevolucion,array($comentario,1));
+                    if($requestDevolucion){
+                        $sql = "UPDATE t_documentos_estudiante SET prestamo_original = ? WHERE id = $idDoc";
+                        $request = $this->update($sql,array(0));
+                    }else{
+                    }
                 }
-            } */
-            return $folio;
+            }
+            return $request;
         }
 
         public function selectHistorialFoliosPrestamoDoctos($idInscripcion){
