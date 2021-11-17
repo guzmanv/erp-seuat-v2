@@ -60,7 +60,7 @@
                                                 <label>Comentarios</label>
                                                 <textarea type="text" id="txtComentarioPrestamo" name="txtComentarioPrestamo" class="form-control form-control-sm" placeholder="Comentarios" rows="5" required></textarea>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group" id="divFechaDevolucion">
                                                 <label>Fecha devolución</label>
                                                 <input type="date" id="txtFechaDevolucion" name="txtFechaDevolucion" class="form-control form-control-sm"  value="" max=" " required>
                                             </div>
@@ -77,7 +77,7 @@
                                                     <th>Fecha prestado</th>
                                                     <th>Fecha devolucion</th>
                                                     <th>Usuario</th>
-                                                    <th>Tipo</th>
+                                                    <th>Estatus</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>

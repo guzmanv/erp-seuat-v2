@@ -267,10 +267,10 @@ function fnGetDocumentosEntregados(value){
         });
         if(cantidadDocPrestados != 0){
             document.querySelector('#btnConfirmPrestamo').disabled = true;
-            document.querySelector('#txtFechaDevolucion').disabled = true;
+            document.querySelector('#divFechaDevolucion').style.display= 'none';
         }else{
             document.querySelector('#btnConfirmPrestamo').disabled = false;
-            document.querySelector('#txtFechaDevolucion').disabled = false;
+            document.querySelector('#divFechaDevolucion').style.display= 'inline';
             document.querySelector('#btnConfirmDevolucion').style.display = 'none';
         }
     })
@@ -738,8 +738,8 @@ formPrestamoDocumentos.onsubmit = function(e){
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
-            //console.log(objData);
-            if(objData.status){
+    /*             console.log(objData);
+ */            if(objData.status){
                 formPrestamoDocumentos.reset();
                 swal.fire("Prestamos", objData.msg, "success").then((result) =>{
                     $('#step3-tab').click();
@@ -764,11 +764,16 @@ function gnGetHistorialPrestamoDocumentos(idInscripcion){
         document.querySelector('#tbHistorialPrestamoDoc').innerHTML = "";
         var numeracion = 0;
         resHistorialDoc.forEach(element => {
+            console.log(element);
             numeracion += 1;
-            var opciones = '<div class="btn-group"><button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-layer-group"></i> &nbsp; Acciones</button><div class="dropdown-menu"><button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal imprimirCompHistorialDoc" onClick="fnimprimirCompHistorialDoc(this)" data-toggle="modal" data-target="#ModalimprimirCompHistorialDoc" title="Imprimir Comprobante"> &nbsp;&nbsp; <i class="far fa-address-book"></i> &nbsp;Imprimir</button><button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal" f="'+element.folio+'"onclick="fnListadocumentosFolio(this)" data-toggle="modal" data-target="#ModalListaDocFolio" title="Historial Documentacion"> &nbsp;&nbsp; <i class="far fa-file-word"></i> &nbsp;Ver</button><div class="dropdown-divider"></div></div></div></div>';
-
-            document.querySelector('#tbHistorialPrestamoDoc').innerHTML += "<tr><th scope='row'>"+numeracion+"</th><td>"+element.folio+"</td><td>"+element.fecha_prestamo+"</div></td><td>"+element.fecha_estimada_devolucion+"</td><td>"+element.nombre_usuario+"</td><td>Prestamo</td><td>"+opciones+"</td></tr>";
             document.querySelector('#folioDoc').value = element.folio;
+            var opcionesDevuelto = '';
+            var opcionesNoDevuelto = '<div class="btn-group"><button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-layer-group"></i> &nbsp; Acciones</button><div class="dropdown-menu"><button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal imprimirCompHistorialDoc" f="'+element.folio+'" onClick="fnimprimirCompHistorialDoc(this)" data-toggle="modal" data-target="#ModalimprimirCompHistorialDoc" title="Imprimir Comprobante"> &nbsp;&nbsp; <i class="far fa-address-book"></i> &nbsp;Imprimir</button><button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal" f="'+element.folio+'" onclick="fnListadocumentosFolio(this)" data-toggle="modal" data-target="#ModalListaDocFolio" title="Historial Documentacion"> &nbsp;&nbsp; <i class="far fa-file-word"></i> &nbsp;Ver</button><div class="dropdown-divider"></div></div></div></div>';
+            if(element.fecha_devolucion == null || element.fecha_devolucion == ''){
+                document.querySelector('#tbHistorialPrestamoDoc').innerHTML += "<tr><th scope='row'>"+numeracion+"</th><td>"+element.folio+"</td><td>"+element.fecha_prestamo+"</div></td><td>"+element.fecha_estimada_devolucion+"</td><td>"+element.nombre_usuario+"</td><td>No devuelto</td><td>"+opcionesNoDevuelto+"</td></tr>";
+            }else{
+                document.querySelector('#tbHistorialPrestamoDoc').innerHTML += "<tr><th scope='row'>"+numeracion+"</th><td>"+element.folio+"</td><td>"+element.fecha_prestamo+"</div></td><td>"+element.fecha_estimada_devolucion+"</td><td>"+element.nombre_usuario+"</td><td>Devuelto</td><td>"+opcionesDevuelto+"</td></tr>";
+            }
         });
     })
     .catch(err => {throw err});
@@ -842,8 +847,8 @@ function btnConfirmDevolucion(value){
     .then((resDevDoc) =>{
         if(resDevDoc.estatus){
             swal.fire("Devolución",resDevDoc.msg,"success").then((result) =>{
-                fnGetDocumentosEntregados(idInsc);
-                gnGetHistorialPrestamoDocumentos(idInsc);
+                //fnGetDocumentosEntregados(idInsc);
+                //gnGetHistorialPrestamoDocumentos(idInsc);
                 $('#step3-tab').click();
             });
             
@@ -853,5 +858,19 @@ function btnConfirmDevolucion(value){
     })  
     .catch(err => {throw err});
 }
+function fnimprimirCompHistorialDoc(value){
+    var folio = value.getAttribute('f');
+    let urlListaDocFolio = base_url+"/Estudiantes/getListaDocumentosFolio?idFolio="+folio;
+    fetch(urlListaDocFolio)
+    .then(res => res.json())
+    .then((resDocFolio) =>{
+        if(resDocFolio){
+            var data = JSON.stringify(resDocFolio);
+            window.open(base_url+'/Views/Template/Modals/Alumnos/viewpdf.php?data='+window.btoa(unescape(encodeURIComponent(data))), '_blank');
+        }else{
 
+        }
+    })
+    .catch(err => {throw err});
+}
 
