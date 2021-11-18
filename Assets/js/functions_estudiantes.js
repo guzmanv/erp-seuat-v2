@@ -865,8 +865,10 @@ function fnimprimirCompHistorialDoc(value){
     .then(res => res.json())
     .then((resDocFolio) =>{
         if(resDocFolio){
-            var data = JSON.stringify(resDocFolio);
-            window.open(base_url+'/Views/Template/Modals/Alumnos/viewpdf.php?data='+window.btoa(unescape(encodeURIComponent(data))), '_blank');
+            var data = new Array();
+            data = {data:resDocFolio,url:base_url}
+            var datos = JSON.stringify(data);
+            window.open(base_url+'/Views/Template/Modals/Alumnos/viewpdf.php?data='+window.btoa(unescape(encodeURIComponent(datos))), '_blank');
         }else{
 
         }

@@ -296,12 +296,16 @@
         public function selectListaDocumentosFolio($folio){
             $folioDocumento = $folio;
             $sql = "SELECT pres.id,pres.folio,det.tipo_documento,pres.fecha_prestamo,pres.fecha_estimada_devolucion,pres.comentario_prestamo,pres.id_usuario_prestamo,
-            CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) AS nombre_usuario FROM t_prestamo_documentos AS pres
+            CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) AS nombre_usuario,
+            CONCAT(peral.nombre_persona,' ',peral.ap_paterno,' ',peral.ap_materno) AS nombre_alumno,
+            plan.nombre_carrera FROM t_prestamo_documentos AS pres
             INNER JOIN t_documentos_estudiante AS doc ON pres.id_documentos_estudiante = doc.id
             INNER JOIN t_historiales AS his ON doc.id_historial = his.id
             INNER JOIN t_inscripciones AS ins ON ins.id_historial = his.id 
             INNER JOIN t_detalle_documentos AS det ON doc.id_detalle_documentos = det.id 
             INNER JOIN t_usuarios AS us ON pres.id_usuario_prestamo = us.id 
+            INNER JOIN t_personas AS peral ON ins.id_personas = peral.id
+            INNER JOIN t_plan_estudios AS plan ON ins.id_plan_estudios = plan.id
             INNER JOIN t_personas AS per ON us.id_persona = per.id WHERE pres.folio = '$folioDocumento'";
             $request = $this->select_all($sql) ;
             return $request;

@@ -1,7 +1,17 @@
 <?php
+setlocale(LC_ALL,"es_ES");
+date_default_timezone_set('UTC');
 $valores = $_GET['data'];
 $strValores = base64_decode($valores);
 $arrValores = json_decode($strValores,true);
+$folioPrestamo = $arrValores['data'][0]['folio'];
+$userAtencion = $arrValores['data'][0]['nombre_usuario'];
+$userAlumno = $arrValores['data'][0]['nombre_alumno'];
+$fechaEntrega = $arrValores['data'][0]['fecha_estimada_devolucion'];
+$formatFechaEntrega = iconv('ISO-8859-2', 'UTF-8', strftime("%A, %d de %B de %Y", strtotime($fechaEntrega)));
+$formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%A, %d de %B de %Y", strtotime(date('Y-m-d'))));
+$nombreCarrera = $arrValores['data'][0]['nombre_carrera'];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -151,27 +161,41 @@ $arrValores = json_decode($strValores,true);
     <div class="cabecera">
         <div>
             <div class="row">
-                <div class="logo col-2">
-                    </div>
-                <div class="col-10" style="text-align:center">
+                <div class="col-2">
+                    <img src="<?php echo($arrValores['url'].'/Assets/images/Logo_seuat_color.jpeg') ?>" height="80" width="80">
+                </div>
+                <div class="col-8" style="text-align:center">
                     <p><b>SISTEMA EDUCATIVO UNIVERSITARIO AZTECA</b><br>
-                        <small><b>INSTITUTO DE ESTUDIOS SUPERIORES "SOR JUANA INES DE LA CRUZ"</b></small><br>
+                        <small style="font-size: 13px"><b>INSTITUTO DE ESTUDIOS SUPERIORES "SOR JUANA INES DE LA CRUZ"</b></small><br>
                         <small>Incorporado a la Secretaria de Educacion Publica</small><br>
                         <small>CLAVE: 07PSU0018E</small><br>
                         <small>2a Norte Oriente N° 741, Tuxtla Gutierrez Chiapas</small>
                     </p>
                 </div>
+                <div class="col-2" style="text-align:right">
+                    <img src="<?php echo($arrValores['url'].'/Assets/images/logo_iessic.jpg') ?>" height="80" width="80">
+                </div>
             </div>
         </div>
         <div></div>   
-    </div><br><br><br><br>
+    </div>
+    <div class="col-12" style="text-align:center">
+        <h4>CARTA COMPROMISO DE ENTREGA DE DOCUMENTOS
+        </h4>
+    </div>
     <div class="cabecera">
         <div>
             <div class="row">
-                <div class="col-12">
-                    <p>El (la) suscrito(a) <b>Jose Santiz Ruiz</b>, alumno(a) de la
-                    licenciatura en Ingenieria en <b>Sistemas Computacionales</b>.
-                    Me doy por enterado que a más tardar el día* 25 de Diciembre de 2021, debo
+                <div class="col-12" style="text-align:right">
+                    <p>Tuxtal Gutierrez <?php echo $formatFechaActual ?></b>
+                    </p>
+                    <p>Folio de préstamo: <b><?php echo $folioPrestamo?></b>
+                    </p>
+                </div>
+                <div class="col-12" style="text-align:justify;text-justify:inter-word;line-height=150%">
+                    <p>El (la) suscrito(a) <b><?php echo $userAlumno?></b>, alumno(a) de la
+                    <b><?php echo $nombreCarrera ?></b>.
+                    Me doy por enterado que a más tardar el día<b>*</b>  <?php echo $formatFechaEntrega ?>, debo
                     hacer la entrega de los documentos documentos: 
                     </p>
                 </div>
@@ -182,7 +206,7 @@ $arrValores = json_decode($strValores,true);
     <div class="invoice-box">
         <table cellpadding="0" cellspacing="0">
             <tr class="information">
-                <td colspan="2">
+                <td colspan="12">
                     <table>
                         <tr>
                             <td>
@@ -199,7 +223,7 @@ $arrValores = json_decode($strValores,true);
             </tr>
             <?php
                 $numeracion = 0;
-                foreach ($arrValores as $key => $value) {
+                foreach ($arrValores['data'] as $key => $value) {
                     $numeracion += 1;
                     ?>
                         <tr class="details">
@@ -211,20 +235,19 @@ $arrValores = json_decode($strValores,true);
                 }
             ?>    
         </table>
-    </div><br><br>
+    </div>
     <div class="cabecera">
         <div>
             <div class="row">
-                <div class="col-12">
+                <div class="col-12" style="text-align:justify;text-justify:inter-word;line-height: 120%">
                     <p>En caso de no entregar dicho documento en la fecha antes mencionada la Institución Educativa se
                     deslinda de toda responsabilidad, en caso de que surgiera alguna supervisión y no estuviese mi
                     documento bajo resguardo, y esto fuera causa de Baja en forma inmediata y definitiva sin
                     perjuicio para la Institución.
                     Así mismo en caso de que mi fecha de conclusión de los estudios resulta con invasión de ciclo
-                    (máximo al 01 de Enero del 2021, la Institución me dará de baja definitiva del
-                    sistema sin perjuicio alguno.
-                    Me comprometo a entregar dicho DOCUMENTO a más tardar el día 31 de Diciembre del
-                    2021. 
+                    <i>(máximo al 01 de Enero del 2021, la Institución me dará de baja definitiva del
+                    sistema sin perjuicio alguno)</i>.
+                    Me comprometo a entregar dicho DOCUMENTO a más tardar el día <b><?php echo $formatFechaEntrega ?></b>. 
                     </p>
                 </div>
             </div>
@@ -236,16 +259,18 @@ $arrValores = json_decode($strValores,true);
     </div>
     <div>
         <div class="col-6" style="text-align:center">
-            <h4>Alumno</h4><br><br>
+            <h4>Alumno(a)</h4><br>
             <hr style="width:50%">
+            <p><?php echo $userAlumno ?></p>
         </div>
         <div class="col-6" style="text-align:center">
-            <h4>Director</h4><br><br>
+            <h4>Autorizado por:</h4><br>
             <hr style="width:50%">
+            <p><?php echo $userAtencion ?></p>
         </div>
     </div>
     <div class="footer">
-        <p>*el tiempo máximo de la entrega del documento lo define la institución de acuerdo a lo que marque
+        <p>* El tiempo máximo de la entrega del documento lo define la institución de acuerdo a lo que marque
         la instancia educativa a la que estemos incorporados.</p>
     </div>
 </html>
