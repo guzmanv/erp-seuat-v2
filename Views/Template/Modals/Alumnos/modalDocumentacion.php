@@ -32,13 +32,7 @@
                                     <input class="form-check-input" type="checkbox" value="" id="checkDocumentacion" onclick="validacionDocumentacion(this)">
                                     <label class="form-check-label" for="checkDocumentacion">Para <b style='color:#3b7ddd'>validar</b> marca esta casilla</label>
                                 </div>
-                            </div>
-                            <div class="alert alert-warning alert-dismissible fade show" role="alert" id="alertSinDocumentacion">
-                                <strong>Aviso!</strong> No hay documentos que mostrar.
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>      
+                            </div>     
                         </div>
                     </div>
                 </div>
