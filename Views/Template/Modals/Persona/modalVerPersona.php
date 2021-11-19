@@ -14,107 +14,116 @@
                         <input type="hidden" id="idVer" name="idVer" value="">
                         <div class="card-body">
                             <div class="row" >
-                                <div class="col-6">
-                                    <div class="form-group">
+                                    <div class="form-group col-md-4">
                                         <label>Nombre</label>
-                                        <input type="text" id="txtNombreVer" name="txtNombreVer" class="form-control" placeholder="Nombre"  name="" disabled>
+                                        <input type="text" id="txtNombreVer" class="form-control form-control-sm"   disabled>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group col-md-4">
                                         <label>Apellido Paterno</label>
-                                        <input type="text" id="txtApellidoPaVer" name="txtApellidoPaVer" class="form-control" placeholder="Apellido Paterno"  name="" disabled>
+                                        <input type="text" id="txtApellidoPaVer"  class="form-control form-control-sm" disabled>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group col-md-4">
                                         <label>Apellido Materno</label>
-                                        <input type="text" id="txtApellidoMaVer" name="txtApellidoMaVer" class="form-control" placeholder="Apellido Materno"  name="" disabled>
+                                        <input type="text" id="txtApellidoMaVer" class="form-control form-control-sm"  disabled>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Direccion</label>
-                                        <input type="text" id="txtDireccionVer" name="txtDireccionVer" class="form-control" placeholder="Direccion"  name="" disabled>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Edad</label>
-                                        <input type="text" id="txtEdadVer" name="txtEdadVer" class="form-control" placeholder="Edad"  name="" disabled>
-                                    </div>
-                                    <div class="form-group">
+                                    <div class="form-group col-md-3">
                                         <label>Sexo</label>
-                                        <select class="form-control" id="listSexoVer" name="listSexoVer" disabled >
+                                        <select class="form-control form-control-sm" id="listSexoVer"  disabled >
                                         <option value="">Selecciona un Sexo</option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
-                                        <label>CP</label>
-                                        <input type="text" id="txtCPVer" name="txtCPVer" class="form-control" placeholder="CP"  name="" disabled>
+                                    <div class="form-group col-md-2">
+                                        <label>Edad</label>
+                                        <input type="text" id="txtEdadVer" class="form-control form-control-sm"  disabled>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Colonia</label>
-                                        <input type="text" id="txtColoniaVer" name="txtColoniaVer" class="form-control" placeholder="Colonia"  name="" disabled>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Telefono Celular</label>
-                                        <input type="text" id="txtTelCelVer" name="txtTelCelVer" class="form-control" placeholder="Telefono Celular"  name="" disabled>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Telefono Fijo</label>
-                                        <input type="text" id="txtTelFiVer" name="txtTelFiVer" class="form-control" placeholder="Telefono Fijo"  name="" disabled>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label>Email</label>
-                                        <input type="text" id="txtEmailVer" name="txtEmailVer" class="form-control" placeholder="Email"  name="" disabled>
-                                    </div>
-                                    <div class="form-group">
+                                    <div class="form-group col-md-3">
                                         <label>Estado Civil</label>
-                                        <select class="form-control" id="listEstadoCivilVer" name="listEstadoCivilVer" disabled >
+                                        <select class="form-control form-control-sm" id="listEstadoCivilVer"  disabled >
                                         <option value="">Selecciona un Estado</option>
                                         </select>
                                     </div>
-
-                                    <div class="form-group">
+                                    <div class="form-group col-md-4">
+                                        <label>Fecha de Nacimiento</label>
+                                        <input type="date" id="txtFechaNacimientOVer"  class="form-control form-control-sm"  disabled>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>CURP</label>
+                                        <input type="text" id="txtCURPVer"  class="form-control form-control-sm"  disabled>
+                                    </div>
+                                    <div class="form-group col-md-4">
                                         <label>Ocupacion</label>
-                                        <input type="text" id="txtOcupacionVer" name="txtOcupacionVer" class="form-control" placeholder="Ocupacion"  name="" disabled>
+                                        <input type="text" id="txtOcupacionVer"  class="form-control form-control-sm"   disabled>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Validacion</label>
-                                        <input type="text" id="txtValidacionVer" name="txtValidacionVer" class="form-control" placeholder="Validacion"  name="" disabled>
-                                    </div>  
-                                    <div class="form-group">
-                                        <label>Escolaridad</label>
-                                        <select class="form-control" id="listEscolaridadVer" name="listEscolaridadVer" disabled >
-                                            <option value="">Selecciona una Escolaridad</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Estado</label>
-                                        <select class="form-control" id="listEstadoVer" name="listEstadoVer" onchange="estadoSeleccionadoEdit(value)" disabled >
-                                            <option value="">Selecciona un Estado</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Municipio</label>
-                                        <select class="form-control" id="listMunicipioVer" name="listMunicipioVer" onchange="municipioSeleccionadoEdit(value)" disabled >
-                                            <option value="">Selecciona un Municipio</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Localidad</label>
-                                        <select class="form-control" id="listLocalidadVer" name="listLocalidadVer" disabled >
-                                        <option value="">Selecciona una Localidad</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
+                                    <div class="form-group col-md-4">
                                         <label>Categoria Persona</label>
-                                        <select class="form-control" id="listCategoriaVer" name="listCategoriaVer" disabled >
+                                        <select class="form-control form-control-sm" id="listCategoriaVer"  disabled >
                                         <option value="">Selecciona una Categoría</option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group col-md-4">
+                                        <label>Telefono Celular</label>
+                                        <input type="text" id="txtTelCelVer"  class="form-control form-control-sm"    disabled>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Telefono Fijo</label>
+                                        <input type="text" id="txtTelFiVer"  class="form-control form-control-sm"   disabled>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Escolaridad</label>
+                                        <select class="form-control form-control-sm" id="listEscolaridadVer"  disabled >
+                                            <option value="">Selecciona una Escolaridad</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Nivel carrera de interés</label>
+                                        <select class="form-control form-control-sm" id="listNivelCarreraInteresVer"  disabled >
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Carrera de interés</label>
+                                        <select class="form-control form-control-sm" id="listCarreraInteresVer"  disabled >
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Email</label>
+                                        <input type="text" id="txtEmailVer"  class="form-control form-control-sm"    disabled>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Estado</label>
+                                        <select class="form-control form-control-sm" id="listEstadoVer"  disabled >
+                                            <option value="">Selecciona un Estado</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Municipio</label>
+                                        <select class="form-control form-control-sm" id="listMunicipioVer"   disabled >
+                                            <option value="">Selecciona un Municipio</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Localidad</label>
+                                        <select class="form-control form-control-sm" id="listLocalidadVer" disabled >
+                                        <option value="">Selecciona una Localidad</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-10">
+                                        <label>Colonia</label>
+                                        <input type="text" id="txtColoniaVer" class="form-control form-control-sm"  disabled>
+                                    </div>  
+                                    <div class="form-group col-md-2">
+                                        <label>CP</label>
+                                        <input type="text" id="txtCPVer"  class="form-control form-control-sm"  disabled>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label>Direccion</label>
+                                        <input type="text" id="txtDireccionVer"  class="form-control form-control-sm"  disabled>
+                                    </div>                                    
+                                    <div class="form-group col-md-2">
                                         <label>Estatus</label>
-                                        <select class="form-control" id="listEstatusVer" name="listEstatusVer" disabled >
+                                        <select class="form-control form-control-sm" id="listEstatusVer" disabled >
                                         <option value="">Selecciona un Estatus</option>
                                         </select>
                                     </div>
-                                </div>    
                             </div>
                         </div>
                     </div>

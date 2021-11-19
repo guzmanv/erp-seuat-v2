@@ -27,8 +27,8 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h3 class="card-title">Listado de Personas</h3>
-                                <p class="card-text">
+<!--                                 <h3 class="card-title">Listado de Personas</h3>
+ -->                                <p class="card-text">
                                     <table id="tablePersonas" class="table table-bordered table-striped table-hover table-sm">
                                         <thead>
                                             <tr>
