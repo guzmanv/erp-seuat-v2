@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title><?php echo $data['page_tag']; ?></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" href="<?= media();?>/images/icons/icon-48x48.png" />
 
   <!-- Google Font: Source Sans Pro -->
