@@ -768,7 +768,8 @@ function gnGetHistorialPrestamoDocumentos(idInscripcion){
             numeracion += 1;
             document.querySelector('#folioDoc').value = element.folio;
             var opcionesDevuelto = '';
-            var opcionesNoDevuelto = '<div class="btn-group"><button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-layer-group"></i> &nbsp; Acciones</button><div class="dropdown-menu"><button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal imprimirCompHistorialDoc" f="'+element.folio+'" onClick="fnimprimirCompHistorialDoc(this)" data-toggle="modal" data-target="#ModalimprimirCompHistorialDoc" title="Imprimir Comprobante"> &nbsp;&nbsp; <i class="far fa-address-book"></i> &nbsp;Imprimir</button><button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal" f="'+element.folio+'" onclick="fnListadocumentosFolio(this)" data-toggle="modal" data-target="#ModalListaDocFolio" title="Historial Documentacion"> &nbsp;&nbsp; <i class="far fa-file-word"></i> &nbsp;Ver</button><div class="dropdown-divider"></div></div></div></div>';
+            var foliob64 = window.btoa(unescape(encodeURIComponent(element.folio)))
+            var opcionesNoDevuelto = '<div class="btn-group"><button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-layer-group"></i> &nbsp; Acciones</button><div class="dropdown-menu"><a class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal" href="imprimir_comp_doc_prestamo/'+foliob64+'" target="_blank"> &nbsp;&nbsp; <i class="far fa-address-book"></i> &nbsp;Imprimir</a><button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal" f="'+element.folio+'" onclick="fnListadocumentosFolio(this)" data-toggle="modal" data-target="#ModalListaDocFolio" title="Historial Documentacion"> &nbsp;&nbsp; <i class="far fa-file-word"></i> &nbsp;Ver</button><div class="dropdown-divider"></div></div></div></div>';
             if(element.fecha_devolucion == null || element.fecha_devolucion == ''){
                 document.querySelector('#tbHistorialPrestamoDoc').innerHTML += "<tr><th scope='row'>"+numeracion+"</th><td>"+element.folio+"</td><td>"+element.fecha_prestamo+"</div></td><td>"+element.fecha_estimada_devolucion+"</td><td>"+element.nombre_usuario+"</td><td>No devuelto</td><td>"+opcionesNoDevuelto+"</td></tr>";
             }else{
@@ -856,23 +857,6 @@ function btnConfirmDevolucion(value){
             swal.fire("Error",resDevDoc.msg,"error");
         }
     })  
-    .catch(err => {throw err});
-}
-function fnimprimirCompHistorialDoc(value){
-    var folio = value.getAttribute('f');
-    let urlListaDocFolio = base_url+"/Estudiantes/getListaDocumentosFolio?idFolio="+folio;
-    fetch(urlListaDocFolio)
-    .then(res => res.json())
-    .then((resDocFolio) =>{
-        if(resDocFolio){
-            var data = new Array();
-            data = {data:resDocFolio,url:base_url}
-            var datos = JSON.stringify(data);
-            window.open(base_url+'/Views/Template/Modals/Alumnos/viewpdf.php?data='+window.btoa(unescape(encodeURIComponent(datos))), '_blank');
-        }else{
-
-        }
-    })
     .catch(err => {throw err});
 }
 
