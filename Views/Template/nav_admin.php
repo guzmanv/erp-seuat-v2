@@ -312,7 +312,56 @@
                   </p>
               </a>
           </li>
-        
+          <li class="nav-header"><h6>Control Escolar</h6></li>
+               <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Inscripcion/controlescolar" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="layers"></i>
+                  <p>
+                      Inscripcion
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Estudiantes/estudiantes" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="users"></i>
+                  <p>
+                      Estudiantes
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Salones/salon" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="twitch"></i>
+                  <p>
+                      Salones
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Turnos/turno" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="clock"></i>
+                  <p>
+                      Turnos
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Grados/grados" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="clock"></i>
+                  <p>
+                      Grados
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Secciones/secciones" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="clock"></i>
+                  <p>
+                      Secciones
+                  </p>
+              </a>
+          </li>
+
 
           <li class="nav-header"><h6>Administración</h6></li>
           <li class="nav-item">
