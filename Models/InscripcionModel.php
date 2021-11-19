@@ -22,7 +22,7 @@
                 INNER JOIN t_plan_estudios AS plan ON ins.id_plan_estudios = plan.id
                 INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativo = niv.id
                 INNER JOIN t_organizacion_planes AS orgp ON plan.id_plan = orgp.id
-                LEFT JOIN t_salones AS sal ON ins.id_salon = sal.id
+                LEFT JOIN t_salonescompletos AS sal ON ins.id_salon = sal.id
                 LEFT JOIN t_grados AS gra ON sal.id_grado = gra.id
                 LEFT JOIN t_grupos AS grup ON sal.id_grupo = grup.id
                 INNER JOIN t_planteles AS plant ON plan.id_planteles = plant.id
@@ -35,7 +35,7 @@
                 INNER JOIN t_plan_estudios AS plan ON ins.id_plan_estudios = plan.id
                 INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativo = niv.id
                 INNER JOIN t_organizacion_planes AS orgp ON plan.id_plan = orgp.id
-                LEFT JOIN t_salones AS sal ON ins.id_salon = sal.id
+                LEFT JOIN t_salonescompletos AS sal ON ins.id_salon = sal.id
                 LEFT JOIN t_grados AS gra ON sal.id_grado = gra.id
                 LEFT JOIN t_grupos AS grup ON sal.id_grupo = grup.id
                 INNER JOIN t_planteles AS plant ON plan.id_planteles = plant.id
