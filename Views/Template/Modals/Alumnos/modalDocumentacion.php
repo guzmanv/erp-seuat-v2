@@ -12,25 +12,27 @@
                 <div class="card card-secondary">
                     <form id="formDocumentacionNueva" name="formDocumentacionNueva">
                         <input type="hidden" id="idInscripcion" name="idInscripcion" value="">
-                        <div class="card-body"> 
-                            <h5 class="card-title">Documentacion</h5>
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nombre del Documento</th>
-                                    <th scope="col">Original</th>
-                                    <th scope="col">Copia</th>
-                                    <th scope="col" width='20%'>Candidad copias</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tbDocumentacionIns">
-                                </tbody>
+                        <div class="card-body">
+                            <div id="card-documentacion"> 
+                                <h5 class="card-title" id="nomPersonaDocumentacion"></h5>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Nombre del Documento</th>
+                                            <th scope="col">Original</th>
+                                            <th scope="col">Copia</th>
+                                            <th scope="col" width='20%'>Candidad copias</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbDocumentacionIns">
+                                    </tbody>
                                 </table>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="checkDocumentacion" onclick="validacionDocumentacion(this)">
-                                    <label class="form-check-label" for="checkDocumentacion">Para <b style='color:blue'>validar</b> marca esta casilla</label>
+                                    <label class="form-check-label" for="checkDocumentacion">Para <b style='color:#3b7ddd'>validar</b> marca esta casilla</label>
                                 </div>
+                            </div>     
                         </div>
                     </div>
                 </div>

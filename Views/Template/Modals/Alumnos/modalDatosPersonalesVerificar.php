@@ -119,6 +119,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="checkValidacionDatos" onclick="validacionDatosPersonales(this)">
                                         <label class="form-check-label" for="checkValidacionDatos">Para <b style='color:#3b7ddd'>validar</b> marca esta casilla</label>
+                                        <div id="usuario_verificacion_datper"></div>
                                     </div>
                             </div>
                         </div>

@@ -8,7 +8,7 @@
 		//Funcion para consultar lista de Estudiantes
 		public function selectEstudiantes(){
 			$sql = "SELECT ins.id,per.id AS id_persona,per.nombre_persona,CONCAT(per.ap_paterno,' ',per.ap_materno) AS apellidos,
-            plante.nombre_plantel,plante.municipio,planest.nombre_carrera,ins.grado,sal.nombre_salon,per.validacion_doctos,per.validacion_datos_personales FROM t_inscripciones AS ins
+            plante.nombre_plantel,plante.municipio,planest.nombre_carrera,ins.grado,sal.nombre_salon,per.validacion_doctos,per.validacion_datos_personales,per.id_usuario_verificacion_doctos,per.id_usuario_verificacion_datos_personales FROM t_inscripciones AS ins
             LEFT JOIN t_historiales AS his ON ins.id_historial = his.id
             INNER JOIN t_personas AS per ON ins.id_personas = per.id
             INNER JOIN t_plan_estudios AS planest ON ins.id_plan_estudios = planest.id
@@ -57,9 +57,20 @@
         public function selectDocumentacion(int $idInscripcion){
             $idInscripcion = $idInscripcion;
             $sql = "SELECT ins.id AS id_inscripcion, doc.id AS id_documento, detdoc.id AS id_detalle_documento,
-            detdoc.tipo_documento FROM t_inscripciones AS ins
+            detdoc.tipo_documento,CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno)AS nom_persona FROM t_inscripciones AS ins
             INNER JOIN t_documentos AS doc ON ins.id_documentos = doc.id
             INNER JOIN t_detalle_documentos AS detdoc ON detdoc.id_documentos = doc.id
+            INNER JOIN t_personas AS per ON ins.id_personas = per.id
+            WHERE ins.id = $idInscripcion";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+        public function selectDocumentacionEntregados(int $idInscripcion){
+            $idInscripcion = $idInscripcion;
+            $sql = "SELECT doc.id, det.tipo_documento,doc.entrego_cantidad_original,doc.entrego_cantidad_copias,doc.prestamo_original FROM t_documentos_estudiante AS doc
+            INNER JOIN t_historiales AS his ON doc.id_historial = his.id
+            INNER JOIN t_inscripciones AS ins ON ins.id_historial = his.id
+            INNER JOIN t_detalle_documentos AS det ON doc.id_detalle_documentos = det.id
             WHERE ins.id = $idInscripcion";
             $request = $this->select_all($sql);
             return $request;
@@ -148,8 +159,8 @@
             $sqlPersona = "SELECT id_personas FROM t_inscripciones WHERE id = $idInscripcion LIMIT 1";
             $requestPersona = $this->select($sqlPersona);
             $idPersona = $requestPersona['id_personas'];
-            $sql = "UPDATE t_personas SET validacion_doctos = ? WHERE id = $idPersona";
-            $request = $this->update($sql,array(1));
+            $sql = "UPDATE t_personas SET validacion_doctos = ?,id_usuario_verificacion_doctos = ? WHERE id = $idPersona";
+            $request = $this->update($sql,array(1,1));
             return $request;
         }
         public function insertValidacionDatosPersonales($data){
@@ -172,8 +183,8 @@
             $colonia = $data['txtColoniaEdit'];
             $CP = $data['txtCPEdit'];
             $direccion = $data['txtDireccionEdit'];
-            $sql = "UPDATE t_personas SET nombre_persona = ?,ap_paterno = ?,ap_materno = ?,direccion = ?,edad = ?,sexo = ?,cp = ?,colonia = ?,tel_celular = ?,tel_fijo = ?,email = ?,edo_civil = ?,ocupacion = ?,fecha_nacimiento = ?,validacion_datos_personales = ?,id_localidad = ? WHERE id = $idPersona";
-            $request = $this->update($sql,array($nombre,$appPaterno,$appMaterno,$direccion,$edad,$sexo,$CP,$colonia,$telefonoCel,$telefonofijo,$email,$estadoCivil,$ocupacion,$fechaNacimiento,1,$localidad));
+            $sql = "UPDATE t_personas SET nombre_persona = ?,ap_paterno = ?,ap_materno = ?,direccion = ?,edad = ?,sexo = ?,cp = ?,colonia = ?,tel_celular = ?,tel_fijo = ?,email = ?,edo_civil = ?,ocupacion = ?,fecha_nacimiento = ?,validacion_datos_personales = ?,id_localidad = ? ,id_usuario_verificacion_datos_personales = ? WHERE id = $idPersona";
+            $request = $this->update($sql,array($nombre,$appPaterno,$appMaterno,$direccion,$edad,$sexo,$CP,$colonia,$telefonoCel,$telefonofijo,$email,$estadoCivil,$ocupacion,$fechaNacimiento,1,$localidad,1));
             return $request;
         }
         public function selectEstados(){
@@ -213,6 +224,91 @@
             $request = $this->select($sql);
             return $request;
         }
-        
+        public function selectUsuarioValidacion(int $idPersonaValidacion){
+            $idUsuarioVerificado = $idPersonaValidacion;
+            $sql = "SELECT CONCAT(per.nombre_persona,'&nbsp;',per.ap_paterno,'&nbsp;',per.ap_materno) AS nombre_persona_validacion FROM t_personas AS per 
+            INNER JOIN t_usuarios AS us ON us.id_persona = per.id WHERE us.id = $idUsuarioVerificado";
+            $request = $this->select($sql);
+            return $request['nombre_persona_validacion'];
+        }    
+
+        public function insertPrestamoDocumentos($idDocumentosDetalles,$idInscripcion,$comentario,$fechaDevolucion){
+            $documentosDetalles = $idDocumentosDetalles;
+            $inscripcion = $idInscripcion;
+            $comentario = $comentario;
+            $fechaDevolucion = $fechaDevolucion;
+            $sqlFolioPlantel = "SELECT plant.codigo_plantel FROM t_inscripciones AS ins 
+                INNER JOIN t_plan_estudios AS pln ON ins.id_plan_estudios = pln.id 
+                INNER JOIN t_planteles AS plant ON pln.id_planteles = plant.id WHERE ins.id = $idInscripcion LIMIT 1";
+            $requestFolioPlantel = $this->select($sqlFolioPlantel);
+            $codigoPlantel = $requestFolioPlantel['codigo_plantel'];
+            $sqlFolioCosecutivo = "SELECT COUNT(folio) AS num_folios FROM  t_prestamo_documentos WHERE folio LIKE '%$codigoPlantel%'";
+            $requestFolioConsecutivo = $this->select($sqlFolioCosecutivo);
+            $cantidadFolios = $requestFolioConsecutivo['num_folios'];
+            $nuevoFolio = $cantidadFolios+1;
+            $nuevoFolioConsecutivo = $codigoPlantel.'PD'.date("mY").substr(str_repeat(0,4).$nuevoFolio,-4);
+            foreach ($documentosDetalles as $key => $value) {
+                $sqlPrestamo = "INSERT INTO t_prestamo_documentos(folio,fecha_prestamo,fecha_estimada_devolucion,id_documentos_estudiante,id_usuario_prestamo,comentario_prestamo) VALUES(?,NOW(),?,?,?,?)";
+                $requestPrestamo = $this->insert($sqlPrestamo,array($nuevoFolioConsecutivo,$fechaDevolucion,$key,1,$comentario));
+                if($requestPrestamo){
+                    $sql = "UPDATE t_documentos_estudiante SET prestamo_original = ? WHERE id = $key";
+                    $request = $this->update($sql,array(1));
+                }else{
+                }
+            }
+            return $request;
+        }
+        public function insertDevolucionDocumentos($folio,$data){
+            $folioDoc = $folio;
+            $datos = $data;
+            $resultados;
+            foreach ($datos as $key => $value) {
+                $idDoc = $value['id_doc'];
+                $comentario = $value['comentario'];
+                if($value['check'] != true){
+                    $sqlDevolucion = "UPDATE t_prestamo_documentos SET fecha_devolucion = NOW(),comentario_devolucion = ?,id_usuario_devolucion = ? WHERE folio = '$folioDoc' AND id_documentos_estudiante = $idDoc";
+                    $requestDevolucion = $this->update($sqlDevolucion,array($comentario,1));
+                    if($requestDevolucion){
+                        $sql = "UPDATE t_documentos_estudiante SET prestamo_original = ? WHERE id = $idDoc";
+                        $request = $this->update($sql,array(0));
+                    }else{
+                    }
+                }
+            }
+            return $request;
+        }
+
+        public function selectHistorialFoliosPrestamoDoctos($idInscripcion){
+            $idInscripcion = $idInscripcion;
+            $sql = "SELECT pres.id,pres.folio,det.tipo_documento,pres.fecha_prestamo,pres.fecha_estimada_devolucion,pres.comentario_prestamo,pres.id_usuario_prestamo,
+            CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) AS nombre_usuario,pres.fecha_devolucion,pres.comentario_devolucion,pres.id_usuario_devolucion FROM t_prestamo_documentos AS pres
+            LEFT JOIN t_documentos_estudiante AS doc ON pres.id_documentos_estudiante = doc.id
+            INNER JOIN t_historiales AS his ON doc.id_historial = his.id
+            INNER JOIN t_inscripciones AS ins ON ins.id_historial = his.id 
+            INNER JOIN t_detalle_documentos AS det ON doc.id_detalle_documentos = det.id 
+            INNER JOIN t_usuarios AS us ON pres.id_usuario_prestamo = us.id 
+            INNER JOIN t_personas AS per ON us.id_persona = per.id WHERE ins.id = $idInscripcion
+            GROUP BY pres.folio HAVING COUNT(*)>=1";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+
+        public function selectListaDocumentosFolio($folio){
+            $folioDocumento = $folio;
+            $sql = "SELECT pres.id,pres.folio,det.tipo_documento,pres.fecha_prestamo,pres.fecha_estimada_devolucion,pres.comentario_prestamo,pres.id_usuario_prestamo,
+            CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) AS nombre_usuario,
+            CONCAT(peral.nombre_persona,' ',peral.ap_paterno,' ',peral.ap_materno) AS nombre_alumno,
+            plan.nombre_carrera FROM t_prestamo_documentos AS pres
+            INNER JOIN t_documentos_estudiante AS doc ON pres.id_documentos_estudiante = doc.id
+            INNER JOIN t_historiales AS his ON doc.id_historial = his.id
+            INNER JOIN t_inscripciones AS ins ON ins.id_historial = his.id 
+            INNER JOIN t_detalle_documentos AS det ON doc.id_detalle_documentos = det.id 
+            INNER JOIN t_usuarios AS us ON pres.id_usuario_prestamo = us.id 
+            INNER JOIN t_personas AS peral ON ins.id_personas = peral.id
+            INNER JOIN t_plan_estudios AS plan ON ins.id_plan_estudios = plan.id
+            INNER JOIN t_personas AS per ON us.id_persona = per.id WHERE pres.folio = '$folioDocumento'";
+            $request = $this->select_all($sql) ;
+            return $request;
+        }
 	}
-?>
+?>  
