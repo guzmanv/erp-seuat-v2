@@ -309,11 +309,11 @@
             die();
         }
         
-        public function getListaDocumentosFolio(){
-            $folioDoc = $_GET['idFolio'];
-            $arrListaDocFolio = $this->model->selectListaDocumentosFolio($folioDoc);
-            echo json_encode($arrListaDocFolio,JSON_UNESCAPED_UNICODE);
-            die();
+        public function imprimir_comp_doc_prestamo($folio){
+            $folioFormat = base64_decode($folio);
+            $data['folio'] = $folioFormat;
+            $data['data'] = $this->model->selectListaDocumentosFolio($folioFormat);
+			$this->views->getView($this,"viewpdf",$data);
         }
     }
 ?>
