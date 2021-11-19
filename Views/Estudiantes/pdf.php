@@ -1,17 +1,12 @@
 <?php
 setlocale(LC_ALL,"es_ES");
 date_default_timezone_set('UTC');
-$valores = $_GET['data'];
-$strValores = base64_decode($valores);
-$arrValores = json_decode($strValores,true);
-$folioPrestamo = $arrValores['data'][0]['folio'];
-$userAtencion = $arrValores['data'][0]['nombre_usuario'];
-$userAlumno = $arrValores['data'][0]['nombre_alumno'];
-$fechaEntrega = $arrValores['data'][0]['fecha_estimada_devolucion'];
+$userAtencion = $data['data'][0]['nombre_usuario'];
+$userAlumno = $data['data'][0]['nombre_alumno'];
+$fechaEntrega = $data['data'][0]['fecha_estimada_devolucion'];
 $formatFechaEntrega = iconv('ISO-8859-2', 'UTF-8', strftime("%A, %d de %B de %Y", strtotime($fechaEntrega)));
 $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%A, %d de %B de %Y", strtotime(date('Y-m-d'))));
-$nombreCarrera = $arrValores['data'][0]['nombre_carrera'];
-
+$nombreCarrera = $data['data'][0]['nombre_carrera'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -162,7 +157,7 @@ $nombreCarrera = $arrValores['data'][0]['nombre_carrera'];
         <div>
             <div class="row">
                 <div class="col-2">
-                    <img src="<?php echo($arrValores['url'].'/Assets/images/Logo_seuat_color.jpeg') ?>" height="80" width="80">
+                    <img src="<?php echo(media().'/images/Logo_seuat_color.jpeg') ?>" height="80" width="80">
                 </div>
                 <div class="col-8" style="text-align:center">
                     <p><b>SISTEMA EDUCATIVO UNIVERSITARIO AZTECA</b><br>
@@ -173,7 +168,7 @@ $nombreCarrera = $arrValores['data'][0]['nombre_carrera'];
                     </p>
                 </div>
                 <div class="col-2" style="text-align:right">
-                    <img src="<?php echo($arrValores['url'].'/Assets/images/logo_iessic.jpg') ?>" height="80" width="80">
+                    <img src="<?php echo(media().'/images/logo_iessic.jpg') ?>" height="80" width="80">
                 </div>
             </div>
         </div>
@@ -189,7 +184,7 @@ $nombreCarrera = $arrValores['data'][0]['nombre_carrera'];
                 <div class="col-12" style="text-align:right">
                     <p>Tuxtal Gutierrez <?php echo $formatFechaActual ?></b>
                     </p>
-                    <p>Folio de préstamo: <b><?php echo $folioPrestamo?></b>
+                    <p>Folio de préstamo: <b><?php echo $data['folio']?></b>
                     </p>
                 </div>
                 <div class="col-12" style="text-align:justify;text-justify:inter-word;line-height=150%">
@@ -223,7 +218,7 @@ $nombreCarrera = $arrValores['data'][0]['nombre_carrera'];
             </tr>
             <?php
                 $numeracion = 0;
-                foreach ($arrValores['data'] as $key => $value) {
+                foreach ($data['data'] as $key => $value) {
                     $numeracion += 1;
                     ?>
                         <tr class="details">

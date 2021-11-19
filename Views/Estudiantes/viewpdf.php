@@ -1,5 +1,5 @@
 <?php
-    require_once '../../../../Assets/plugins/dompdf/autoload.inc.php';
+    require_once 'Assets/plugins/dompdf/autoload.inc.php';
     use Dompdf\Dompdf;
     use Dompdf\Options;
     $dompdf = new Dompdf();
