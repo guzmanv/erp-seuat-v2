@@ -117,7 +117,7 @@
             if($intIdInscripcionNueva == 0){
                 $arrData = $this->model->insertInscripcion($data);
                 if($arrData){
-                    $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
+                    $arrResponse = array('estatus' => true,'data'=> $arrData, 'msg' => 'Inscripcion realizado correctamente!');
                 }else{
                     $arrResponse = array('estatus' => false, 'msg' => 'No es posible Guardar los Datos');
                 }
@@ -173,6 +173,16 @@
             }
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
+        }
+        //Imprimir solicitud de inscripcion
+        public function imprimir_solicitud_inscripcion($idInscripcion){
+            $idInscripcion = $idInscripcion;
+            $arrDataIns = $this->model->selectDatosImprimirSolInscricpion($idInscripcion);
+            $idPlanEstudio = $arrDataIns['id_plan_estudio'];
+            $arrDataDoc = $this->model->selectDocumentacionInscripcion($idPlanEstudio);
+            $data['datos'] = $arrDataIns;
+            $data['doc'] = $arrDataDoc;
+            $this->views->getView($this,"viewpdf",$data);
         }
     }
 ?>

@@ -111,7 +111,24 @@ formInscripcionNueva.onsubmit = function(e){
             if(objData.estatus){
                 formInscripcionNueva.reset();
                 swal.fire("Inscripcion",objData.msg,"success").then((result) =>{
-                    $('.close').click();
+                    //s$('.close').click();
+                    Swal.fire({
+                        title: 'Solicitud',
+                        text:'Desea imprimir la solicitud de inscripcion?',
+                        icon:'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'si, imprimir',
+                        cancelButtonText: 'No'
+                      }).then((result) => {
+                            if(result.isConfirmed){
+                                $('.close').click();
+                                window.open(base_url+'/Inscripcion/imprimir_solicitud_inscripcion/'+objData.data, '_blank');
+                          }else{
+                            $('.close').click();
+                          }
+                      })
                 });
                 tableInscripciones.api().ajax.reload();
             }else{

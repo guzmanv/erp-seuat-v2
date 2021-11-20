@@ -209,5 +209,34 @@
             $request = $this->select_all($sql);
             return $request;
         }
+
+        //Obtener datos para la impresion de solicitud de inscripcion
+        public function selectDatosImprimirSolInscricpion(int $idInscripcion){
+            $idInscripcion = $idInscripcion;
+            $sql = "SELECT ins.folio_impreso,plnes.nombre_carrera,plnes.id AS id_plan_estudio,orgpl.nombre_plan,plnes.duracion_carrera,peralum.nombre_persona,peralum.ap_paterno,peralum.ap_materno,peralum.direccion,peralum.colonia,
+            loc.nombre AS localidad,mun.nombre AS municipio,est.nombre AS estado,tut.nombre_tutor,tut.appat_tutor,tut.apmat_tutor
+            FROM t_inscripciones AS ins 
+            INNER JOIN t_plan_estudios AS plnes ON ins.id_plan_estudios = plnes.id
+            INNER JOIN t_organizacion_planes AS orgpl ON plnes.id_plan = orgpl.id
+            INNER JOIN t_personas AS peralum ON ins.id_personas = peralum.id
+            INNER JOIN t_tutores AS tut ON ins.id_tutores = tut.id
+            INNER JOIN t_localidades AS loc ON peralum.id_localidad = loc.id
+            INNER JOIN t_municipios AS mun ON loc.id_municipio = mun.id
+            INNER JOIN t_estados AS est ON mun.id_estados = est.id
+            WHERE ins.id = $idInscripcion LIMIT 1";
+            $request = $this->select($sql);
+            return $request;
+        }
+        //Obtener lista de documentacion por el Plan de Estudios
+        public function selectDocumentacionInscripcion(int $idPlanEstudios){
+            $idPlanEstudios = $idPlanEstudios;
+            $sql = "SELECT dest.tipo_documento FROM t_plan_estudios AS plnest 
+            INNER JOIN t_nivel_educativos AS nivel ON plnest.id_nivel_educativo = nivel.id 
+            INNER JOIN t_documentos AS doc ON doc.id_nivel_educativo = nivel.id
+            INNER JOIN t_detalle_documentos AS dest ON dest.id_documentos = doc.id
+            WHERE plnest.id = $idPlanEstudios";
+            $request = $this->select_all($sql);
+            return $request;
+        }
     }
 ?>
