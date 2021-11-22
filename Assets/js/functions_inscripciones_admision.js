@@ -67,8 +67,7 @@ function fnListaInscritos(answer){
             var contador = 0;
 			resultado.forEach(element => {
                 contador += 1;
-                //console.log(element);
-                document.getElementById('valoresListaInscritos').innerHTML +='<tr><td>'+contador+'</td><td>'+element.nombre_persona+'</td><td>'+element.apellidos+'</td></tr>'
+                document.getElementById('valoresListaInscritos').innerHTML +='<tr><td>'+contador+'</td><td>'+element.nombre_persona+'</td><td>'+element.apellidos+'</td><td><button type="button" class="btn btn-outline-secondary btn-primary icono-color-principal btn-inline" style="display: inline;" onclick="fnImprimirSolInscripcion('+element.id+')"><i class="fas fa-print icono-azul"></i></i><span> Imprimir</span></button></td></tr>'
             });
         })
         .catch(err => { throw err });
@@ -417,4 +416,10 @@ function fnPlantelSeleccionadoDatatable(value){
 	    "iDisplayLength": 25
     });
 }$('#tableInscripciones').DataTable();
+
+//Imprimir solicitud inscripcion en la lista Inscritos 
+function fnImprimirSolInscripcion(value){
+    var idInscripcion = value;
+    window.open(base_url+'/Inscripcion/imprimir_solicitud_inscripcion/'+idInscripcion, '_blank');
+}
 

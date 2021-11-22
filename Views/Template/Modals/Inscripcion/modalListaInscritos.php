@@ -1,5 +1,5 @@
 <div class="modal fade" id="modalFormListaInscritos" tabindex="-1" role="dialog" aria-labelledby="modalNombrePersonaLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Lista de Inscritos</h5>
@@ -14,6 +14,7 @@
                             <th>#</th>
                             <th>Nombres</th>
                             <th>Apellidos</th>
+                            <th>Solicitud</th>
                         </tr>
                     </thead>
                     <tbody id="valoresListaInscritos">
