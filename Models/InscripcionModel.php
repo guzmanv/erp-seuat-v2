@@ -99,6 +99,7 @@
             $idCarrera = $data['listCarreraNuevo'];
             $grado = $data['listGradoNuevo'];
             $turno = $data['listTurnoNuevo'];
+            $empresa = $data['txtNombreEmpresa'];
             $nombreTutor = $data['txtNombreTutorAgregar'];
             $appPatTutor = $data['txtAppPaternoTutorAgregar'];
             $appMatTutor = $data['txtAppMaternoTutorAgregar'];
@@ -136,6 +137,10 @@
                     if($request_historial){
                         $sql_inscripcion = "INSERT INTO t_inscripciones(folio_impreso,folio_sistema,tipo_ingreso,grado,promedio,id_horario,id_plan_estudios,id_personas,id_tutores,id_documentos,id_subcampania,id_salon,id_historial,id_usuario_creacion,fecha_actualizacion,id_usuario_actualizacion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)";
                         $request_inscripcion = $this->insert($sql_inscripcion,array($folioSistema,$folioSistema,$tipoIngreso,$grado,null,$turno,$idCarrera,$idPersona,$idPersona,$idDocumentos,$idSubcampania,$idSalon,$request_historial,1,1));
+                        if($request_inscripcion){
+                            $sqlEmpresa = "UPDATE t_personas SET nombre_empresa = ?,fecha_actualizacion = NOW() WHERE id = $idPersona";
+                            $requestEmpresa = $this->update($sqlEmpresa,array($empresa));
+                        }
                     }
                     /* $sql_inscripcion = "INSERT INTO t_inscripciones(folio_impreso,folio_sistema,tipo_ingreso,grado,id_horario,id_plan_estudios,id_personas,id_tutores,id_documentos,id_salon,id_subcampania,id_usuario_creacion,fecha_actualizacion,id_usuario_actualizacion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)";
                     $request_inscripcion = $this->insert($sql_inscripcion,array($folioSistema,$folioSistema,$tipoIngreso,$grado,$turno,$idCarrera,$idPersona,$idPersona,$idDocumentos,$idSalon,$idSubcampania,1,1));
@@ -214,7 +219,7 @@
         public function selectDatosImprimirSolInscricpion(int $idInscripcion){
             $idInscripcion = $idInscripcion;
             $sql = "SELECT ins.folio_impreso,plnes.nombre_carrera,plnes.id AS id_plan_estudio,orgpl.nombre_plan,plnes.duracion_carrera,peralum.nombre_persona,peralum.ap_paterno,peralum.ap_materno,peralum.direccion,peralum.colonia,peralum.tel_celular AS tel_celular_alumno,peralum.tel_fijo AS tel_fijo_alumno,peralum.email AS email_alumno,
-            loc.nombre AS localidad,mun.nombre AS municipio,est.nombre AS estado,tut.nombre_tutor,tut.appat_tutor,tut.apmat_tutor,tut.tel_celular AS tel_celular_tutor,tut.tel_fijo AS tel_fijo_tutor,tut.email AS email_tutor,plntel.nombre_sistema,plntel.nombre_plantel,plntel.categoria,plntel.cve_centro_trabajo,CONCAT(plntel.domicilio,',',plntel.localidad,',',plntel.municipio,',',plntel.estado) AS ubicacion,ins.grado,esc.nombre_escolaridad
+            loc.nombre AS localidad,mun.nombre AS municipio,est.nombre AS estado,tut.nombre_tutor,tut.appat_tutor,tut.apmat_tutor,tut.tel_celular AS tel_celular_tutor,tut.tel_fijo AS tel_fijo_tutor,tut.email AS email_tutor,plntel.nombre_sistema,plntel.nombre_plantel,plntel.categoria,plntel.cve_centro_trabajo,CONCAT(plntel.domicilio,',',plntel.localidad,',',plntel.municipio,',',plntel.estado) AS ubicacion,ins.grado,esc.nombre_escolaridad,tur.hora_entrada,tur.hora_salida,peralum.nombre_empresa
             FROM t_inscripciones AS ins 
             INNER JOIN t_plan_estudios AS plnes ON ins.id_plan_estudios = plnes.id
             INNER JOIN t_planteles AS plntel ON plnes.id_planteles = plntel.id
@@ -225,6 +230,7 @@
             INNER JOIN t_municipios AS mun ON loc.id_municipio = mun.id
             INNER JOIN t_estados AS est ON mun.id_estados = est.id
             INNER JOIN t_escolaridad AS esc ON ins.grado = esc.id
+            INNER JOIN t_turnos AS tur ON ins.id_horario = tur.id
             WHERE ins.id = $idInscripcion LIMIT 1";
             $request = $this->select($sql);
             return $request;

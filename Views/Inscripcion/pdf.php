@@ -152,7 +152,7 @@ table.sin_borde{border:0px solid #ffffff; width: 100%;}
             <div class="subfila" style="width: 26px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;">Plan:</div>
             <div class="subfila" style="width:262px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php echo(strtoupper($data['datos']['nombre_plan'])) ?></div>
             <div class="subfila" style="width: 47px; height: 21px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px; text-align: right; ">Horario:</div>
-            <div class="subfila" style="width:408px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 2px 4px; text-align: left; ">Pendiente</div>
+            <div class="subfila" style="width:408px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 2px 4px; text-align: left; "> de <?php echo($data['datos']['hora_entrada']) ?> a <?php echo($data['datos']['hora_salida']) ?></div>
         </div>
         <div id="fila-normal">
             <div class="subfila" style="width: 78px; height: 12px; background-color: #ffffff; padding: 7px 2px 2px 0px; text-align: left; ">Fecha de inicio:</div>
@@ -214,7 +214,7 @@ table.sin_borde{border:0px solid #ffffff; width: 100%;}
 
         <div style="width:759px; background-color: #eae9e9; margin-top:7px; ">
             <div class="subfila" style="width:308px; height: 12px; padding: 5px 0px 4px 0px; text-align: center; float-left; "><?php echo($data['datos']['nombre_escolaridad'])?></div>
-            <div class="subfila" style="width:444px; height: 12px; padding: 5px 0px 4px 0px; text-align: center; float-left; ">Pendiente</div>
+            <div class="subfila" style="width:444px; height: 12px; padding: 5px 0px 4px 0px; text-align: center; float-left; "><?php echo($data['datos']['nombre_empresa'])?></div>
         </div>
 
         <div style="width:759px; border-top: solid 1px #848484;">
