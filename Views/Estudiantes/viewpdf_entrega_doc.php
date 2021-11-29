@@ -4,7 +4,7 @@
     use Dompdf\Options;
     $dompdf = new Dompdf();
     ob_start();
-    include "pdf.php";
+    include "pdf_entrega_doc.php";
     $html = ob_get_clean();
     $options = new Options();
     $options->set('isRemoteEnabled', TRUE);

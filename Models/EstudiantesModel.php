@@ -18,6 +18,18 @@
 			$request = $this->select_all($sql);
 			return $request;
 		}
+        public function selectEstudianteInsc(int $idInscripcion){
+            $sql = "SELECT ins.id,per.id AS id_persona,per.nombre_persona,CONCAT(per.ap_paterno,' ',per.ap_materno) AS apellidos,
+            plante.nombre_plantel,plante.municipio,planest.nombre_carrera,ins.grado,sal.nombre_salon,per.validacion_doctos,per.validacion_datos_personales,per.id_usuario_verificacion_doctos,per.id_usuario_verificacion_datos_personales FROM t_inscripciones AS ins
+            LEFT JOIN t_historiales AS his ON ins.id_historial = his.id
+            INNER JOIN t_personas AS per ON ins.id_personas = per.id
+            INNER JOIN t_plan_estudios AS planest ON ins.id_plan_estudios = planest.id
+            INNER JOIN t_planteles AS plante ON planest.id_planteles = plante.id
+            LEFT JOIN t_salones AS sal ON ins.id_salon = sal.id
+            WHERE his.inscrito = 1 AND ins.id = $idInscripcion";
+			$request = $this->select_all($sql);
+			return $request;
+        }
         /* public function selectEstudiantesVerificados(){
 			$sql = "SELECT ins.id,per.nombre_persona,CONCAT(per.ap_paterno,' ',per.ap_materno) AS apellidos,
             plante.nombre_plantel,plante.municipio,planest.nombre_carrera,ins.grado,sal.nombre_salon,per.validacion_doctos FROM t_inscripciones AS ins
@@ -150,7 +162,10 @@
             $sqlHistorial = "SELECT his.id FROM t_historiales AS his INNER JOIN t_inscripciones AS ins ON ins.id_historial = his.id WHERE his.inscrito = 1 AND ins.id = $idInscripcion LIMIT 1";
             $requestHistorial = $this->select($sqlHistorial);
             $idHistorial = $requestHistorial['id'];
-            $sqlEstatus = "SELECT *FROM t_documentos_estudiante WHERE id_historial = $idHistorial";
+            $sqlEstatus = "SELECT doc.id,doc.prestamo_original,doc.entrego_cantidad_original,
+            doc.entrego_cantidad_copias,doc.estatus,doc.id_detalle_documentos,doc.id_historial,det.tipo_documento 
+            FROM t_documentos_estudiante AS doc
+            INNER JOIN t_detalle_documentos AS det ON doc.id_detalle_documentos = det.id WHERE id_historial = $idHistorial";
             $requestEstatus = $this->select_all($sqlEstatus);
             return $requestEstatus;
         }

@@ -11,6 +11,7 @@ document.getElementById("btnConfirmDevolucion").style.display = "none";
 var tabActual = 0;
 var cantidadDocPrestados = 0;
 var statusConfirmacionDevolucionDoc = false;
+let idInscripcion;
 mostrarTab(tabActual);
 
 document.addEventListener('DOMContentLoaded',function(){ 
@@ -176,7 +177,7 @@ if(getPagina() == "estudiantes"){
 //Lista de documentacion segun al nivel educativo isncrito
 function fntDocumentacionInscripcion(value){
     formDocumentacion.reset();
-    var idInscripcion = value.getAttribute('idins');
+    idInscripcion = value.getAttribute('idins');
     var estatusValidacionDocumentacion = value.getAttribute('valdo');
     var usuarioValidado = value.getAttribute('usv');
     document.querySelector('#btnActionFormNueva').style.display = "none";
@@ -186,6 +187,7 @@ function fntDocumentacionInscripcion(value){
     .then(res => res.json())
     .then((resultDocumentacion) =>{
         if(resultDocumentacion != 0){
+            documentacionAlumno = resultDocumentacion;
             document.querySelector('#nomPersonaDocumentacion').innerHTML = resultDocumentacion[0]['nom_persona'];
             var numeracion = 0;
             document.querySelector('#tbDocumentacionIns').innerHTML="";
@@ -306,15 +308,36 @@ function comprobarDocumentosEntregados(){
     }else{
         document.querySelector('#checkDocumentacion').checked = false;
         Swal.fire({
-            title: 'Mensaje!',
-            html: "<p>Faltan documentos por entregar</p><small style='color:#3085d6'>Es importante que el estudiante tenga su documentación completa</small>",
+            title: 'Mensaje',
+            html: "<p>Faltan documentos por entregar</p><small style='color:#3085d6'>Es importante que el estudiante tenga su documentación completa ó <span class='badge badge-warning'>imprimir una carta compromiso</span></small>",
             icon: 'warning',
+            showCancelButton: true,
             confirmButtonColor: '#3085d6',
-            confirmButtonText: 'OK'
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'OK',
+            cancelButtonText:'Imprimir'
           }).then((result) => {
             if (result.isConfirmed) {
                 document.querySelector('#checkDocumentacion').checked = false;
-            }
+            }else if (result.isDismissed) {
+                Swal.fire(
+                  {
+                    title: 'Imprimir',
+                    text: "Imprimir carta compromiso?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, imprimir',
+                  }
+                ).then((result) => {
+                    if(result.isConfirmed){
+                        let idInsBase = window.btoa(unescape(encodeURIComponent(idInscripcion)))
+                        let url = base_url+"/Estudiantes/imprimir_carta_compromiso_doc/"+idInsBase;
+                        window.open(url,'_blank');
+                    }
+                })
+              }
           })
     }
     if(valorcheck == false){
@@ -356,7 +379,7 @@ formDocumentacion.onsubmit = function(e){
     }else{
         Swal.fire({
             title: 'Mensaje!',
-            html: "<p>Faltan documentos por entregar</p><small style='color:#3085d6'>Es importante que el estudiante tenga su documentación completa</small>",
+            html: "<p>Faltan sssssdocumentos por entregar</p><small style='color:#3085d6'>Es importante que el estudiante tenga su documentación completa</small>",
             icon: 'warning',
             confirmButtonColor: '#3085d6',
             confirmButtonText: 'OK'

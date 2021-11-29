@@ -175,7 +175,7 @@ $nombreCarrera = $data['data'][0]['nombre_carrera'];
         <div></div>   
     </div>
     <div class="col-12" style="text-align:center">
-        <h4>CARTA COMPROMISO DE ENTREGA DE DOCUMENTOS
+        <h4>CARTA COMPROMISO DE DVOLUCIÓN DE DOCUMENTOS
         </h4>
     </div>
     <div class="cabecera">
@@ -191,7 +191,7 @@ $nombreCarrera = $data['data'][0]['nombre_carrera'];
                     <p>El (la) suscrito(a) <b><?php echo $userAlumno?></b>, alumno(a) de la
                     <b><?php echo $nombreCarrera ?></b>.
                     Me doy por enterado que a más tardar el día<b>*</b>  <?php echo $formatFechaEntrega ?>, debo
-                    hacer la entrega de los documentos documentos: 
+                    hacer la devolución de los documentos documentos: 
                     </p>
                 </div>
             </div>
@@ -235,14 +235,14 @@ $nombreCarrera = $data['data'][0]['nombre_carrera'];
         <div>
             <div class="row">
                 <div class="col-12" style="text-align:justify;text-justify:inter-word;line-height: 120%">
-                    <p>En caso de no entregar dicho documento en la fecha antes mencionada la Institución Educativa se
+                    <p>En caso de no devolver dicho documento en la fecha antes mencionada la Institución Educativa se
                     deslinda de toda responsabilidad, en caso de que surgiera alguna supervisión y no estuviese mi
                     documento bajo resguardo, y esto fuera causa de Baja en forma inmediata y definitiva sin
                     perjuicio para la Institución.
                     Así mismo en caso de que mi fecha de conclusión de los estudios resulta con invasión de ciclo
                     <i>(máximo al 01 de Enero del 2021, la Institución me dará de baja definitiva del
                     sistema sin perjuicio alguno)</i>.
-                    Me comprometo a entregar dicho DOCUMENTO a más tardar el día <b><?php echo $formatFechaEntrega ?></b>. 
+                    Me comprometo a devolver dicho DOCUMENTO a más tardar el día <b><?php echo $formatFechaEntrega ?></b>. 
                     </p>
                 </div>
             </div>
@@ -265,7 +265,7 @@ $nombreCarrera = $data['data'][0]['nombre_carrera'];
         </div>
     </div>
     <div class="footer">
-        <p>* El tiempo máximo de la entrega del documento lo define la institución de acuerdo a lo que marque
+        <p>* El tiempo máximo de la devolución del documento lo define la institución de acuerdo a lo que marque
         la instancia educativa a la que estemos incorporados.</p>
     </div>
 </html>
