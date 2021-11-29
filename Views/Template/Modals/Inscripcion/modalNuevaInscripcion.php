@@ -51,7 +51,7 @@
                                                     <option value="">Selecciona la Carrera</option>
                                                 </select>                                    
                                             </div>
-                                            <div class="form-group col-md-4">
+                                            <div class="form-group col-md-3">
                                                 <label>Grado</label>
                                                 <select class="form-control form-control-sm" id="listGradoNuevo" name="listGradoNuevo" required>
                                                     <option value="">Seleccionar</option>
@@ -74,6 +74,10 @@
                                                         <?php }
                                                     ?>
                                                 </select>                                    
+                                            </div>
+                                            <div class="form-group col-md-5">
+                                                <label>Empresa donde trabaja</label>
+                                                <input type="text" id="txtNombreEmpresa" name="txtNombreEmpresa" class="form-control form-control-sm" placeholder="Nombre de la empresa">
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <label><b>Campaña</b></label>
