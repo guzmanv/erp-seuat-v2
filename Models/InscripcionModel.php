@@ -121,6 +121,7 @@
             $sql = "INSERT INTO t_tutores(nombre_tutor,appat_tutor,apmat_tutor,direccion,tel_celular,tel_fijo,email) VALUES(?,?,?,?,?,?,?)";
             $request = $this->insert($sql,array($nombreTutor,$appPatTutor,$appMatTutor,$direccionTutor,$telCelularTutor,$telFijoTutor,$emailTutor));
             if($request){
+                $idTutor = $request;
                 $sql_documentos = "SELECT doc.id FROM t_plan_estudios AS plan
                 INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativo = niv.id 
                 INNER JOIN t_documentos AS doc ON doc.id_nivel_educativo = niv.id WHERE plan.id = $idCarrera LIMIT 1";
@@ -136,7 +137,7 @@
                     $request_historial = $this->insert($sql_historial,array(0,1,0,0,0,0,null,null,null,null,null,null));
                     if($request_historial){
                         $sql_inscripcion = "INSERT INTO t_inscripciones(folio_impreso,folio_sistema,tipo_ingreso,grado,promedio,id_horario,id_plan_estudios,id_personas,id_tutores,id_documentos,id_subcampania,id_salon,id_historial,id_usuario_creacion,fecha_actualizacion,id_usuario_actualizacion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)";
-                        $request_inscripcion = $this->insert($sql_inscripcion,array($folioSistema,$folioSistema,$tipoIngreso,$grado,null,$turno,$idCarrera,$idPersona,$idPersona,$idDocumentos,$idSubcampania,$idSalon,$request_historial,1,1));
+                        $request_inscripcion = $this->insert($sql_inscripcion,array($folioSistema,$folioSistema,$tipoIngreso,$grado,null,$turno,$idCarrera,$idPersona,$idTutor,$idDocumentos,$idSubcampania,$idSalon,$request_historial,1,1));
                         if($request_inscripcion){
                             $sqlEmpresa = "UPDATE t_personas SET nombre_empresa = ?,fecha_actualizacion = NOW() WHERE id = $idPersona";
                             $requestEmpresa = $this->update($sqlEmpresa,array($empresa));
