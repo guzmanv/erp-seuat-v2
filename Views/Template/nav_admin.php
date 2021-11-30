@@ -265,7 +265,7 @@
           </li>
 
           <li class="nav-header"><h6>Ingresos y Egresos</h6></li>                        
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="ml-3 mr-2" data-feather="dollar-sign"></i>
               <p>
@@ -293,7 +293,32 @@
                 </a>
               </li>
             </ul>
+          </li> -->
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Ingresos" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="dollar-sign"></i>
+                  <p>
+                      Ingresos
+                  </p>
+              </a>
           </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Egresos" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="corner-right-up"></i>
+                  <p>
+                      Egresos
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Consultas" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="pie-chart"></i>
+                  <p>
+                      Consultas
+                  </p>
+              </a>
+          </li>
+
 
           <li class="nav-header"><h6>Admisión</h6></li>
           <li class="nav-item">
