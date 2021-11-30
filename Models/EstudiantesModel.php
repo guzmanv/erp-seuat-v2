@@ -325,5 +325,26 @@
             $request = $this->select_all($sql) ;
             return $request;
         }
+        public function selectTutorAlumno(int $idAlumno){
+            $sql = "SELECT tut.id, tut.nombre_tutor, tut.appat_tutor, tut.apmat_tutor, tut.direccion, tut.tel_celular,
+            tut.tel_fijo, tut.email FROM t_personas AS per
+            INNER JOIN t_inscripciones AS ins ON ins.id_personas = per.id
+            INNER JOIN t_tutores AS tut ON ins.id_tutores = tut.id WHERE per.id = $idAlumno LIMIT 1";
+            $request = $this->select($sql);
+            return $request;
+        }
+        public function updateTutorAlumno($data){
+            $idTutor = $data['idEditTutor'];
+            $nombreTutor = $data['txtNombreTutor'];
+            $apPatTutor = $data['txtAppPaternoTutor'];
+            $apMatTutor = $data['txtAppMaternoTutor'];
+            $telCelularTutor = $data['txtTelCelularTutor'];
+            $telFijoTutor = $data['txtTelFijoTutor'];
+            $emailTutor = $data['txtEmailTutor'];
+            $direccionTutor = $data['txtDireccionTutor'];
+            $sqlTutor = "UPDATE t_tutores SET nombre_tutor = ?,appat_tutor = ?,apmat_tutor = ?,direccion = ?,tel_celular = ?,tel_fijo = ?,email = ? WHERE id = $idTutor";
+            $requestTutor = $this->update($sqlTutor,array($nombreTutor,$apPatTutor,$apMatTutor,$direccionTutor,$telCelularTutor,$telFijoTutor,$emailTutor));
+            return $requestTutor;
+        }
 	}
 ?>  

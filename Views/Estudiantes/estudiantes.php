@@ -3,6 +3,7 @@
     getModal("Alumnos/modalDocumentacion",$data);
     getModal("Alumnos/modalDatosPersonalesVerificar",$data);
     getModal("Alumnos/modalDocumentacionVerificado",$data);
+    getModal("Alumnos/modalEditTutor",$data);
 ?>
 <div id="contentAjax"></div>
 <div class="wrapper">

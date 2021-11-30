@@ -4,6 +4,7 @@ document.getElementById("btnActionFormEdit").style.display = "none";
 var formDocumentacion = document.querySelector("#formDocumentacionNueva");
 var formDatosPersonales = document.querySelector("#formPersonaEdit");
 var formPrestamoDocumentos = document.querySelector("#formDocumentosEntregados");
+var formEditTutor = document.querySelector("#formEditTutor");
 document.getElementById("btnAnterior").style.display = "none";
 document.getElementById("btnSiguiente").style.display = "none";
 document.getElementById("btnConfirmPrestamo").style.display = "none";
@@ -898,3 +899,54 @@ function btnConfirmDevolucion(value){
     .catch(err => {throw err});
 }
 
+function fnEditTutor(value){
+    let idPersona = value.getAttribute('idper');
+    let url = base_url+"/Estudiantes/geTutorAlumno/"+idPersona;
+    fetch(url).then(res => res.json()).then((resTutor) => {
+        if(resTutor){
+            document.querySelector('#txtNombreTutor').value = resTutor.nombre_tutor;
+            document.querySelector('#txtAppPaternoTutor').value = resTutor.appat_tutor;
+            document.querySelector('#txtAppMaternoTutor').value = resTutor.apmat_tutor;
+            document.querySelector('#txtTelCelularTutor').value = resTutor.tel_celular;
+            document.querySelector('#txtTelFijoTutor').value = resTutor.tel_fijo;
+            document.querySelector('#txtEmailTutor').value = resTutor.email;
+            document.querySelector('#txtDireccionTutor').value = resTutor.direccion;
+            document.querySelector('#idEditTutor').value = resTutor.id;
+        }
+    })
+}
+formEditTutor.onsubmit = function(e){
+    e.preventDefault();
+    var strNombreTutor = document.querySelector('#txtNombreTutor').value;
+    var strAppatTutor = document.querySelector('#txtAppPaternoTutor').value;
+    var strApmatTutor = document.querySelector('#txtAppMaternoTutor').value;
+    var strTelCel = document.querySelector('#txtTelCelularTutor').value;
+    var strTelFijo = document.querySelector('#txtTelFijoTutor').value;
+    var strEmail = document.querySelector('#txtEmailTutor').value;
+    var strDireccion = document.querySelector('#txtDireccionTutor').value;
+    if(strNombreTutor == '' || strAppatTutor == '' || strApmatTutor == '' || strDireccion == ''){
+        swal.fire("Atención", "Algunos campos son obligatorios", "warning");
+        return false;
+    }
+    var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    var ajaxUrl = base_url+'/Estudiantes/setTutor';
+    var formData = new FormData(formEditTutor);
+    request.open("POST",ajaxUrl,true);
+    request.send(formData);
+    request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+            var objData = JSON.parse(request.responseText);
+            if(objData.estatus){
+                formEditTutor.reset();
+                swal.fire("Tutores", objData.msg, "success").then((result) =>{
+                    $('.close').click();
+                });
+            }else{
+                swal.fire("Tutores", objData.msg, "error").then((result) =>{
+                    $('.close').click();
+                });
+            } 
+        }
+        return false;
+    }
+}
