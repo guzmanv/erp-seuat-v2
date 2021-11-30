@@ -93,6 +93,7 @@
 					<div class="dropdown-menu">
 						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal datosPersonalesVerficar" onClick="fnDatosPersonalesVerificacion(this)" idper = '.$arrData[$i]['id_persona'].' valda = '.$arrData[$i]['validacion_datos_personales'].' usv = "'.$arrData[$i]['id_usuario_verificacion_datos_personales'].'" data-toggle="modal" data-target="#ModalFormEditPersona" title="Datos Personales"> &nbsp;&nbsp; <i class="far fa-address-book"></i> &nbsp;'.$valorDatPer['value'].'</button>
 						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal '.$valorDoctos['class'].'" onclick="'.$valorDoctos['onclick'].'(this)" idins = '.$arrData[$i]['id'].' valdo = '.$arrData[$i]['validacion_doctos'].' n = "'.$valorDoctos['nombre'].'" usv = "'.$arrData[$i]['id_usuario_verificacion_doctos'].'" data-toggle="modal" data-target="'.$valorDoctos['modal'].'" title="Documentacion"> &nbsp;&nbsp; <i class="far fa-file-word"></i> &nbsp;'.$valorDoctos['value'].'</button>
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal editTutor" onclick="fnEditTutor(this)" idPer = '.$arrData[$i]['id_persona'].' data-toggle="modal" data-target="#ModalFormEditTutor" title="Tutor"> &nbsp;&nbsp; <i class="fas fa-user-friends"></i> &nbsp;Datos tutor</button>
 						<div class="dropdown-divider"></div>
 					</div>
 				</div>
@@ -313,7 +314,36 @@
             $folioFormat = base64_decode($folio);
             $data['folio'] = $folioFormat;
             $data['data'] = $this->model->selectListaDocumentosFolio($folioFormat);
-			$this->views->getView($this,"viewpdf",$data);
+			$this->views->getView($this,"viewpdf_prestamo_doc",$data);
+        }
+        public function imprimir_carta_compromiso_doc($idInscripcion){
+            $idInscripcionFormat = base64_decode($idInscripcion);
+            $data['idInscripcion'] = $idInscripcionFormat;
+            $arrData['docstatus'] = $this->model->selectEstatusDocumentacion($data);
+            $arrData['doc'] = $this->model->selectDocumentacion($idInscripcionFormat);
+            $arrData['data'] = $this->model->selectEstudianteInsc($idInscripcionFormat);
+			$this->views->getView($this,"viewpdf_entrega_doc",$arrData);
+        }
+
+        public function geTutorAlumno($idPersona){
+            $idAlumno = $idPersona;
+            $arrData = $this->model->selectTutorAlumno($idAlumno);
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function setTutor(){
+            $data = $_POST;
+            $arrData = $this->model->updateTutorAlumno($data);
+            if($arrData){
+                $arrResponse['estatus'] = true;
+                $arrResponse['msg'] = "Tutor actualizado correctamente";
+            }else{
+                $arrResponse['estatus'] = false;
+                $arrResponse['msg'] = "Error en la actualización";
+            }
+ 
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
         }
     }
 ?>

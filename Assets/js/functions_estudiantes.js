@@ -4,6 +4,7 @@ document.getElementById("btnActionFormEdit").style.display = "none";
 var formDocumentacion = document.querySelector("#formDocumentacionNueva");
 var formDatosPersonales = document.querySelector("#formPersonaEdit");
 var formPrestamoDocumentos = document.querySelector("#formDocumentosEntregados");
+var formEditTutor = document.querySelector("#formEditTutor");
 document.getElementById("btnAnterior").style.display = "none";
 document.getElementById("btnSiguiente").style.display = "none";
 document.getElementById("btnConfirmPrestamo").style.display = "none";
@@ -11,6 +12,7 @@ document.getElementById("btnConfirmDevolucion").style.display = "none";
 var tabActual = 0;
 var cantidadDocPrestados = 0;
 var statusConfirmacionDevolucionDoc = false;
+let idInscripcion;
 mostrarTab(tabActual);
 
 document.addEventListener('DOMContentLoaded',function(){ 
@@ -176,7 +178,7 @@ if(getPagina() == "estudiantes"){
 //Lista de documentacion segun al nivel educativo isncrito
 function fntDocumentacionInscripcion(value){
     formDocumentacion.reset();
-    var idInscripcion = value.getAttribute('idins');
+    idInscripcion = value.getAttribute('idins');
     var estatusValidacionDocumentacion = value.getAttribute('valdo');
     var usuarioValidado = value.getAttribute('usv');
     document.querySelector('#btnActionFormNueva').style.display = "none";
@@ -186,6 +188,7 @@ function fntDocumentacionInscripcion(value){
     .then(res => res.json())
     .then((resultDocumentacion) =>{
         if(resultDocumentacion != 0){
+            documentacionAlumno = resultDocumentacion;
             document.querySelector('#nomPersonaDocumentacion').innerHTML = resultDocumentacion[0]['nom_persona'];
             var numeracion = 0;
             document.querySelector('#tbDocumentacionIns').innerHTML="";
@@ -306,15 +309,36 @@ function comprobarDocumentosEntregados(){
     }else{
         document.querySelector('#checkDocumentacion').checked = false;
         Swal.fire({
-            title: 'Mensaje!',
-            html: "<p>Faltan documentos por entregar</p><small style='color:#3085d6'>Es importante que el estudiante tenga su documentación completa</small>",
+            title: 'Mensaje',
+            html: "<p>Faltan documentos por entregar</p><small style='color:#3085d6'>Es importante que el estudiante tenga su documentación completa ó <span class='badge badge-warning'>imprimir una carta compromiso</span></small>",
             icon: 'warning',
+            showCancelButton: true,
             confirmButtonColor: '#3085d6',
-            confirmButtonText: 'OK'
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'OK',
+            cancelButtonText:'Imprimir'
           }).then((result) => {
             if (result.isConfirmed) {
                 document.querySelector('#checkDocumentacion').checked = false;
-            }
+            }else if (result.isDismissed) {
+                Swal.fire(
+                  {
+                    title: 'Imprimir',
+                    text: "Imprimir carta compromiso?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, imprimir',
+                  }
+                ).then((result) => {
+                    if(result.isConfirmed){
+                        let idInsBase = window.btoa(unescape(encodeURIComponent(idInscripcion)))
+                        let url = base_url+"/Estudiantes/imprimir_carta_compromiso_doc/"+idInsBase;
+                        window.open(url,'_blank');
+                    }
+                })
+              }
           })
     }
     if(valorcheck == false){
@@ -356,7 +380,7 @@ formDocumentacion.onsubmit = function(e){
     }else{
         Swal.fire({
             title: 'Mensaje!',
-            html: "<p>Faltan documentos por entregar</p><small style='color:#3085d6'>Es importante que el estudiante tenga su documentación completa</small>",
+            html: "<p>Faltan sssssdocumentos por entregar</p><small style='color:#3085d6'>Es importante que el estudiante tenga su documentación completa</small>",
             icon: 'warning',
             confirmButtonColor: '#3085d6',
             confirmButtonText: 'OK'
@@ -875,3 +899,54 @@ function btnConfirmDevolucion(value){
     .catch(err => {throw err});
 }
 
+function fnEditTutor(value){
+    let idPersona = value.getAttribute('idper');
+    let url = base_url+"/Estudiantes/geTutorAlumno/"+idPersona;
+    fetch(url).then(res => res.json()).then((resTutor) => {
+        if(resTutor){
+            document.querySelector('#txtNombreTutor').value = resTutor.nombre_tutor;
+            document.querySelector('#txtAppPaternoTutor').value = resTutor.appat_tutor;
+            document.querySelector('#txtAppMaternoTutor').value = resTutor.apmat_tutor;
+            document.querySelector('#txtTelCelularTutor').value = resTutor.tel_celular;
+            document.querySelector('#txtTelFijoTutor').value = resTutor.tel_fijo;
+            document.querySelector('#txtEmailTutor').value = resTutor.email;
+            document.querySelector('#txtDireccionTutor').value = resTutor.direccion;
+            document.querySelector('#idEditTutor').value = resTutor.id;
+        }
+    })
+}
+formEditTutor.onsubmit = function(e){
+    e.preventDefault();
+    var strNombreTutor = document.querySelector('#txtNombreTutor').value;
+    var strAppatTutor = document.querySelector('#txtAppPaternoTutor').value;
+    var strApmatTutor = document.querySelector('#txtAppMaternoTutor').value;
+    var strTelCel = document.querySelector('#txtTelCelularTutor').value;
+    var strTelFijo = document.querySelector('#txtTelFijoTutor').value;
+    var strEmail = document.querySelector('#txtEmailTutor').value;
+    var strDireccion = document.querySelector('#txtDireccionTutor').value;
+    if(strNombreTutor == '' || strAppatTutor == '' || strApmatTutor == '' || strDireccion == ''){
+        swal.fire("Atención", "Algunos campos son obligatorios", "warning");
+        return false;
+    }
+    var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    var ajaxUrl = base_url+'/Estudiantes/setTutor';
+    var formData = new FormData(formEditTutor);
+    request.open("POST",ajaxUrl,true);
+    request.send(formData);
+    request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+            var objData = JSON.parse(request.responseText);
+            if(objData.estatus){
+                formEditTutor.reset();
+                swal.fire("Tutores", objData.msg, "success").then((result) =>{
+                    $('.close').click();
+                });
+            }else{
+                swal.fire("Tutores", objData.msg, "error").then((result) =>{
+                    $('.close').click();
+                });
+            } 
+        }
+        return false;
+    }
+}
