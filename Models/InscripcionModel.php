@@ -103,7 +103,6 @@
             $nombreTutor = $data['txtNombreTutorAgregar'];
             $appPatTutor = $data['txtAppPaternoTutorAgregar'];
             $appMatTutor = $data['txtAppMaternoTutorAgregar'];
-            $direccion = "";
             $telCelularTutor = $data['txtTelCelularTutorAgregar'];
             $telFijoTutor = $data['txtTelFijoTutorAgregar'];
             $emailTutor = $data['txtEmailTutorAgregar'];
@@ -117,9 +116,10 @@
             }else{
                 $idSalon = 1;
             }
+            $direccionTutor = $data['txtDireccionNuevo'];
             $idSubcampania = $data['idSubcampaniaNuevo'];
             $sql = "INSERT INTO t_tutores(nombre_tutor,appat_tutor,apmat_tutor,direccion,tel_celular,tel_fijo,email) VALUES(?,?,?,?,?,?,?)";
-            $request = $this->insert($sql,array($nombreTutor,$appPatTutor,$appMatTutor,$direccion,$telCelularTutor,$telFijoTutor,$emailTutor));
+            $request = $this->insert($sql,array($nombreTutor,$appPatTutor,$appMatTutor,$direccionTutor,$telCelularTutor,$telFijoTutor,$emailTutor));
             if($request){
                 $sql_documentos = "SELECT doc.id FROM t_plan_estudios AS plan
                 INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativo = niv.id 

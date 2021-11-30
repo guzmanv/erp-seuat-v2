@@ -307,18 +307,19 @@ function pasarTab(n) {
   } 
 
  function fnChkAlumnoTutor(){
-    //console.log(idPersonaSeleccionada);
     if(document.querySelector('#chk-alumno-tutor').checked == true){
         let url = base_url+"/Inscripcion/getPersona?id="+idPersonaSeleccionada;
         fetch(url)
             .then(res => res.json())
             .then((resultado) => {
+                console.log(resultado);
                 document.querySelector('#txtNombreTutorAgregar').value = resultado['nombre_persona'];
                 document.querySelector('#txtAppPaternoTutorAgregar').value = resultado['ap_paterno'];
                 document.querySelector('#txtAppMaternoTutorAgregar').value = resultado['ap_materno'];
                 document.querySelector('#txtTelCelularTutorAgregar').value = resultado['tel_celular'];
                 document.querySelector('#txtTelFijoTutorAgregar').value = resultado['tel_fijo'];
                 document.querySelector('#txtEmailTutorAgregar').value = resultado['email'];
+                document.querySelector('#txtDireccionNuevo').value = resultado['direccion'] + ', '+ resultado['colonia'];
             })
             .catch(err => { throw err });
      }else{
