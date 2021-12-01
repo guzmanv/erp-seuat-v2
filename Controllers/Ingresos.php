@@ -11,7 +11,12 @@
             $data['page_functions_js'] = "functions_ingresos.js";
             $this->views->getView($this,"ingresos",$data);
         }
-        public function getAlumnos(){
+        public function getIngresos(){
+            $arrData = $this->model->selectIngresos();
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+       /*  public function getAlumnos(){
             $arrData = $this->model->selectEstudiantes();
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
@@ -29,6 +34,27 @@
 				</div>
 				</div>';
             }
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        } */
+        public function buscarPersonaModal(){
+            $data = $_GET['val'];
+            $arrData = $this->model->selectPersonasModal($data);
+            for($i = 0; $i <count($arrData); $i++){
+                $arrData[$i]['numeracion'] = $i+1;
+                $arrData[$i]['options'] = '<button type="button"  id="'.$arrData[$i]['id'].'" class="btn btn-primary btn-sm" rl="'.$arrData[$i]['nombre'].'" onclick="seleccionarPersona(this)">Seleccionar</button>';
+            }
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+
+        }
+        public function getServicios(){
+            $arrData = $this->model->selectServicios();
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function getPromociones($idServicio){
+            $arrData = $this->model->selecPromociones($idServicio);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }

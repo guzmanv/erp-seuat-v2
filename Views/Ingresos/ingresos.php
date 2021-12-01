@@ -11,6 +11,11 @@
                     <div class="col-sm-7">
                         <h1 class="m-0"><?= $data['page_title'] ?></h1>
                     </div>
+                    <div class="col-sm-5">
+                        <ol class="breadcrumb float-sm-right btn-block">
+                            <button type="button" class="btn btn-inline btn-primary btn-sm btn-block" onclick="fnNuevoIngreso()" data-toggle="modal" data-target="#ModalFormNuevoIngreso"><i class="fa fa-plus-circle fa-md"></i>Nuevo</button>
+                        </ol>
+                    </div>
                 </div>
             </div>
         </div>
@@ -25,11 +30,11 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Nombre</th>
-                                                <th>Apellidos</th>
-                                                <th>Carrera</th>
-                                                <th>Grado</th> 
-                                                <th>Salon</th>
+                                                <th>Usuario</th>
+                                                <th>Plantel</th>
+                                                <th>Total</th>
+                                                <th>Referencia</th> 
+                                                <th>Fecha</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
