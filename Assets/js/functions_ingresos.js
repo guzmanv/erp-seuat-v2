@@ -1,5 +1,6 @@
 var tableIngresos;
 let arrServicios = [];
+let idPersonaSeleccionada;
 document.addEventListener('DOMContentLoaded', function(){
     tableIngresos = $('#tableIngresos').dataTable( {
         "aProcessing":true,
@@ -35,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function(){
         "iDisplayLength": 10
     });
     $('#tableIngresos').DataTable();
+    fnServicios();
 });
 /* function fnPagosServicios(value){
     let idPer = value.getAttribute("idper");
@@ -42,11 +44,13 @@ document.addEventListener('DOMContentLoaded', function(){
     document.querySelector('#idAlumno').value = idPer;
     document.querySelector('#txtAlumno').innerHTML = nomPer;
 } */
-function fnNuevoIngreso(){
+function fnServicios(){
     let url = `${base_url}/Ingresos/getServicios`;
     fetch(url).then(res => res.json()).then((resultado) => {
+        arrServiciosTodos = resultado;
+        document.querySelector("#listServicios").innerHTML = "<option value=''>Selecciona un servicio</option>";
 		resultado.forEach(servicio => {
-            document.querySelector("#listServicios").innerHTML += `<option value='${servicio.id}'>${servicio.nombre_servicio}</option>`;
+            document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' value='${servicio.id}'>${servicio.nombre_servicio}</option>`;
         });
     }).catch(err => { throw err });
 }
@@ -57,9 +61,14 @@ function fnServicioSeleccionado(value){
     fetch(url).then(res => res.json()).then((resultado) => {
 		resultado.forEach(promocion => {
             let nombrePromocion = `${promocion.nombre_promocion} (${promocion.porcentaje_descuento}%)`;
-            document.querySelector("#listPromociones").innerHTML += `<option value='${promocion.id}'>${nombrePromocion}</option>`;
+            document.querySelector("#listPromociones").innerHTML += `<option des='${promocion.porcentaje_descuento}'value='${promocion.id}'>${nombrePromocion}</option>`;
         });
     }).catch(err => { throw err });
+    if(value != ""){
+        document.querySelector('#txtCantidad').value = 1;
+    }else{
+        document.querySelector('#txtCantidad').value = 0;
+    }
 }
 function fnInputBuscarPersona(){
     var textoBusqueda = $("input#inputBusquedaPersona").val();
@@ -102,23 +111,31 @@ function seleccionarPersona(answer){
     idPersonaSeleccionada = answer.id;
     let nombrePersona = answer.getAttribute('rl');
     document.querySelector('#txtNombreNuevo').value = nombrePersona;
-    document.querySelector('#idPersonaSeleccionada').value = idPersonaSeleccionada; 
     $('#cerrarModalBuscarPersona').click();
+}
+function fnPromocionSeleccionado(value){
+
 }
 function fnBtnAgregarServicioTabla(){
     let servicio = document.querySelector('#listServicios');
     let promociones = document.querySelector('#listPromociones');
-    let descuento = document.querySelector('#txtDescuento').value;
     let cantidad = document.querySelector('#txtCantidad').value;
     let idServicio = servicio.value;
     let nombreServicio = servicio.options[servicio.selectedIndex].text;
     let idPromocion = promociones.value;
     let nombrePromocion = promociones.options[promociones.selectedIndex].text;
-    let precioUnitario = 100;
-    let subtotal = 500;
+    let precioUnitarioServicioSel = servicio.options[servicio.selectedIndex].getAttribute('pu');
+    let descuento = promociones.options[promociones.selectedIndex].getAttribute('des');
+    let porcentajeDesc;
+    if(descuento != null){
+        porcentajeDesc = descuento;
+    }else{
+        porcentajeDesc = "0.00";
+    }
+    let subtotal = precioUnitarioServicioSel*cantidad;
     let acciones = `<td style='text-align:center'><a class='btn' onclick='fnBorrarServicioTabla(${idServicio})'><i class='fas fa-trash text-danger'></i></a></td>`;
-    let arrServicio = {id_servicio:idServicio,nombre_servicio:nombreServicio,id_promocion:idPromocion,nombre_promocion:nombrePromocion,cantidad:cantidad,descuento:descuento,precio_unitario:precioUnitario,subtotal:subtotal,acciones:acciones};
-    if(idServicio == "" || descuento == "" || cantidad == ""){
+    let arrServicio = {id_servicio:idServicio,nombre_servicio:nombreServicio,id_promocion:idPromocion,nombre_promocion:nombrePromocion,porcentaje_prom:porcentajeDesc,cantidad:cantidad,precio_unitario:precioUnitarioServicioSel,subtotal:subtotal,acciones:acciones};
+    if(idServicio == "" || cantidad == ""){
         swal.fire("Atención","Atención todos los campos son obligatorios","warning");
         return false;
     }
@@ -147,7 +164,9 @@ function fnBtnAgregarServicioTabla(){
                 document.querySelector("#tableServicios").innerHTML ="";
                 arrServicios.push(arrServicio);
                 mostrarServiciosTabla();
-                document.querySelector('#formPagosServicios').reset();
+                fnServicios();
+                document.querySelector('#listPromociones').innerHTML ="<option value=''>Selecciona una promocion</option>";
+                document.querySelector('#txtCantidad').value = 0;
                 mostrarTotalCuentaServicios();
             }
           })
@@ -157,7 +176,7 @@ function fnBorrarServicioTabla(value){
     let arrServicioNew = [];
     arrServicios.forEach(servicio => {
         if(servicio.id_servicio != value){
-            let arrServicio = {id_servicio:servicio.id_servicio,nombre_servicio:servicio.nombre_servicio,id_promocion:servicio.id_promocion,nombre_promocion:servicio.nombre_promocion,cantidad:servicio.cantidad,descuento:servicio.descuento,precio_unitario:servicio.precio_unitario,subtotal:servicio.subtotal,acciones:servicio.acciones};
+            let arrServicio = {id_servicio:servicio.id_servicio,nombre_servicio:servicio.nombre_servicio,id_promocion:servicio.id_promocion,nombre_promocion:servicio.nombre_promocion,cantidad:servicio.cantidad,porcentaje_prom:servicio.porcentaje_prom,precio_unitario:servicio.precio_unitario,subtotal:servicio.subtotal,acciones:servicio.acciones};
             arrServicioNew.push(arrServicio);
         }
     });
@@ -169,7 +188,8 @@ function mostrarServiciosTabla(){
     let totalServicios = 0;
     arrServicios.forEach(servicio => {
         totalServicios += 1;
-        document.querySelector("#tableServicios").innerHTML += `<tr><td>${totalServicios}</td><td>${servicio.nombre_servicio}</td><td>${servicio.precio_unitario}</td><td>${servicio.cantidad}</td><td>${servicio.descuento}</td><td>${servicio.subtotal}</td>${servicio.acciones}</tr>`
+        console.log(servicio);
+        document.querySelector("#tableServicios").innerHTML += `<tr><td>${totalServicios}</td><td>${servicio.nombre_servicio}</td><td>${servicio.precio_unitario}</td><td>${servicio.cantidad}</td><td>${servicio.porcentaje_prom}%</td><td>${servicio.subtotal}</td>${servicio.acciones}</tr>`
     });
     mostrarTotalCuentaServicios();
 }

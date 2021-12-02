@@ -6,7 +6,7 @@
         public function ingresos(){
             $data['page_id'] = 10;
             $data['page_tag'] = "Ingresos";
-            $data['page_title'] = "Ingresos";
+            $data['page_title'] = "Caja (ingresos)";
             $data['page_content'] = "";
             $data['page_functions_js'] = "functions_ingresos.js";
             $this->views->getView($this,"ingresos",$data);
