@@ -1,6 +1,6 @@
-var tableSalon;
-var formNuevoSalon = document.querySelector('#formSalonNuevo');
-var formSalonEdit = document.querySelector('#formSalonEdit');
+let tableSalon;
+const formNuevoSalon = document.querySelector('#formSalonNuevo');
+let formSalonEdit = document.querySelector('#formSalonEdit');
 
 //DataTable
 document.addEventListener('DOMContentLoaded', function(){
@@ -37,48 +37,34 @@ document.addEventListener('DOMContentLoaded', function(){
 $('#tableSalon').DataTable();
 
 //Nuevo salón
-// formNuevoSalon.onsubmit = function(e){
-// 	e.preventDefault();
-// 	document.querySelector("#idSalonNuevo").value = 1;
-// 	var strNombre = document.querySelector("#txtNombreNuevo").value;
-// 	var intCantidad = document.querySelector("#txtCantidadMax").value;
-// 	var strPeriodo = document.querySelector("#listPeriodo").value;
-// 	var strGrado = document.querySelector("#listGrado").value;
-// 	var strGrupo = document.querySelector("#listGrupo").value;
-// 	var strHoras = document.querySelector("#listHorario").value;
-// 	var strPlantel = document.querySelector("#listPlantel").value;
+formNuevoSalon.addEventListener('submit', (e) => {
+	e.preventDefault();
+	const datos = new FormData(document.getElementById('formSalonNuevo'))
+	let url = `${base_url}/Salones/setSalon`;
+	
+	fetch(url, {
+		method: 'POST',
+		body: datos
+	})
+	.then(response => response.json())
+	.then(data => {
+		if(data.estatus)
+		{
+			$('#cancelarModal').click();
+			formNuevoSalon.reset();
+			swal.fire('Salones', data.msg, 'success');
+			tableSalon.api().ajax.reload();
+		}
+		else
+		{
+			swal.fire('Error', data.msg, 'error');
+		}
+	})
 
-// 	if(strNombre == '' || intCantidad == '' || strPeriodo == '' || strGrado == '' || strGrupo == '' || strHoras == '' || strPlantel == '')
-// 	{
-// 		swal.fire("Atención","Atención todos los campos son obligatorios", "warning");
-// 		return false;
-// 	}
-
-// 	var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-// 	var ajaxUrl = base_url+'/Salones/setSalon';
-// 	var formData = new FormData(formSalonNuevo);
-// 	request.open("POST",ajaxUrl,true);
-// 	request.send(formData);
-// 	request.onreadystatechange = function(){
-// 		if(request.readyState == 4 && request.responseText){
-// 			var objData = JSON.parse(request.responseText);
-// 			if(objData.estatus)
-// 			{
-// 				formSalonNuevo.reset();
-// 				swal.fire("Salón",objData.msg,"success").then((result) =>{
-// 					$("#dimissModalNuevoSalon").click();
-// 				});
-// 				tableSalon.api().ajax.reload();
-// 			}
-// 			else
-// 			{
-// 				swal.fire("Error",objData.msg,"error");
-// 			}
-// 		}
-
-// 		return false;
-// 	}
-// }
+	.catch(function (err){
+		console.log('Error: ',err);
+	})
+})
 
 //Modificar salón
 // function fntEditSalon(idSalon){
