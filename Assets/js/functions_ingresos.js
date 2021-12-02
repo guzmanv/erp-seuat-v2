@@ -2,7 +2,7 @@ var tableIngresos;
 let arrServicios = [];
 let idPersonaSeleccionada;
 document.addEventListener('DOMContentLoaded', function(){
-    $('.select2').select2()
+    $('.select2').select2();
     tableIngresos = $('#tableIngresos').dataTable( {
         "aProcessing":true,
         "aServerSide":true,
@@ -71,6 +71,7 @@ function fnServicioSeleccionado(value){
         document.querySelector('#txtCantidad').value = 0;
     }
 }
+
 function fnInputBuscarPersona(){
     var textoBusqueda = $("input#inputBusquedaPersona").val();
     var tablePersonas;
@@ -114,28 +115,15 @@ function seleccionarPersona(answer){
     document.querySelector('#txtNombreNuevo').value = nombrePersona;
     $('#cerrarModalBuscarPersona').click();
 }
-function fnPromocionSeleccionado(value){
-
-}
 function fnBtnAgregarServicioTabla(){
     let servicio = document.querySelector('#listServicios');
-    let promociones = document.querySelector('#listPromociones');
     let cantidad = document.querySelector('#txtCantidad').value;
     let idServicio = servicio.value;
     let nombreServicio = servicio.options[servicio.selectedIndex].text;
-    let idPromocion = promociones.value;
-    let nombrePromocion = promociones.options[promociones.selectedIndex].text;
     let precioUnitarioServicioSel = servicio.options[servicio.selectedIndex].getAttribute('pu');
-    let descuento = promociones.options[promociones.selectedIndex].getAttribute('des');
-    let porcentajeDesc;
-    if(descuento != null){
-        porcentajeDesc = descuento;
-    }else{
-        porcentajeDesc = "0.00";
-    }
-    let subtotal = precioUnitarioServicioSel*cantidad;
+    let subtotal = (precioUnitarioServicioSel*cantidad).toFixed(2);
     let acciones = `<td style='text-align:center'><a class='btn' onclick='fnBorrarServicioTabla(${idServicio})'><i class='fas fa-trash text-danger'></i></a></td>`;
-    let arrServicio = {id_servicio:idServicio,nombre_servicio:nombreServicio,id_promocion:idPromocion,nombre_promocion:nombrePromocion,porcentaje_prom:porcentajeDesc,cantidad:cantidad,precio_unitario:precioUnitarioServicioSel,subtotal:subtotal,acciones:acciones};
+    let arrServicio = {id_servicio:idServicio,nombre_servicio:nombreServicio,cantidad:cantidad,precio_unitario:precioUnitarioServicioSel,subtotal:subtotal,acciones:acciones,promociones:obtenerPromSeleccionados('listPromociones')};
     if(idServicio == "" || cantidad == ""){
         swal.fire("Atención","Atención todos los campos son obligatorios","warning");
         return false;
@@ -147,8 +135,12 @@ function fnBtnAgregarServicioTabla(){
         }
     });
     if(isExist){
-        swal.fire("Atención","Ya existe el servicio","warning");
-        document.querySelector('#formPagosServicios').reset();
+        swal.fire("Atención","Ya existe el servicio","warning").then((result) =>{
+            if(result.isConfirmed){
+                fnServicios();
+                document.querySelector('#listPromociones').innerHTML = "";
+            }
+        });
         return false;
     }else{
         Swal.fire({
@@ -163,6 +155,7 @@ function fnBtnAgregarServicioTabla(){
           }).then((result) => {
             if (result.isConfirmed) {
                 document.querySelector("#tableServicios").innerHTML ="";
+                document.querySelector('#listPromociones').innerHTML = "";
                 arrServicios.push(arrServicio);
                 mostrarServiciosTabla();
                 fnServicios();
@@ -177,7 +170,7 @@ function fnBorrarServicioTabla(value){
     let arrServicioNew = [];
     arrServicios.forEach(servicio => {
         if(servicio.id_servicio != value){
-            let arrServicio = {id_servicio:servicio.id_servicio,nombre_servicio:servicio.nombre_servicio,id_promocion:servicio.id_promocion,nombre_promocion:servicio.nombre_promocion,cantidad:servicio.cantidad,porcentaje_prom:servicio.porcentaje_prom,precio_unitario:servicio.precio_unitario,subtotal:servicio.subtotal,acciones:servicio.acciones};
+            let arrServicio = {id_servicio:servicio.id_servicio,nombre_servicio:servicio.nombre_servicio,promociones:servicio.promociones,cantidad:servicio.cantidad,precio_unitario:servicio.precio_unitario,subtotal:servicio.subtotal,acciones:servicio.acciones};
             arrServicioNew.push(arrServicio);
         }
     });
@@ -189,15 +182,27 @@ function mostrarServiciosTabla(){
     let totalServicios = 0;
     arrServicios.forEach(servicio => {
         totalServicios += 1;
-        console.log(servicio);
-        document.querySelector("#tableServicios").innerHTML += `<tr><td>${totalServicios}</td><td>${servicio.nombre_servicio}</td><td>${servicio.precio_unitario}</td><td>${servicio.cantidad}</td><td>${servicio.porcentaje_prom}%</td><td>${servicio.subtotal}</td>${servicio.acciones}</tr>`
+        let descuentoPorc = 0;
+        servicio.promociones.forEach(promocion => {
+            let descuento = parseFloat(promocion.descuento);
+            descuentoPorc += descuento;
+        });
+        document.querySelector("#tableServicios").innerHTML += `<tr><td>${totalServicios}</td><td>${servicio.nombre_servicio}</td><td>$${servicio.precio_unitario}</td><td>${servicio.cantidad}</td><td>${descuentoPorc}%</td><td>$${servicio.subtotal}</td>${servicio.acciones}</tr>`
     });
     mostrarTotalCuentaServicios();
 }
 function mostrarTotalCuentaServicios(){
     let total = 0;
     arrServicios.forEach(servicio => {
-        total += servicio.subtotal;
+        let subtotal = parseFloat(servicio.subtotal);
+        total += subtotal;
     });
-    document.querySelector('#txtTotal').innerHTML = `$ ${total}`;
+    document.querySelector('#txtTotal').innerHTML = `$ ${parseFloat(total).toFixed(2)}`;
+}
+function obtenerPromSeleccionados(param){
+    let idList = param;
+    var values = Array.prototype.slice.call(document.querySelectorAll('#'+idList+' option:checked'),0).map(function(v,i,a,) { 
+        return {id_promocion:v.value,descuento:v.getAttribute('des'),nombre_promocion:v.text};
+    });
+    return values;
 }
