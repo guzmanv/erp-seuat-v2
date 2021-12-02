@@ -48,5 +48,7 @@
 <script src="<?= media(); ?>/js/<?= $data['page_functions_js']; ?>"></script>
 
 <!--<p>Framework v1.0 Para ERP Azteca- <a href="https://seuat.mx">www.seuat.mx</p>-->
+<!-- Select 2 -->
+<script src="<?= media(); ?>/plugins/select2/js/select2.full.min.js"></script>
 </body>
 </html>

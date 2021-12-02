@@ -19,6 +19,8 @@
   <!-- SweetAlert2 -->
   <link rel="stylesheet" href="<?= media(); ?>/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <link rel="stylesheet" href="<?= media(); ?>/plugins/sweetalert2/sweetalert2.min.css" type="text/css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="<?= media(); ?>/plugins/select2/css/select2.min.css">
 </head>
 
 <?php require_once("nav_admin.php"); ?>
