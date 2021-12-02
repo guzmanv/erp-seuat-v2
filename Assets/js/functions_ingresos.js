@@ -2,6 +2,7 @@ var tableIngresos;
 let arrServicios = [];
 let idPersonaSeleccionada;
 document.addEventListener('DOMContentLoaded', function(){
+    $('.select2').select2()
     tableIngresos = $('#tableIngresos').dataTable( {
         "aProcessing":true,
         "aServerSide":true,

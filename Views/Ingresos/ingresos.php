@@ -31,9 +31,9 @@
                                             </div>    
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-4">
                                         <label>Servicios</label>
-                                        <select class="form-control form-control-sm" id="listServicios" name="listServicios" onchange="fnServicioSeleccionado(value)"required >
+                                        <select class="form-control form-control-sm select2" id="listServicios"  name="listServicios" onchange="fnServicioSeleccionado(value)" style="width: 100%;" required >
                                             <option value="">Selecciona un servicio</option>
                                         </select>
                                     </div>
@@ -45,9 +45,9 @@
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label>Cantidad</label>
-                                        <input type="number" id="txtCantidad" name="txtCantidad" class="form-control form-control-sm" value="0">
+                                        <input type="number" id="txtCantidad" name="txtCantidad" class="form-control form-control-sm" min="0" value="0">
                                     </div>
-                                    <div class="form-group col-md-4" style="display:flex;align-items:end">
+                                    <div class="form-group col-md-3" style="display:flex;align-items:end">
                                         <button type="button" class="btn btn-primary btn-block form-control btn-sm form-control-sm" onclick="fnBtnAgregarServicioTabla()"><i class="fa fa-plus"></i>Agregar</button>
                                     </div>
                                     <div class="form-group col-md-12">
