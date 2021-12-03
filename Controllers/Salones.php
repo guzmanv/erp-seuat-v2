@@ -36,43 +36,44 @@ class Salones extends Controllers{
         echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
     }
 
+    //Nuevo salón
     public function setSalon()
     {
-        // $data = $_POST;
-        // $intIdSalonNuevo = 0;
-        // $intIdSalonEdit = 0;
-        // if(isset($_POST['idSalonNuevo'])){
-        //     $intIdSalonNuevo = intval($_POST['idSalonNuevo']);
-        // }
-        // if(isset($_POST['idEdit'])){
-        //     $intIdSalonEdit = intval($_POST['idEdit']);
-        // }
+        $intIdSalon = intval($_POST['idSalonNuevo']);
+        $strNombreSalon = strClean($_POST['txtNombreNuevo']);
+        $strCantidadMax = intval($_POST['txtCantidadMax']);
 
-        // if($intIdSalonNuevo == 1)
-        // {
-        //     $arrData = $this->model->insertSalon($data);
-        //     if($arrData['estatus'] != TRUE)
-        //     {
-        //         $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
-        //     }
-        //     else
-        //     {
-        //         $arrResponse = array('estatus' => false, 'msg' => '¡Atención! el salón ya existe');
-        //     }
-        // }
-        // if($intIdSalonEdit != 0){
-        //     $arrData = $this->model->updateSalon($intIdSalonEdit,$data);
-        //     if($arrData)
-        //     {
-        //         $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente');
-        //     }
-        //     else
-        //     {
-        //         $arrResponse = array('estatus' => false, 'msg' => 'No es posible actualizar los datos');
-        //     }
-        // }
-        // echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
-        // die();
+        if($intIdSalon == 0)
+        {
+            $requestSalon = $this->model->insertSalon($strNombreSalon, $strCantidadMax);
+            $option = 1;
+        }
+        else
+        {
+            $requestSalon = $this->model->updateSalon($intIdSalon, $strNombreSalon, $strCantidadMax);
+            $option = 2;
+        }
+
+        if($requestSalon > 0){
+            if($option == 1)
+            {
+                $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
+            }
+            else
+            {
+                $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente');
+            }
+        }
+        elseif($requestSalon == 'exist')
+        {
+            $arrResponse = array('estatus' => false, 'msg'=>'El salón existe');
+        }
+        else
+        {
+            $arrResponse = array('estatus' => false, 'msg' => 'No se puede almacenar los datos');
+        }
+        echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+        die();
     }
 }
 ?>
