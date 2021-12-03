@@ -66,6 +66,7 @@ formNuevoSalon.addEventListener('submit', (e) => {
 	})
 })
 
+
 //Modificar salón
 // function fntEditSalon(idSalon){
 // 	var idSln = idSalon;
