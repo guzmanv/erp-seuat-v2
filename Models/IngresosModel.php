@@ -35,6 +35,11 @@
             $request = $this->select_all($sql);
             return $request;
         }
+        public function selectStatusEstadoCuenta(int $idPersonaSeleccionada){
+            $sql = "SELECT *FROM t_ingresos WHERE id_persona = $idPersonaSeleccionada";
+            $request = $this->select_all($sql);
+            return $request;
+        }
         public function selectServicios(){
             $sql = "SELECT *FROM t_servicios";
             $request = $this->select_all($sql);
@@ -43,6 +48,13 @@
         public function selecPromociones(int $idServicio){
             $sql = "SELECT *FROM t_servicios AS ser INNER JOIN t_promociones AS prom ON prom.id_servicio = ser.id WHERE ser.id = $idServicio";
             $request = $this->select_all($sql);
+            return $request;
+        }
+        public function generarEdoCuentaAlumno(int $idPersonaSeleccionada){
+           /* $sql = "INSERT INTO t_tutores(nombre_tutor,appat_tutor,apmat_tutor,direccion,tel_celular,tel_fijo,email) VALUES(?,?,?,?,?,?,?)";
+            $request = $this->insert($sql,array($nombreTutor,$appPatTutor,$appMatTutor,$direccionTutor,$telCelularTutor,$telFijoTutor,$emailTutor));
+            */
+            $request = "generado";
             return $request;
         }
 	}

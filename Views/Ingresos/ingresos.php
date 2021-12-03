@@ -31,6 +31,14 @@
                                             </div>    
                                         </div>
                                     </div>
+                                    <div class="col-md-12" id="alertAgregarAlumno">
+                                        <div class="col-md-6 alert alert-warning alert-dismissible fade show m-auto" role="alert">
+                                            <strong>Aviso!</strong> Para agregar servicios, primero agrega un alumno, click en <b>buscar</b>.
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    </div>
                                     <div class="form-group col-md-4">
                                         <label>Servicios</label>
                                         <select class="form-control form-control-sm select2" id="listServicios"  name="listServicios" onchange="fnServicioSeleccionado(value)" style="width: 100%;" required >
@@ -49,8 +57,8 @@
                                         <label>Cantidad</label>
                                         <input type="number" id="txtCantidad" name="txtCantidad" class="form-control" min="0" value="0">
                                     </div>
-                                    <div class="form-group col-md-3" style="display:flex;align-items:end">
-                                        <button type="button" class="btn btn-primary btn-block form-control btn-sm form-control-sm" onclick="fnBtnAgregarServicioTabla()"><i class="fa fa-plus"></i>Agregar</button>
+                                    <div class="form-group col-md-2" style="display:flex;align-items:end">
+                                        <button type="button" id="btnAgregarServicio" class="btn btn-primary btn-block form-control" onclick="fnBtnAgregarServicioTabla()"><i class="fa fa-plus"></i>Agregar</button>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <hr>
@@ -64,20 +72,38 @@
                                                 <th>Cantidad</th>
                                                 <th>Descuento</th>
                                                 <th>Subtotal</th>
-                                                <th>Acciones</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody id="tableServicios">
                                         </tbody>
                                     </table>
                                     <div class="form-group col-md-12 d-flex flex-row-reverse">
+                                        <p><span>Subtotal: </span><b id="txtSubtotal">$0.00</b></p>
+                                    </div>
+                                    <div class="form-group col-md-12 d-flex flex-row-reverse">
+                                        <p><span>Descuento: </span><b id="txtDescuento">0.00 %</b></p>
+                                    </div>
+                                    <div class="form-group col-md-12 d-flex flex-row-reverse">
                                         <h3><span>Total: </span><b id="txtTotal">$0.00</b></h3>
                                     </div>
-                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                        <strong>Aviso!</strong> Para poder pagar servicios es necesario tener un estado de cuenta.
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
+                                    <div class="col-md-12 row" id="alertSinEdoCta">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-6 alert alert-warning alert-dismissible fade show" role="alert">
+                                            <strong>Aviso!</strong> El alumno seleccionado no tiene un estado de cuenta, para poder pagar servicios es necesario tener uno, click en el boton para generar!.
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button><br>
+                                            <div class="col-md-12"><div class="form-group col-md-5 m-auto" style="display:flex;align-items:end">
+                                                <button type="button" class="btn btn-secondary btn-block form-control" onclick="fnGenerarEstadoCuenta()"><i class="fas fa-dollar-sign"></i></i> Generar estado de cuenta</button>
+                                            </div></div>
+                                        </div>
+                                        <div class="col-md-3"></div>
+                                    </div>
+                                    <div class="form-group col-md-12 d-flex flex-row-reverse" id="btnPagar">
+                                        <div class="col-md-2">
+                                            <button type="button" class="btn btn-success btn-lg col-md-12" onclick="fnButtonPagar()"><i class="fas fa-dollar-sign mr-3"></i><b>PAGAR</b></button>
+                                        </div>
                                     </div>
                                 </div>    
                             </div>

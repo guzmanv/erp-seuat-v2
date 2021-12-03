@@ -48,6 +48,16 @@
             die();
 
         }
+        public function getEstatusEstadoCuenta($idPersonaSeleccionada){
+            $arrData = $this->model->selectStatusEstadoCuenta($idPersonaSeleccionada);
+            if(count($arrData) == 0){
+                $arrRequest = false;
+            }else{
+                $arrRequest = true;
+            }
+            echo json_encode($arrRequest,JSON_UNESCAPED_UNICODE);
+            die();
+        }
         public function getServicios(){
             $arrData = $this->model->selectServicios();
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
@@ -56,6 +66,16 @@
         public function getPromociones($idServicio){
             $arrData = $this->model->selecPromociones($idServicio);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function generarEdoCuenta($idPersonaSeleccionada){
+            $arrData = $this->model->generarEdoCuentaAlumno($idPersonaSeleccionada);
+            if($arrData){
+                $arrResponse = true;
+            }else{
+                $arrResponse = false;
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
     }
