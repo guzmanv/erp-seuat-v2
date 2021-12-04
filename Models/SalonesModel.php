@@ -17,7 +17,7 @@
             return $request;
         }
 
-        public function getSalon(int $idSalon)
+        public function selectSalon(int $idSalon)
         {
             $sql = "SELECT * FROM t_salones WHERE id=$idSalon LIMIT 1";
             $request = $this->select($sql);

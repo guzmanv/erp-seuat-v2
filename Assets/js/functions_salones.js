@@ -66,11 +66,58 @@ formNuevoSalon.addEventListener('submit', (e) => {
 	})
 })
 
+//Modificar salon
+function fnEditSalon(idSln){
+	let idSalon = idSln;
+	let url = `${base_url}/Salones/getSalon/${idSalon}`
+	var txtId = document.querySelector('#idSalonEdit');
+	let txtNombreSalon = document.querySelector('#txtNombreEdit');
+	let txtCantidadMax = document.querySelector('#txtCantidadMaxEdit');
+	let estatus = document.querySelector('#listEstatusEdit');
+	fetch(url)
+	.then(response => response.json())
+	.then(data => {
+			txtId.value = data.data.id;
+			txtNombreSalon.value = data.data.nombre_salon;
+			txtCantidadMax.value = data.data.cantidad_max_estudiantes;
+			if(data.data.estatus == 1)
+			{
+				estatus.text = "Activo";
+				estatus.value = 1;
+			}
+			else{
+				estatus.text = "Inactivo";
+				estatus.value = 2;
+			}
+	})
+	.catch(err => console.log('Error: ', err));
+}
 
-//Modificar salón
-// function fntEditSalon(idSalon){
-// 	var idSln = idSalon;
-// }
+// 	const datos = new FormData(document.getElementById('formSalonNuevo'))
+// 	let url = `${base_url}/Salones/setSalon`;
+	
+// 	fetch(url, {
+// 		method: 'POST',
+// 		body: datos
+// 	})
+// 	.then(response => response.json())
+// 	.then(data => {
+// 		if(data.estatus)
+// 		{
+// 			$('#cancelarModal').click();
+// 			formNuevoSalon.reset();
+// 			swal.fire('Salones', data.msg, 'success');
+// 			tableSalon.api().ajax.reload();
+// 		}
+// 		else
+// 		{
+// 			swal.fire('Error', data.msg, 'error');
+// 		}
+// 	})
+
+// 	.catch(function (err){
+// 		console.log('Error: ',err);
+// 	})
 
 
 //Eliminar salón
