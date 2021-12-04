@@ -67,7 +67,7 @@ function fnListaInscritos(answer){
             var contador = 0;
 			resultado.forEach(element => {
                 contador += 1;
-                document.getElementById('valoresListaInscritos').innerHTML +='<tr><td>'+contador+'</td><td>'+element.nombre_persona+'</td><td>'+element.apellidos+'</td><td><button type="button" class="btn btn-outline-secondary btn-primary icono-color-principal btn-inline" style="display: inline;" onclick="fnImprimirSolInscripcion('+element.id+')"><i class="fas fa-print icono-azul"></i></i><span> Imprimir</span></button></td></tr>'
+                document.getElementById('valoresListaInscritos').innerHTML +='<tr><td>'+contador+'</td><td>'+element.nombre_persona+'</td><td>'+element.apellidos+'</td><td><button type="button" class="btn btn-outline-secondary btn-primary btn-sm icono-color-principal btn-inline" style="display: inline;" onclick="fnImprimirSolInscripcion('+element.id+')"><i class="fas fa-print icono-azul"></i></i><span> Imprimir</span></button></td></tr>'
             });
         })
         .catch(err => { throw err });
