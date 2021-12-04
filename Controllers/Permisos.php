@@ -4,6 +4,12 @@
 		public function __construct()
 		{
 			parent::__construct();
+            session_start();
+		    if(empty($_SESSION['login']))
+		    {
+			    header('Location: '.base_url().'/login');
+			    die();
+		    }
 		}
 
 		public function getPermisosRol(int $idrol)
@@ -39,7 +45,8 @@
                     }
                 }
                 $arrPermisoRol['modulos'] = $arrModulos;
-                $html = getModal("modalPermisos", $arrPermisoRol);
+                $html = getModal('Permisos/modalPermisos', $arrPermisoRol);
+                //getModal('Permisos/modalPermisos',$data);
                 //dep($arrPermisoRol);
             }
             die();
