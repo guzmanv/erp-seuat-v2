@@ -139,7 +139,7 @@
             <a class="dropdown-item" href="pages-settings.html"><i class="align-middle me-1" data-feather="settings"></i> Configuración & Privacidad</a>
             <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="help-circle"></i> Centro de Ayuda</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="log-out"></i> Cerrar sesión</a>
+            <a class="dropdown-item" href="<?= base_url(); ?>/logout"><i class="align-middle me-1" data-feather="log-out"></i> Cerrar sesión</a>
           </div>
         </li>
         <!-- Personalización del tema
