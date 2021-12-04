@@ -10,8 +10,8 @@
 	//const VIEWS = "Views/";
 	const DB_HOST = "localhost";
 	const DB_NAME = "erpseuat";
-	const DB_USER = "root";
-	const DB_PASSWORD = "";
+	const DB_USER = "user_seuat";
+	const DB_PASSWORD = "seuat21";
 	const DB_CHARSET = "utf8";
 
 	//Delimitadores decimal y millar Ej. 27,1985.00
