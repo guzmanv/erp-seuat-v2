@@ -16,15 +16,15 @@
                             <div class="row" >
                                     <div class="form-group col-md-4">
                                         <label>Nombre</label>
-                                        <input type="text" id="txtNombreEdit" name="txtNombreEdit" class="form-control form-control-sm"placeholder="Nombre" required>
+                                        <input type="text" id="txtNombreEdit" name="txtNombreEdit" class="form-control form-control-sm" placeholder="Nombre" maxlength="45" required>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label>Apellido Paterno</label>
-                                        <input type="text" id="txtApellidoPaEdit" name="txtApellidoPaEdit" class="form-control form-control-sm" placeholder="Apellido Paterno"  required>
+                                        <label>Apellido paterno</label>
+                                        <input type="text" id="txtApellidoPaEdit" name="txtApellidoPaEdit" class="form-control form-control-sm" placeholder="Apellido paterno"  maxlength="70" required>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label>Apellido Materno</label>
-                                        <input type="text" id="txtApellidoMaEdit" name="txtApellidoMaEdit" class="form-control form-control-sm" placeholder="Apellido Materno"   required>
+                                        <label>Apellido materno</label>
+                                        <input type="text" id="txtApellidoMaEdit" name="txtApellidoMaEdit" class="form-control form-control-sm" placeholder="Apellido materno"   maxlength="70" required>
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>Sexo</label>
@@ -36,10 +36,10 @@
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label>Edad</label>
-                                        <input type="text" id="txtEdadEdit" name="txtEdadEdit" class="form-control form-control-sm" placeholder="Edad"   required>
+                                        <input type="text" id="txtEdadEdit" name="txtEdadEdit" class="form-control form-control-sm" placeholder="Edad"   maxlength="3" required>
                                     </div>
                                     <div class="form-group col-md-3">
-                                        <label>Estado Civil</label>
+                                        <label>Estado civil</label>
                                         <select class="form-control form-control-sm" id="listEstadoCivilEdit" name="listEstadoCivilEdit" required >
                                         <option value="">Selecciona un Estado</option>
                                         <option value="Soltero">Soltero(a)</option>
@@ -47,24 +47,28 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label>Fecha de Nacimiento</label>
+                                        <label>Fecha de nacimiento</label>
                                         <input type="date" id="txtFechaNacimientoEdit" name="txtFechaNacimientoEdit" class="form-control form-control-sm"   max=" " required>
                                     </div>
                                     <div class="form-group col-md-4">
+                                        <label>CURP</label>
+                                        <input type="text" id="txtCURPEdit" name="txtCURPEdit" class="form-control form-control-sm" placeholder="CURP"  maxlength="18" required>
+                                    </div>
+                                    <div class="form-group col-md-4">
                                         <label>Ocupacion</label>
-                                        <input type="text" id="txtOcupacionEdit" name="txtOcupacionEdit" class="form-control form-control-sm" placeholder="Ocupacion"   required>
+                                        <input type="text" id="txtOcupacionEdit" name="txtOcupacionEdit" class="form-control form-control-sm" placeholder="Ocupacion"   maxlength="50" required>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label>Telefono Celular</label>
-                                        <input type="text" id="txtTelCelEdit" name="txtTelCelEdit" class="form-control form-control-sm" placeholder="Telefono Celular"   required>
+                                        <label>Telefono celular</label>
+                                        <input type="text" id="txtTelCelEdit" name="txtTelCelEdit" class="form-control form-control-sm" placeholder="Telefono Celular"   maxlength="10" required>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label>Telefono Fijo</label>
-                                        <input type="text" id="txtTelFiEdit" name="txtTelFiEdit" class="form-control form-control-sm" placeholder="Telefono Fijo"   required>
+                                        <label>Telefono fijo</label>
+                                        <input type="text" id="txtTelFiEdit" name="txtTelFiEdit" class="form-control form-control-sm" placeholder="Telefono fijo"  maxlength="10" required>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Email</label>
-                                        <input type="text" id="txtEmailEdit" name="txtEmailEdit" class="form-control form-control-sm" placeholder="Email"  required>
+                                        <input type="text" id="txtEmailEdit" name="txtEmailEdit" class="form-control form-control-sm" placeholder="Email" maxlength="50" required>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Escolaridad</label>
@@ -92,29 +96,29 @@
                                             ?>
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-4">
                                         <label>Municipio</label>
                                         <select class="form-control form-control-sm" id="listMunicipioEdit" name="listMunicipioEdit" onchange="municipioSeleccionadoEdit(value)" required >
                                             <option value="">Selecciona un Municipio</option>
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-4">
                                         <label>Localidad</label>
                                         <select class="form-control form-control-sm" id="listLocalidadEdit" name="listLocalidadEdit" required >
                                         <option value="">Selecciona una Localidad</option>
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-9">
                                         <label>Colonia</label>
-                                        <input type="text" id="txtColoniaEdit" name="txtColoniaEdit" class="form-control form-control-sm" placeholder="Colonia" required>
+                                        <input type="text" id="txtColoniaEdit" name="txtColoniaEdit" class="form-control form-control-sm" placeholder="Colonia" maxlength="45" required>
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>CP</label>
-                                        <input type="text" id="txtCPEdit" name="txtCPEdit" class="form-control form-control-sm" placeholder="CP"  required>
+                                        <input type="text" id="txtCPEdit" name="txtCPEdit" class="form-control form-control-sm" placeholder="CP"  maxlength="5" required>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label>Direccion</label>
-                                        <textarea id="txtDireccionEdit" name="txtDireccionEdit" class="form-control form-control-sm" placeholder="Direccion" rows='2' required></textarea>
+                                        <textarea id="txtDireccionEdit" name="txtDireccionEdit" class="form-control form-control-sm" placeholder="Direccion" rows='2' maxlength="100" required></textarea>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="checkValidacionDatos" onclick="validacionDatosPersonales(this)">

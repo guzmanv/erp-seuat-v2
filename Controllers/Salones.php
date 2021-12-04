@@ -3,6 +3,13 @@ class Salones extends Controllers{
     public function __construct()
     {
         parent::__construct();
+
+        session_start();
+        if(empty($_SESSION['login']))
+        {
+            header('Location: '.base_url().'/Login');
+            die();
+        }
     }
 
     public function salon(){
@@ -32,6 +39,25 @@ class Salones extends Controllers{
             </div>';
         }
         echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+    }
+
+    public function getSalon(int $idSalon)
+    {
+        $intIdSalon = intval(strClean($idSalon));
+        if($intIdSalon > 0)
+        {
+            $arrData = $this->model->selectSalon($intIdSalon);
+            if(empty($arrData))
+            {
+                $arrResponse = array('estatus' => false, 'msg' => 'Datos no encontrados');
+            }
+            else
+            {
+                $arrResponse = array('estatus' => true, 'data' => $arrData);
+            }
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        }
+        die();
     }
 
     //Nuevo salón

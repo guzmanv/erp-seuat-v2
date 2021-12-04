@@ -67,8 +67,7 @@ function fnListaInscritos(answer){
             var contador = 0;
 			resultado.forEach(element => {
                 contador += 1;
-                //console.log(element);
-                document.getElementById('valoresListaInscritos').innerHTML +='<tr><td>'+contador+'</td><td>'+element.nombre_persona+'</td><td>'+element.apellidos+'</td></tr>'
+                document.getElementById('valoresListaInscritos').innerHTML +='<tr><td>'+contador+'</td><td>'+element.nombre_persona+'</td><td>'+element.apellidos+'</td><td><button type="button" class="btn btn-outline-secondary btn-primary icono-color-principal btn-inline" style="display: inline;" onclick="fnImprimirSolInscripcion('+element.id+')"><i class="fas fa-print icono-azul"></i></i><span> Imprimir</span></button></td></tr>'
             });
         })
         .catch(err => { throw err });
@@ -111,7 +110,24 @@ formInscripcionNueva.onsubmit = function(e){
             if(objData.estatus){
                 formInscripcionNueva.reset();
                 swal.fire("Inscripcion",objData.msg,"success").then((result) =>{
-                    $('.close').click();
+                    //s$('.close').click();
+                    Swal.fire({
+                        title: 'Solicitud',
+                        text:'Desea imprimir la solicitud de inscripcion?',
+                        icon:'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'si, imprimir',
+                        cancelButtonText: 'No'
+                      }).then((result) => {
+                            if(result.isConfirmed){
+                                $('.close').click();
+                                window.open(base_url+'/Inscripcion/imprimir_solicitud_inscripcion/'+objData.data, '_blank');
+                          }else{
+                            $('.close').click();
+                          }
+                      })
                 });
                 tableInscripciones.api().ajax.reload();
             }else{
@@ -291,18 +307,19 @@ function pasarTab(n) {
   } 
 
  function fnChkAlumnoTutor(){
-    //console.log(idPersonaSeleccionada);
     if(document.querySelector('#chk-alumno-tutor').checked == true){
         let url = base_url+"/Inscripcion/getPersona?id="+idPersonaSeleccionada;
         fetch(url)
             .then(res => res.json())
             .then((resultado) => {
+                console.log(resultado);
                 document.querySelector('#txtNombreTutorAgregar').value = resultado['nombre_persona'];
                 document.querySelector('#txtAppPaternoTutorAgregar').value = resultado['ap_paterno'];
                 document.querySelector('#txtAppMaternoTutorAgregar').value = resultado['ap_materno'];
                 document.querySelector('#txtTelCelularTutorAgregar').value = resultado['tel_celular'];
                 document.querySelector('#txtTelFijoTutorAgregar').value = resultado['tel_fijo'];
                 document.querySelector('#txtEmailTutorAgregar').value = resultado['email'];
+                document.querySelector('#txtDireccionNuevo').value = resultado['direccion'] + ', '+ resultado['colonia'];
             })
             .catch(err => { throw err });
      }else{
@@ -400,4 +417,10 @@ function fnPlantelSeleccionadoDatatable(value){
 	    "iDisplayLength": 25
     });
 }$('#tableInscripciones').DataTable();
+
+//Imprimir solicitud inscripcion en la lista Inscritos 
+function fnImprimirSolInscripcion(value){
+    var idInscripcion = value;
+    window.open(base_url+'/Inscripcion/imprimir_solicitud_inscripcion/'+idInscripcion, '_blank');
+}
 

@@ -28,7 +28,7 @@
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>Sexo</label>
-                                        <select class="form-control form-control-sm" id="listSexoEdit" name="listSexoEdit" required >
+                                        <select class="form-control form-control-sm" id="listSexoEdit" name="listSexoEdit" required disabled>
                                         <option value="">Seleccionar</option>
                                         <option value="H">H</option>
                                         <option value="M">M</option>
@@ -36,11 +36,11 @@
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label>Edad</label>
-                                        <input type="text" id="txtEdadEdit" name="txtEdadEdit" class="form-control form-control-sm" placeholder="Edad"  required>
+                                        <input type="text" id="txtEdadEdit" name="txtEdadEdit" class="form-control form-control-sm" placeholder="Edad"  required disabled>
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>Estado Civil</label>
-                                        <select class="form-control form-control-sm" id="listEstadoCivilEdit" name="listEstadoCivilEdit" required >
+                                        <select class="form-control form-control-sm" id="listEstadoCivilEdit" name="listEstadoCivilEdit" required disabled>
                                         <option value="">Seleccionar</option>
                                         <option value="Soltero">Soltero(a)</option>
                                         <option value="Casado">Casado(a)</option>
@@ -48,19 +48,19 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Fecha de Nacimiento</label>
-                                        <input type="date" id="txtFechaNacimientoEdit"  name="txtFechaNacimientoEdit" class="form-control form-control-sm form-control form-control-sm-sm" required>
+                                        <input type="date" id="txtFechaNacimientoEdit"  name="txtFechaNacimientoEdit" class="form-control form-control-sm form-control form-control-sm-sm" required disabled>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>CURP</label>
-                                        <input type="text" id="txtCURPEdit" name="txtCURPEdit" class="form-control form-control-sm form-control form-control-sm-sm"  placeholder="CURP" required>
+                                        <input type="text" id="txtCURPEdit" name="txtCURPEdit" class="form-control form-control-sm form-control form-control-sm-sm"  placeholder="CURP" required disabled>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Ocupacion</label>
-                                        <input type="text" id="txtOcupacionEdit" name="txtOcupacionEdit" class="form-control form-control-sm" placeholder="Ocupación"  required>
+                                        <input type="text" id="txtOcupacionEdit" name="txtOcupacionEdit" class="form-control form-control-sm" placeholder="Ocupación"  required disabled>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Categoria Persona</label>
-                                        <select class="form-control form-control-sm" id="listCategoriaEdit" name="listCategoriaEdit" required >
+                                        <select class="form-control form-control-sm" id="listCategoriaEdit" name="listCategoriaEdit" required  disabled>
                                         <option value="">Seleccionar</option>
                                         <?php 
                                             foreach ($data['categoria_persona'] as $value) {
@@ -81,7 +81,7 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Escolaridad</label>
-                                        <select class="form-control form-control-sm" id="listEscolaridadEdit" name="listEscolaridadEdit" required >
+                                        <select class="form-control form-control-sm" id="listEscolaridadEdit" name="listEscolaridadEdit" required disabled>
                                             <option value="">Seleccionar</option>
                                             <?php 
                                                 foreach ($data['grados_estudios'] as $value) {
@@ -94,7 +94,7 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Nivel carrera de interés</label>
-                                        <select class="form-control form-control-sm" id="listNivelCarreraInteresEdit" name="listNivelCarreraInteresEdit" onchange="nivelCarreraInteresSeleccionadoEdit(value)" required >
+                                        <select class="form-control form-control-sm" id="listNivelCarreraInteresEdit" name="listNivelCarreraInteresEdit" onchange="nivelCarreraInteresSeleccionadoEdit(value)" required disabled>
                                             <option value="">Seleccionar</option>
                                             <?php 
                                                 foreach ($data['grados_estudios'] as $value) {
@@ -108,18 +108,18 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Carrera de interés</label>
-                                        <select class="form-control form-control-sm form-control form-control-sm-sm" id="listCarreraInteresEdit"  name="listCarreraInteresEdit" required >
+                                        <select class="form-control form-control-sm form-control form-control-sm-sm" id="listCarreraInteresEdit"  name="listCarreraInteresEdit" required disabled>
                                         <option value="">Seleccionar</option>
 
                                         </select>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Email</label>
-                                        <input type="text" id="txtEmailEdit" name="txtEmailEdit" class="form-control form-control-sm" placeholder="Email"  required>
+                                        <input type="text" id="txtEmailEdit" name="txtEmailEdit" class="form-control form-control-sm" placeholder="Email"  required disabled>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Estado</label>
-                                        <select class="form-control form-control-sm" id="listEstadoEdit" name="listEstadoEdit" onchange="estadoSeleccionadoEdit(value)" required >
+                                        <select class="form-control form-control-sm" id="listEstadoEdit" name="listEstadoEdit" onchange="estadoSeleccionadoEdit(value)" required disabled>
                                             <option value="">Seleccionar</option>
                                             <?php 
                                                 foreach ($data['estados'] as $value) {
@@ -132,31 +132,31 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Municipio</label>
-                                        <select class="form-control form-control-sm" id="listMunicipioEdit" name="listMunicipioEdit" onchange="municipioSeleccionadoEdit(value)" required >
+                                        <select class="form-control form-control-sm" id="listMunicipioEdit" name="listMunicipioEdit" onchange="municipioSeleccionadoEdit(value)" required disabled>
                                             <option value="">Seleccionar</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Localidad</label>
-                                        <select class="form-control form-control-sm" id="listLocalidadEdit" name="listLocalidadEdit" required >
+                                        <select class="form-control form-control-sm" id="listLocalidadEdit" name="listLocalidadEdit" required disabled>
                                         <option value="">Seleccionar</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-10">
                                         <label>Colonia</label>
-                                        <input type="text" id="txtColoniaEdit" name="txtColoniaEdit" class="form-control form-control-sm" placeholder="Colonia"  required>
+                                        <input type="text" id="txtColoniaEdit" name="txtColoniaEdit" class="form-control form-control-sm" placeholder="Colonia"  required disabled>
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label>CP</label>
-                                        <input type="text" id="txtCPEdit" name="txtCPEdit" class="form-control form-control-sm" placeholder="CP"   required>
+                                        <input type="text" id="txtCPEdit" name="txtCPEdit" class="form-control form-control-sm" placeholder="CP"   required disabled>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label>Direccion</label>
-                                        <input type="text" id="txtDireccionEdit" name="txtDireccionEdit" class="form-control form-control-sm" placeholder="Direccion" required>
+                                        <input type="text" id="txtDireccionEdit" name="txtDireccionEdit" class="form-control form-control-sm" placeholder="Direccion" required disabled>   
                                     </div>                                
                                     <div class="form-group col-md-2">
                                         <label>Estatus</label>
-                                        <select class="form-control form-control-sm" id="listEstatusEdit" name="listEstatusEdit" required >
+                                        <select class="form-control form-control-sm" id="listEstatusEdit" name="listEstatusEdit" required disabled>
                                         <option value="">Seleccionar</option>
                                         <option value="1">Activo</option>
                                         <option value="2">Inactivo</option>

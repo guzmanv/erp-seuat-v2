@@ -187,6 +187,7 @@
             $edad = $data['txtEdadEdit'];
             $estadoCivil = $data['listEstadoCivilEdit'];
             $fechaNacimiento = $data['txtFechaNacimientoEdit'];
+            $CURP = $data['txtCURPEdit'];
             $ocupacion = $data['txtOcupacionEdit'];
             $telefonoCel = $data['txtTelCelEdit'];
             $telefonofijo = $data['txtTelFiEdit'];
@@ -198,8 +199,8 @@
             $colonia = $data['txtColoniaEdit'];
             $CP = $data['txtCPEdit'];
             $direccion = $data['txtDireccionEdit'];
-            $sql = "UPDATE t_personas SET nombre_persona = ?,ap_paterno = ?,ap_materno = ?,direccion = ?,edad = ?,sexo = ?,cp = ?,colonia = ?,tel_celular = ?,tel_fijo = ?,email = ?,edo_civil = ?,ocupacion = ?,fecha_nacimiento = ?,validacion_datos_personales = ?,id_localidad = ? ,id_usuario_verificacion_datos_personales = ? WHERE id = $idPersona";
-            $request = $this->update($sql,array($nombre,$appPaterno,$appMaterno,$direccion,$edad,$sexo,$CP,$colonia,$telefonoCel,$telefonofijo,$email,$estadoCivil,$ocupacion,$fechaNacimiento,1,$localidad,1));
+            $sql = "UPDATE t_personas SET nombre_persona = ?,ap_paterno = ?,ap_materno = ?,direccion = ?,edad = ?,sexo = ?,cp = ?,colonia = ?,tel_celular = ?,tel_fijo = ?,email = ?,edo_civil = ?,ocupacion = ?,curp = ?,fecha_nacimiento = ?,validacion_datos_personales = ?,id_localidad = ? ,id_usuario_verificacion_datos_personales = ? WHERE id = $idPersona";
+            $request = $this->update($sql,array($nombre,$appPaterno,$appMaterno,$direccion,$edad,$sexo,$CP,$colonia,$telefonoCel,$telefonofijo,$email,$estadoCivil,$ocupacion,$CURP,$fechaNacimiento,1,$localidad,1));
             return $request;
         }
         public function selectEstados(){
@@ -229,7 +230,7 @@
             per.email,per.estatus,per.id_categoria_persona,per.id_escolaridad,gra.nombre_escolaridad,per.id_localidad,
             loc.nombre AS nomlocalidad, per.nombre_persona,
             per.ocupacion,per.sexo,per.tel_celular,per.tel_fijo,per.validacion_doctos,per.validacion_datos_personales,mun.id AS idmun,mun.nombre AS nommunicipio,
-            est.id AS idest,est.nombre AS nomestado,per.fecha_nacimiento 
+            est.id AS idest,est.nombre AS nomestado,per.fecha_nacimiento,per.curp 
             FROM t_personas AS per
             INNER JOIN t_localidades AS loc ON per.id_localidad = loc.id
             INNER JOIN t_municipios AS mun ON loc.id_municipio = mun.id

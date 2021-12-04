@@ -51,7 +51,7 @@
                                                     <option value="">Selecciona la Carrera</option>
                                                 </select>                                    
                                             </div>
-                                            <div class="form-group col-md-4">
+                                            <div class="form-group col-md-3">
                                                 <label>Grado</label>
                                                 <select class="form-control form-control-sm" id="listGradoNuevo" name="listGradoNuevo" required>
                                                     <option value="">Seleccionar</option>
@@ -75,6 +75,10 @@
                                                     ?>
                                                 </select>                                    
                                             </div>
+                                            <div class="form-group col-md-5">
+                                                <label>Empresa donde trabaja</label>
+                                                <input type="text" id="txtNombreEmpresa" name="txtNombreEmpresa" class="form-control form-control-sm" placeholder="Nombre de la empresa">
+                                            </div>
                                             <div class="form-group col-md-12">
                                                 <label><b>Campaña</b></label>
                                                 <input type="hidden" id="idSubcampaniaNuevo" name="idSubcampaniaNuevo" value="<?php echo $data['subcampanias']['id_subcampania']?>">
@@ -85,38 +89,38 @@
                                 </div>
                                 <div class="tab">
                                     <div class="row">
-                                        <div class = "col-6">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="chk-alumno-tutor" onclick="fnChkAlumnoTutor()">
-                                                <label class="form-check-label">Asignar el alumno como Tutor</label>
-                                            </div><br>
-                                            <div class="form-group">
+                                            <div class="custom-control custom-checkbox col-md-12">
+                                                <input class="custom-control-input" type="checkbox" id="chk-alumno-tutor" onclick="fnChkAlumnoTutor()">
+                                                <label for="chk-alumno-tutor" class="custom-control-label">Asignar el alumno como Tutor</label>
+                                            </div>
+                                            <div class="form-group col-md-4">
                                                 <label>Nombre</label>
-                                                <input type="text" id="txtNombreTutorAgregar" name="txtNombreTutorAgregar" class="form-control form-control-sm" placeholder="Nombre"  name="" required>
+                                                <input type="text" id="txtNombreTutorAgregar" name="txtNombreTutorAgregar" class="form-control form-control-sm" placeholder="Nombre"  required>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group col-md-4">
                                                 <label>Apellido Paterno</label>
-                                                <input type="text" id="txtAppPaternoTutorAgregar" name="txtAppPaternoTutorAgregar" class="form-control form-control-sm" placeholder="Apellido Paterno"  name="" required>
+                                                <input type="text" id="txtAppPaternoTutorAgregar" name="txtAppPaternoTutorAgregar" class="form-control form-control-sm" placeholder="Apellido Paterno" required>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group col-md-4">
                                                 <label>Apellido Materno</label>
-                                                <input type="text" id="txtAppMaternoTutorAgregar" name="txtAppMaternoTutorAgregar" class="form-control form-control-sm" placeholder="Apellido Materno"  name="" required>
+                                                <input type="text" id="txtAppMaternoTutorAgregar" name="txtAppMaternoTutorAgregar" class="form-control form-control-sm" placeholder="Apellido Materno" required>
                                             </div>
-                                        </div>    
-                                        <div class = "col-6">
-                                            <div class="form-group">
+                                            <div class="form-group col-md-3">
                                                 <label>Teléfono Celular</label>
-                                                <input type="text" id="txtTelCelularTutorAgregar" name="txtTelCelularTutorAgregar" class="form-control form-control-sm" placeholder="Telefono Celular"  name="">
+                                                <input type="text" id="txtTelCelularTutorAgregar" name="txtTelCelularTutorAgregar" class="form-control form-control-sm" placeholder="Telefono Celular">
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group col-md-3">
                                                 <label>Teléfono Fijo</label>
-                                                <input type="text" id="txtTelFijoTutorAgregar" name="txtTelFijoTutorAgregar" class="form-control form-control-sm" placeholder="Telefono Fijo"  name="">
+                                                <input type="text" id="txtTelFijoTutorAgregar" name="txtTelFijoTutorAgregar" class="form-control form-control-sm" placeholder="Telefono Fijo" >
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group col-md-6">
                                                 <label>Email</label>
-                                                <input type="text" id="txtEmailTutorAgregar" name="txtEmailTutorAgregar" class="form-control form-control-sm" placeholder="Email"  name="">
+                                                <input type="text" id="txtEmailTutorAgregar" name="txtEmailTutorAgregar" class="form-control form-control-sm" placeholder="Email">
                                             </div>
-                                        </div>    
+                                            <div class="form-group col-md-12">
+                                                <label>Direccion</label>
+                                                <textarea id="txtDireccionNuevo" name="txtDireccionNuevo" class="form-control form-control-sm" placeholder="Direccion" required=""></textarea>
+                                            </div>
                                     </div>   
                                 </div>    
                         </div>
@@ -133,7 +137,7 @@
                                 <div style="float:right;">
                                     <button class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" onclick="pasarTab(-1)"  id="btnAnterior"><i class="fas fa-fw fa-lg fa-arrow-circle-left icono-azul"></i>Anterior</button>
                                     <button class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" onclick="pasarTab(1)"  id="btnSiguiente"><i class="fas fa-fw fa-lg fa-arrow-circle-right icono-azul"></i>Siguiente</button>
-                                    <button id="btnActionFormNuevo" type="submit" class="btn btn-outline-secondary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Guardar</span></button>
+                                    <button id="btnActionFormNuevo" type="submit" class="btn btn-outline-secondary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Inscribir</span></button>
                                 </div>
                             </div>
                         </div>
