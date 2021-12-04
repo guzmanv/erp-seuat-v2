@@ -953,3 +953,10 @@ formEditTutor.onsubmit = function(e){
         return false;
     }
 }
+function fnDatosFiscales(value){
+    let idPer = value.getAttribute('idPer');
+    let url = base_url+"/Estudiantes/getDatosFiscales/"+idPer;
+    fetch(url).then(res => res.json()).then((resDatos) => {
+        console.log(resDatos);
+    })
+}

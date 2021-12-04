@@ -347,5 +347,10 @@
             $requestTutor = $this->update($sqlTutor,array($nombreTutor,$apPatTutor,$apMatTutor,$direccionTutor,$telCelularTutor,$telFijoTutor,$emailTutor));
             return $requestTutor;
         }
+        public function selectDatosFiscales(int $idAlumno){
+            $sql = "SELECT *FROM t_personas AS per INNER JOIN t_datos_fiscales AS datfis ON per.id_datos_fiscales = datfis.id LIMIT 1";
+            $request = $this->select($sql);
+            return $request;
+        }
 	}
 ?>  

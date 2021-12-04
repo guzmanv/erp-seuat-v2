@@ -18,7 +18,7 @@
             return $request;
         }
         public function selectPlanEstudios(){
-            $sql = "SELECT *FROM t_plan_estudios ORDER BY nombre_carrera ASC";
+            $sql = "SELECT *FROM t_plan_estudios WHERE estatus = 1 ORDER BY nombre_carrera ASC";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -30,7 +30,7 @@
         }
 
         public function selectPlanteles(){
-            $sql = "SELECT *FROM t_planteles";
+            $sql = "SELECT *FROM t_planteles WHERE estatus = 1";
             $request = $this->select_all($sql);
             return $request;
         }
