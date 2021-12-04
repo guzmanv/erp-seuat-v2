@@ -66,12 +66,36 @@ formNuevoSalon.addEventListener('submit', (e) => {
 	})
 })
 
-
-//Modificar salón
-// function fntEditSalon(idSalon){
-// 	var idSln = idSalon;
-// }
-
+//Modificar salon
+function fnEditSalon(idSln){
+	let idSalon = idSln;
+	let url = `${base_url}/Salones/getSalon/${idSalon}`
+	let txtNombreSalon = document.querySelector('#txtNombreEdit');
+	let txtCantidadMax = document.querySelector('#txtCantidadMaxEdit');
+	let estatus = document.querySelector('#ListEstatusEdit');
+	console.log(url);
+	// fetch(url)
+	// .then(response => response.json())
+	// .then(data => {
+	// 	console.log(data);
+	// 		var txtId = document.querySelector('#idSalonEdit');
+	// 		txtId.value = data.data.id;
+	// 		txtNombreSalon.value = data.data.nombre_salon;
+	// 		txtCantidadMax.value = data.data.cantidad_max_estudiantes;
+	// 		if(data.data.estatus == 1)
+	// 		{
+	// 			estatus.text = "Activo";
+	// 			estatus.value = 1;
+	// 		}
+	// 		else
+	// 		{
+	// 			estatus.text = "Inactivo";
+	// 			estatus.value = 2;
+	// 		}
+	// 		console.log(data);
+	// })
+	// .catch(err => console.log('Error: ', err));
+}
 
 //Eliminar salón
 // function fntDelSalon(idSalon){

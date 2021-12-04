@@ -1,4 +1,4 @@
-<div class="modal fade" id="ModalSalon" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="ModalNuevoSalon" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header headerRegister">
@@ -19,7 +19,7 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="">Capacidad máx. alumnos</label>
-                                    <input type="text" id="txtCantidadMax" name="txtCantidadMax" class="form-control form-control-sm" placeholder="EJ: 10,15,20" required>
+                                    <input type="number" min="1" pattern="^[0-9]" id="txtCantidadMax" name="txtCantidadMax" class="form-control form-control-sm" placeholder="EJ: 10,15,20" required>
                                 </div>
                             </div>
                         </div>
