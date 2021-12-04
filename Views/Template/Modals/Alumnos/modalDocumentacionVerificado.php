@@ -1,5 +1,5 @@
 <div class="modal fade" id="ModalFormDocumentacionVerificado" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header headerRegister">
                 <h5 class="modal-title" id="titleModalNuevo">Documentación de: <span id="nomPersonaDocumentacionVerificado"style='color:#3b7ddd'></span></h5>
@@ -75,8 +75,11 @@
                                                     <th>#</th>
                                                     <th>Folio</th>
                                                     <th>Fecha prestado</th>
-                                                    <th>Fecha devolucion</th>
+                                                    <th>Fecha estimada devolucion</th>
+                                                    <th>Fecha devolución</th>
                                                     <th>Usuario</th>
+                                                    <th>Comentario prestamo</th>
+                                                    <th>Comentario devolución</th>
                                                     <th>Estatus</th>
                                                     <th>Acciones</th>
                                                 </tr>

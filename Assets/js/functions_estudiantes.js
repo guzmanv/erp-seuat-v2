@@ -469,7 +469,7 @@ function checkEstatusDocumentacion(value){
 }
 //Resltar inputs de datos personales Obligatorios
 function resaltarInputsObligatoriosDatosPersonales(){
-    var inputImportantes = ['txtNombreEdit','txtApellidoPaEdit','txtApellidoMaEdit','txtTelCelEdit','txtEmailEdit','listEstadoEdit','listMunicipioEdit','listLocalidadEdit','txtFechaNacimientoEdit'];
+    var inputImportantes = ['txtNombreEdit','txtApellidoPaEdit','txtApellidoMaEdit','txtTelCelEdit','txtEmailEdit','listEstadoEdit','listMunicipioEdit','listLocalidadEdit','txtFechaNacimientoEdit','txtCURPEdit'];
     inputImportantes.forEach(element => {
         document.getElementById(element).style.setProperty("background-color", "#F9D25A", "important");
     });
@@ -522,7 +522,6 @@ function fnDatosPersonalesVerificacion(value){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
             if(objData){
-                //console.log(objData);
                 document.querySelector("#idEdit").value = objData.id;
                 document.querySelector("#txtNombreEdit").value = objData.nombre_persona;    
                 document.querySelector("#txtApellidoPaEdit").value = objData.ap_paterno;
@@ -539,6 +538,7 @@ function fnDatosPersonalesVerificacion(value){
                 document.querySelector("#txtOcupacionEdit").value = objData.ocupacion;
                 document.querySelector('#listEscolaridadEdit').querySelector('option[value="'+objData.id_escolaridad+'"]').selected = true;
                 document.querySelector('#txtFechaNacimientoEdit').value = objData.fecha_nacimiento;
+                document.querySelector('#txtCURPEdit').value = objData.curp;
                 var idEstadoPersona = "";
                 var idMunicipioPersona = "";
                 var idLocalidadPersona = "";
@@ -605,7 +605,7 @@ function fnDatosPersonalesVerificacion(value){
             }
         }
     }
-    var inputDesabilitar = ['txtNombreEdit','txtApellidoPaEdit','txtApellidoMaEdit','listSexoEdit','txtEdadEdit','listEstadoCivilEdit','txtFechaNacimientoEdit','txtOcupacionEdit','txtTelCelEdit','txtTelFiEdit','txtEmailEdit','listEscolaridadEdit','listEstadoEdit','listMunicipioEdit','listLocalidadEdit','txtColoniaEdit','txtCPEdit','txtDireccionEdit'];
+    var inputDesabilitar = ['txtNombreEdit','txtApellidoPaEdit','txtApellidoMaEdit','listSexoEdit','txtEdadEdit','listEstadoCivilEdit','txtFechaNacimientoEdit','txtCURPEdit','txtOcupacionEdit','txtTelCelEdit','txtTelFiEdit','txtEmailEdit','listEscolaridadEdit','listEstadoEdit','listMunicipioEdit','listLocalidadEdit','txtColoniaEdit','txtCPEdit','txtDireccionEdit'];
     if(estatusValidacion == 1){
         document.querySelector('#checkValidacionDatos').disabled = true;
         document.querySelector('#btnActionFormEdit').style.display = 'none'
@@ -645,6 +645,7 @@ formDatosPersonales.onsubmit = function(e){
     var intEdad = document.querySelector('#txtEdadEdit').value;
     var strEstadoCivil = document.querySelector('#listEstadoCivilEdit').value;
     var strFechaNacimiento = document.querySelector('#txtFechaNacimientoEdit').value;
+    var strCURP = document.querySelector('#txtCURPEdit').value;
     var strOcupacion = document.querySelector('#txtOcupacionEdit').value;
     var intTelefonoCel = document.querySelector('#txtTelCelEdit').value;
     var intTelefonofijo = document.querySelector('#txtTelFiEdit').value;
@@ -657,7 +658,7 @@ formDatosPersonales.onsubmit = function(e){
     var intCP = document.querySelector('#txtCPEdit').value;
     var strDireccion = document.querySelector('#txtDireccionEdit').value;
     if(strNombre == '' || strAppPaterno == '' || strAppMaterno == '' || strSexo == '' || intEdad == '' || strEstadoCivil == '' ||
-    strFechaNacimiento == '' || strOcupacion == '' || intTelefonoCel == '' || intTelefonofijo == '' || strEmail == '' ||
+    strFechaNacimiento == '' || strCURP == '' || strOcupacion == '' || intTelefonoCel == '' || intTelefonofijo == '' || strEmail == '' ||
     intEscolaridad == '' || intEstado == '' || intMunicipio == '' || intLocalidad == '' || strColonia == '' || intCP == '' ||
     strDireccion == ''){
         swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
@@ -801,16 +802,15 @@ function gnGetHistorialPrestamoDocumentos(idInscripcion){
         document.querySelector('#tbHistorialPrestamoDoc').innerHTML = "";
         var numeracion = 0;
         resHistorialDoc.forEach(element => {
-            //console.log(element);
             numeracion += 1;
             document.querySelector('#folioDoc').value = element.folio;
             var opcionesDevuelto = '';
             var foliob64 = window.btoa(unescape(encodeURIComponent(element.folio)))
             var opcionesNoDevuelto = '<div class="btn-group"><button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-layer-group"></i> &nbsp; Acciones</button><div class="dropdown-menu"><a class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal" href="imprimir_comp_doc_prestamo/'+foliob64+'" target="_blank"> &nbsp;&nbsp; <i class="far fa-address-book"></i> &nbsp;Imprimir</a><button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal" f="'+element.folio+'" onclick="fnListadocumentosFolio(this)" data-toggle="modal" data-target="#ModalListaDocFolio" title="Historial Documentacion"> &nbsp;&nbsp; <i class="far fa-file-word"></i> &nbsp;Ver</button><div class="dropdown-divider"></div></div></div></div>';
             if(element.fecha_devolucion == null || element.fecha_devolucion == ''){
-                document.querySelector('#tbHistorialPrestamoDoc').innerHTML += "<tr><th scope='row'>"+numeracion+"</th><td>"+element.folio+"</td><td>"+element.fecha_prestamo+"</div></td><td>"+element.fecha_estimada_devolucion+"</td><td>"+element.nombre_usuario+"</td><td>No devuelto</td><td>"+opcionesNoDevuelto+"</td></tr>";
+                document.querySelector('#tbHistorialPrestamoDoc').innerHTML += "<tr><th scope='row'>"+numeracion+"</th><td>"+element.folio+"</td><td>"+element.fecha_prestamo+"</div></td><td>"+element.fecha_estimada_devolucion+"</td><td></td><td>"+element.nombre_usuario+"</td><td>"+element.comentario_prestamo+"</td><td></td><td><span class='badge badge-danger'>No devuelto</span></td><td>"+opcionesNoDevuelto+"</td></tr>";
             }else{
-                document.querySelector('#tbHistorialPrestamoDoc').innerHTML += "<tr><th scope='row'>"+numeracion+"</th><td>"+element.folio+"</td><td>"+element.fecha_prestamo+"</div></td><td>"+element.fecha_estimada_devolucion+"</td><td>"+element.nombre_usuario+"</td><td>Devuelto</td><td>"+opcionesDevuelto+"</td></tr>";
+                document.querySelector('#tbHistorialPrestamoDoc').innerHTML += "<tr><th scope='row'>"+numeracion+"</th><td>"+element.folio+"</td><td>"+element.fecha_prestamo+"</div></td><td>"+element.fecha_estimada_devolucion+"</td><td>"+element.fecha_devolucion+"</td><td>"+element.nombre_usuario+"</td><td>"+element.comentario_prestamo+"</td><td>"+element.comentario_devolucion+"</td><td><span class='badge badge-success'>Devuelto</span></td><td>"+opcionesDevuelto+"</td></tr>";
             }
         });
     })
@@ -886,9 +886,12 @@ function btnConfirmDevolucion(value){
     .then(res => res.json())
     .then((resDevDoc) =>{
         if(resDevDoc.estatus){
+            formPrestamoDocumentos.reset();
             swal.fire("Devolución",resDevDoc.msg,"success").then((result) =>{
-                //fnGetDocumentosEntregados(idInsc);
-                //gnGetHistorialPrestamoDocumentos(idInsc);
+                gnGetHistorialPrestamoDocumentos(idInsc);
+                fnGetDocumentosEntregados(idInsc);
+                gnGetHistorialPrestamoDocumentos(idInsc);
+                tabActual = 2;
                 $('#step3-tab').click();
             });
             
