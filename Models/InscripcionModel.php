@@ -155,7 +155,7 @@
             return $request_inscripcion;
         }
         public function selectPlanteles(){
-            $sql = "SELECT *FROM t_planteles";
+            $sql = "SELECT *FROM t_planteles WHERE estatus = 1";
             $request = $this->select_all($sql);
             return $request;
         }
