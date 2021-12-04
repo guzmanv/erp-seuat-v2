@@ -304,7 +304,7 @@
             INNER JOIN t_detalle_documentos AS det ON doc.id_detalle_documentos = det.id 
             INNER JOIN t_usuarios AS us ON pres.id_usuario_prestamo = us.id 
             INNER JOIN t_personas AS per ON us.id_persona = per.id WHERE ins.id = $idInscripcion
-            GROUP BY pres.folio HAVING COUNT(*)>=1";
+            GROUP BY pres.folio HAVING COUNT(*)>=1 ORDER BY pres.id DESC";
             $request = $this->select_all($sql);
             return $request;
         }
