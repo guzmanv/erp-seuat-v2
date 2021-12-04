@@ -5,29 +5,29 @@
         }
 
         public function selectPlanteles(){
-            $sql = "SELECT *FROM t_planteles";
+            $sql = "SELECT *FROM t_planteles WHERE estatus = 1";
             $request = $this->select_all($sql);
             return $request;
         }
 
         public function selectNivelEducativo(){
-            $sql = "SELECT *FROM t_nivel_educativos";
+            $sql = "SELECT *FROM t_nivel_educativos WHERE estatus = 1";
             $request = $this->select_all($sql);
             return $request;
         }
 
         public function selectCategorias(){
-            $sql = "SELECT *FROM t_categoria_carreras";
+            $sql = "SELECT *FROM t_categoria_carreras WHERE estatus = 1";
             $request = $this->select_all($sql);
             return $request;
         }
         public function selectModalidades(){
-            $sql = "SELECT *FROM t_modalidades";
+            $sql = "SELECT *FROM t_modalidades WHERE estatus = 1";
             $request = $this->select_all($sql);
             return $request;
         }
         public function selectPlanes(){
-            $sql = "SELECT *FROM t_organizacion_planes";
+            $sql = "SELECT *FROM t_organizacion_planes WHERE estatus = 1";
             $request = $this->select_all($sql);
             return $request;
         }
