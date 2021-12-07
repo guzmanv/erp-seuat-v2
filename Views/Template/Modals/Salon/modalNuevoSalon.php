@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <div class="card card-secondary">
                     <form id="formSalonNuevo" name="formSalonNuevo">
-                        <input type="hidden" id="idSalonNuevo" name="idSalonNuevo" value="">
+                        <input type="hidden" id="idSalonNuevo" name="idSalonNuevo" value="0">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-7">
@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalNuevoSalon"><i class="fa fa-fw fa-lg fa-times-circle icono-azul" id="cancelarModal"></i>Cancelar</a>
+                <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalNuevoSalon"><i class="fa fa-fw fa-lg fa-times-circle icono-azul" id="cancelarModalNuevo"></i>Cancelar</a>
                 <button id="btnActionFormNuevo" type="submit" class="btn btn-outline-secondary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Guardar</span></button>
             </div>
             </form>

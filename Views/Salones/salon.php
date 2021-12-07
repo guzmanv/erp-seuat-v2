@@ -13,7 +13,7 @@
                     </div>
                     <div class="col-sm-5">
                         <ol class="breadcrumb float-sm-right btn-block">
-                            <button type="button"  class="btn btn-inline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#ModalFormNuevoSalon"><i class="fa fa-plus-circle fa-md"></i> Nuevo</button>
+                            <button type="button"  class="btn btn-inline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#ModalSalon"><i class="fa fa-plus-circle fa-md"></i> Nuevo</button>
                         </ol>
                     </div>
                 </div>
@@ -26,12 +26,13 @@
                             <div class="card-body">
 <!--                                 <h3 class="card-title">Listado de planteles</h3>
  -->                                <p class="card-text">
-                                    <table id="tableSalon" class="table table-bordered table-striped table-sm">
+                                    <table id="tableSalon" class="table table-bordered table-striped table-hover table-sm">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
                                                 <th>Nombre de salon</th>
                                                 <th>Capacidad max. de estudiantes</th>
+                                                <th>Estatus</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
