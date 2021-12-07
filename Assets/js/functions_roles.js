@@ -169,6 +169,36 @@ function fntEditRol(idrol){
 }*/
 
 
+function openModal(){
+	rowTable = "";
+	$('#ModalFormRol').modal({
+		backdrop: 'static',
+		keyboard: false,
+	});
+
+	$('#ModalFormRol').modal('show');
+}
+
+function openModalPermisos(){
+	rowTable = "";
+	$('#modalFormPermisos').modal({
+		backdrop: 'static',
+		keyboard: false,
+	});
+
+	$('#modalFormPermisos').modal('show');
+}
+
+$(".cerrarModal").click(function(){
+	$("#ModalFormRol").modal('hide')
+});
+
+$(".cerrarModal").click(function(){
+	$("#modalFormPermisos").modal('hide')
+});
+
+
+
 
 
 function fntDelRol(id) {
@@ -236,7 +266,7 @@ function fntPermisos(idrol){
             if(request.readyState == 4 && request.status == 200){
             //console.log(request.responseText);
             document.querySelector('#contentAjax').innerHTML = request.responseText;
-            $('.modalPermisos').modal('show');
+            $('.modalFormPermisos').modal('show');
 			document.querySelector('#formPermisos').addEventListener('submit',fntSavePermisos,false);
             }
          }
