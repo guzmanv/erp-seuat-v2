@@ -130,3 +130,31 @@ function fnEditarSalon(idSln){
 		.catch(err => console.log('Error: ', err));
 }
 
+function fnEliminarSalon(idSln)
+{
+	var idSalon = idSln
+	swal.fire({
+		icon: "question",
+		title: "Eliminar categoría",
+		text: "¿Quiere eliminar la categoría?",
+		type: "warning",
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6', //add
+		cancelButtonColor: '#d33', //add
+		confirmButtonText: "Si, eliminar!",
+		cancelButtonText: "No, cancelar!"
+	}). then((result) => {
+		if(result.isConfirmed){
+			let url = `${base_url}/Salones/delSalon?id=${idSalon}`
+			fetch(url)
+				.then(response => response.json())
+				.then(data => {
+					if(data.estatus)
+					{
+						swal.fire('¡Eliminado!', data.msg,'success');
+						tableSalon.api().ajax.reload();
+					}
+				})
+		}
+	})
+}
