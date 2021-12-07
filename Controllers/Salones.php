@@ -3,20 +3,12 @@ class Salones extends Controllers{
     public function __construct()
     {
         parent::__construct();
-<<<<<<< HEAD
-
-        session_start();
-        if(empty($_SESSION['login']))
-        {
-            header('Location: '.base_url().'/Login');
-            die();
-=======
-        if(empty($_SESSION['login']))
-				{
-					header('Location: '.base_url().'/login');
-					die();
->>>>>>> a1086440155120b9fbaf70840dba93c48a670a23
-        }
+			session_start();
+			if(empty($_SESSION['login']))
+			{
+				header('Location: '.base_url().'/login');
+				die();
+			}
     }
 
     public function salon(){
@@ -45,14 +37,9 @@ class Salones extends Controllers{
                 <button type="" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-layer-group"></i> &nbsp; Acciones
                 </button>
                 <div class="dropdown-menu">
-<<<<<<< HEAD
-                        <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditSalon"  onClick="fnEditSalon('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalEditSalon" title="Editar"> &nbsp;&nbsp; <i class="fas fa-eye icono-azul"></i> &nbsp; Editar</button>
-						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelMateria"  title="Eliminar"> &nbsp;&nbsp; <i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>
-=======
 						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditSalon" onClick="fnEditarSalon('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalEditSalon" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>
 						<div class="dropdown-divider"></div>
 						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" onClick="fnEliminarSalon('.$arrData[$i]['id'].')" title="Eliminar"> &nbsp;&nbsp; <i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>
->>>>>>> a1086440155120b9fbaf70840dba93c48a670a23
 						<!--<a class="dropdown-item" href="#">link</a>-->
 				</div>
             </div>
@@ -63,7 +50,6 @@ class Salones extends Controllers{
     }
 
     public function getSalon(int $idSalon)
-<<<<<<< HEAD
     {
         $intIdSalon = intval(strClean($idSalon));
         if($intIdSalon > 0)
@@ -82,27 +68,6 @@ class Salones extends Controllers{
         die();
     }
 
-    //Nuevo salón
-    public function setSalon()
-=======
->>>>>>> a1086440155120b9fbaf70840dba93c48a670a23
-    {
-        $intIdSln = intval(strClean($idSalon));
-        if($intIdSln > 0)
-        {
-            $arrData = $this->model->selectSalon($intIdSln);
-            if(empty($arrData))
-            {
-                $arrResponse = array('estatus' => false, 'Datos no encontrados');
-            }
-            else
-            {
-                $arrResponse = array('estatus' => true, 'data' => $arrData);
-            }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-        }
-        die();
-    }
     //Nuevo salón
     public function setSalon($tipo)
     {

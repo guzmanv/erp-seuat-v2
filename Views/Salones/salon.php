@@ -13,11 +13,7 @@
                     </div>
                     <div class="col-sm-5">
                         <ol class="breadcrumb float-sm-right btn-block">
-<<<<<<< HEAD
                             <button type="button"  class="btn btn-inline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#ModalNuevoSalon"><i class="fa fa-plus-circle fa-md"></i> Nuevo</button>
-=======
-                            <button type="button"  class="btn btn-inline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#ModalSalon"><i class="fa fa-plus-circle fa-md"></i> Nuevo</button>
->>>>>>> a1086440155120b9fbaf70840dba93c48a670a23
                         </ol>
                     </div>
                 </div>
