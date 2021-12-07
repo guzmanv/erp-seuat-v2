@@ -4,6 +4,7 @@
         public $intIdSalon;
         public $strNombreSalon;
         public $intCantidadMax;
+        public $intEstatus;
 
         public function __construct()
         {
@@ -12,7 +13,7 @@
 
         public function selectSalones()
         {
-            $sql = "SELECT id, nombre_salon, cantidad_max_estudiantes FROM t_salones";
+            $sql = "SELECT id, nombre_salon, cantidad_max_estudiantes, estatus FROM t_salones WHERE estatus <> 0";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -47,24 +48,51 @@
             return $return;
         }
 
-        public function updateSalon(int $idSalon, string $nombreSalon, string $cantidadMax)
+        public function updateSalon(int $idSalon, string $nombreSln, int $cantMax, int $estatus)
         {
-            $this->intIdSalon = $idSalon;
-            $this->strNombreSalon = $nombreSalon;
-            $this->intCantMax = $cantidadMax;
+             $this->intIdSalon = $idSalon;
+             $this->strNombreSalon = $nombreSln;
+             $this->intCantidadMax = $cantMax;
+             $this->intEstatus = $estatus;
+             $sql = "SELECT * FROM t_salones WHERE id=$this->intIdSalon";
+             $request = $this->select_all($sql);
+             if($request)
+             {
+                $sql = "UPDATE t_salones SET nombre_salon = ?, cantidad_max_estudiantes = ?, estatus = ?, fecha_actualizacion=NOW(), id_usuario_actualizacion =1 WHERE id=$this->intIdSalon";
+                 $arrData = array($this->strNombreSalon, $this->intCantidadMax, $this->intEstatus);
+                 $request_update = $this->update($sql, $arrData);
+             }
+             else
+             {
+                 $request_update = "not exist";
+             }
+            return $request_update;
+        }
+
+        public function deleteSalon(int $idSln)
+        {
+            $this->intIdSalon = $idSln;
             $sql = "SELECT * FROM t_salones WHERE id=$this->intIdSalon";
-            $request = $this->select($sql);
+            $request = $this->select_all($sql);
             if($request)
             {
-                $sql = "UPDATE t_salones SET nombre_salon = ?, cantidad_max_estudiantes = ?, fecha_actualizacion = NOW() WHERE id = $this->intIdSalon";
-                $arrData = array($this->strNombreSalon, $this->intCantMax);
-                $request_update = $this->update($sql,$arrData);
+                $sql = "UPDATE t_salones SET estatus = ? WHERE id=$this->intIdSalon";
+                $arrData = array(0);
+                $requestDel = $this->update($sql,$arrData);
+                if($requestDel)
+                {
+                    $request = 'ok';
+                }
+                else
+                {
+                    $request = 'error';
+                }
             }
             else
             {
-                $request_update = "not exist";
+                $request = 'exist';
             }
-            return $request_update;
+            return $request;
         }
     }
 ?>
