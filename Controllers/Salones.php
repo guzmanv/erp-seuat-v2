@@ -3,12 +3,19 @@ class Salones extends Controllers{
     public function __construct()
     {
         parent::__construct();
+<<<<<<< HEAD
 
         session_start();
         if(empty($_SESSION['login']))
         {
             header('Location: '.base_url().'/Login');
             die();
+=======
+        if(empty($_SESSION['login']))
+				{
+					header('Location: '.base_url().'/login');
+					die();
+>>>>>>> a1086440155120b9fbaf70840dba93c48a670a23
         }
     }
 
@@ -25,13 +32,27 @@ class Salones extends Controllers{
         $arrData = $this->model->selectSalones();
         for($i=0; $i<count($arrData); $i++)
         {
+            if($arrData[$i]['estatus'] == 1)
+            {
+                $arrData[$i]['estatus'] = '<span class="badge badge-primary">Activo</span>';
+            }
+            else
+            {
+                $arrData[$i]['estatus'] = '<span class="badge badge-secondary">Inactivo</span>';
+            }
             $arrData[$i]['options'] = '<div class="text-center">
             <div class="btn-group">
                 <button type="" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-layer-group"></i> &nbsp; Acciones
                 </button>
                 <div class="dropdown-menu">
+<<<<<<< HEAD
                         <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditSalon"  onClick="fnEditSalon('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalEditSalon" title="Editar"> &nbsp;&nbsp; <i class="fas fa-eye icono-azul"></i> &nbsp; Editar</button>
 						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelMateria"  title="Eliminar"> &nbsp;&nbsp; <i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>
+=======
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditSalon" onClick="fnEditarSalon('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalEditSalon" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>
+						<div class="dropdown-divider"></div>
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" onClick="fnEliminarSalon('.$arrData[$i]['id'].')" title="Eliminar"> &nbsp;&nbsp; <i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>
+>>>>>>> a1086440155120b9fbaf70840dba93c48a670a23
 						<!--<a class="dropdown-item" href="#">link</a>-->
 				</div>
             </div>
@@ -42,6 +63,7 @@ class Salones extends Controllers{
     }
 
     public function getSalon(int $idSalon)
+<<<<<<< HEAD
     {
         $intIdSalon = intval(strClean($idSalon));
         if($intIdSalon > 0)
@@ -62,41 +84,77 @@ class Salones extends Controllers{
 
     //Nuevo salón
     public function setSalon()
+=======
+>>>>>>> a1086440155120b9fbaf70840dba93c48a670a23
     {
-        $intIdSalon = intval($_POST['idSalonNuevo']);
-        $strNombreSalon = strClean($_POST['txtNombreNuevo']);
-        $strCantidadMax = intval($_POST['txtCantidadMax']);
-
-        if($intIdSalon == 0)
+        $intIdSln = intval(strClean($idSalon));
+        if($intIdSln > 0)
         {
-            $requestSalon = $this->model->insertSalon($strNombreSalon, $strCantidadMax);
-            $option = 1;
-        }
-        else
-        {
-            $requestSalon = $this->model->updateSalon($intIdSalon, $strNombreSalon, $strCantidadMax);
-            $option = 2;
-        }
-
-        if($requestSalon > 0){
-            if($option == 1)
+            $arrData = $this->model->selectSalon($intIdSln);
+            if(empty($arrData))
             {
-                $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
+                $arrResponse = array('estatus' => false, 'Datos no encontrados');
             }
             else
             {
-                $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente');
+                $arrResponse = array('estatus' => true, 'data' => $arrData);
             }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
         }
-        elseif($requestSalon == 'exist')
-        {
-            $arrResponse = array('estatus' => false, 'msg'=>'El salón existe');
+        die();
+    }
+    //Nuevo salón
+    public function setSalon($tipo)
+    {
+        $tipoAc = $tipo;
+        if($tipoAc == "new")
+        {   $intIdSalon = intval($_POST['idSalonNuevo']);
+            $strNombreSalon = strClean($_POST['txtNombreNuevo']);
+            $strCantidadMax = intval($_POST['txtCantidadMax']);
+            $requestSalon = $this->model->insertSalon($strNombreSalon, $strCantidadMax);
+            if($requestSalon){
+                $arrResponse = array('estatus' => true, 'msg' => 'Datos gaurdados correctamente');
+
+            }else{
+                $arrResponse = array('estatus' => false, 'msg' => 'No se pudo guardar');
+            }
         }
         else
         {
-            $arrResponse = array('estatus' => false, 'msg' => 'No se puede almacenar los datos');
+            $intIdSalon = intval($_POST['idSalonEdit']);
+            $strNombreSalon = strClean($_POST['txtNombreEdit']);
+            $strCantidadMax = intval($_POST['txtCantidadMaxEdit']);
+            $intEstatus = intval($_POST['slctEstatus']);
+            $requestSalon = $this->model->updateSalon($intIdSalon, $strNombreSalon, $strCantidadMax, $intEstatus);
+            if($requestSalon){
+                $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente');
+
+            }else{
+                $arrResponse = array('estatus' => false, 'msg' => 'No se pudo actualizar');
+            }
+
         }
         echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function delSalon()
+    {
+        $idSln = $_GET['id'];
+        $requestDelete = $this->model->deleteSalon($idSln);
+        if($requestDelete == 'ok')
+        {
+            $arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el salón');
+        }
+        else if($requestDelete == 'exist')
+        {
+            $arrResponse = array('estatus' => false, 'msg' => 'No se puede eliminar el salón');
+        }
+        else
+        {
+            $arrResponse = array('estatus' => false, 'msg' => 'Error al eliminar el salón');
+        }
+        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         die();
     }
 }
