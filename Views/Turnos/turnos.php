@@ -1,5 +1,7 @@
 <?php
     headerAdmin($data);
+    getModal("Turnos/modalNuevoTurno",$data);
+    getModal("Turnos/modalEditTurno",$data);
 ?>
 <div class="wrapper">
     <div class="content-wrapper">
@@ -11,7 +13,7 @@
                     </div>
                     <div class="col-sm-5">
                         <ol class="breadcrumb float-sm-right btn-block">
-                            <button type="button"  class="btn btn-inline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#ModalFormNuevoSalon"><i class="fa fa-plus-circle fa-md"></i> Nuevo</button>
+                            <button type="button"  class="btn btn-inline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#ModalNuevoTurno"><i class="fa fa-plus-circle fa-md"></i> Nuevo</button>
                         </ol>
                     </div>
                 </div>
@@ -24,7 +26,7 @@
                             <div class="card-body">
 <!--                                 <h3 class="card-title">Listado de planteles</h3>
  -->                                <p class="card-text">
-                                    <table id="tablePlantel" class="table table-bordered table-striped table-sm">
+                                    <table id="tableTurnos" class="table table-bordered table-striped table-sm">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
