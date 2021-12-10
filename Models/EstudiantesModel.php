@@ -12,7 +12,7 @@
             LEFT JOIN t_historiales AS his ON ins.id_historial = his.id
             INNER JOIN t_personas AS per ON ins.id_personas = per.id
             INNER JOIN t_plan_estudios AS planest ON ins.id_plan_estudios = planest.id
-            INNER JOIN t_planteles AS plante ON planest.id_planteles = plante.id
+            INNER JOIN t_planteles AS plante ON planest.id_plantel = plante.id
             LEFT JOIN t_salones AS sal ON ins.id_salon = sal.id
             WHERE his.inscrito = 1";
 			$request = $this->select_all($sql);
@@ -24,7 +24,7 @@
             LEFT JOIN t_historiales AS his ON ins.id_historial = his.id
             INNER JOIN t_personas AS per ON ins.id_personas = per.id
             INNER JOIN t_plan_estudios AS planest ON ins.id_plan_estudios = planest.id
-            INNER JOIN t_planteles AS plante ON planest.id_planteles = plante.id
+            INNER JOIN t_planteles AS plante ON planest.id_plantel = plante.id
             LEFT JOIN t_salones AS sal ON ins.id_salon = sal.id
             WHERE his.inscrito = 1 AND ins.id = $idInscripcion";
 			$request = $this->select_all($sql);
@@ -36,7 +36,7 @@
             LEFT JOIN t_historiales AS his ON ins.id_historial = his.id
             INNER JOIN t_personas AS per ON ins.id_personas = per.id
             INNER JOIN t_plan_estudios AS planest ON ins.id_plan_estudios = planest.id
-            INNER JOIN t_planteles AS plante ON planest.id_planteles = plante.id
+            INNER JOIN t_planteles AS plante ON planest.id_plantel = plante.id
             LEFT JOIN t_salones AS sal ON ins.id_salon = sal.id
             WHERE his.inscrito = 1 AND per.validacion_doctos = 1 AND per.validacion_datos_personales = 1";
 			$request = $this->select_all($sql);
@@ -48,7 +48,7 @@
             LEFT JOIN t_historiales AS his ON ins.id_historial = his.id
             INNER JOIN t_personas AS per ON ins.id_personas = per.id
             INNER JOIN t_plan_estudios AS planest ON ins.id_plan_estudios = planest.id
-            INNER JOIN t_planteles AS plante ON planest.id_planteles = plante.id
+            INNER JOIN t_planteles AS plante ON planest.id_plantel = plante.id
             LEFT JOIN t_salones AS sal ON ins.id_salon = sal.id
             WHERE his.inscrito = 1 AND per.validacion_datos_personales = 0";
 			$request = $this->select_all($sql);
@@ -60,7 +60,7 @@
             LEFT JOIN t_historiales AS his ON ins.id_historial = his.id
             INNER JOIN t_personas AS per ON ins.id_personas = per.id
             INNER JOIN t_plan_estudios AS planest ON ins.id_plan_estudios = planest.id
-            INNER JOIN t_planteles AS plante ON planest.id_planteles = plante.id
+            INNER JOIN t_planteles AS plante ON planest.id_plantel = plante.id
             LEFT JOIN t_salones AS sal ON ins.id_salon = sal.id
             WHERE his.inscrito = 1 AND per.validacion_doctos = 0";
 			$request = $this->select_all($sql);
@@ -255,7 +255,7 @@
             $fechaDevolucion = $fechaDevolucion;
             $sqlFolioPlantel = "SELECT plant.codigo_plantel FROM t_inscripciones AS ins 
                 INNER JOIN t_plan_estudios AS pln ON ins.id_plan_estudios = pln.id 
-                INNER JOIN t_planteles AS plant ON pln.id_planteles = plant.id WHERE ins.id = $idInscripcion LIMIT 1";
+                INNER JOIN t_planteles AS plant ON pln.id_plantel = plant.id WHERE ins.id = $idInscripcion LIMIT 1";
             $requestFolioPlantel = $this->select($sqlFolioPlantel);
             $codigoPlantel = $requestFolioPlantel['codigo_plantel'];
             $sqlFolioCosecutivo = "SELECT COUNT(folio) AS num_folios FROM  t_prestamo_documentos WHERE folio LIKE '%$codigoPlantel%'";
