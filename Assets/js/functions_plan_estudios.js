@@ -283,7 +283,7 @@ function fntEditPlanEstudios(idPlanEstudio){
                 document.querySelector("#idEdit").value = objData.id;
                 document.querySelector('#txtNombreEdit').value = objData.nombre_carrera;
                 document.querySelector('#txtNombrecortoEdit').value = objData.nombre_carrera_corto;
-                document.querySelector('#listPlantelEdit').querySelector('option[value="'+objData.id_planteles+'"]').selected = true;
+                document.querySelector('#listPlantelEdit').querySelector('option[value="'+objData.id_plantel+'"]').selected = true;
                 document.querySelector('#listNivelEdEdit').querySelector('option[value="'+objData.id_nivel_educativo+'"]').selected = true;
                 document.querySelector('#listCategoriaEdit').querySelector('option[value="'+objData.id_categoria_carrera+'"]').selected = true;
                 document.querySelector('#txtDuracionEdit').value = objData.duracion_carrera;

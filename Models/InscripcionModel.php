@@ -10,7 +10,7 @@
             INNER JOIN t_salones AS sal ON ins.id_salon = sal.id
             INNER JOIN t_grados AS gra ON sal.id_grado = gra.id
             INNER JOIN t_grupos AS grup ON sal.id_grupo = grup.id
-            INNER JOIN t_planteles AS plant ON plan.id_planteles = plant.id";
+            INNER JOIN t_planteles AS plant ON plan.id_plantel = plant.id";
             $request = $this->select_all($sql);
             return $request;
         } */
@@ -25,7 +25,7 @@
                 LEFT JOIN t_salonescompletos AS sal ON ins.id_salon = sal.id
                 LEFT JOIN t_grados AS gra ON sal.id_grado = gra.id
                 LEFT JOIN t_grupos AS grup ON sal.id_grupo = grup.id
-                INNER JOIN t_planteles AS plant ON plan.id_planteles = plant.id
+                INNER JOIN t_planteles AS plant ON plan.id_plantel = plant.id
                 INNER JOIN t_turnos AS tur ON ins.id_horario = tur.id
                 GROUP BY plan.nombre_carrera,ins.grado,tur.nombre_turno HAVING COUNT(*)>=1";
                 $request = $this->select_all($sql);
@@ -38,7 +38,7 @@
                 LEFT JOIN t_salonescompletos AS sal ON ins.id_salon = sal.id
                 LEFT JOIN t_grados AS gra ON sal.id_grado = gra.id
                 LEFT JOIN t_grupos AS grup ON sal.id_grupo = grup.id
-                INNER JOIN t_planteles AS plant ON plan.id_planteles = plant.id
+                INNER JOIN t_planteles AS plant ON plan.id_plantel = plant.id
                 INNER JOIN t_turnos AS tur ON ins.id_horario = tur.id
                 WHERE plant.id = $idPlantel
                 GROUP BY plan.nombre_carrera,ins.grado,tur.nombre_turno HAVING COUNT(*)>=1";
@@ -57,7 +57,7 @@
                 LEFT JOIN t_salones AS sal ON ins.id_salon = sal.id
                 LEFT JOIN t_grados AS gra ON sal.id_grado = gra.id
                 LEFT JOIN t_grupos AS grup ON sal.id_grupo = grup.id
-                INNER JOIN t_planteles AS plant ON plan.id_planteles = plant.id
+                INNER JOIN t_planteles AS plant ON plan.id_plantel = plant.id
                 INNER JOIN t_turnos AS tur ON ins.id_horario = tur.id
                 GROUP BY plan.nombre_carrera,ins.grado,tur.nombre_turno HAVING COUNT(*)>=1";
                 $request = $this->select_all($sql);
@@ -70,7 +70,7 @@
                 LEFT JOIN t_salones AS sal ON ins.id_salon = sal.id
                 LEFT JOIN t_grados AS gra ON sal.id_grado = gra.id
                 LEFT JOIN t_grupos AS grup ON sal.id_grupo = grup.id
-                INNER JOIN t_planteles AS plant ON plan.id_planteles = plant.id
+                INNER JOIN t_planteles AS plant ON plan.id_plantel = plant.id
                 INNER JOIN t_turnos AS tur ON ins.id_horario = tur.id
                 WHERE plant.id = $idPlantel
                 GROUP BY plan.nombre_carrera,ins.grado,tur.nombre_turno HAVING COUNT(*)>=1";
@@ -162,7 +162,7 @@
 
         public function selectCarreras($data){
             $idPlantel = $data;
-            $sql = "SELECT *FROM t_plan_estudios WHERE id_planteles = $idPlantel AND estatus !=0";
+            $sql = "SELECT *FROM t_plan_estudios WHERE id_plantel = $idPlantel AND estatus !=0";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -201,7 +201,7 @@
             $sql = "SELECT per.nombre_persona,per.ap_paterno,per.ap_materno,plnt.id AS id_plantel,ins.id_plan_estudios,plan.nombre_carrera FROM t_inscripciones AS ins
             INNER JOIN t_personas AS per ON ins.id_personas = per.id
             INNER JOIN t_plan_estudios AS plan ON ins.id_plan_estudios = plan.id
-            INNER JOIN t_planteles AS plnt ON plan.id_planteles = plnt.id
+            INNER JOIN t_planteles AS plnt ON plan.id_plantel = plnt.id
             WHERE ins.id = $idInscripcion";
             $request = $this->select_all($sql);
             return $request;
@@ -223,7 +223,7 @@
             loc.nombre AS localidad,mun.nombre AS municipio,est.nombre AS estado,tut.nombre_tutor,tut.appat_tutor,tut.apmat_tutor,tut.tel_celular AS tel_celular_tutor,tut.tel_fijo AS tel_fijo_tutor,tut.email AS email_tutor,plntel.nombre_sistema,plntel.nombre_plantel,plntel.categoria,plntel.cve_centro_trabajo,CONCAT(plntel.domicilio,',',plntel.localidad,',',plntel.municipio,',',plntel.estado) AS ubicacion,ins.grado,esc.nombre_escolaridad,tur.hora_entrada,tur.hora_salida,peralum.nombre_empresa
             FROM t_inscripciones AS ins 
             INNER JOIN t_plan_estudios AS plnes ON ins.id_plan_estudios = plnes.id
-            INNER JOIN t_planteles AS plntel ON plnes.id_planteles = plntel.id
+            INNER JOIN t_planteles AS plntel ON plnes.id_plantel = plntel.id
             INNER JOIN t_organizacion_planes AS orgpl ON plnes.id_plan = orgpl.id
             INNER JOIN t_personas AS peralum ON ins.id_personas = peralum.id
             INNER JOIN t_tutores AS tut ON ins.id_tutores = tut.id

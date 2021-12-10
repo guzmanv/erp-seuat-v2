@@ -24,7 +24,7 @@
         }
 
         public function selectPlanEstudiosNuevo($id){
-            $sql = "SELECT *FROM t_plan_estudios WHERE id_planteles = $id ORDER BY nombre_carrera ASC";
+            $sql = "SELECT *FROM t_plan_estudios WHERE id_plantel = $id ORDER BY nombre_carrera ASC";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -96,7 +96,7 @@
             $sql = "SELECT mat.id,mat.clave,mat.nombre_materia,mat.hrs_teoria,mat.hrs_practicas,mat.creditos,mat.tipo,pe.id AS id_plan,pe.nombre_carrera,mat.id_grados,mat.tipo,mat.chk_practica,mat.chk_servicio_social,
             mat.chk_foros,mat.chk_materia,mat.estatus,gr.id AS id_grado,gr.nombre_grado,gr.numero_romano,pl.id AS idplantel,pl.nombre_plantel,pl.municipio FROM t_materias AS mat
             INNER JOIN t_plan_estudios AS pe ON mat.id_plan_estudios = pe.id
-            INNER JOIN t_planteles AS pl ON pe.id_planteles = pl.id
+            INNER JOIN t_planteles AS pl ON pe.id_plantel = pl.id
             INNER JOIN t_grados AS gr ON mat.id_grados = gr.id WHERE mat.id = $idMateria";
             $request = $this->select($sql);
             return $request;
