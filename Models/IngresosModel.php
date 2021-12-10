@@ -50,11 +50,17 @@
             $request = $this->select_all($sql);
             return $request;
         }
-        public function generarEdoCuentaAlumno(int $idPersonaSeleccionada){
-           /* $sql = "INSERT INTO t_tutores(nombre_tutor,appat_tutor,apmat_tutor,direccion,tel_celular,tel_fijo,email) VALUES(?,?,?,?,?,?,?)";
-            $request = $this->insert($sql,array($nombreTutor,$appPatTutor,$appMatTutor,$direccionTutor,$telCelularTutor,$telFijoTutor,$emailTutor));
-            */
-            $request = "generado";
+        public function selectPlantelAlumno(int $idPersonaSeleccionada){
+            $sql = "SELECT plte.id FROM t_inscripciones AS ins
+            INNER JOIN t_plan_estudios AS plnest ON ins.id_plan_estudios = plnest.id
+            INNER JOIN t_planteles AS plte ON plnest.id_plantel = plte.id WHERE ins.id_personas = $idPersonaSeleccionada LIMIT 1";
+            $request = $this->select($sql);
+            return $request;
+        }
+        public function generarEdoCuentaAlumno(int $idPersonaSeleccionada,int $idPlantel){
+            $idUser = $_SESSION['idUser'];
+            $sql = "INSERT INTO t_ingresos(estatus,id_plantel,id_persona,id_usuario) VALUES(?,?,?,?)";
+            $request = $this->insert($sql,array(1,$idPlantel,$idPersonaSeleccionada,$idUser));
             return $request;
         }
 	}

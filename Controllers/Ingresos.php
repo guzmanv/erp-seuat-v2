@@ -75,13 +75,14 @@
             die();
         }
         public function generarEdoCuenta($idPersonaSeleccionada){
-            $arrData = $this->model->generarEdoCuentaAlumno($idPersonaSeleccionada);
+            $arrPlantel = $this->model->selectPlantelAlumno($idPersonaSeleccionada);
+            $arrData = $this->model->generarEdoCuentaAlumno($idPersonaSeleccionada,$arrPlantel['id']);
             if($arrData){
                 $arrResponse = true;
             }else{
                 $arrResponse = false;
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
     }

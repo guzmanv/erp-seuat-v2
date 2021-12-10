@@ -3,6 +3,8 @@ let arrServicios = [];
 let idPersonaSeleccionada;
 document.querySelector('#alertSinEdoCta').style.display = "none";
 document.querySelector('#btnAgregarServicio').disabled = true;
+var formGenerarEdoCuenta = document.querySelector("#formGenerarEdoCuenta");
+
 document.addEventListener('DOMContentLoaded', function(){
     //Iniciar Select2
     $('.select2').select2(); 
@@ -82,12 +84,14 @@ function seleccionarPersona(answer){
     let url = `${base_url}/Ingresos/getEstatusEstadoCuenta/${idPersonaSeleccionada}`;
     fetch(url).then(res => res.json()).then((resultado) => {
         //true = tiene estado de cuenta
-        if(resultado == true){
+        document.querySelector('#alertSinEdoCta').style.display = "flex";
+
+       /*  if(resultado == true){
             document.querySelector('#btnAgregarServicio').disabled = false;
         }else{
             document.querySelector('#btnAgregarServicio').disabled = true;
             document.querySelector('#alertSinEdoCta').style.display = "flex";
-        }
+        } */
     }).catch(err => { throw err });
     document.querySelector('#alertAgregarAlumno').style.display = "none";
 }
@@ -200,6 +204,7 @@ function modCantidadServ(val){
         mostrarServiciosTabla();
     }
 }
+//Generar estado de cuenta de la persona seleccionada
 function fnGenerarEstadoCuenta(){
     Swal.fire({
         title: 'Estado de cuenta',
@@ -210,17 +215,18 @@ function fnGenerarEstadoCuenta(){
         cancelButtonColor: '#d33',
         confirmButtonText: 'Si',
         cancelButtonText: 'No'
-      }).then((result) => {
+    }).then((result) => {
         if (result.isConfirmed) {
             let url = `${base_url}/Ingresos/generarEdoCuenta/${idPersonaSeleccionada}`;
             fetch(url).then(res => res.json()).then((resultado) => {
+                console.log(resultado);
                 swal.fire("Estado de cuenta","Estado de cuenta generado correctamente!","success").then((result) =>{
                     document.querySelector('#btnAgregarServicio').disabled = false;
                     document.querySelector('#alertSinEdoCta').style.display = "none";
                 });
             }).catch(err => { throw err });    
         }
-      })
+    })
 }
 function fnButtonPagar(){
     let total = 0;

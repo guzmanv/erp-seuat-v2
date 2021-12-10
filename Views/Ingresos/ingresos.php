@@ -2,6 +2,7 @@
     headerAdmin($data);
     //getModal("Ingresos/modalPagosServicios",$data);
     getModal("Ingresos/modalBuscarPersona",$data);
+    getModal("Ingresos/modalGenerarEdoCuenta",$data);
 ?>
 <div id="contentAjax"></div>
 <div class="wrapper">
