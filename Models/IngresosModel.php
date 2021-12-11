@@ -57,11 +57,76 @@
             $request = $this->select($sql);
             return $request;
         }
+        public function selectCarreraAlumno(int $idPersonaSeleccionada){
+            $sql = "SELECT id_plan_estudios FROM t_inscripciones WHERE id_personas = $idPersonaSeleccionada LIMIT 1";
+            $request = $this->select($sql);
+            return $request;    
+        }
         public function generarEdoCuentaAlumno(int $idPersonaSeleccionada,int $idPlantel){
             $idUser = $_SESSION['idUser'];
-            $sql = "INSERT INTO t_ingresos(estatus,id_plantel,id_persona,id_usuario) VALUES(?,?,?,?)";
-            $request = $this->insert($sql,array(1,$idPlantel,$idPersonaSeleccionada,$idUser));
-            return $request;
+            //setlocale(LC_TIME, "spanish");
+            //$strMesActual = strftime("%B");
+            $listaMeses = array('01'=>'Enero','02'=>'Febrero','03'=>'Marzo','04'=>'Abril','05'=>'Mayo','06'=>'Junio','07'=>'Julio','08'=>'Agosto','09'=>'Septiembre','10'=>'Octubre','11'=>'Noviembre','12'=>'Diciembre');
+            $intAnioActual = strftime("%Y");
+            $intMesActual = strftime("%m");
+            $fechaF = $intAnioActual+1;
+            $fechaInicial = "";
+            $fechaFinal = "";
+            switch ($intMesActual) {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                    $fechaInicial = new DateTime($intAnioActual.'-01-01');
+                    $fechaFinal = new DateTime($intAnioActual.'-12-01');
+                    break;
+                
+                default:
+                    $fechaInicial = new DateTime($intAnioActual.'-09-01');
+                    $fechaFinal = new DateTime($fechaF.'-08-01');
+                    break;
+            }
+            $fechaFinal = $fechaFinal->modify( '+1 month' );
+            $intervalo = DateInterval::createFromDateString('1 month');
+            $periodo = new DatePeriod($fechaInicial, $intervalo, $fechaFinal);
+            $meses = 0;
+            $meses_str = [];
+            $soloMeses = [];
+            foreach($periodo as $mes) {
+                array_push($meses_str,$mes->format("Y/m/d"));
+                array_push($soloMeses,$listaMeses[$mes->format("m")]);
+                $meses++;
+            }
+            $sqlServicios = "SELECT id,codigo_servicio,nombre_servicio FROM t_servicios WHERE aplica_edo_cuenta = 1";
+            $requestServicios = $this->select_all($sqlServicios);
+            if($requestServicios){
+                foreach ($requestServicios as $key => $servicio) {
+                    $idServicio = $servicio['id'];
+                    if($servicio['codigo_servicio'] == 'CM'){
+                        foreach ($soloMeses as $key => $mes) {
+                            $observacion = 'coleg. '.$mes;
+                            $sqlIngresos = "INSERT INTO t_ingresos(estatus,observaciones,id_plantel,id_persona,id_usuario) VALUES(?,?,?,?,?)";
+                            $requestIngresos = $this->insert($sqlIngresos,array(1,$observacion,$idPlantel,$idPersonaSeleccionada,$idUser));
+                            if($requestIngresos){
+                                $sqlIngresosDetalle = "INSERT INTO t_ingresos_detalles(descuento_dinero,descuento_porcentaje,id_servicio,id_ingresos) VALUES(?,?,?,?)";
+                                $requestIngresosDetalle = $this->insert($sqlIngresosDetalle,array(0,'0',$idServicio,$requestIngresos));
+                            }
+                        }
+                    }else{
+                        $observacion = $servicio['nombre_servicio'];
+                        $sqlIngresos = "INSERT INTO t_ingresos(estatus,observaciones,id_plantel,id_persona,id_usuario) VALUES(?,?,?,?,?)";
+                        $requestIngresos = $this->insert($sqlIngresos,array(1,$observacion,$idPlantel,$idPersonaSeleccionada,$idUser));
+                        if($requestIngresos){
+                            $sqlIngresosDetalle = "INSERT INTO t_ingresos_detalles(descuento_dinero,descuento_porcentaje,id_servicio,id_ingresos) VALUES(?,?,?,?)";
+                            $requestIngresosDetalle = $this->insert($sqlIngresosDetalle,array(0,'0',$idServicio,$requestIngresos));
+                        }
+
+                    }
+                }
+            }
+            return $requestServicios;
         }
 	}
 ?>  

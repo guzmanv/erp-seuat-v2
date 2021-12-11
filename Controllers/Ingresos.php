@@ -76,6 +76,9 @@
         }
         public function generarEdoCuenta($idPersonaSeleccionada){
             $arrPlantel = $this->model->selectPlantelAlumno($idPersonaSeleccionada);
+            /* $arrCarrera = $this->model->selectCarreraAlumno($idPersonaSeleccionada);
+            $idPlantel = $arrPlantel['id'];
+            $idCarrera = $arrCarrera['id_plan_estudios']; */
             $arrData = $this->model->generarEdoCuentaAlumno($idPersonaSeleccionada,$arrPlantel['id']);
             if($arrData){
                 $arrResponse = true;
