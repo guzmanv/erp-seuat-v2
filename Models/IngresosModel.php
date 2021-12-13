@@ -41,7 +41,12 @@
             return $request;
         }
         public function selectServicios(){
-            $sql = "SELECT *FROM t_servicios";
+            $sql = "SELECT *FROM t_servicios WHERE colegiatura = 0";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+        public function selectColegiaturas(){
+            $sql = "SELECT *FROM t_servicios WHERE colegiatura = 1";
             $request = $this->select_all($sql);
             return $request;
         }

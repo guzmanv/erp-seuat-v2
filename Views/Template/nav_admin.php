@@ -311,7 +311,7 @@
               </a>
           </li>
           <li class="nav-item">
-              <a href="<?php echo BASE_URL ?>/Consultas" class="nav-link">
+              <a href="<?php echo BASE_URL ?>/ConsultasIngresosEgresos/consultas" class="nav-link">
                   <i class="ml-3 mr-2" data-feather="pie-chart"></i>
                   <p>
                       Consultas

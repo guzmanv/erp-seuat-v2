@@ -40,13 +40,21 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3">
+                                        <label>Que desea cobrar?</label>
+                                        <select class="form-control" id="listTipoCobro"  name="listTipoCobro" onchange="fnTiposCobro(value)" style="width: 100%;" required >
+                                            <option value="">Selecciona una</option>
+                                            <option value="1">Colegiaturas mensuales</option>
+                                            <option value="2">Otros servicios</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4 listServicios">
                                         <label>Servicios</label>
                                         <select class="form-control form-control-sm select2" id="listServicios"  name="listServicios" onchange="fnServicioSeleccionado(value)" style="width: 100%;" required >
                                             <option value="">Selecciona un servicio</option>
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3 listPromociones">
                                         <label>Promociones</label>
                                         <div class="select2-blue">
                                             <select class="select2 form-control" multiple="multiple" id="listPromociones"  name="listPromociones" data-placeholder="Seleccciona una promocion" data-dropdown-css-class="select2-blue" style="width: 100%;" required>
@@ -54,7 +62,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-2">
+                                    <div class="form-group col-md-2 txtCantidad">
                                         <label>Cantidad</label>
                                         <input type="number" id="txtCantidad" name="txtCantidad" class="form-control" min="0" value="0">
                                     </div>

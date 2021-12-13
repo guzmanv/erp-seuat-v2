@@ -3,17 +3,21 @@ let arrServicios = [];
 let idPersonaSeleccionada;
 document.querySelector('#alertSinEdoCta').style.display = "none";
 document.querySelector('#btnAgregarServicio').disabled = true;
+document.querySelector('.listServicios').style.display = "none";
+document.querySelector('.listPromociones').style.display = "none";
+document.querySelector('.txtCantidad').style.display = "none";
+document.querySelector('#listTipoCobro').disabled = true;
 var formGenerarEdoCuenta = document.querySelector("#formGenerarEdoCuenta");
 
 document.addEventListener('DOMContentLoaded', function(){
     //Iniciar Select2
     $('.select2').select2(); 
-    fnServicios();
 });
 //Lista de servicios     
-function fnServicios(){
-    let url = `${base_url}/Ingresos/getServicios`;
+function fnServicios(value){
+    let url = `${base_url}/Ingresos/getServicios/${value}`;
     fetch(url).then(res => res.json()).then((resultado) => {
+        console.log(resultado);
         arrServiciosTodos = resultado;
         document.querySelector("#listServicios").innerHTML = "<option value=''>Selecciona un servicio</option>";
 		resultado.forEach(servicio => {
@@ -27,10 +31,14 @@ function fnServicioSeleccionado(value){
         let url = `${base_url}/Ingresos/getPromociones/${value}`;
         document.querySelector("#listPromociones").innerHTML = "<option value=''>Selecciona una promocion</option>";
         fetch(url).then(res => res.json()).then((resultado) => {
-            resultado.forEach(promocion => {
-                let nombrePromocion = `${promocion.nombre_promocion} (${promocion.porcentaje_descuento}%)`;
-                document.querySelector("#listPromociones").innerHTML += `<option des='${promocion.porcentaje_descuento}'value='${promocion.id}'>${nombrePromocion}</option>`;
-            });
+            if(resultado.length == 0){
+                $('#listPromociones').val(null).trigger('change');
+            }else{
+                resultado.forEach(promocion => {
+                    let nombrePromocion = `${promocion.nombre_promocion} (${promocion.porcentaje_descuento}%)`;
+                    document.querySelector("#listPromociones").innerHTML += `<option des='${promocion.porcentaje_descuento}'value='${promocion.id}'>${nombrePromocion}</option>`;
+                });
+            }
         }).catch(err => { throw err });
         document.querySelector('#txtCantidad').value = 1;
         document.querySelector('#listPromociones').focus();
@@ -84,12 +92,19 @@ function seleccionarPersona(answer){
     let url = `${base_url}/Ingresos/getEstatusEstadoCuenta/${idPersonaSeleccionada}`;
     fetch(url).then(res => res.json()).then((resultado) => {
         //true = tiene estado de cuenta
-
         if(resultado == true){
+            document.querySelector('#alertSinEdoCta').style.display = "none";
             document.querySelector('#btnAgregarServicio').disabled = false;
+            //document.querySelector('#listServicios').disabled = false;
+            //document.querySelector('#txtCantidad').disabled = false;
+            document.querySelector('#listTipoCobro').disabled = false;
+            
         }else{
             document.querySelector('#btnAgregarServicio').disabled = true;
             document.querySelector('#alertSinEdoCta').style.display = "flex";
+            //document.querySelector('#listServicios').disabled = true;
+            //document.querySelector('#txtCantidad').disabled = true;
+            document.querySelector('#listTipoCobro').disabled = true;
         }
     }).catch(err => { throw err });
     document.querySelector('#alertAgregarAlumno').style.display = "none";
@@ -217,13 +232,20 @@ function fnGenerarEstadoCuenta(){
     }).then((result) => {
         if (result.isConfirmed) {
             let url = `${base_url}/Ingresos/generarEdoCuenta/${idPersonaSeleccionada}`;
-            fetch(url).then(res => res.json()).then((resultado) => {
-                console.log(resultado);
-                /* swal.fire("Estado de cuenta","Estado de cuenta generado correctamente!","success").then((result) =>{
-                    document.querySelector('#btnAgregarServicio').disabled = false;
-                    document.querySelector('#alertSinEdoCta').style.display = "none";
-                }); */
-            }).catch(err => { throw err });    
+            Swal.fire({
+                title:'Generando estado de cuenta',
+                html: "<div class='overlay'><i class='fas fa-3x fa-sync-alt fa-spin'></i><div class='text-bold pt-2'>espere...</div></div>",
+                icon:'question',
+                showConfirmButton:false,
+                didOpen: () =>{
+                    fetch(url).then(res => res.json()).then((resultado) => {
+                        swal.fire("Estado de cuenta","Estado de cuenta generado correctamente!","success").then((result) =>{
+                        document.querySelector('#btnAgregarServicio').disabled = false;
+                        document.querySelector('#alertSinEdoCta').style.display = "none";
+                        });
+                    }).catch(err => { throw err });
+                }
+            })  
         }
     })
 }
@@ -288,4 +310,22 @@ function formatoMoneda(numero){
     let str = numero.toString().split(".");
     str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return "$"+str.join(".");
+}
+function fnTiposCobro(value){
+    if(value != ""){
+        $('#listPromociones').val(null).trigger('change');
+        document.querySelector("#listPromociones").innerHTML = "<option value=''>Selecciona una promocion</option>";
+        fnServicios(value);
+        if(value == 1){
+            document.querySelector('.listServicios').style.display = "inline";
+            document.querySelector('.listPromociones').style.display = "inline";
+                
+        }else{
+            document.querySelector('.listServicios').style.display = "block";
+            document.querySelector('.listPromociones').style.display = "inline";
+        }
+    }else{
+        document.querySelector('.listPromociones').style.display = "none";
+        document.querySelector('.listServicios').style.display = "none";
+    }
 }

@@ -64,8 +64,12 @@
             echo json_encode($arrRequest,JSON_UNESCAPED_UNICODE);
             die();
         }
-        public function getServicios(){
-            $arrData = $this->model->selectServicios();
+        public function getServicios(int $value){
+            if($value == 1){
+                $arrData = $this->model->selectColegiaturas();
+            }else{
+                $arrData = $this->model->selectServicios();
+            }
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
