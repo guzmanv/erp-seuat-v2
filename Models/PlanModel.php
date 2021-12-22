@@ -10,6 +10,7 @@
         }
 
         public function insertPlan($data){
+            $idUser = $_SESSION['idUser'];
             $nombrePlan = $data['txtNombreNuevo'];
             $abreviaturaPlan = $data['txtAbreviaturaNuevo'];
             //$estatus = $data['listEstatusNuevo'];
@@ -21,7 +22,7 @@
             }else{
                 $sqlNew = "INSERT INTO t_organizacion_planes(nombre_plan,abreviatura,estatus,fecha_creacion,fecha_actualizacion,id_usuario_creacion,id_usuario_actualizacion) 
                 VALUES (?,?,?,NOW(),NOW(),?,?);";
-                $requestNew = $this->insert($sqlNew,array($nombrePlan,$abreviaturaPlan,1,1,1));
+                $requestNew = $this->insert($sqlNew,array($nombrePlan,$abreviaturaPlan,1,$idUser,$idUser));
                 $request['estatus'] = FALSE;
             }
             return $request;
@@ -34,6 +35,7 @@
         }
 
         public function updatePlan(int $intIdPlanEdit,$data){
+            $idUser = $_SESSION['idUser'];
             $idPlan = $intIdPlanEdit;
             $nombrePlan = $data['txtNombreEdit'];
             $abreviaturaPlan = $data['txtAbreviaturaEdit'];
@@ -63,7 +65,7 @@
                     $request['estatus'] = FALSE;
                     $request['msg'] = "";
                     $sqlUpdate = "UPDATE t_organizacion_planes SET nombre_plan = ? ,abreviatura = ?,estatus = ?, fecha_actualizacion = NOW(),id_usuario_creacion = ?,id_usuario_actualizacion = ? WHERE id = $idPlan";
-                    $requestUpdate = $this->update($sqlUpdate,array($nombrePlan,$abreviaturaPlan,$estatus,1,1));
+                    $requestUpdate = $this->update($sqlUpdate,array($nombrePlan,$abreviaturaPlan,$estatus,$idUser,$idUser));
                 }
             }
             return $request;

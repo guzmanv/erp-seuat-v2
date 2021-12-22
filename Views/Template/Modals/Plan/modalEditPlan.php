@@ -15,15 +15,15 @@
                         <div class="card-body"> 
                             <div class="form-group">
                                 <label>Nombre</label>
-                                <input type="text" id="txtNombreEdit" name="txtNombreEdit" class="form-control form-control-sm" placeholder="EJ: Semestral"  maxlength="30" required>
+                                <input type="text" id="txtNombreEdit" name="txtNombreEdit" class="form-control" placeholder="EJ: Semestral"  maxlength="30" required>
                             </div>
                             <div class="form-group">
                                 <label>Abreviatura</label>
-                                <input type="text" id="txtAbreviaturaEdit" name="txtAbreviaturaEdit" class="form-control form-control-sm" placeholder="EJ: sm"  maxlength="10" required>
+                                <input type="text" id="txtAbreviaturaEdit" name="txtAbreviaturaEdit" class="form-control" placeholder="EJ: sm"  maxlength="10" required>
                             </div>
                             <div class="form-group">
                                 <label>Estatus</label>
-                                <select class="form-control form-control-sm" id="listEstatusEdit" name="listEstatusEdit" >
+                                <select class="form-control" id="listEstatusEdit" name="listEstatusEdit" >
                                 <option value="">Selecciona un Estatus</option>
                                 <option value="1">Activo</option>
                                 <option value="2">Inactivo</option>
@@ -34,7 +34,7 @@
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalEdit"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>
-                    <button id="btnActionFormEdit" type="submit" class="btn btn-outline-secondary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Actualizar</span></button>
+                    <button id="btnActionFormEdit" type="submit" class="btn btn-outline-secondary icono-color-principal btn-primary btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Actualizar</span></button>
                 </div>   
             </form> 
         </div>
