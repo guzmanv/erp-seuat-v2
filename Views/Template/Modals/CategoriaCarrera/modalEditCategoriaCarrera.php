@@ -15,11 +15,11 @@
                         <div class="card-body"> 
                             <div class="form-group">
                                 <label>Nombre categoría</label>
-                                <input type="text" id="txtNombreCategoriaEdit" name="txtNombrecategoriaEdit" class="form-control form-control-sm" placeholder="EJ: Salud" maxlength="100" required>
+                                <input type="text" id="txtNombreCategoriaEdit" name="txtNombrecategoriaEdit" class="form-control" placeholder="EJ: Salud" maxlength="100" required>
                             </div>
                             <div class="form-group">
                                 <label>Estatus</label>
-                                <select class="form-control form-control-sm" id="listEstatusCategoriaEdit" name="listEstatusCategoriaEdit" >
+                                <select class="form-control" id="listEstatusCategoriaEdit" name="listEstatusCategoriaEdit" >
                                 <option value="">Selecciona un estatus</option>
                                 <option value="1">Activo</option>
                                 <option value="2">Inactivo</option>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalEdit"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>
-                    <button id="btnActionFormEdit" type="submit" class="btn btn-outline-secondary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Actualizar</span></button>
+                    <button id="btnActionFormEdit" type="submit" class="btn btn-outline-secondary btn-primary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Actualizar</span></button>
                 </div>   
             </form> 
         </div>

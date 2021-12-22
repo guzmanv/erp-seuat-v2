@@ -15,7 +15,7 @@
                         <div class="card-body"> 
                             <div class="form-group">
                                 <label>Nombre categoría</label>
-                                <input type="text" id="txtNombreCategoriaNueva" name="txtNombrecategoriaNueva" class="form-control form-control-sm" placeholder="EJ: Salud" maxlength="100" required>
+                                <input type="text" id="txtNombreCategoriaNueva" name="txtNombrecategoriaNueva" class="form-control" placeholder="EJ: Salud" maxlength="100" required>
                             </div>
                             <!--<div class="form-group">
                                 <label>Estatus</label>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalNuevo"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>
-                    <button id="btnActionFormNueva" type="submit" class="btn btn-outline-secondary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Guardar</span></button>
+                    <button id="btnActionFormNueva" type="submit" class="btn btn-outline-secondary  btn-primary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Guardar</span></button>
                 </div>   
             </form> 
         </div>
