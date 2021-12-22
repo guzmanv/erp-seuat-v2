@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function(){
             {"data":"nombre_carrera"},
             {"data":"numero_romano"},
             {"data":"tipo"},
-            {"data":"clasificacion"},
+            {"data":"nombre_clasificacion_materia"},
 			{"data":"estatus"},
             {"data":"options"}
 
@@ -94,6 +94,7 @@ function fntVerMateria(idMateria){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
             if(objData){   
+
                 document.querySelector('#titleModalVer').innerHTML = objData.nombre_materia;
                 document.querySelector('#txtNombreVer').value = objData.nombre_materia;
                 document.querySelector('#txtClaveVer').value = objData.clave;
@@ -104,19 +105,9 @@ function fntVerMateria(idMateria){
                 document.querySelector('#listPlantelVer').innerHTML = "<option selected>"+objData.nombre_plantel+" ("+objData.municipio+")"+"</option>";
                 document.querySelector('#listGradoVer').innerHTML = "<option selcted>"+objData.nombre_grado+"("+objData.numero_romano+")"+"</option>";
                 document.querySelector('#listPlanEstudioVer').innerHTML = "<option selected>"+objData.nombre_carrera+"</option>";
-                if(objData.chk_practica == 1){
-                    document.querySelector('#listClasificacionVer').innerHTML = "<option selected>Practica</option>";
-                }
-                if(objData.chk_servicio_social == 1){
-                    document.querySelector('#listClasificacionVer').innerHTML = "<option selected>Servicio Social</option>";
-                }
-                if(objData.chk_foros == 1){
-                    document.querySelector('#listClasificacionVer').innerHTML = "<option selected>Foros</option>";
-                }
-                if(objData.chk_materia == 1){
-                    document.querySelector('#listClasificacionVer').innerHTML = "<option selected>Materia</option>";
-                }
-                if(objData.status == 1){
+
+                document.querySelector('#listClasificacionVer').querySelector('option[value="'+objData.id_clasificacion_materia+'"]').selected = true;
+                if(objData.estatus == 1){
                     document.querySelector('#listEstatusVer').innerHTML = "<option selected>Activo</option>";
                 }else{
                     document.querySelector('#listEstatusVer').innerHTML = "<option selected>Inactivo</option>";
@@ -188,31 +179,8 @@ function fntEditMateria(idMateria){
                         }
                     })
                     .catch(err => { throw err });
+                    document.querySelector('#listClasificacionEdit').querySelector('option[value="'+objData.id_clasificacion_materia+'"]').selected = true;
 
-                if(objData.chk_practica == 1){
-                    document.querySelector('#listClasificacionEdit').innerHTML = "<option value='4' selected>Practica</option>";
-                    document.querySelector('#listClasificacionEdit').innerHTML += "<option value='1'>Materia</option>";
-                    document.querySelector('#listClasificacionEdit').innerHTML += "<option value='2'>Foro</option>";
-                    document.querySelector('#listClasificacionEdit').innerHTML += "<option value='3'>Servicio Social</option>";
-                }
-                if(objData.chk_servicio_social == 1){
-                    document.querySelector('#listClasificacionEdit').innerHTML = "<option value='3' selected>Servicio Social</option>";
-                    document.querySelector('#listClasificacionEdit').innerHTML += "<option value='1'>Materia</option>";
-                    document.querySelector('#listClasificacionEdit').innerHTML += "<option value='2'>Foro</option>";
-                    document.querySelector('#listClasificacionEdit').innerHTML += "<option value='4'>Practica</option>";
-                }
-                if(objData.chk_foros == 1){
-                    document.querySelector('#listClasificacionEdit').innerHTML = "<option value='2' selected>Foros</option>";
-                    document.querySelector('#listClasificacionEdit').innerHTML += "<option value='1'>Materia</option>";
-                    document.querySelector('#listClasificacionEdit').innerHTML += "<option value='3'>Servicio Social</option>";
-                    document.querySelector('#listClasificacionEdit').innerHTML += "<option value='4'>Practica</option>";
-                }
-                if(objData.chk_materia == 1){
-                    document.querySelector('#listClasificacionEdit').innerHTML = "<option value='1' selected>Materia</option>";
-                    document.querySelector('#listClasificacionEdit').innerHTML += "<option value='2'>Foros</option>";
-                    document.querySelector('#listClasificacionEdit').innerHTML += "<option value='3'>Servicio social</option>";
-                    document.querySelector('#listClasificacionEdit').innerHTML += "<option value='4'>Practica</option>";
-                }
                 if(objData.estatus == 1)
                 {
                     var optionSelect = '<option value="1" selected class="notBlock">Activo</option>';
@@ -316,7 +284,7 @@ function plantelSeleccionado(id){
             document.querySelector('#listPlanEstudioNuevo').innerHTML = "<option value=''>Selecciona un Plan de Estudio</option>";
             for (let i = 0; i < resultado.length; i++) {
                 opcion = document.createElement('option');
-                opcion.text = resultado[i]['nombre_carrera']+' ('+resultado[i]['rvoe']+')'+' ('+resultado[i]['vigencia_rvoe']+')';
+                opcion.text = resultado[i]['nombre_carrera']+' ('+resultado[i]['rvoe']+')'+' ('+resultado[i]['fecha_vigencia']+')';
                 opcion.value = resultado[i]['id'];
                 selLocalidades.appendChild(opcion);
             }
