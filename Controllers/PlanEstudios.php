@@ -21,6 +21,7 @@
 			$data['categorias'] = $this->model->selectCategorias();
 			$data['modalidad'] = $this->model->selectModalidades();
 			$data['plan'] = $this->model->selectPlanes();
+			$data['clasificacion'] = $this->model->selectClasificaciones();
             $this->views->getView($this,"planestudios",$data);
         }
 
@@ -54,8 +55,9 @@
             die();
         }
         //Funcion para guardar una Categoria
-		public function setPlanEstudios(){
+		public function setPlanEstudios($arr){
 			$data = $_POST;
+			$arreglo = json_decode($arr);
 			$idPlanEstudiosEdit = 0;
 			$idPlanEstudiosNuevo = 0;
 			if(isset($_POST['idNuevo'])){
@@ -66,7 +68,7 @@
 			}
 			
 			if($idPlanEstudiosEdit != 0 ){
-				$arrData = $this->model->updatePlanEstudios($idPlanEstudiosEdit,$data);
+				$arrData = $this->model->updatePlanEstudios($idPlanEstudiosEdit,$data,$arreglo);
 				if($arrData){
 					$arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente.');
 				}else{
@@ -74,41 +76,75 @@
 				}
 			}
 			if($idPlanEstudiosNuevo == 1){
-				$arrData = $this->model->insertPlanEstudios($data);
+				$arrData = $this->model->insertPlanEstudios($data,$arreglo);
 			    if($arrData){
 			        $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente.');
 			    }else{
 			        $arrResponse = array('estatus' => false, 'mgg' => 'No es posible almacenar los datos'); 
-                 }
-			}
+                }
+			} 
 			echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 			die();
 		}
 
         public function getPlanEstudio(int $idPlanEstudio){
-            $arrData = $this->model->selectPlanEstudio($idPlanEstudio);
+            $arrData['plan_estudio'] = $this->model->selectPlanEstudio($idPlanEstudio);
+            $arrData['clasificaciones'] = $this->model->selectClasificacionPlanEstudio($idPlanEstudio);
 			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
 			die();
         }
         public function getPlanEstudioEdit(int $idPlanEstudio){
-            $arrData = $this->model->selectPlanEstudioEdit($idPlanEstudio);
+			$arrData['plan_estudio'] = $this->model->selectPlanEstudioEdit($idPlanEstudio);
+            $arrData['clasificaciones'] = $this->model->selectClasificacionPlanEstudio($idPlanEstudio);
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
         }
 
-        public function delPlanEstudio(){
-            if($_POST){
-                $intIdPlanEstudio = intval($_POST['idPlanEstudio']);
-                $requestDelete = $this->model->deletePlanEdtudio($intIdPlanEstudio);
-                if($requestDelete == 'ok'){
-					$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el plan de estudio.');
-				}else{
-					$arrResponse = array('estatus' => false, 'msg' => 'Error al eliminar el plan de estudio.');
-				}
-                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-        }
-        die();
-        }
+		public function delPlanEstudio(){
+			if($_POST){
+					$intIdPlanEstudio = intval($_POST['idPlanEstudio']);
+					$requestTablaRef = $this->model->getTablasRef();
+					if(count($requestTablaRef)>0){
+						$requestStatus = 0;
+						foreach ($requestTablaRef as $key => $tabla) {
+							$nombreTabla = $tabla['tablas'];
+							$existColumn = $this->model->selectColumn($nombreTabla);
+							if($existColumn){
+								$requestEstatusRegistro = $this->model->estatusRegistroTabla($nombreTabla,$intIdPlanEstudio);
+								if($requestEstatusRegistro){
+									$requestStatus += count($requestEstatusRegistro);
+								}else{
+									$requestStatus += 0;
+								}	
+							}
+						}
+						if($requestStatus == 0){
+							$requestDelete = $this->model->deletePlanEdtudio($intIdPlanEstudio);
+							if($requestDelete == 'ok'){
+								$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el plan de estudios.');
+							}else if($requestDelete == 'exist'){
+								$arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar el plan de estudios.');
+							}else{
+								$arrResponse = array('estatus' => false, 'msg' => 'Error al eliminar el plan de estudios.');
+							}
+						}else{
+							$arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar porque hay materias activas relacionados a este plan de estudios.');
+						}
+					}else{
+						$arrResponse = "eliminando";
+						$requestDelete = $this->model->deletePlanEdtudio($intIdPlanEstudio);
+						if($requestDelete == 'ok'){
+							$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el plan de estudios.');
+						}else if($requestDelete == 'exist'){
+							$arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar el plan de estudios.');
+						}else{
+							$arrResponse = array('estatus' => false, 'msg' => 'Error al eliminar el plan de estudios.');
+						}
+					}
+					echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+			}
+			die();
+		}
        
     }
 ?>
