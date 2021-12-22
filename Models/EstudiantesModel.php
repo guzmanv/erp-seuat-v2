@@ -13,7 +13,7 @@
             INNER JOIN t_personas AS per ON ins.id_personas = per.id
             INNER JOIN t_plan_estudios AS planest ON ins.id_plan_estudios = planest.id
             INNER JOIN t_planteles AS plante ON planest.id_plantel = plante.id
-            LEFT JOIN t_salones AS sal ON ins.id_salon = sal.id
+            LEFT JOIN t_salones_compuesto AS sal ON ins.id_salon_compuesto = sal.id
             WHERE his.inscrito = 1";
 			$request = $this->select_all($sql);
 			return $request;
@@ -25,7 +25,7 @@
             INNER JOIN t_personas AS per ON ins.id_personas = per.id
             INNER JOIN t_plan_estudios AS planest ON ins.id_plan_estudios = planest.id
             INNER JOIN t_planteles AS plante ON planest.id_plantel = plante.id
-            LEFT JOIN t_salones AS sal ON ins.id_salon = sal.id
+            LEFT JOIN t_salones_compuesto AS sal ON ins.id_salon_compuesto = sal.id
             WHERE his.inscrito = 1 AND ins.id = $idInscripcion";
 			$request = $this->select_all($sql);
 			return $request;

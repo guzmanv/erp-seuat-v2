@@ -17,17 +17,18 @@
         public function selectInscripcionesAdmision($idplantel){
             $idPlantel = $idplantel;
             if($idPlantel == "Todos"){
-                $sql = "SELECT plan.id,plan.nombre_carrera,niv.nombre_nivel_educativo,ins.grado,grup.nombre_grupo,orgp.nombre_plan,tur.id AS id_turno,tur.nombre_turno, COUNT(*) AS total FROM t_inscripciones AS ins
-                INNER JOIN t_personas AS per ON ins.id_personas = per.id
-                INNER JOIN t_plan_estudios AS plan ON ins.id_plan_estudios = plan.id
-                INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativo = niv.id
-                INNER JOIN t_organizacion_planes AS orgp ON plan.id_plan = orgp.id
-                LEFT JOIN t_salonescompletos AS sal ON ins.id_salon = sal.id
-                LEFT JOIN t_grados AS gra ON sal.id_grado = gra.id
-                LEFT JOIN t_grupos AS grup ON sal.id_grupo = grup.id
-                INNER JOIN t_planteles AS plant ON plan.id_plantel = plant.id
-                INNER JOIN t_turnos AS tur ON ins.id_horario = tur.id
-                GROUP BY plan.nombre_carrera,ins.grado,tur.nombre_turno HAVING COUNT(*)>=1";
+                $sql = "SELECT plan.id,plan.nombre_carrera,niv.nombre_nivel_educativo,ins.grado,grup.nombre_grupo,orgp.nombre_plan,tur.id AS id_turno,
+                tur.nombre_turno, COUNT(*) AS total FROM t_inscripciones AS ins
+                                INNER JOIN t_personas AS per ON ins.id_personas = per.id
+                                INNER JOIN t_plan_estudios AS plan ON ins.id_plan_estudios = plan.id
+                                INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativo = niv.id
+                                INNER JOIN t_organizacion_planes AS orgp ON plan.id_plan = orgp.id
+                                LEFT JOIN t_salones_compuesto AS sal ON ins.id_salon_compuesto = sal.id
+                                LEFT JOIN t_grados AS gra ON sal.id_grado = gra.id
+                                LEFT JOIN t_grupos AS grup ON sal.id_grupo = grup.id
+                                INNER JOIN t_planteles AS plant ON plan.id_plantel = plant.id
+                                INNER JOIN t_turnos AS tur ON ins.id_horario = tur.id
+                                GROUP BY plan.nombre_carrera,ins.grado,tur.nombre_turno HAVING COUNT(*)>=1";
                 $request = $this->select_all($sql);
             }else{
                 $sql = "SELECT plan.id,plan.nombre_carrera,niv.nombre_nivel_educativo,ins.grado,grup.nombre_grupo,orgp.nombre_plan,tur.id AS id_turno,tur.nombre_turno, COUNT(*) AS total FROM t_inscripciones AS ins
@@ -35,7 +36,7 @@
                 INNER JOIN t_plan_estudios AS plan ON ins.id_plan_estudios = plan.id
                 INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativo = niv.id
                 INNER JOIN t_organizacion_planes AS orgp ON plan.id_plan = orgp.id
-                LEFT JOIN t_salonescompletos AS sal ON ins.id_salon = sal.id
+                LEFT JOIN t_salones_compuesto AS sal ON ins.id_salon_compuesto = sal.id
                 LEFT JOIN t_grados AS gra ON sal.id_grado = gra.id
                 LEFT JOIN t_grupos AS grup ON sal.id_grupo = grup.id
                 INNER JOIN t_planteles AS plant ON plan.id_plantel = plant.id
@@ -54,7 +55,7 @@
                 INNER JOIN t_plan_estudios AS plan ON ins.id_plan_estudios = plan.id
                 INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativo = niv.id
                 INNER JOIN t_organizacion_planes AS orgp ON plan.id_plan = orgp.id
-                LEFT JOIN t_salones AS sal ON ins.id_salon = sal.id
+                LEFT JOIN t_salones_compuesto AS sal ON ins.id_salon_compuesto = sal.id
                 LEFT JOIN t_grados AS gra ON sal.id_grado = gra.id
                 LEFT JOIN t_grupos AS grup ON sal.id_grupo = grup.id
                 INNER JOIN t_planteles AS plant ON plan.id_plantel = plant.id
@@ -67,7 +68,7 @@
                 INNER JOIN t_plan_estudios AS plan ON ins.id_plan_estudios = plan.id
                 INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativo = niv.id
                 INNER JOIN t_organizacion_planes AS orgp ON plan.id_plan = orgp.id
-                LEFT JOIN t_salones AS sal ON ins.id_salon = sal.id
+                LEFT JOIN t_salones_compuesto AS sal ON ins.id_salon_compuesto = sal.id
                 LEFT JOIN t_grados AS gra ON sal.id_grado = gra.id
                 LEFT JOIN t_grupos AS grup ON sal.id_grupo = grup.id
                 INNER JOIN t_planteles AS plant ON plan.id_plantel = plant.id
@@ -136,7 +137,7 @@
                     $sql_historial = "INSERT INTO t_historiales(aperturado,inscrito,egreso,pasante,titulado,baja,matricula_interna,matricula_externa,fecha_inscrito,fecha_egreso,fecha_pasante,fecha_titulado,fecha_baja) VALUES(?,?,?,?,?,?,?,?,NOW(),?,?,?,?)";
                     $request_historial = $this->insert($sql_historial,array(0,1,0,0,0,0,null,null,null,null,null,null));
                     if($request_historial){
-                        $sql_inscripcion = "INSERT INTO t_inscripciones(folio_impreso,folio_sistema,tipo_ingreso,grado,promedio,id_horario,id_plan_estudios,id_personas,id_tutores,id_documentos,id_subcampania,id_salon,id_historial,id_usuario_creacion,fecha_actualizacion,id_usuario_actualizacion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)";
+                        $sql_inscripcion = "INSERT INTO t_inscripciones(folio_impreso,folio_sistema,tipo_ingreso,grado,promedio,id_horario,id_plan_estudios,id_personas,id_tutores,id_documentos,id_subcampania,id_salon_compuesto,id_historial,id_usuario_creacion,fecha_actualizacion,id_usuario_actualizacion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)";
                         $request_inscripcion = $this->insert($sql_inscripcion,array($folioSistema,$folioSistema,$tipoIngreso,$grado,null,$turno,$idCarrera,$idPersona,$idTutor,$idDocumentos,$idSubcampania,$idSalon,$request_historial,1,1));
                         if($request_inscripcion){
                             $sqlEmpresa = "UPDATE t_personas SET nombre_empresa = ?,fecha_actualizacion = NOW() WHERE id = $idPersona";

@@ -41,7 +41,7 @@ function fnGetEstadoCuentaAlumno(str){
         "scrollCollapse": true,
         "bDestroy": true,
         "order": [[ 0, "asc" ]],
-        "iDisplayLength": 5
+        "iDisplayLength": 20
     });
     $('#tableEstadoCuenta').DataTable();
 }

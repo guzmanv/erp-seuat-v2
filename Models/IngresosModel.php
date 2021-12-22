@@ -25,11 +25,11 @@
         }
         public function selectPersonasModal($data){
             $sql = "SELECT per.id,CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) AS nombre,
-            ins.id AS id_inscripcion,pln.nombre_carrera,ins.grado,ins.id_salon,gr.nombre_grupo FROM t_personas AS per
+            ins.id AS id_inscripcion,pln.nombre_carrera,ins.grado,ins.id_salon_compuesto,gr.nombre_grupo FROM t_personas AS per
             LEFT JOIN t_inscripciones AS ins ON ins.id_personas = per.id
             LEFT JOIN t_historiales AS his ON ins.id_historial = his.id
             INNER JOIN t_plan_estudios AS pln ON ins.id_plan_estudios = pln.id
-            INNER JOIN t_salonescompletos AS sal ON ins.id_salon = sal.id
+            INNER JOIN t_salones_compuesto AS sal ON ins.id_salon_compuesto = sal.id
             INNER JOIN t_grupos AS gr ON sal.id_grado = gr.id
             WHERE CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) LIKE '%$data%'";
             $request = $this->select_all($sql);
@@ -45,8 +45,11 @@
             $request = $this->select_all($sql);
             return $request;
         }
-        public function selectColegiaturas(){
-            $sql = "SELECT *FROM t_servicios WHERE colegiatura = 1";
+        public function selectColegiaturas(int $idPersona){
+            $sql = "SELECT ing.id AS id_ingresos,ingd.id AS id_ingresos_detalles,prc.descripcion,prc.id_servicio FROM t_ingresos_detalles AS ingd
+            INNER JOIN t_ingresos AS ing ON ingd.id_ingresos = ing.id
+            INNER JOIN t_precarga_cuenta AS prc ON ingd.id_precarga_cuenta = prc.id
+            WHERE ing.id_persona = $idPersona AND prc.estatus = 1";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -67,11 +70,23 @@
             $request = $this->select($sql);
             return $request;    
         }
-        public function generarEdoCuentaAlumno(int $idPersonaSeleccionada,int $idPlantel){
+        public function selectGradoAlumno(int $idPersonaSeleccionada){
+            $sql = "SELECT grado FROM t_inscripciones WHERE id_personas = $idPersonaSeleccionada LIMIT 1";
+            $request = $this->select($sql);
+            return $request; 
+        }
+        public function selectPeriodoAlumno(int $idPersonaSeleccionada){
+            $sql = "SELECT ins.id_salon_compuesto,sc.id_periodo FROM t_inscripciones AS ins 
+            INNER JOIN t_salones_compuesto AS sc ON ins.id_salon_compuesto = sc.id 
+            WHERE ins.id_personas = $idPersonaSeleccionada LIMIT 1";
+            $request = $this->select($sql);
+            return $request; 
+        }
+        public function generarEdoCuentaAlumno(int $idPersonaSeleccionada,int $idPlantel, int $idCarrera, int $idGrado, int $idPeriodo){
             $idUser = $_SESSION['idUser'];
             //setlocale(LC_TIME, "spanish");
             //$strMesActual = strftime("%B");
-            $listaMeses = array('01'=>'Enero','02'=>'Febrero','03'=>'Marzo','04'=>'Abril','05'=>'Mayo','06'=>'Junio','07'=>'Julio','08'=>'Agosto','09'=>'Septiembre','10'=>'Octubre','11'=>'Noviembre','12'=>'Diciembre');
+            /* $listaMeses = array('01'=>'Enero','02'=>'Febrero','03'=>'Marzo','04'=>'Abril','05'=>'Mayo','06'=>'Junio','07'=>'Julio','08'=>'Agosto','09'=>'Septiembre','10'=>'Octubre','11'=>'Noviembre','12'=>'Diciembre');
             $intAnioActual = strftime("%Y");
             $intMesActual = strftime("%m");
             $fechaF = $intAnioActual+1;
@@ -103,17 +118,19 @@
                 array_push($meses_str,$mes->format("Y/m/d"));
                 array_push($soloMeses,$listaMeses[$mes->format("m")]);
                 $meses++;
-            }
+            } */
             $sqlServicios = "SELECT id,codigo_servicio,nombre_servicio FROM t_servicios WHERE aplica_edo_cuenta = 1";
             $requestServicios = $this->select_all($sqlServicios);
             if($requestServicios){
                 foreach ($requestServicios as $key => $servicio) {
                     $idServicio = $servicio['id'];
                     if($servicio['codigo_servicio'] == 'CM'){
-                        foreach ($soloMeses as $key => $mes) {
-                            $observacion = 'coleg. '.$mes;
-                            $sqlIngresos = "INSERT INTO t_ingresos(estatus,observaciones,id_plantel,id_persona,id_usuario) VALUES(?,?,?,?,?)";
-                            $requestIngresos = $this->insert($sqlIngresos,array(1,$observacion,$idPlantel,$idPersonaSeleccionada,$idUser));
+                        $sqlColegiaturas = "SELECT *FROM t_precarga_cuenta AS prc WHERE prc.id_periodo = $idPeriodo AND prc.id_plan_estudio = $idCarrera AND prc.id_servicio = $idServicio AND prc.id_grado = $idGrado AND prc.estatus = 1 ORDER BY prc.fecha ASC";
+                        $requestColegiaturas = $this->select_all($sqlColegiaturas);
+                        foreach ($requestColegiaturas as $key => $colegiatura) {
+                            //$observacion = 'coleg. '.$mes;
+                            $sqlIngresos = "INSERT INTO t_ingresos(estatus,id_plantel,id_persona,id_usuario) VALUES(?,?,?,?)";
+                            $requestIngresos = $this->insert($sqlIngresos,array(1,$idPlantel,$idPersonaSeleccionada,$idUser));
                             if($requestIngresos){
                                 $sqlIngresosDetalle = "INSERT INTO t_ingresos_detalles(descuento_dinero,descuento_porcentaje,id_servicio,id_ingresos) VALUES(?,?,?,?)";
                                 $requestIngresosDetalle = $this->insert($sqlIngresosDetalle,array(0,'0',$idServicio,$requestIngresos));
@@ -121,8 +138,8 @@
                         }
                     }else{
                         $observacion = $servicio['nombre_servicio'];
-                        $sqlIngresos = "INSERT INTO t_ingresos(estatus,observaciones,id_plantel,id_persona,id_usuario) VALUES(?,?,?,?,?)";
-                        $requestIngresos = $this->insert($sqlIngresos,array(1,$observacion,$idPlantel,$idPersonaSeleccionada,$idUser));
+                        $sqlIngresos = "INSERT INTO t_ingresos(estatus,id_plantel,id_persona,id_usuario) VALUES(?,?,?,?)";
+                        $requestIngresos = $this->insert($sqlIngresos,array(1,$idPlantel,$idPersonaSeleccionada,$idUser));
                         if($requestIngresos){
                             $sqlIngresosDetalle = "INSERT INTO t_ingresos_detalles(descuento_dinero,descuento_porcentaje,id_servicio,id_ingresos) VALUES(?,?,?,?)";
                             $requestIngresosDetalle = $this->insert($sqlIngresosDetalle,array(0,'0',$idServicio,$requestIngresos));
@@ -131,7 +148,7 @@
                     }
                 }
             }
-            return $requestServicios;
+            return $requestIngresosDetalle;
         }
 	}
 ?>  

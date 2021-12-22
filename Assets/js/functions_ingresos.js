@@ -15,14 +15,20 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 //Lista de servicios     
 function fnServicios(value){
-    let url = `${base_url}/Ingresos/getServicios/${value}`;
+    let url = `${base_url}/Ingresos/getServicios/${value}/${idPersonaSeleccionada}`;
     fetch(url).then(res => res.json()).then((resultado) => {
-        console.log(resultado);
-        arrServiciosTodos = resultado;
+        arrServiciosTodos = resultado.data;
         document.querySelector("#listServicios").innerHTML = "<option value=''>Selecciona un servicio</option>";
-		resultado.forEach(servicio => {
-            document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' value='${servicio.id}'>${servicio.nombre_servicio}</option>`;
-        });
+        if(resultado.tipo == "COL"){
+            resultado.data.forEach(servicio => {
+                console.log(servicio);
+                //document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' value='${servicio.id}'>${servicio.nombre_servicio}</option>`;
+            });
+        }else{
+            resultado.data.forEach(servicio => {
+                document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' value='${servicio.id}'>${servicio.nombre_servicio}</option>`;
+            });
+        }
     }).catch(err => { throw err });
 }
 //Lista de Promociones del Servicio seleccionado
@@ -239,7 +245,7 @@ function fnGenerarEstadoCuenta(){
                 showConfirmButton:false,
                 didOpen: () =>{
                     fetch(url).then(res => res.json()).then((resultado) => {
-                        swal.fire("Estado de cuenta","Estado de cuenta generado correctamente!","success").then((result) =>{
+                       swal.fire("Estado de cuenta","Estado de cuenta generado correctamente!","success").then((result) =>{
                         document.querySelector('#btnAgregarServicio').disabled = false;
                         document.querySelector('#alertSinEdoCta').style.display = "none";
                         });

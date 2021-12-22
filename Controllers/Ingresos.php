@@ -64,11 +64,16 @@
             echo json_encode($arrRequest,JSON_UNESCAPED_UNICODE);
             die();
         }
-        public function getServicios(int $value){
-            if($value == 1){
-                $arrData = $this->model->selectColegiaturas();
+        public function getServicios($valor){
+            $valor = explode(',',$valor);
+            $pago = $valor[0];
+            $idPersona = $valor[1];
+            if($pago == 1){
+                $arrData['tipo'] = "COL";
+                $arrData['data'] = $this->model->selectColegiaturas($idPersona);
             }else{
-                $arrData = $this->model->selectServicios();
+                $arrData['tipo'] = "SERV";
+                $arrData['data'] = $this->model->selectServicios($idPersona);
             }
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
@@ -80,16 +85,20 @@
         }
         public function generarEdoCuenta($idPersonaSeleccionada){
             $arrPlantel = $this->model->selectPlantelAlumno($idPersonaSeleccionada);
-            /* $arrCarrera = $this->model->selectCarreraAlumno($idPersonaSeleccionada);
+            $arrCarrera = $this->model->selectCarreraAlumno($idPersonaSeleccionada);
+            $arrGrado = $this->model->selectGradoAlumno($idPersonaSeleccionada);
+            $arrPeriodo = $this->model->selectPeriodoAlumno($idPersonaSeleccionada);
             $idPlantel = $arrPlantel['id'];
-            $idCarrera = $arrCarrera['id_plan_estudios']; */
-            $arrData = $this->model->generarEdoCuentaAlumno($idPersonaSeleccionada,$arrPlantel['id']);
+            $idCarrera = $arrCarrera['id_plan_estudios'];
+            $idGrado = $arrGrado['grado'];
+            $idPeriodo = $arrPeriodo['id_periodo'];
+            $arrData = $this->model->generarEdoCuentaAlumno($idPersonaSeleccionada,$idPlantel,$idCarrera,$idGrado,$idPeriodo);
             if($arrData){
                 $arrResponse = true;
             }else{
                 $arrResponse = false;
             }
-            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
     }
