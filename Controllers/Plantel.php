@@ -107,13 +107,42 @@
 		public function delPlantel(){
 			if($_POST){
 					$intIdPlantel = intval($_POST['idPlantel']);
-					$requestDelete = $this->model->deletePlantel($intIdPlantel);
-					if($requestDelete == 'ok'){
-						$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el Plantel.');
-					}else if($requestDelete == 'exist'){
-						$arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar el plantel.');
+					$requestTablaRef = $this->model->getTablasRef();
+					if(count($requestTablaRef)>0){
+						$requestStatus = 0;
+						foreach ($requestTablaRef as $key => $tabla) {
+							$nombreTabla = $tabla['tablas'];
+							$existColumn = $this->model->selectColumn($nombreTabla);
+							if($existColumn){
+								$requestEstatusRegistro = $this->model->estatusRegistroTabla($nombreTabla,$intIdPlantel);
+								if($requestEstatusRegistro){
+									$requestStatus += count($requestEstatusRegistro);
+								}else{
+									$requestStatus += 0;
+								}
+							}
+						}
+						if($requestStatus == 0){
+							$requestDelete = $this->model->deletePlantel($intIdPlantel);
+							if($requestDelete == 'ok'){
+								$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el Plantel.');
+							}else if($requestDelete == 'exist'){
+								$arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar el plantel.');
+							}else{
+								$arrResponse = array('estatus' => false, 'msg' => 'Error al eliminar el plantel.');
+							} 
+						}else{
+							$arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar porque hay plan de estudios activos relacionados a este plantel.');
+						}
 					}else{
-						$arrResponse = array('estatus' => false, 'msg' => 'Error al eliminar el plantel.');
+						$requestDelete = $this->model->deletePlantel($intIdPlantel);
+						if($requestDelete == 'ok'){
+							$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el Plantel.');
+						}else if($requestDelete == 'exist'){
+							$arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar el plantel.');
+						}else{
+							$arrResponse = array('estatus' => false, 'msg' => 'Error al eliminar el plantel.');
+						}
 					}
 					echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 			}

@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function(){
         var strRegimen = document.querySelector('#txtRegimenNuevo').value;
         var strServicio = document.querySelector('#txtServicioNuevo').value;
         var strCategoria = document.querySelector('#txtCategoriaNuevo').value;
-        var intAcuerdoIncorporacion = document.querySelector('#txtAcuerdoIncorporacionNuevo').value;
+        //var intAcuerdoIncorporacion = document.querySelector('#txtAcuerdoIncorporacionNuevo').value;
         var intClaveCentroTrabajo = document.querySelector('#txtClaveCentroTrabajoNuevo').value;
         var intEstado = document.querySelector('#listEstadoNuevo').value;
         var intMunicipio = document.querySelector('#listMunicipioNuevo').value;
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function(){
         var intCodigoPostal = document.querySelector('#txtCodigoPostalNuevo').value;
 
         if (strNombrePlantel == '' || strAbreviacionPlantel == '' || strNombreSistema == '' || strAbreviacionSistema == '' || strRegimen == '' || 
-            strServicio == '' || strCategoria == '' || intAcuerdoIncorporacion == '' || intClaveCentroTrabajo == '' || intEstado == '' || intMunicipio == '' || 
+            strServicio == '' || strCategoria == ''  || intClaveCentroTrabajo == '' || intEstado == '' || intMunicipio == '' || 
             intLocalidad == '' || strDomicilio == '' || strColonia == '' || intCodigoPostal == ''){
                 swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
                 return false;
@@ -104,20 +104,48 @@ $('#tablePlantel').DataTable();
 
 
 function fnNavTab(numTab){
+    tabActual = numTab;
     var x = document.getElementsByClassName("tab");
     for( var i = 0; i<x.length;i++){
       x[i].style.display = "none";
     }
     x[numTab].style.display = "block";
+    if (numTab == 0) {
+        document.getElementById("btnSiguiente").style.display = "inline";
+        document.getElementById("btnAnterior").style.display = "none";
+      } else {
+        document.getElementById("btnAnterior").style.display = "inline";
+      }
+      if (numTab == (x.length - 1)) {
+        document.getElementById("btnSiguiente").style.display = "none";
+        document.getElementById("btnActionFormNuevo").style.display = "inline";
+      } else {
+        document.getElementById("btnSiguiente").style.display = "inline";
+        document.getElementById("btnActionFormNuevo").style.display = "none";
+      }
     estadoIndicadores(numTab);
   
   }
   function fnNavTabEdit(numTab){
+    tabActualEdit = numTab;
     var x = document.getElementsByClassName("tabEdit");
     for( var i = 0; i<x.length;i++){
       x[i].style.display = "none";
     }
     x[numTab].style.display = "block";
+    if (numTab == 0) {
+        document.getElementById("btnSiguienteEdit").style.display = "inline";
+        document.getElementById("btnAnteriorEdit").style.display = "none";
+      } else {
+        document.getElementById("btnAnteriorEdit").style.display = "inline";
+      }
+      if (numTab == (x.length - 1)) {
+        document.getElementById("btnSiguienteEdit").style.display = "none";
+        document.getElementById("btnActionFormEdit").style.display = "inline";
+      } else {
+        document.getElementById("btnSiguienteEdit").style.display = "inline";
+        document.getElementById("btnActionFormEdit").style.display = "none";
+      }
     estadoIndicadoresEdit(numTab);
   }
   function mostrarTab(tabActual) {
@@ -161,6 +189,7 @@ function fnNavTab(numTab){
     //n = 1 : siguiente; n = -1 : anterior
     x[tabActual].style.display = "none";
     tabActual = tabActual + n;
+    //console.log(tabActual);
     if (tabActual >= x.length) {
       //var jos = document.getElementById("formPlanEstudiosNueva").submit();
       //console.log(jos);
@@ -174,6 +203,8 @@ function fnNavTab(numTab){
     //n = 1 : siguiente; n = -1 : anterior
     x[tabActualEdit].style.display = "none";
     tabActualEdit = tabActualEdit + n;
+   // console.log(tabActualEdit);
+
     if (tabActualEdit >= x.length) {
       //var jos = document.getElementById("formPlanEstudiosNueva").submit();
       //console.log(jos);
@@ -344,6 +375,8 @@ function displayImageSistemaEdit(f) {
 //Funcion para Editar Plantel
 function fntEditPlantel(idPlantel){
     var idplantel = idPlantel;
+    $('#step1-tabEdit').click();
+    tabActualEdit = 0;
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl  = base_url+'/Plantel/getPlantel/'+idplantel;
     request.open("GET",ajaxUrl ,true);
@@ -361,11 +394,11 @@ function fntEditPlantel(idPlantel){
                 document.querySelector('#txtRegimenEdit').value = objData.regimen;
                 document.querySelector('#txtServicioEdit').value = objData.servicio;
                 document.querySelector('#txtCategoriaEdit').value = objData.categoria;
-                document.querySelector('#txtAcuerdoIncorporacionEdit').value = objData.acuerdo_incorporacion;
+                //document.querySelector('#txtAcuerdoIncorporacionEdit').value = objData.acuerdo_incorporacion;
                 document.querySelector('#txtClaveCentroTrabajoEdit').value = objData.cve_centro_trabajo;
                 document.querySelector('#txtCedulaFuncionamientoEdit').value = objData.cedula_funcionamiento;
-                document.querySelector('#txtClaveInstitucionEdit').value = objData.cve_institucion;
-                document.querySelector('#txtClaveDGPEdit').value = objData.cve_dgp;
+                document.querySelector('#txtClaveInstitucionDGPEdit').value = objData.cve_institucion_dgp;
+                //document.querySelector('#txtClaveDGPEdit').value = objData.cve_dgp;
                 //document.querySelector('#listEstadoEdit').innerHTML = "<option value='100' selected>"+objData.estado+"</option>"
                 //Obtener lista de Estados
                 var idEstadoPlantel = "";
@@ -432,6 +465,8 @@ function fntEditPlantel(idPlantel){
                 document.querySelector('#txtColoniaEdit').value = objData.colonia;
                 document.querySelector('#txtZonaEscolarEdit').value = objData.zona_escolar;
                 document.querySelector('#txtCodigoPostalEdit').value = objData.cod_postal;
+                document.querySelector('#txtLatitudEdit').value = objData.latitud;
+                document.querySelector('#txtLongitudEdit').value = objData.longitud;
                 document.querySelector("#profileDisplayPlantelEdit").src = base_url+"/Assets/images/logos/"+objData.logo_plantel;
                 document.querySelector("#profileDisplaySistemaEdit").src = base_url+"/Assets/images/logos/"+objData.logo_sistema;
             }else{
@@ -502,11 +537,11 @@ function fntVerPlantel(idPlantel){
                 document.querySelector('#txtRegimenVer').value = objData.regimen;
                 document.querySelector('#txtServicioVer').value = objData.servicio;
                 document.querySelector('#txtCategoriaVer').value = objData.categoria;
-                document.querySelector('#txtAcuerdoIncorporacionVer').value = objData.acuerdo_incorporacion;
+                //document.querySelector('#txtAcuerdoIncorporacionVer').value = objData.acuerdo_incorporacion;
                 document.querySelector('#txtClaveCentroTrabajoVer').value = objData.cve_centro_trabajo;
                 document.querySelector('#txtCedulaFuncionamientoVer').value = objData.cedula_funcionamiento;
-                document.querySelector('#txtClaveInstitucionVer').value = objData.cve_institucion;
-                document.querySelector('#txtClaveDGPVer').value = objData.cve_dgp;
+                document.querySelector('#txtClaveInstitucionDGPVer').value = objData.cve_institucion_dgp;
+                //document.querySelector('#txtClaveDGPVer').value = objData.cve_dgp;
                 document.querySelector('#txtEstadoVer').innerHTML = "<option selected>"+objData.estado+"</option>"
                 document.querySelector('#txtMunicipioVer').innerHTML = "<option selected>"+objData.municipio+"</option>"
                 document.querySelector('#txtLocalidadVer').innerHTML = "<option selected>"+objData.localidad+"</option>";
@@ -514,6 +549,8 @@ function fntVerPlantel(idPlantel){
                 document.querySelector('#txtColoniaVer').value = objData.colonia;
                 document.querySelector('#txtZonaEscolarVer').value = objData.zona_escolar;
                 document.querySelector('#txtCodigoPostalVer').value = objData.cod_postal;
+                document.querySelector('#txtLatitudVer').value = objData.latitud;
+                document.querySelector('#txtLongitudVer').value = objData.longitud;
                 document.querySelector("#profilePlantelVer").src = base_url+"/Assets/images/logos/"+objData.logo_plantel;
                 document.querySelector("#profileSistemaVer").src = base_url+"/Assets/images/logos/"+objData.logo_sistema;
 
@@ -535,7 +572,7 @@ var formEditPlantel = document.querySelector("#formEditPlantel");
         var strRegimen = document.querySelector('#txtRegimenEdit').value;
         var strServicio = document.querySelector('#txtServicioEdit').value;
         var strCategoria = document.querySelector('#txtCategoriaEdit').value;
-        var intAcuerdoIncorporacion = document.querySelector('#txtAcuerdoIncorporacionEdit').value;
+        //var intAcuerdoIncorporacion = document.querySelector('#txtAcuerdoIncorporacionEdit').value;
         var intClaveCentroTrabajo = document.querySelector('#txtClaveCentroTrabajoEdit').value;
         var intEstado = document.querySelector('#listEstadoEdit').value;
         var intMunicipio = document.querySelector('#listMunicipioEdit').value;
@@ -544,7 +581,7 @@ var formEditPlantel = document.querySelector("#formEditPlantel");
         var strColonia = document.querySelector('#txtColoniaEdit').value;
         var intCodigoPostal = document.querySelector('#txtCodigoPostalEdit').value;
         
-        if (strNombrePlantel == '' || strAbreviacionPlantel == '' || strNombreSistema == '' || strAbreviacionSistema == '' || strRegimen == '' || strServicio == '' || strCategoria == '' || intAcuerdoIncorporacion == '' || intClaveCentroTrabajo == '' || intEstado == '' || intMunicipio == '' || intLocalidad == '' || strDomicilio == '' || strColonia == '' || intCodigoPostal == ''){
+        if (strNombrePlantel == '' || strAbreviacionPlantel == '' || strNombreSistema == '' || strAbreviacionSistema == '' || strRegimen == '' || strServicio == '' || strCategoria == '' || intClaveCentroTrabajo == '' || intEstado == '' || intMunicipio == '' || intLocalidad == '' || strDomicilio == '' || strColonia == '' || intCodigoPostal == ''){
             swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
             return false;
         }
@@ -577,4 +614,8 @@ function validarNumeroInput(event){
         return true;
     }
     return false;
+}
+function btnNuevoPlantel(){
+    $('#step1-tab').click();
+    tabActual = 0;
 }

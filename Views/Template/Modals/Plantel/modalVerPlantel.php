@@ -59,18 +59,18 @@
                                     <input type="text" id="txtClaveCentroTrabajoVer" class="form-control form-control-sm"  disabled>
                                 </div>
                                 <div class="form-group col-md-4">
+                                    <label>Servicio</label>
+                                    <input type="text" id="txtServicioVer"  class="form-control form-control-sm"  disabled>
+                                </div>
+                                <!--<div class="form-group col-md-4">
                                     <label>Acuerdo de incorporación</label>
                                     <input type="text" id="txtAcuerdoIncorporacionVer" class="form-control form-control-sm"  disabled>
-                                </div>
+                                </div>-->
                                 <div class="form-group col-md-8">
                                     <label>Categoría</label>
                                     <input type="text" id="txtCategoriaVer"  class="form-control form-control-sm" disabled>
                                 </div>
-                                <div class="form-group col-md-2">
-                                    <label>Servicio</label>
-                                    <input type="text" id="txtServicioVer"  class="form-control form-control-sm"  disabled>
-                                </div>
-                                <div class="form-group col-md-2">
+                                <div class="form-group col-md-4">
                                     <label>Zona escolar</label>
                                     <input type="text" id="txtZonaEscolarVer" class="form-control form-control-sm"  disabled>
                                 </div>
@@ -79,13 +79,13 @@
                                     <input type="text" id="txtCedulaFuncionamientoVer"  class="form-control form-control-sm"  maxlength="5" disabled>
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label>Clave de institución</label>
-                                    <input type="text" id="txtClaveInstitucionVer"  class="form-control form-control-sm"  maxlength="5" disabled>
+                                    <label>Clave de institución DGP</label>
+                                    <input type="text" id="txtClaveInstitucionDGPVer"  class="form-control form-control-sm"  maxlength="5" disabled>
                                 </div>
-                                <div class="form-group col-md-4">
+                                <!--<div class="form-group col-md-4">
                                     <label>Clave DGP</label>
                                     <input type="text" id="txtClaveDGPVer"  class="form-control form-control-sm"  maxlength="5" disabled>
-                                </div>
+                                </div>-->
                             </div>
                         </div>
                     </div>
@@ -120,6 +120,14 @@
                                 <div class="form-group col-md-4">
                                     <label>Codigo postal</label>
                                     <input type="text" id="txtCodigoPostalVer" class="form-control form-control-sm"  disabled>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Latitud</label>
+                                    <input type="text" id="txtLatitudVer" class="form-control form-control-sm" disabled>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Longitud</label>
+                                    <input type="text" id="txtLongitudVer" class="form-control form-control-sm"  disabled>
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label>Domicilio</label>
