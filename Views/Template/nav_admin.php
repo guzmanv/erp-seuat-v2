@@ -133,12 +133,12 @@
             <img src="<?php echo media(); ?>/images/img/user2-160x160.jpg" height="32" class="img-circle elevation-1" alt="Perfil" /> <span class="text-dark">Víctor Manuel Guzmán Muela</span>
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i> Perfil</a>
+            <!-- <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i> Perfil</a>
             <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="pie-chart"></i> Analyticas</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="pages-settings.html"><i class="align-middle me-1" data-feather="settings"></i> Configuración & Privacidad</a>
             <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="help-circle"></i> Centro de Ayuda</a>
-            <div class="dropdown-divider"></div>
+            <div class="dropdown-divider"></div> -->
             <a class="dropdown-item" href="<?= base_url(); ?>/logout"><i class="align-middle me-1" data-feather="log-out"></i> Cerrar sesión</a>
           </div>
         </li>

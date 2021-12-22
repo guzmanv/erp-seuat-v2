@@ -36,6 +36,7 @@
                    if($arrData['estatus'] == 1){
                         $_SESSION['idUser'] = $arrData['id'];
                         $_SESSION['login'] = true;
+                        $_SESSION['nom_user'] =  $this->model->selectDateUser($arrData['id']);
                         $arrResponse = array('estatus' => true, 'msg' => 'ok');
                    }else {
                       $arrResponse = array('estatus' => false, 'msg' => 'Usuario inactivo.');

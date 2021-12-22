@@ -23,5 +23,10 @@ class LoginModel extends Mysql
 		$request = $this->select($sql);
 		return $request;
 	}
+	public function selectDateUser(int $idUser){
+		$sql = "SELECT per.nombre_persona,per.ap_paterno,per.ap_materno FROM t_personas AS per INNER JOIN t_usuarios AS us ON us.id_persona = per.id WHERE us.id = $idUser LIMIT 1";
+		$request = $this->select($sql);
+		return $request;
+	}
 }
 ?>
