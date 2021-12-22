@@ -15,7 +15,7 @@
                         <div class="card-body"> 
                             <div class="form-group">
                                 <label>Nombre</label>
-                                <input type="text" id="txtModalidadNueva" name="txtModalidadNueva" class="form-control form-control-sm" placeholder="EJ: Escolar" maxlength="30" required>
+                                <input type="text" id="txtModalidadNueva" name="txtModalidadNueva" class="form-control" placeholder="EJ: Escolar" maxlength="30" required>
                             </div>
                             <!--
                             <div class="form-group">
@@ -31,7 +31,7 @@
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalNueva"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>
-                    <button id="btnActionFormNueva" type="submit" class="btn btn-outline-secondary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Guardar</span></button>
+                    <button id="btnActionFormNueva" type="submit" class="btn btn-outline-secondary btn-primary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Guardar</span></button>
                 </div>   
             </form> 
         </div>

@@ -10,6 +10,7 @@
         }
 
         public function insertModalidad($data){
+            $idUser = $_SESSION['idUser'];
             $nombreModalidad = $data['txtModalidadNueva'];
             $request;
             //$estatus = $data['listEstatusNueva'];
@@ -20,7 +21,7 @@
             }else{
                 $sqlNew = "INSERT INTO t_modalidades(nombre_modalidad,estatus,fecha_creacion,fecha_actualizacion,id_usuario_creacion,id_usuario_actualizacion) 
                 VALUES (?,?,NOW(),NOW(),?,?)";
-                $requestNew = $this->insert($sqlNew,array($nombreModalidad,1,1,1));   
+                $requestNew = $this->insert($sqlNew,array($nombreModalidad,1,$idUser,$idUser));   
                 $request['estatus'] = FALSE;
             }
             return $request;
@@ -31,6 +32,7 @@
             return $request;
         }
         public function updateModalidad(int $intIdModalidadEdit,$data){
+            $idUser = $_SESSION['idUser'];
             $idModalidad = $intIdModalidadEdit;
             $nombreModalidad = $data['txtModalidadEdit'];
             $estatus = $data['listEstatusEdit'];
@@ -41,7 +43,7 @@
                 $request['estatus'] = TRUE;
             }else{
                 $sqlUpdate = "UPDATE t_modalidades SET nombre_modalidad = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_creacion = ?,id_usuario_actualizacion = ? WHERE id = $idModalidad";
-                $requestUpdate = $this->update($sqlUpdate,array($nombreModalidad,$estatus,1,1));
+                $requestUpdate = $this->update($sqlUpdate,array($nombreModalidad,$estatus,$idUser,$idUser));
                 $request['estatus'] = FALSE;
             }
             return $request;
