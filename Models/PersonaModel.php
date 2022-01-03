@@ -7,7 +7,7 @@
             $sql = "SELECT per.id, per.nombre_persona, per.ap_paterno, per.ap_materno, per.email, per.tel_celular,
             per.direccion,per.estatus,cat.nombre_categoria FROM t_personas AS per
             INNER JOIN t_categoria_personas AS cat ON per.id_categoria_persona = cat.id 
-            WHERE per.estatus !=0 ORDER BY per.id DESC";
+            WHERE per.estatus !=0 AND per.id_categoria_persona = 1 ORDER BY per.id DESC";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -21,14 +21,16 @@
             per.email,per.estatus,per.id_categoria_persona,per.id_escolaridad,gra.nombre_escolaridad,per.id_localidad,
             loc.nombre AS nomlocalidad, per.nombre_persona,
             per.ocupacion,per.sexo,per.tel_celular,per.tel_fijo,mun.id AS idmun,mun.nombre AS nommunicipio,
-            est.id AS idest,est.nombre AS nomestado,per.fecha_nacimiento,per.curp,nivelin.nombre_escolaridad AS nivel_carrera_interes,nivelin.id AS id_nivel_carrera_interes, carrin.nombre_carrera AS carrera_interes,carrin.id AS id_carrera_interes 
+            est.id AS idest,est.nombre AS nomestado,per.fecha_nacimiento,per.curp,nivelin.nombre_escolaridad AS nivel_carrera_interes,nivelin.id AS id_nivel_carrera_interes, carrin.nombre_carrera AS carrera_interes,carrin.id AS id_carrera_interes,per.id_plantel_interes,plant.nombre_plantel AS nombre_plantel_interes,plant.municipio AS municipio_plantel_interes,mc.medio_captacion,per.escuela_procedencia,per.observacion
             FROM t_personas AS per
             INNER JOIN t_localidades AS loc ON per.id_localidad = loc.id
             INNER JOIN t_municipios AS mun ON loc.id_municipio = mun.id
             INNER JOIN t_estados AS est ON mun.id_estados =  est.id
             INNER JOIN t_escolaridad AS gra ON per.id_escolaridad = gra.id
-            INNER JOIN t_escolaridad AS nivelin ON per.id_nivel_carrera_interes = nivelin.id
-            INNER JOIN t_carrera_interes AS carrin ON per.id_carrera_interes = carrin.id
+            LEFT JOIN t_planteles AS plant ON per.id_plantel_interes = plant.id
+            LEFT JOIN t_escolaridad AS nivelin ON per.id_nivel_carrera_interes = nivelin.id
+            LEFT JOIN t_carrera_interes AS carrin ON per.id_carrera_interes = carrin.id
+            LEFT JOIN t_medio_captacion AS mc ON per.id_medio_captacion = mc.id
             WHERE per.id = $idPersona";
             $request = $this->select($sql);
             return $request;
@@ -59,12 +61,19 @@
             $ocupacion = $data['txtOcupacionNuevo'];
             $grado = $data['listEscolaridadNuevo'];
             $localidad = $data['listLocalidadNuevo'];
-            $categoriaPersona = $data['listCategoriaNuevo'];
+            $categoriaPersona = 1; //1 = Prospecto
             $fechaNacimiento = $data['txtFechaNacimientONuevo'];
             $CURP = $data['txtCURPNuevo'];
-            $nivelCarreraInteres = $data['listNivelCarreraInteres'];
-            $carreraInteres = $data['listCarreraInteres'];
-            //$estatus = $data['listEstatusNuevo'];
+            if($data['listNivelCarreraInteres'] == ''){
+                $nivelCarreraInteres = null;
+            }else{
+                $nivelCarreraInteres = $data['listNivelCarreraInteres'];
+            }
+            if($data['listCarreraInteres'] == ''){
+                $carreraInteres = null;
+            }else{
+                $carreraInteres = $data['listNivelCarreraInteres'];
+            }
             $sql = "INSERT INTO t_personas(nombre_persona,ap_paterno,ap_materno,direccion,edad,sexo,cp,colonia,tel_celular,tel_fijo,email,edo_civil,ocupacion,curp,fecha_nacimiento,validacion_doctos,validacion_datos_personales,id_nivel_carrera_interes,id_carrera_interes,estatus,fecha_creacion,fecha_actualizacion,id_categoria_persona,id_rol,id_localidad,id_escolaridad,id_usuario_creacion,id_usuario_actualizacion,id_usuario_verificacion_datos_personales,id_usuario_verificacion_doctos) 
             VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),NOW(),?,?,?,?,?,?,?,?)";
             $request = $this->insert($sql,array($nombre,$apellidoP,$apellidoM,$direccion,$edad,$sexo,$cp,$colonia,$telefonoCelular,$telefonoFijo,$email,$estadoCivil,$ocupacion,$CURP,$fechaNacimiento,0,0,$nivelCarreraInteres,$carreraInteres,1,1,1,$localidad,$grado,1,1,1,1));
@@ -119,6 +128,16 @@
         public function selectCarrerasInteres($idNivel){
             $idNivel = $idNivel;
             $sql = "SELECT *FROM t_carrera_interes WHERE id_nivel_carrera = $idNivel";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+        public function selectPlanteles(){
+            $sql = "SELECT *FROM t_planteles WHERE estatus = 1";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+        public function selectMediosCaptacion(){
+            $sql = "SELECT *FROM t_medio_captacion";
             $request = $this->select_all($sql);
             return $request;
         }

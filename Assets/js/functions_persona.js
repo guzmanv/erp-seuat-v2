@@ -41,6 +41,31 @@ $('#tablePersonas').DataTable();
 formPersonaNueva.onsubmit = function(e){
     e.preventDefault();
     document.querySelector("#idNuevo").value = 1;
+
+    let txtNombre = document.querySelector('#txtNombreNuevo').value;
+    let txtAppParerno = document.querySelector('#txtApellidoPaNuevo').value;
+    let txtAppMaterno = document.querySelector('#txtApellidoMaNuevo').value;
+    let txtSexo = document.querySelector('#listSexoNuevo').value;
+    let txtEdad = document.querySelector('#txtEdadNuevo').value;
+    let txtEstadoCivil = document.querySelector('#listEstadoCivilNuevo').value;
+    let txtFechaNac = document.querySelector('#txtFechaNacimientONuevo').value;
+    let txtOcupacion = document.querySelector('#txtOcupacionNuevo').value;
+    let txtTelCel = document.querySelector('#txtTelCelNuevo').value;
+    let txtEscolaridad = document.querySelector('#listEscolaridadNuevo').value;
+    let txtEstado = document.querySelector('#listEstadoNuevo').value;
+    let txtMunicipio = document.querySelector('#listMunicipioNuevo').value;
+    let txtLocalidad = document.querySelector('#listLocalidadNuevo').value;
+    let txtColonia = document.querySelector('#txtColoniaNuevo').value;
+    let txtCP = document.querySelector('#txtCPNuevo').value;
+    let txtDireccion = document.querySelector('#txtDireccionNuevo').value;
+
+    if (txtNombre == '' || txtAppParerno == '' || txtAppMaterno == '' || txtSexo == '' || txtEdad == '' 
+    || txtEstadoCivil == '' || txtFechaNac == '' || txtOcupacion == '' || txtTelCel == '' 
+    || txtEscolaridad == ''
+    || txtEstado == '' || txtMunicipio == '' || txtLocalidad == '' || txtColonia == '' || txtCP == '' || txtDireccion == ''){
+        swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
+        return false;
+    }
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl = base_url+'/Persona/setPersona';
     var formData = new FormData(formPersonaNueva);
@@ -103,7 +128,7 @@ function nivelCarreraInteresSeleccionado(value){
     fetch(url)
     .then(res => res.json())
     .then((resultado) => {
-        selCarreraInteres.innerHTML = "";
+        selCarreraInteres.innerHTML = "<option value=''>Seleccionar</option>";
         for (let i = 0; i < resultado.length; i++) {
             opcion = document.createElement('option');
             opcion.text = resultado[i]['nombre_carrera'];
@@ -193,7 +218,7 @@ function fntEditPersona(idPersona){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
             if(objData){
-                //console.log(objData);
+                console.log(objData);
                 document.querySelector("#idEdit").value = objData.id;
                 document.querySelector("#txtNombreEdit").value = objData.nombre_persona;    
                 document.querySelector("#txtApellidoPaEdit").value = objData.ap_paterno;
@@ -210,6 +235,11 @@ function fntEditPersona(idPersona){
                 document.querySelector("#txtOcupacionEdit").value = objData.ocupacion;
                 //document.querySelector("#txtValidacionEdit").value = objData.validacion;
                 document.querySelector('#listEscolaridadEdit').querySelector('option[value="'+objData.id_escolaridad+'"]').selected = true;
+                if(objData.id_plantel_interes == null){
+                    document.querySelector('#listPlantelInteresEdit').innerHTML = '<option>Seleccionar</option>'
+                }else{
+                    document.querySelector('#listPlantelInteresEdit').querySelector('option[value="'+objData.id_plantel_interes+'"]').selected = true;
+                }
                 document.querySelector("#txtFechaNacimientoEdit").value = objData.fecha_nacimiento;
                 document.querySelector('#listNivelCarreraInteresEdit').querySelector('option[value="'+objData.id_nivel_carrera_interes+'"]').selected = true;
                 let urlCarreraInteres = base_url+"/Persona/getCarrerasInteres?idNivel="+objData.id_nivel_carrera_interes;
@@ -360,12 +390,12 @@ function fntVerPersona(idPersona){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
             if(objData){
-                //console.log(objData);
                 document.querySelector("#idVer").value = objData.id;
                 document.querySelector("#txtNombreVer").value = objData.nombre_persona;    
                 document.querySelector("#txtApellidoPaVer").value = objData.ap_paterno;
                 document.querySelector("#txtApellidoMaVer").value = objData.ap_materno;
                 document.querySelector("#txtDireccionVer").value = objData.direccion;
+                document.querySelector("#txtObservacionVer").value = objData.observacion;
                 document.querySelector("#txtEdadVer").value = objData.edad;
                 document.querySelector('#listSexoVer').innerHTML = "<option>"+objData.sexo+"</option>";
                 document.querySelector("#txtCPVer").value = objData.cp;
@@ -375,8 +405,8 @@ function fntVerPersona(idPersona){
                 document.querySelector("#txtEmailVer").value = objData.email;
                 document.querySelector('#listEstadoCivilVer').innerHTML = "<option>"+objData.edo_civil+"</option>";
                 document.querySelector("#txtOcupacionVer").value = objData.ocupacion;
-                //document.querySelector("#txtValidacionVer").value = objData.validacion;
                 document.querySelector('#listEscolaridadVer').innerHTML = "<option>"+objData.nombre_escolaridad+"</option>";
+                document.querySelector('#txtPlantelInteresVer').value = objData.plantel_interes;
                 document.querySelector('#listEstadoVer').innerHTML = "<option>"+objData.nomestado+"</option>";
                 document.querySelector('#listMunicipioVer').innerHTML = "<option>"+objData.nommunicipio+"</option>";
                 document.querySelector('#listLocalidadVer').innerHTML = "<option>"+objData.nomlocalidad+"</option>";
@@ -384,8 +414,9 @@ function fntVerPersona(idPersona){
                 document.querySelector('#txtFechaNacimientOVer').value = objData.fecha_nacimiento;
                 document.querySelector('#txtCURPVer').value = objData.curp;
                 document.querySelector('#listNivelCarreraInteresVer').innerHTML = "<option>"+objData.nivel_carrera_interes+"</option>";
-                document.querySelector('#listNivelCarreraInteresVer').innerHTML = "<option>"+objData.nivel_carrera_interes+"</option>";
                 document.querySelector('#listCarreraInteresVer').innerHTML = "<option>"+objData.carrera_interes+"</option>";
+                document.querySelector('#txtMedioCaptacionVer').value = objData.medio_captacion;
+                document.querySelector('#txtNombreEscuelaProcVer').value = objData.escuela_procedencia;
                 if(objData.estatus == 1){
                     document.querySelector('#listEstatusVer').innerHTML = "<option>Activo</option>";
                 }else{
@@ -433,3 +464,11 @@ function fntDelPersona(id) {
         }
     });
 }
+
+//Funcion para Aceptar solo Numeros en un Input
+function validarNumeroInput(event){
+    if(event.charCode >= 48 && event.charCode <= 57){
+        return true;
+    }
+    return false;
+  }

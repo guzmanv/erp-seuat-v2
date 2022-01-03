@@ -18,6 +18,8 @@
             $data['estados'] = $this->model->selectEstados();
             $data['categoria_persona'] = $this->model->selectCategoriasPersona();
             $data['grados_estudios'] = $this->model->selectGradosEstudios();
+            $data['planteles'] = $this->model->selectPlanteles();
+            $data['medios_captacion'] = $this->model->selectMediosCaptacion();
             $this->views->getView($this,"persona",$data);
         }
         public function getPersona($idPersona){
@@ -29,6 +31,11 @@
         public function getPersonaEdit($idPersona){
             $idPersona = $idPersona;
             $arrData = $this->model->selectPersonaEdit($idPersona);
+            if($arrData['nombre_plantel_interes'] == null){
+                $arrData['plantel_interes'] = "Sin Plantel";
+            }else{
+                $arrData['plantel_interes'] = $arrData['nombre_plantel_interes'];
+            }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
         }

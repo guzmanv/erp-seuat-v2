@@ -16,15 +16,15 @@
                             <div class="row" >
                                     <div class="form-group col-md-4">
                                         <label>Nombre</label>
-                                        <input type="text" id="txtNombreNuevo" name="txtNombreNuevo" class="form-control form-control-sm" placeholder="Nombre"   required>
+                                        <input type="text" id="txtNombreNuevo" name="txtNombreNuevo" class="form-control form-control-sm" placeholder="Nombre" maxlength="45" required>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Apellido Paterno</label>
-                                        <input type="text" id="txtApellidoPaNuevo" name="txtApellidoPaNuevo" class="form-control form-control-sm" placeholder="Apellido paterno"   required>
+                                        <input type="text" id="txtApellidoPaNuevo" name="txtApellidoPaNuevo" class="form-control form-control-sm" placeholder="Apellido paterno" maxlength="70" required>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Apellido Materno</label>
-                                        <input type="text" id="txtApellidoMaNuevo" name="txtApellidoMaNuevo" class="form-control form-control-sm" placeholder="Apellido materno"  required>
+                                        <input type="text" id="txtApellidoMaNuevo" name="txtApellidoMaNuevo" class="form-control form-control-sm" placeholder="Apellido materno" maxlength="70" required>
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>Sexo</label>
@@ -36,7 +36,7 @@
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label>Edad</label>
-                                        <input type="text" id="txtEdadNuevo" name="txtEdadNuevo" class="form-control form-control-sm" placeholder="Edad"   required>
+                                        <input type="number" id="txtEdadNuevo" name="txtEdadNuevo" class="form-control form-control-sm" placeholder="Edad"  min = "0" max="120" onkeypress="return validarNumeroInput(event)" required>
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>Estado Civil</label>
@@ -52,32 +52,19 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>CURP</label>
-                                        <input type="text" id="txtCURPNuevo" name="txtCURPNuevo" class="form-control form-control-sm" placeholder="CURP"  required>
+                                        <input type="text" id="txtCURPNuevo" name="txtCURPNuevo" class="form-control form-control-sm" placeholder="CURP" maxlength="18">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Ocupacion</label>
-                                        <input type="text" id="txtOcupacionNuevo" name="txtOcupacionNuevo" class="form-control form-control-sm" placeholder="Ocupacion"  required>
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label>Categoria Persona</label>
-                                        <select class="form-control form-control-sm" id="listCategoriaNuevo" name="listCategoriaNuevo" required >
-                                        <option value="">Selecciona una Categoriía</option>
-                                        <?php 
-                                            foreach ($data['categoria_persona'] as $value) {
-                                                ?>
-                                                    <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_categoria'] ?></option>
-                                                <?php
-                                            }
-                                        ?>
-                                        </select>
+                                        <input type="text" id="txtOcupacionNuevo" name="txtOcupacionNuevo" class="form-control form-control-sm" placeholder="Ocupacion"  maxlength="50" required>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Telefono Celular</label>
-                                        <input type="text" id="txtTelCelNuevo" name="txtTelCelNuevo" class="form-control form-control-sm" placeholder="Telefono celular"   required>
+                                        <input type="text" id="txtTelCelNuevo" name="txtTelCelNuevo" class="form-control form-control-sm" placeholder="Telefono celular"    onkeypress="return validarNumeroInput(event)" maxlength="10" required>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Telefono Fijo</label>
-                                        <input type="text" id="txtTelFiNuevo" name="txtTelFiNuevo" class="form-control form-control-sm" placeholder="Telefono fijo"  required>
+                                        <input type="text" id="txtTelFiNuevo" name="txtTelFiNuevo" class="form-control form-control-sm" placeholder="Telefono fijo"  onkeypress="return validarNumeroInput(event)" maxlength="10" >
                                     </div> 
                                     <div class="form-group col-md-4">
                                         <label>Escolaridad</label>
@@ -93,9 +80,18 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-md-4">
+                                        <label>Plantel de interés</label>
+                                        <select class="form-control form-control-sm" id="listPlantelInteres" name="listPlantelInteres">
+                                            <option value="">Seleccionar</option>
+                                            <?php  foreach ($data['planteles'] as $key => $plantel) { ?>
+                                                <option value="<?php echo $plantel['id'] ?>"><?php echo($plantel['nombre_plantel'].'('.$plantel['municipio'].')') ?></option>
+                                            <?php }?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
                                         <label>Nivel carrera de interés</label>
-                                        <select class="form-control form-control-sm" id="listNivelCarreraInteres" name="listNivelCarreraInteres" onchange="nivelCarreraInteresSeleccionado(value)" required >
-                                        <option value="">Seleccionar</option>
+                                        <select class="form-control form-control-sm" id="listNivelCarreraInteres" name="listNivelCarreraInteres" onchange="nivelCarreraInteresSeleccionado(value)" >
+                                            <option value="">Seleccionar</option>
                                         <?php 
                                             foreach ($data['grados_estudios'] as $value) {
                                                 ?>
@@ -107,13 +103,26 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Carrera de interés</label>
-                                        <select class="form-control form-control-sm" id="listCarreraInteres" name="listCarreraInteres" required >
+                                        <select class="form-control form-control-sm" id="listCarreraInteres" name="listCarreraInteres" >
                                             <option value="">Seleccionar</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-4">
+                                        <label>Medio de captación</label>
+                                        <select class="form-control form-control-sm" id="listMediosCaptacion" name="listMediosCaptacion" >
+                                            <option value="">Seleccionar</option>
+                                            <?php  foreach ($data['medios_captacion'] as $key => $medios) { ?>
+                                                <option value="<?php echo $medios['id'] ?>"><?php echo($medios['medio_captacion']) ?></option>
+                                            <?php }?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-8">
+                                        <label>Escuela de procedencia</label>
+                                        <input type="text" id="txtNombreEscuelaProc" name="txtNombreEscuelaProc" class="form-control form-control-sm" placeholder="Nombre de la escuela de procedencia" maxlength="100">
+                                    </div>
+                                    <div class="form-group col-md-4">
                                         <label>Email</label>
-                                        <input type="email" id="txtEmailNuevo" name="txtEmailNuevo" class="form-control form-control-sm" placeholder="Email"   required>
+                                        <input type="email" id="txtEmailNuevo" name="txtEmailNuevo" class="form-control form-control-sm" placeholder="Email" maxlength="50">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Estado</label>
@@ -142,31 +151,27 @@
                                     </div>
                                     <div class="form-group col-md-10">
                                         <label>Colonia</label>
-                                        <input type="text" id="txtColoniaNuevo" name="txtColoniaNuevo" class="form-control form-control-sm" placeholder="Colonia"   required>
+                                        <input type="text" id="txtColoniaNuevo" name="txtColoniaNuevo" class="form-control form-control-sm" placeholder="Colonia" maxlength="45" required>
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label>CP</label>
-                                        <input type="text" id="txtCPNuevo" name="txtCPNuevo" class="form-control form-control-sm" placeholder="CP"   required>
+                                        <input type="text" id="txtCPNuevo" name="txtCPNuevo" class="form-control form-control-sm" placeholder="CP"    onkeypress="return validarNumeroInput(event)" required>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label>Direccion</label>
-                                        <textarea  id="txtDireccionNuevo" name="txtDireccionNuevo" class="form-control form-control-sm" placeholder="Direccion"  required></textarea>
+                                        <textarea  id="txtDireccionNuevo" name="txtDireccionNuevo" class="form-control form-control-sm" placeholder="Direccion"  maxlength="100" required></textarea>
                                     </div>
-                                    <!-- <div class="form-group col-md-3">
-                                        <label>Estatus</label>
-                                        <select class="form-control form-control-sm" id="listEstatusNuevo" name="listEstatusNuevo" required >
-                                        <option value="">Selecciona un Estatus</option>
-                                        <option value="1">Activo</option>
-                                        <option value="2">Inactivo</option>
-                                        </select>
-                                    </div> -->
+                                    <div class="form-group col-md-12">
+                                        <label>Observación</label>
+                                        <textarea id="txtObservacion" name="txtObservacion" class="form-control form-control-sm" placeholder="Observación" maxlength="200" ></textarea>
+                                    </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalNuevo"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>
-                    <button id="btnActionFormNuevo" type="submit" class="btn btn-outline-secondary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Guardar</span></button>
+                    <button id="btnActionFormNuevo" type="submit" class="btn btn-outline-secondary icono-color-principal btn-primary btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Guardar</span></button>
                 </div>   
             </form> 
         </div>

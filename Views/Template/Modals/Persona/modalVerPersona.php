@@ -74,15 +74,27 @@
                                             <option value="">Selecciona una Escolaridad</option>
                                         </select>
                                     </div>
+                                    <div class="form-group col-md-8">
+                                        <label>Plantel de interés</label>
+                                        <input type="text" id="txtPlantelInteresVer" class="form-control form-control-sm"   disabled>
+                                    </div>
                                     <div class="form-group col-md-4">
                                         <label>Nivel carrera de interés</label>
                                         <select class="form-control form-control-sm" id="listNivelCarreraInteresVer"  disabled >
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-6">
                                         <label>Carrera de interés</label>
                                         <select class="form-control form-control-sm" id="listCarreraInteresVer"  disabled >
                                         </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Medio de captación</label>
+                                        <input type="text" id="txtMedioCaptacionVer" class="form-control form-control-sm"   disabled>
+                                    </div>
+                                    <div class="form-group col-md-8">
+                                        <label>Escuela de procedencia</label>
+                                        <input type="text" id="txtNombreEscuelaProcVer" class="form-control form-control-sm" disabled>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Email</label>
@@ -117,7 +129,11 @@
                                     <div class="form-group col-md-12">
                                         <label>Direccion</label>
                                         <input type="text" id="txtDireccionVer"  class="form-control form-control-sm"  disabled>
-                                    </div>                                    
+                                    </div>   
+                                    <div class="form-group col-md-12">
+                                        <label>Observación</label>
+                                        <textarea id="txtObservacionVer" class="form-control form-control-sm" disabled></textarea>
+                                    </div>                                 
                                     <div class="form-group col-md-2">
                                         <label>Estatus</label>
                                         <select class="form-control form-control-sm" id="listEstatusVer" disabled >
@@ -130,7 +146,6 @@
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalVer"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>
-                    <button id="btnActionFormVer" type="submit" class="btn btn-outline-secondary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Guardar</span></button>
                 </div>   
             </form> 
         </div>

@@ -92,6 +92,15 @@
                                             ?>
                                         </select>
                                     </div>
+                                    <div class="form-group col-md-8">
+                                        <label>Plantel de interés</label>
+                                        <select class="form-control form-control-sm" id="listPlantelInteresEdit" name="listPlantelInteresEdit" required>
+                                            <option value="">Seleccionar</option>
+                                            <?php  foreach ($data['planteles'] as $key => $plantel) { ?>
+                                                <option value="<?php echo $plantel['id'] ?>"><?php echo($plantel['nombre_plantel'].'('.$plantel['municipio'].')') ?></option>
+                                            <?php }?>
+                                        </select>
+                                    </div>
                                     <div class="form-group col-md-4">
                                         <label>Nivel carrera de interés</label>
                                         <select class="form-control form-control-sm" id="listNivelCarreraInteresEdit" name="listNivelCarreraInteresEdit" onchange="nivelCarreraInteresSeleccionadoEdit(value)" required disabled>
@@ -106,12 +115,20 @@
                                         </select>
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-6">
                                         <label>Carrera de interés</label>
                                         <select class="form-control form-control-sm form-control form-control-sm-sm" id="listCarreraInteresEdit"  name="listCarreraInteresEdit" required disabled>
                                         <option value="">Seleccionar</option>
 
                                         </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Medio de captación</label>
+                                        <input type="text" id="txtMedioCaptacionEdit" class="form-control form-control-sm"   disabled>
+                                    </div>
+                                    <div class="form-group col-md-8">
+                                        <label>Escuela de procedencia</label>
+                                        <input type="text" id="txtNombreEscuelaProcEdit" class="form-control form-control-sm" disabled>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Email</label>
@@ -153,6 +170,10 @@
                                     <div class="form-group col-md-12">
                                         <label>Direccion</label>
                                         <input type="text" id="txtDireccionEdit" name="txtDireccionEdit" class="form-control form-control-sm" placeholder="Direccion" required disabled>   
+                                    </div> 
+                                    <div class="form-group col-md-12">
+                                        <label>Observación</label>
+                                        <textarea id="txtObservacionEdit" class="form-control form-control-sm" disabled></textarea>
                                     </div>                                
                                     <div class="form-group col-md-2">
                                         <label>Estatus</label>
