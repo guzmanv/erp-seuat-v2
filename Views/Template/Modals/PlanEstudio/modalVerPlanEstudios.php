@@ -104,16 +104,30 @@
                                                 <input type="text" id="txtRvoeVer" name="txtRvoeVer" class="form-control form-control-sm"  disabled>
                                             </div>
                                             <div class="form-group col-md-4">
-                                                <label>Vigencia</label>
-                                                <input type="date" id="txtVigenciaVer" name="txtVigenciaVer" class="form-control form-control-sm"  value="" max="" disabled>
+                                                <label>Fecha vigencia</label>
+                                                <input type="text" id="txtFechaVigenciaVer" name="txtFechaVigenciaVer" class="form-control form-control-sm"  disabled>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label>Fecha de otorgamiento</label>
-                                                <input type="date" id="txtFechaOtorgamientoVer" name="txtFechaOtorgamientoVer" class="form-control form-control-sm"  value="" min="" max=""  disabled>
+                                                <input type="date" id="txtFechaOtorgamientoVer" name="txtFechaOtorgamientoVer" class="form-control form-control-sm"  disabled>
                                             </div>
                                             <div class="form-group col-md-4">
-                                                <label>Fecha terminación</label>
-                                                <input type="date" id="txtFechaEstimationTerminoVer" name="txtFechaEstimationTerminoVer" class="form-control form-control-sm"  value="" min="" max=""  disabled>
+                                                <label>Fecha de actualización</label>
+                                                <input type="date" id="txtFechaActualizacionVer" name="txtFechaActualizacionVer" class="form-control form-control-sm"  disabled>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label>Turno</label>
+                                                <select class="form-control form-control-sm" id="listTunoRvoeVer"  disabled>
+                                                <option value="">Selecciona un turno</option>
+                                                <option value="matutino">Matutino</option>
+                                                <option value="vespertino">Vespertino</option>
+                                                <option value="mixto">Mixto</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-8">
+                                                <label>Clasificaciones</label>
+                                                <div id="clasificacionesVer" class="row">
+                                                </div>
                                             </div>
                                     
                                     </div>
@@ -139,7 +153,7 @@
                 <div class="modal-footer">
                     <div style="overflow:auto;">
                         <div style="float:right;">
-                            <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalNuevo"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>-->
+                            <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalNuevo"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a> 
                         </div>
                     </div>
                 </div>   

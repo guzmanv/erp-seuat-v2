@@ -107,14 +107,6 @@
                                                     }?>
                                                 </select>
                                             </div>
-                                            <!--<div class="form-group col-md-4">
-                                                <label>Estatus</label>
-                                                <select class="form-control form-control-sm" id="listEstatusNuevo" name="listEstatusNuevo"  required>
-                                                <option value="">Selecciona un Status</option>
-                                                <option value="1">Activo</option>
-                                                <option value="2">Inactivo</option>
-                                                </select>
-                                            </div>-->
                                     </div>
                                 </div>
                                 <div class="tab">
@@ -136,16 +128,47 @@
                                                 <input type="text" id="txtRvoeNuevo" name="txtRvoeNuevo" class="form-control form-control-sm" placeholder="RVOE" maxlength="25" required>
                                             </div>
                                             <div class="form-group col-md-4">
-                                                <label>Vigencia</label>
-                                                <input type="date" id="txtVigenciaNuevo" name="txtVigenciaNuevo" class="form-control form-control-sm"  value="" max=" " required>
+                                                <label>Fecha vigencia</label>
+                                                <input type="text" id="txtFechaVigenciaNuevo" name="txtFechaVigenciaNuevo" class="form-control form-control-sm"  placeholder="Fecha vigencia" maxlength="20" required>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label>Fecha de otorgamiento</label>
-                                                <input type="date" id="txtFechaOtorgamientoNuevo" name="txtFechaOtorgamientoNuevo" class="form-control form-control-sm"  value="" min="" max=""  required>
+                                                <input type="date" id="txtFechaOtorgamientoNuevo" name="txtFechaOtorgamientoNuevo" class="form-control form-control-sm"  value="" min="<?php //echo date('Y-m-d')?>" max=""  required>
                                             </div>
                                             <div class="form-group col-md-4">
-                                                <label>Fecha terminación</label>
-                                                <input type="date" id="txtFechaTerminacionNuevo" name="txtFechaTerminacionNuevo" class="form-control form-control-sm"  value="" min="" max=""  required>
+                                                <label>Fecha actualización</label>
+                                                <input type="date" id="txtFechaActualizacionNuevo" name="txtFechaActualizacionNuevo" class="form-control form-control-sm"  value="" min="<?php //echo date('Y-m-d')?>" max=""  required>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label>Turno</label>
+                                                <select class="form-control form-control-sm" id="listTunoRvoeNuevo" name="listTunoRvoeNuevo"  required>
+                                                <option value="">Selecciona un turno</option>
+                                                <option value="matutino">Matutino</option>
+                                                <option value="vespertino">Vespertino</option>
+                                                <option value="mixto">Mixto</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group row col-md-8">
+                                                <div class="col-md-10">
+                                                    <label>Agregar clasificaciones</label>
+                                                    <select class="form-control form-control-sm" id="listAgClasificacionNuevo" name="listAgClasificacionNuevo">
+                                                        <option value="">Selecciona las clasificaciones</option>
+                                                        <?php 
+                                                            foreach ($data['clasificacion'] as $key => $clasificacion) {
+                                                                ?>
+                                                                    <option value="<?php echo $clasificacion['id']?>"><?php echo $clasificacion['nombre_clasificacion_materia'] ?></option>
+                                                                <?php
+                                                            }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2 d-flex align-items-end">
+                                                    <button type="button" class="btn btn-primary btn-sm" onclick="fnAgregarClasificacion()"><i class="fas fa-plus">Agregar</i></button>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-12" id="clasificaciones">
+
+                               
                                             </div>
                                     </div>
                                 </div>
@@ -182,7 +205,7 @@
 <!--                             <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalNuevo"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>
  -->                            <buttom class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" onclick="pasarTab(-1)"  id="btnAnterior"><i class="fas fa-fw fa-lg fa-arrow-circle-left icono-azul"></i>Anterior</buttom>
                             <buttom class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" onclick="pasarTab(1)"  id="btnSiguiente"><i class="fas fa-fw fa-lg fa-arrow-circle-right icono-azul"></i>Siguiente</buttom>
-                            <button id="btnActionFormNuevo" type="submit" class="btn btn-outline-secondary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Guardar</span></button>
+                            <button id="btnActionFormNuevo" type="submit" class="btn btn-outline-secondary btn-primary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Guardar</span></button>
                                     <!--<button class="btn btn-primary" type="button" id="btnAnterior" onclick="pasarTab(-1)">Anterior</button>
                                     <button class="btn btn-primary" type="button" id="btnSiguiente" onclick="pasarTab(1)">Siguiente</button>
                                     <button class="btn btn-success" type="submit" id="btnActionFormNuevo">Guardar</button>-->

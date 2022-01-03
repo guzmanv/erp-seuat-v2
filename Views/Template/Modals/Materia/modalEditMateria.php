@@ -71,6 +71,11 @@
                                         <label>Clasificación</label>
                                         <select class="form-control form-control-sm" id="listClasificacionEdit" name="listClasificacionEdit" required >
                                             <option value="">Selecciona una Clasificación</option>
+                                            <?php foreach ($data['clasificacion_materia'] as $key => $value) {
+                                                ?>
+                                                    <option value="<?php echo $value['id']?>"><?php echo $value['nombre_clasificacion_materia'] ?></option>
+                                                <?php
+                                            }?>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-3">
@@ -85,7 +90,7 @@
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalEdit"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>
-                    <button id="btnActionFormEdit" type="submit" class="btn btn-outline-secondary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Actualizar</span></button>
+                    <button id="btnActionFormEdit" type="submit" class="btn btn-outline-secondary icono-color-principal btn-primary btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Actualizar</span></button>
                 </div>   
             </form> 
         </div>

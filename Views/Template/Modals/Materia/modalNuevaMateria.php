@@ -78,10 +78,11 @@
                                         <label>Clasificación</label>
                                         <select class="form-control form-control-sm" id="listClasificacionNuevo" name="listClasificacionNuevo" required >
                                             <option value="">Selecciona una Clasificación</option>
-                                            <option value="1">Materia</option>
-                                            <option value="2">Foros</option>
-                                            <option value="3">Servicio</option>
-                                            <option value="4">Práctica</option>
+                                            <?php foreach ($data['clasificacion_materia'] as $key => $value) {
+                                                ?>
+                                                    <option value="<?php echo $value['id']?>"><?php echo $value['nombre_clasificacion_materia'] ?></option>
+                                                <?php
+                                            }?>
                                         </select>
                                     </div>
                                     <!--<div class="form-group col-md-6">
@@ -98,7 +99,7 @@
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalNuevo"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>
-                    <button id="btnActionFormNuevo" type="submit" class="btn btn-outline-secondary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Guardar</span></button>
+                    <button id="btnActionFormNuevo" type="submit" class="btn btn-outline-secondary btn-primary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Guardar</span></button>
                 </div>   
             </form> 
         </div>

@@ -17,6 +17,7 @@
             $data['page_content'] = "";
             $data['grados'] = $this->model->selectGrados();
             $data['plantel'] = $this->model->selectPlanteles();
+            $data['clasificacion_materia'] = $this->model->selectClasificacion();
             $data['page_functions_js'] = "functions_materias.js";
             $this->views->getView($this,"materias",$data);
         }
@@ -28,19 +29,6 @@
                     $arrData[$i]['estatus'] = '<span class="badge badge-dark">Activo</span>';
                 }else{
                     $arrData[$i]['estatus'] = '<span class="badge badge-secondary">Inactivo</span>';
-                }
-                $arrData[$i]['clasificacion'] ="";
-                if($arrData[$i]['chk_practica'] == 1){
-                    $arrData[$i]['clasificacion'] ="Practica";
-                }
-                if($arrData[$i]['chk_servicio_social'] == 1){
-                    $arrData[$i]['clasificacion'] ="Servicio Social";
-                }
-                if($arrData[$i]['chk_foros'] == 1){
-                    $arrData[$i]['clasificacion'] ="Foros";
-                }
-                if($arrData[$i]['chk_materia'] == 1){
-                    $arrData[$i]['clasificacion'] ="Materia";
                 }
                 $arrData[$i]['options'] = '<div class="text-center">
 				<div class="btn-group">

@@ -13,6 +13,7 @@
 		}
 		
 		public function insertCategoriaCarrera($data){
+			$idUser = $_SESSION['idUser'];
 			$nombreCategoriaCarrera = $data['txtNombrecategoriaNueva'];
 			//$estatusCategoriaNueva = $data['listEstatusCategoriaNueva'];
 			$request;
@@ -22,12 +23,13 @@
 				$request['estatus'] = TRUE;
 			}else{
 				$sqlNew = "INSERT INTO t_categoria_carreras(nombre_categoria_carrera,estatus,fecha_creacion,fecha_actualizacion,id_usuario_creacion,id_usuario_actualizacion) VALUES(?,?,NOW(),NOW(),?,?)";
-				$requestNew = $this->insert($sqlNew,array($nombreCategoriaCarrera,1,1,1));
+				$requestNew = $this->insert($sqlNew,array($nombreCategoriaCarrera,1,$idUser,$idUser));
 				$request['estatus'] = FALSE;
 			}
 			return $request;
 		}
 		public function updateCategoriaCarrera($idCategoriaCarreraEdit,$data){
+			$idUser = $_SESSION['idUser'];
 			$idCategoria = $idCategoriaCarreraEdit;
 			$nombreCategoriaCarrera = $data['txtNombrecategoriaEdit'];
 			$estatusCategoriaNueva = $data['listEstatusCategoriaEdit'];
@@ -38,7 +40,7 @@
 				$request['estatus'] = TRUE;
 			}else{
 				$sqlUpdate = "UPDATE t_categoria_carreras SET nombre_categoria_carrera = ?, estatus = ?,fecha_actualizacion = NOW(),id_usuario_creacion = ?,id_usuario_actualizacion = ? WHERE id = $idCategoria";
-				$requestUpdate = $this->update($sqlUpdate,array($nombreCategoriaCarrera,$estatusCategoriaNueva,1,1));
+				$requestUpdate = $this->update($sqlUpdate,array($nombreCategoriaCarrera,$estatusCategoriaNueva,$idUser,$idUser));
 				$request['estatus'] = FALSE;
 			}
 			return $request;

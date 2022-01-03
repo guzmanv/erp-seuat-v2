@@ -15,15 +15,15 @@
                         <div class="card-body"> 
                             <div class="form-group">
                                 <label>Nombre</label>
-                                <input type="text" id="txtNombreNuevo" name="txtNombreNuevo" class="form-control form-control-sm" placeholder="EJ: Técnico Superior Universitario" maxlength="45" required>
+                                <input type="text" id="txtNombreNuevo" name="txtNombreNuevo" class="form-control" placeholder="EJ: Técnico Superior Universitario" maxlength="45" required>
                             </div>
                             <div class="form-group">
                                 <label>Abreviatura</label>
-                                <input type="text" id="txtAbreviaturaNuevo" name="txtAbreviaturaNuevo" class="form-control form-control-sm" placeholder="EJ: TSU" maxlength="6" required>
+                                <input type="text" id="txtAbreviaturaNuevo" name="txtAbreviaturaNuevo" class="form-control" placeholder="EJ: TSU" maxlength="6" required>
                             </div>
                             <div class="form-group">
                                 <label>Orden</label>
-                                <input type="text" id="txtOrdenNuevo" onkeypress="return validarNumeroInput(event)" name="txtOrdenNuevo" class="form-control form-control-sm" placeholder="EJ: 2" maxlength="5">
+                                <input type="text" id="txtOrdenNuevo" onkeypress="return validarNumeroInput(event)" name="txtOrdenNuevo" class="form-control" placeholder="EJ: 2" maxlength="5">
                             </div>
                             <!--<div class="form-group">
                                 <label>Estatus</label>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalNuevo"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>
-                    <button id="btnActionFormNuevo" type="submit" class="btn btn-outline-secondary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Guardar</span></button>
+                    <button id="btnActionFormNuevo" type="submit" class="btn btn-outline-secondary btn-primary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Guardar</span></button>
                 </div>   
             </form> 
         </div>

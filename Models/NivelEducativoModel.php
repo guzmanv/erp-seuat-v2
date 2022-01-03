@@ -9,6 +9,7 @@
             return $request;
         }
         public function insertNivelEducativo($data){
+            $idUser = $_SESSION['idUser'];
             $nombreNivelEducativo = $data['txtNombreNuevo'];
             $abreviatura = $data['txtAbreviaturaNuevo'];
             $orden = $data['txtOrdenNuevo'];
@@ -23,7 +24,7 @@
             }else{
                 $sqlNew = "INSERT INTO t_nivel_educativos(nombre_nivel_educativo,abreviatura,orden,estatus,fecha_creacion,fecha_actualizacion,id_usuario_creacion,id_usuario_actualizacion) 
                     VALUES (?,?,?,?,NOW(),NOW(),?,?);";
-                $requestNew = $this->insert($sqlNew,array($nombreNivelEducativo,$abreviatura,$orden,1,1,1));
+                $requestNew = $this->insert($sqlNew,array($nombreNivelEducativo,$abreviatura,$orden,1,$idUser,$idUser));
                 $request['estatus'] = FALSE;
             }
             return $request;
@@ -36,6 +37,7 @@
         }
 
         public function updateNivelEducativo(int $intIdNivelEducativoEdit,$data){
+            $idUser = $_SESSION['idUser'];
             $idNivelEducativo = $intIdNivelEducativoEdit;
             $nombreNivelEducativo = $data['txtNombreEdit'];
             $abreviatura = $data['txtAbreviaturaEdit'];
@@ -69,7 +71,7 @@
                     $request['estatus'] = FALSE;
                     $request['msg'] = "";
                     $sqlUpdate = "UPDATE t_nivel_educativos SET nombre_nivel_educativo = ?, abreviatura = ?, orden = ?,estatus = ?, fecha_actualizacion = NOW(),id_usuario_creacion = ?,id_usuario_actualizacion = ? WHERE id = $idNivelEducativo";
-                    $requestUpdate = $this->update($sqlUpdate,array($nombreNivelEducativo,$abreviatura,$orden,$estatus,1,1));
+                    $requestUpdate = $this->update($sqlUpdate,array($nombreNivelEducativo,$abreviatura,$orden,$estatus,$idUser,$idUser));
                 }
             }
             return $request;

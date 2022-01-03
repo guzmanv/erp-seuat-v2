@@ -15,19 +15,19 @@
                         <div class="card-body"> 
                             <div class="form-group">
                                 <label>Nombre</label>
-                                <input type="text" id="txtNombreEdit" name="txtNombreEdit" class="form-control form-control-sm" placeholder="EJ: Técnico Superior Universitario"  name="" maxlength="45" required>
+                                <input type="text" id="txtNombreEdit" name="txtNombreEdit" class="form-control" placeholder="EJ: Técnico Superior Universitario"  name="" maxlength="45" required>
                             </div>
                             <div class="form-group">
                                 <label>Abreviatura</label>
-                                <input type="text" id="txtAbreviaturaEdit" name="txtAbreviaturaEdit" class="form-control form-control-sm" placeholder="EJ: TSU"  name="" maxlength="5" required>
+                                <input type="text" id="txtAbreviaturaEdit" name="txtAbreviaturaEdit" class="form-control" placeholder="EJ: TSU"  name="" maxlength="5" required>
                             </div>
                             <div class="form-group">
                                 <label>Orden</label>
-                                <input type="text" id="txtOrdenEdit" name="txtOrdenEdit" onkeypress="return validarNumeroInput(event)" class="form-control form-control-sm" maxlength="5" placeholder="EJ: 2">
+                                <input type="text" id="txtOrdenEdit" name="txtOrdenEdit" onkeypress="return validarNumeroInput(event)" class="form-control" maxlength="5" placeholder="EJ: 2">
                             </div>
                             <div class="form-group">
                                 <label>Estatus</label>
-                                <select class="form-control form-control-sm" id="listEstatusEdit" name="listEstatusEdit" required >
+                                <select class="form-control" id="listEstatusEdit" name="listEstatusEdit" required >
                                 <option value="">Selecciona un Estatus</option>
                                 <option value="1">Activo</option>
                                 <option value="2">Inactivo</option>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalEdit"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>
-                    <button id="btnActionFormEdit" type="submit" class="btn btn-outline-secondary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Actualizar</span></button>
+                    <button id="btnActionFormEdit" type="submit" class="btn btn-outline-secondary btn-primary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Actualizar</span></button>
                 </div>   
             </form> 
         </div>
