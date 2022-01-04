@@ -13,6 +13,7 @@ var tabActual = 0;
 var cantidadDocPrestados = 0;
 var statusConfirmacionDevolucionDoc = false;
 let idInscripcion;
+let idInscripcionActual;
 mostrarTab(tabActual);
 
 document.addEventListener('DOMContentLoaded',function(){ 
@@ -240,6 +241,7 @@ function fntDocumentacionInscripcionVerificado(value){
 function fnGetDocumentosEntregados(value){
     var idInscripcion = value;
     let urlDocumentacion = base_url+"/Estudiantes/getDocumentosEntregados?idIns="+idInscripcion;
+    idInscripcionActual = value;
     fetch(urlDocumentacion)
     .then(res => res.json())
     .then((resultDocumentacion) =>{
@@ -952,6 +954,10 @@ formEditTutor.onsubmit = function(e){
         }
         return false;
     }
+}
+function fnCartaAutenticidad(){
+    let url = base_url+"/Estudiantes/getCartaAut/"+window.btoa(unescape(encodeURIComponent(idInscripcionActual)));
+    window.open(url, '_blank');
 }
 function fnDatosFiscales(value){
     let idPer = value.getAttribute('idPer');

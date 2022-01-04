@@ -352,5 +352,25 @@
             $request = $this->select($sql);
             return $request;
         }
+        //Obtener datos para la impresion de solicitud de inscripcion
+        public function selectDatosImprimirCartaAut(int $idInscripcion){
+            $idInscripcion = $idInscripcion;
+            $sql = "SELECT ins.folio_impreso,plnes.nombre_carrera,plnes.id AS id_plan_estudio,orgpl.nombre_plan,plnes.duracion_carrera,peralum.nombre_persona,peralum.ap_paterno,peralum.ap_materno,peralum.direccion,peralum.colonia,peralum.tel_celular AS tel_celular_alumno,peralum.tel_fijo AS tel_fijo_alumno,peralum.email AS email_alumno,
+            loc.nombre AS localidad,mun.nombre AS municipio,est.nombre AS estado,tut.nombre_tutor,tut.appat_tutor,tut.apmat_tutor,tut.tel_celular AS tel_celular_tutor,tut.tel_fijo AS tel_fijo_tutor,tut.email AS email_tutor,plntel.nombre_sistema,plntel.nombre_plantel,plntel.categoria,plntel.cve_centro_trabajo,CONCAT(plntel.domicilio,',',plntel.localidad,',',plntel.municipio,',',plntel.estado) AS ubicacion,ins.grado,esc.nombre_escolaridad,tur.hora_entrada,tur.hora_salida,peralum.nombre_empresa
+            FROM t_inscripciones AS ins 
+            INNER JOIN t_plan_estudios AS plnes ON ins.id_plan_estudios = plnes.id
+            INNER JOIN t_planteles AS plntel ON plnes.id_plantel = plntel.id
+            INNER JOIN t_organizacion_planes AS orgpl ON plnes.id_plan = orgpl.id
+            INNER JOIN t_personas AS peralum ON ins.id_personas = peralum.id
+            INNER JOIN t_tutores AS tut ON ins.id_tutores = tut.id
+            INNER JOIN t_localidades AS loc ON peralum.id_localidad = loc.id
+            INNER JOIN t_municipios AS mun ON loc.id_municipio = mun.id
+            INNER JOIN t_estados AS est ON mun.id_estados = est.id
+            INNER JOIN t_escolaridad AS esc ON ins.grado = esc.id
+            INNER JOIN t_turnos AS tur ON ins.id_horario = tur.id
+            WHERE ins.id = $idInscripcion LIMIT 1";
+            $request = $this->select($sql);
+            return $request;
+        }
 	}
 ?>  

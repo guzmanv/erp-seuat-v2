@@ -352,5 +352,11 @@
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
+        public function getCartaAut($idInscripcionActual){
+            $idInscripcionFormat = base64_decode($idInscripcionActual);
+            $arrDataIns = $this->model->selectDatosImprimirCartaAut($idInscripcionFormat);
+            $data['datos'] = $arrDataIns;
+            $this->views->getView($this,"viewpdf_carta_autenticidad",$data);
+        }
     }
 ?>
