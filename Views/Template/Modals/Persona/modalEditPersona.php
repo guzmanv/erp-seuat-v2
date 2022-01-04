@@ -119,7 +119,7 @@
                                         <label>Carrera de interés</label>
                                         <select class="form-control form-control-sm form-control form-control-sm-sm" id="listCarreraInteresEdit"  name="listCarreraInteresEdit" required disabled>
                                         <option value="">Seleccionar</option>
-
+                                        
                                         </select>
                                     </div>
                                     <div class="form-group col-md-6">
@@ -175,21 +175,21 @@
                                         <label>Observación</label>
                                         <textarea id="txtObservacionEdit" class="form-control form-control-sm" disabled></textarea>
                                     </div>                                
-                                    <div class="form-group col-md-2">
+                                    <!-- <div class="form-group col-md-2">
                                         <label>Estatus</label>
                                         <select class="form-control form-control-sm" id="listEstatusEdit" name="listEstatusEdit" required disabled>
                                         <option value="">Seleccionar</option>
                                         <option value="1">Activo</option>
                                         <option value="2">Inactivo</option>
                                         </select>
-                                    </div>
+                                    </div> -->
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalEdit"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>
-                    <button id="btnActionFormEdit" type="submit" class="btn btn-outline-secondary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Guardar</span></button>
+                    <button id="btnActionFormEdit" type="submit" class="btn btn-outline-secondary btn-primary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Actualizar</span></button>
                 </div>   
             </form> 
         </div>

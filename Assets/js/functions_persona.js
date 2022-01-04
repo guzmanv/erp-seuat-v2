@@ -235,11 +235,10 @@ function fntEditPersona(idPersona){
                 document.querySelector("#txtOcupacionEdit").value = objData.ocupacion;
                 //document.querySelector("#txtValidacionEdit").value = objData.validacion;
                 document.querySelector('#listEscolaridadEdit').querySelector('option[value="'+objData.id_escolaridad+'"]').selected = true;
-                if(objData.id_plantel_interes == null){
-                    document.querySelector('#listPlantelInteresEdit').innerHTML = '<option>Seleccionar</option>'
-                }else{
-                    document.querySelector('#listPlantelInteresEdit').querySelector('option[value="'+objData.id_plantel_interes+'"]').selected = true;
-                }
+                document.querySelector('#listPlantelInteresEdit').querySelector('option[value="'+objData.id_plantel_interes+'"]').selected = true;
+                document.querySelector('#listCarreraInteresEdit').innerHTML = "<option>"+objData.carrera_interes+"</option>"
+                document.querySelector('#txtMedioCaptacionEdit').value = objData.medio_captacion;
+                document.querySelector('#txtNombreEscuelaProcEdit').value = objData.escuela_procedencia;
                 document.querySelector("#txtFechaNacimientoEdit").value = objData.fecha_nacimiento;
                 document.querySelector('#listNivelCarreraInteresEdit').querySelector('option[value="'+objData.id_nivel_carrera_interes+'"]').selected = true;
                 let urlCarreraInteres = base_url+"/Persona/getCarrerasInteres?idNivel="+objData.id_nivel_carrera_interes;
@@ -317,7 +316,8 @@ function fntEditPersona(idPersona){
                 })
                 .catch(err => { throw err });
                 document.querySelector('#listCategoriaEdit').querySelector('option[value="'+objData.id_categoria_persona+'"]').selected = true;
-                document.querySelector('#listEstatusEdit').querySelector('option[value="'+objData.estatus+'"]').selected = true;
+                document.querySelector('#txtObservacionEdit').value = objData.observacion;
+                //document.querySelector('#listEstatusEdit').querySelector('option[value="'+objData.estatus+'"]').selected = true;
 
 
             }
@@ -332,28 +332,12 @@ var formEditPersona = document.querySelector("#formPersonaEdit");
         var strNombre = document.querySelector("#txtNombreEdit").value;
         var strApellidoPat = document.querySelector("#txtApellidoPaEdit").value;
         var strApellidoMat = document.querySelector("#txtApellidoMaEdit").value;
-        var strDireccion = document.querySelector("#txtDireccionEdit").value;
-        var intEdad = document.querySelector("#txtEdadEdit").value;
-        var strSexo = document.querySelector('#listSexoEdit').value;
-        var intCP = document.querySelector("#txtCPEdit").value;
-        var strColonia = document.querySelector("#txtColoniaEdit").value;
         var strTelCel = document.querySelector("#txtTelCelEdit").value;
         var strTelFij = document.querySelector("#txtTelFiEdit").value;
-        var strEmail = document.querySelector("#txtEmailEdit").value;
-        var strEstadoC = document.querySelector('#listEstadoCivilEdit').value;
-        var strOcupacion = document.querySelector("#txtOcupacionEdit").value;
-        //var intValidacion = document.querySelector("#txtValidacionEdit").value;
-        var strEscolaridad = document.querySelector('#listEscolaridadEdit').value;
-        var intEstado = document.querySelector('#listEstadoEdit').value;
-        var intMunicipio = document.querySelector('#listMunicipioEdit').value;
-        var intLocalidad = document.querySelector('#listLocalidadEdit').value;
-        var intCategoria = document.querySelector('#listCategoriaEdit').value;
-        var intEstatus = document.querySelector('#listEstatusEdit').value;
+        let intPlantel = document.querySelector('#listPlantelInteresEdit').value;
 
-        if (intId == '' || strNombre == '' || strApellidoPat == '' || strApellidoMat == '' || strDireccion == '' 
-        || intEdad == '' || strSexo == '' || intCP == '' || strColonia == '' || strTelCel == '' || strTelFij == '' 
-        || strEmail == '' || strEstadoC == '' || strOcupacion == ''  || strEscolaridad == '' || intEstado == ''
-        || intMunicipio == '' || intLocalidad == '' || intCategoria == '' || intEstatus == ''){
+        if (intId == '' || strNombre == '' || strApellidoPat == '' || strApellidoMat == '' 
+        || strTelCel == '' || strTelFij == ''|| intPlantel == ''){
             swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
             return false;
         }

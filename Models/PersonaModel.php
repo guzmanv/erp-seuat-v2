@@ -64,6 +64,11 @@
             $categoriaPersona = 1; //1 = Prospecto
             $fechaNacimiento = $data['txtFechaNacimientONuevo'];
             $CURP = $data['txtCURPNuevo'];
+            if($data['listPlantelInteres'] == ''){
+                $plantelInteres = null;
+            }else{
+                $plantelInteres = $data['listPlantelInteres'];
+            }
             if($data['listNivelCarreraInteres'] == ''){
                 $nivelCarreraInteres = null;
             }else{
@@ -74,9 +79,16 @@
             }else{
                 $carreraInteres = $data['listNivelCarreraInteres'];
             }
-            $sql = "INSERT INTO t_personas(nombre_persona,ap_paterno,ap_materno,direccion,edad,sexo,cp,colonia,tel_celular,tel_fijo,email,edo_civil,ocupacion,curp,fecha_nacimiento,validacion_doctos,validacion_datos_personales,id_nivel_carrera_interes,id_carrera_interes,estatus,fecha_creacion,fecha_actualizacion,id_categoria_persona,id_rol,id_localidad,id_escolaridad,id_usuario_creacion,id_usuario_actualizacion,id_usuario_verificacion_datos_personales,id_usuario_verificacion_doctos) 
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),NOW(),?,?,?,?,?,?,?,?)";
-            $request = $this->insert($sql,array($nombre,$apellidoP,$apellidoM,$direccion,$edad,$sexo,$cp,$colonia,$telefonoCelular,$telefonoFijo,$email,$estadoCivil,$ocupacion,$CURP,$fechaNacimiento,0,0,$nivelCarreraInteres,$carreraInteres,1,1,1,$localidad,$grado,1,1,1,1));
+            if($data['listMediosCaptacion'] == ''){
+                $medioCaptacion = null;
+            }else{
+                $medioCaptacion = $data['listMediosCaptacion'];
+            }
+            $escuelaProcedencia = $data['txtNombreEscuelaProc'];
+            $observacion = $data['txtObservacion'];
+            $sql = "INSERT INTO t_personas(nombre_persona,ap_paterno,ap_materno,direccion,edad,sexo,cp,colonia,tel_celular,tel_fijo,email,edo_civil,ocupacion,curp,fecha_nacimiento,validacion_doctos,validacion_datos_personales,id_nivel_carrera_interes,id_carrera_interes,estatus,fecha_creacion,fecha_actualizacion,id_categoria_persona,id_rol,id_plantel_interes,id_localidad,id_escolaridad,id_medio_captacion,id_usuario_creacion,id_usuario_actualizacion,id_usuario_verificacion_datos_personales,id_usuario_verificacion_doctos,escuela_procedencia,observacion) 
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),NOW(),?,?,?,?,?,?,?,?,?,?,?,?)";
+            $request = $this->insert($sql,array($nombre,$apellidoP,$apellidoM,$direccion,$edad,$sexo,$cp,$colonia,$telefonoCelular,$telefonoFijo,$email,$estadoCivil,$ocupacion,$CURP,$fechaNacimiento,0,0,$nivelCarreraInteres,$carreraInteres,1,1,1,$plantelInteres,$localidad,$grado,$medioCaptacion,1,1,1,1,$escuelaProcedencia,$observacion));
             return $request;
         }
 
@@ -84,28 +96,11 @@
             $nombre = $data['txtNombreEdit'];
             $apellidoP = $data['txtApellidoPaEdit'];
             $apellidoM = $data['txtApellidoMaEdit'];
-            $direccion = $data['txtDireccionEdit'];
-            $edad = $data['txtEdadEdit'];
-            $sexo = $data['listSexoEdit'];
-            $cp = $data['txtCPEdit'];
-            $colonia = $data['txtColoniaEdit'];
             $telefonoCelular = $data['txtTelCelEdit'];
             $telefonoFijo = $data['txtTelFiEdit'];
-            $email = $data['txtEmailEdit'];
-            $estadoCivil = $data['listEstadoCivilEdit'];
-            $ocupacion = $data['txtOcupacionEdit'];
-            //$validacion = $data['txtValidacionEdit'];
-            $grado = $data['listEscolaridadEdit'];
-            $localidad = $data['listLocalidadEdit'];
-            $categoriaPersona = $data['listCategoriaEdit'];
-            $estatus = $data['listEstatusEdit'];
-            $curp = $data['txtCURPEdit'];
-            $fechaNacimiento = $data['txtFechaNacimientoEdit'];
-            $nivelCarreraInteres = $data['listNivelCarreraInteresEdit'];
-            $carreraInteres = $data['listCarreraInteresEdit'];
-        
-            $sql = "UPDATE t_personas SET nombre_persona = ?,ap_paterno = ?,ap_materno = ?,direccion = ?,edad = ?,sexo = ?,cp = ?,colonia = ?,tel_celular = ?,tel_fijo = ?,email = ?,edo_civil = ?,ocupacion = ?,curp = ?,fecha_nacimiento = ?,id_nivel_carrera_interes = ?,id_carrera_interes = ?, estatus = ?, fecha_actualizacion = NOW(),id_categoria_persona = ?,id_rol = ?,id_localidad = ?,id_usuario_actualizacion = ? WHERE id = $idPersona";
-            $request = $this->update($sql,array($nombre,$apellidoP,$apellidoM,$direccion,$edad,$sexo,$cp,$colonia,$telefonoCelular,$telefonoFijo,$email,$estadoCivil,$ocupacion,$curp,$fechaNacimiento,$nivelCarreraInteres,$carreraInteres,$estatus,$categoriaPersona,1,$localidad,1));
+            $plantelInteres = $data['listPlantelInteresEdit'];
+            $sql = "UPDATE t_personas SET nombre_persona = ?,ap_paterno = ?,ap_materno = ?,tel_celular = ?,tel_fijo = ?, id_plantel_interes = ?, fecha_actualizacion = NOW(),id_usuario_actualizacion = ? WHERE id = $idPersona";
+            $request = $this->update($sql,array($nombre,$apellidoP,$apellidoM,$telefonoCelular,$telefonoFijo,$plantelInteres,1));
             return $request;
         }
         public function selectEstados(){
