@@ -469,7 +469,7 @@ function checkEstatusDocumentacion(value){
 }
 //Resltar inputs de datos personales Obligatorios
 function resaltarInputsObligatoriosDatosPersonales(){
-    var inputImportantes = ['txtNombreEdit','txtApellidoPaEdit','txtApellidoMaEdit','txtTelCelEdit','txtEmailEdit','listEstadoEdit','listMunicipioEdit','listLocalidadEdit','txtFechaNacimientoEdit','txtCURPEdit'];
+    var inputImportantes = ['txtNombreEdit','txtApellidoPaEdit','txtApellidoMaEdit','txtTelCelEdit','txtEmailEdit','listEstadoEdit','listMunicipioEdit','listLocalidadEdit','txtFechaNacimientoEdit','txtCURPEdit','listSexoEdit','listEscolaridadEdit'];
     inputImportantes.forEach(element => {
         document.getElementById(element).style.setProperty("background-color", "#F9D25A", "important");
     });
