@@ -14,7 +14,7 @@
             INNER JOIN t_plan_estudios AS planest ON ins.id_plan_estudios = planest.id
             INNER JOIN t_planteles AS plante ON planest.id_plantel = plante.id
             LEFT JOIN t_salones_compuesto AS sal ON ins.id_salon_compuesto = sal.id
-            WHERE his.inscrito = 1";
+            WHERE his.inscrito = 1 ORDER BY per.validacion_doctos ASC, per.validacion_datos_personales ASC";
 			$request = $this->select_all($sql);
 			return $request;
 		}
