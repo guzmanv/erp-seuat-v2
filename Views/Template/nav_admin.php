@@ -202,9 +202,16 @@
           <li class="nav-item">
             <a href="<?php echo BASE_URL ?>/DashboardDirc" class="nav-link active">
               <i class="ml-3 mr-2" data-feather="grid"></i>
-              <!--<i class="nav-icon fas fa-tachometer-alt"></i>-->
               <p>
                 Dashboard DIRC
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?php echo BASE_URL ?>/DashboardAdmision" class="nav-link active">
+              <i class="ml-3 mr-2" data-feather="grid"></i>
+              <p>
+                Dashboard Admision
               </p>
             </a>
           </li>
