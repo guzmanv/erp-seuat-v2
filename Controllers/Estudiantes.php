@@ -317,12 +317,15 @@
             $data['data'] = $this->model->selectListaDocumentosFolio($folioFormat);
 			$this->views->getView($this,"viewpdf_prestamo_doc",$data);
         }
-        public function imprimir_carta_compromiso_doc($idInscripcion){
-            $idInscripcionFormat = base64_decode($idInscripcion);
+        public function imprimir_carta_compromiso_doc($date){
+            $newDate = explode(',',$date);
+            $idInscripcionFormat = base64_decode($newDate[0]);
+            $fechaComEntrega = base64_decode($newDate[1]);
             $data['idInscripcion'] = $idInscripcionFormat;
             $arrData['docstatus'] = $this->model->selectEstatusDocumentacion($data);
             $arrData['doc'] = $this->model->selectDocumentacion($idInscripcionFormat);
             $arrData['data'] = $this->model->selectEstudianteInsc($idInscripcionFormat);
+            $arrData['fechaComEntrega'] = $fechaComEntrega;
 			$this->views->getView($this,"viewpdf_entrega_doc",$arrData);
         }
 

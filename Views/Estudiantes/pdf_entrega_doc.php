@@ -3,15 +3,14 @@ setlocale(LC_ALL,"es_ES");
 date_default_timezone_set('UTC');
 $userAtencion = 'Jose Santiz Ruiz';
 $userAlumno = $data['data'][0]['nombre_persona'].' '.$data['data'][0]['apellidos'];
-$fechaEntrega = '2021-10-06 15:12:43';
-$formatFechaEntrega = iconv('ISO-8859-2', 'UTF-8', strftime("%A, %d de %B de %Y", strtotime($fechaEntrega)));
 $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%A, %d de %B de %Y", strtotime(date('Y-m-d'))));
 $nombreCarrera = $data['data'][0]['nombre_carrera'];
+$fechaComEntrega = iconv("UTF-8", "ISO-8859-1", strftime("%A, %d de %B de %Y", strtotime($data['fechaComEntrega'])));
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carta compromiso</title>
@@ -148,7 +147,6 @@ $nombreCarrera = $data['data'][0]['nombre_carrera'];
  overflow: hidden;;
 
 }
-
     </style>
 </head>
 <body>
@@ -188,7 +186,7 @@ $nombreCarrera = $data['data'][0]['nombre_carrera'];
                 <div class="col-12" style="text-align:justify;text-justify:inter-word;line-height=150%">
                     <p>El (la) suscrito(a) <b><?php echo $userAlumno?></b>, alumno(a) de la
                     <b><?php echo $nombreCarrera ?></b>.
-                    Me doy por enterado que a más tardar el día<b>*</b>  <?php echo $formatFechaEntrega ?>, debo
+                    Me doy por enterado que a más tardar el día<b>*</b>  <?php echo $fechaComEntrega ?>, debo
                     hacer la entrega de los documentos faltantes: 
                     </p>
                 </div>
@@ -260,7 +258,7 @@ $nombreCarrera = $data['data'][0]['nombre_carrera'];
                     Así mismo en caso de que mi fecha de conclusión de los estudios resulta con invasión de ciclo
                     <i>(máximo al 01 de Enero del 2021, la Institución me dará de baja definitiva del
                     sistema sin perjuicio alguno)</i>.
-                    Me comprometo a entregar dicho DOCUMENTO a más tardar el día <b><?php echo $formatFechaEntrega ?></b>. 
+                    Me comprometo a entregar dicho DOCUMENTO a más tardar el día <b><?php echo $fechaComEntrega ?></b>. 
                     </p>
                 </div>
             </div>
