@@ -23,6 +23,9 @@
                         <div class="card-body"> 
                                 <div class="tab">
                                     <div class="row">
+                                        <div class="col-12 mb-2">
+                                            <button type="button" class="btn btn-primary float-right" onclick="fnCartaAutenticidad()"><i class="fas fa-print"></i> Imprimir carta de autenticidad</button>
+                                        </div>
                                         <table class="table table-striped">
                                             <thead>
                                                 <tr>

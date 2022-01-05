@@ -13,6 +13,7 @@ var tabActual = 0;
 var cantidadDocPrestados = 0;
 var statusConfirmacionDevolucionDoc = false;
 let idInscripcion;
+let idInscripcionActual;
 mostrarTab(tabActual);
 
 document.addEventListener('DOMContentLoaded',function(){ 
@@ -240,6 +241,7 @@ function fntDocumentacionInscripcionVerificado(value){
 function fnGetDocumentosEntregados(value){
     var idInscripcion = value;
     let urlDocumentacion = base_url+"/Estudiantes/getDocumentosEntregados?idIns="+idInscripcion;
+    idInscripcionActual = value;
     fetch(urlDocumentacion)
     .then(res => res.json())
     .then((resultDocumentacion) =>{
@@ -324,7 +326,7 @@ function comprobarDocumentosEntregados(){
                 Swal.fire(
                   {
                     title: 'Imprimir',
-                    text: "Imprimir carta compromiso?",
+                    html: "<div class='form-group'><label>Selecciona una fecha que el alumno se compromete a <b>entregar</b>.</label><input type='date' id='dateComEntregDocAl' class='form-control form-control-sm'  value='' max='' min='"+fnDateDatePicker()+"' required></div>",
                     icon: 'question',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -333,9 +335,13 @@ function comprobarDocumentosEntregados(){
                   }
                 ).then((result) => {
                     if(result.isConfirmed){
-                        let idInsBase = window.btoa(unescape(encodeURIComponent(idInscripcion)))
-                        let url = base_url+"/Estudiantes/imprimir_carta_compromiso_doc/"+idInsBase;
-                        window.open(url,'_blank');
+                        let fechaCompromiso = document.querySelector('#dateComEntregDocAl').value;
+                        if(fechaCompromiso != ''){
+                            let url = base_url+"/Estudiantes/imprimir_carta_compromiso_doc/"+convToBase64(idInscripcion)+"/"+convToBase64(fechaCompromiso);
+                            window.open(url,'_blank');
+                        }else{
+                            swal.fire("Atención", "Selecciona una fecha", "warning");
+                        }
                     }
                 })
               }
@@ -380,7 +386,7 @@ formDocumentacion.onsubmit = function(e){
     }else{
         Swal.fire({
             title: 'Mensaje!',
-            html: "<p>Faltan sssssdocumentos por entregar</p><small style='color:#3085d6'>Es importante que el estudiante tenga su documentación completa</small>",
+            html: "<p>Faltan documentos por entregar</p><small style='color:#3085d6'>Es importante que el estudiante tenga su documentación completa</small>",
             icon: 'warning',
             confirmButtonColor: '#3085d6',
             confirmButtonText: 'OK'
@@ -469,7 +475,7 @@ function checkEstatusDocumentacion(value){
 }
 //Resltar inputs de datos personales Obligatorios
 function resaltarInputsObligatoriosDatosPersonales(){
-    var inputImportantes = ['txtNombreEdit','txtApellidoPaEdit','txtApellidoMaEdit','txtTelCelEdit','txtEmailEdit','listEstadoEdit','listMunicipioEdit','listLocalidadEdit','txtFechaNacimientoEdit','txtCURPEdit'];
+    var inputImportantes = ['txtNombreEdit','txtApellidoPaEdit','txtApellidoMaEdit','txtTelCelEdit','txtEmailEdit','listEstadoEdit','listMunicipioEdit','listLocalidadEdit','txtFechaNacimientoEdit','txtCURPEdit','listSexoEdit','listEscolaridadEdit'];
     inputImportantes.forEach(element => {
         document.getElementById(element).style.setProperty("background-color", "#F9D25A", "important");
     });
@@ -953,6 +959,10 @@ formEditTutor.onsubmit = function(e){
         return false;
     }
 }
+function fnCartaAutenticidad(){
+    let url = base_url+"/Estudiantes/getCartaAut/"+window.btoa(unescape(encodeURIComponent(idInscripcionActual)));
+    window.open(url, '_blank');
+}
 function fnDatosFiscales(value){
     let idPer = value.getAttribute('idPer');
     let url = base_url+"/Estudiantes/getDatosFiscales/"+idPer;
@@ -960,3 +970,18 @@ function fnDatosFiscales(value){
         console.log(resDatos);
     })
 }
+function fnDateDatePicker(){
+    var n = new Date();
+    var mes = (n.getMonth() + 1);               
+    var dia = n.getDate();
+    if (mes < 10) 
+        mes = "0" + mes;
+    if (dia < 10) 
+        dia = "0" + dia;
+    var actual = n.getFullYear() + '-' + mes + '-' + dia;
+    return actual;
+}
+function convToBase64(string){
+    let value = window.btoa(unescape(encodeURIComponent(string)));
+    return value;
+}   

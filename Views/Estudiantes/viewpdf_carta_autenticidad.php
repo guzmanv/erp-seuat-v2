@@ -4,12 +4,12 @@
     use Dompdf\Options;
     $dompdf = new Dompdf();
     ob_start();
-    include "pdf_entrega_doc.php";
+    include "pdf_carta_autenticidad.php";
     $html = ob_get_clean();
     $options = new Options();
     $options->set('isRemoteEnabled', TRUE);
     $dompdf = new DOMPDF($options);
-    $dompdf->loadHtml($html,'UTF-8');
+    $dompdf->loadHtml($html);
     $dompdf->render();
     
     // Aplicamos fondo de imagen para marca de agua
