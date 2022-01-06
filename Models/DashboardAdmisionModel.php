@@ -54,22 +54,26 @@
             $request = $this->select_all($sql);
             return $request;
         }
-        /* public function selectPlanEstudiosbyPlantel(int $idPlantel){
-            $sql = "SELECT COUNT(*) AS total FROM t_plan_estudios WHERE id_plantel = $idPlantel";
+        public function selectPlantelesInscripcion(){
+            $sql = "SELECT p.id, p.abreviacion_plantel,p.abreviacion_sistema,p.municipio FROM t_inscripciones AS ins
+            INNER JOIN t_plan_estudios AS pe ON ins.id_plan_estudios = pe.id
+            INNER JOIN t_planteles AS p ON pe.id_plantel = p.id
+            WHERE ins.grado = 1";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+        public function selectProspectosbyPlantel(int $idPlantel){
+            $sql = "SELECT COUNT(*) AS total FROM t_personas AS per
+            WHERE per.estatus !=0 AND per.id_plantel_interes = $idPlantel AND per.id_categoria_persona = 1";
             $request = $this->select($sql);
             return $request;
         }
-        public function selectMateriasbyPlantel(int $idPlantel){
-            $sql = "SELECT COUNT(*) AS total FROM t_materias AS mat
-            INNER JOIN t_plan_estudios AS ples ON mat.id_plan_estudios = ples.id
-            INNER JOIN t_planteles AS pl ON ples.id_plantel = pl.id WHERE pl.id = $idPlantel";
+        public function selectInscritosbyPlantel(int $idPlantel){
+            $sql = "SELECT COUNT(*) AS total FROM t_inscripciones AS ins
+            INNER JOIN t_plan_estudios AS pe ON ins.id_plan_estudios = pe.id
+            WHERE ins.tipo_ingreso = 'Inscripcion' AND ins.grado = 1 AND pe.id_plantel = $idPlantel";
             $request = $this->select($sql);
             return $request;
         }
-        public function selectRVOEproximoExpbyPlantel(int $idPlantel){
-            $sql = "SELECT COUNT(*) AS total FROM t_plan_estudios WHERE id_plantel = $idPlantel";
-            $request = $this->select($sql);
-            return $request;
-        } */
     }
 ?>    

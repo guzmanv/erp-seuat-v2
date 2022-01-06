@@ -30,26 +30,25 @@
 			$arrData = $this->model->selectRvoesExpirar($plantelConsultar);
 			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
-		}
-		public function getPlanEstudiosMateriabyPlantel($plantel){
+		}*/
+
+		public function getProspectosInscritosbyPlantel($plantel){
 			if($plantel == "all"){
-				$arrData = $this->model->selectPlanteles();
+				$arrData = $this->model->selectPlantelesInscripcion();
 				$array;
 				foreach ($arrData as $key => $value) {
-					$arrPlanEstudios = $this->model->selectPlanEstudiosbyPlantel($value['id']);
-					$arrMaterias = $this->model->selectMateriasbyPlantel($value['id']);
-					$rvoes = $this->model->selectRVOEproximoExpbyPlantel($value['id']);
-					$array[$value['id']] = array('id_plantel'=>$value['id'],'abreviacion_plantel'=>$value['abreviacion_plantel'],'municipio'=>$value['municipio'],'carreras' => $arrPlanEstudios['total'],'materias'=>$arrMaterias['total'],'rvoes'=>$rvoes);
+					$arrProspectos = $this->model->selectProspectosbyPlantel($value['id']);
+					$arrInscritos = $this->model->selectInscritosbyPlantel($value['id']);
+					$array[$value['id']] = array('id_plantel'=>$value['id'],'abreviacion_plantel'=>$value['abreviacion_plantel'],'municipio'=>$value['municipio'],'prospectos'=>$arrProspectos['total'],'inscritos'=>$arrInscritos['total']);
 				}
 			}else{
 				$array;
-				$arrPlanEstudios = $this->model->selectPlanEstudiosbyPlantel($plantel);
-				$arrMaterias = $this->model->selectMateriasbyPlantel($plantel);
-				$rvoes = $this->model->selectRVOEproximoExpbyPlantel($plantel);
-				$array[$plantel] = array('id_plantel'=>$plantel,'abreviacion_plantel'=>null,'carreras' => $arrPlanEstudios['total'],'materias'=>$arrMaterias['total'],'rvoes'=>$rvoes);
+				$arrProspectos = $this->model->selectProspectosbyPlantel($plantel);
+				$arrInscritos = $this->model->selectInscritosbyPlantel($plantel);
+				$array[$plantel] = array('id_plantel'=>$plantel,'abreviacion_plantel'=>'','municipio'=>'','prospectos'=>$arrProspectos['total'],'inscritos'=>$arrInscritos['total']);
 			}
 			echo json_encode($array,JSON_UNESCAPED_UNICODE);
             die();
-		} */
+		}
 	}
 ?>

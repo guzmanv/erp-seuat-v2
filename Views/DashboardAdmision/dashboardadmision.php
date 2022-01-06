@@ -133,39 +133,54 @@
                 </div>
                 <!-- ./col -->
             </div>
-           <!--  <div class="col-lg-8">
-                <div class="card">
-                    <div class="card-header border-0">
-                        <div class="d-flex justify-content-between">
-                            <h3 class="card-title">Planes de estudios & Materias - Plantel</h3>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex"><br><br>
-                        </div>
-                        <div class="position-relative mb-4">
-                            <div class="chartjs-size-monitor">
-                                <div class="chartjs-size-monitor-expand">
-                                    <div class=""></div>
-                                </div>
-                                <div class="chartjs-size-monitor-shrink">
-                                    <div class=""></div>
-                                </div>
+            <div class="row">
+                <div class="col-6 divchar">
+                    <div class="card">
+                        <div class="card-header border-0">
+                            <div class="d-flex justify-content-between">
+                                <h3 class="card-title">Prospectos & inscritos - Plantel</h3>
                             </div>
-                            <canvas id="sales-chart" height="200" style="display: block; width: 605px; height: 200px;" width="605" class="chartjs-render-monitor"></canvas>
-                            <canvas id="sales-chart-plantel" height="200" style="display: block; width: 605px; height: 200px;" width="605" class="chartjs-render-monitor"></canvas>
                         </div>
-                        <div class="d-flex flex-row justify-content-end">
-                            <span class="mr-2">
-                                <i class="fas fa-square text-primary"></i> Planes de estudios
-                            </span>
-                            <span>
-                                <i class="fas fa-square text-gray"></i> Materias
-                            </span>
-                        </div>
-                    </div>        
+                        <div class="card-body">
+                            <div class="d-flex"><br><br>
+                            </div>
+                            <div class="position-relative mb-4">
+                                <div class="chartjs-size-monitor">
+                                    <div class="chartjs-size-monitor-expand">
+                                        <div class=""></div>
+                                    </div>
+                                    <div class="chartjs-size-monitor-shrink">
+                                        <div class=""></div>
+                                    </div>
+                                </div>
+                                <canvas id="sales-chart" height="200" width="605"></canvas>
+                            </div>
+                            <div class="d-flex flex-row justify-content-end">
+                                <span class="mr-2">
+                                    <i class="fas fa-square text-primary"></i> Prospectos
+                                </span>
+                                <span>
+                                    <i class="fas fa-square text-gray"></i> Inscritos
+                                </span>
+                            </div>
+                        </div>        
+                    </div>
                 </div>
-            </div> -->
+                <div class="col-6 divcharPlantel">
+                    <div class="card">
+                        <div class="card-header border-0">
+                            <div class="d-flex justify-content-between">
+                                <h3 class="card-title">Prospectos & inscritos</h3>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="position-relative">
+                                <div id='oilChartGral' width='400' height='300'></div>
+                            </div>
+                        </div>        
+                    </div>
+                </div>
+            </div>
         <!-- /.row -->
         </div>
       <!-- /.container-fluid -->
