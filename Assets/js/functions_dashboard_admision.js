@@ -19,8 +19,8 @@ function fnTotalesCard(plantel){
             prospectosInscritosbyPlantel(plantel);
             document.querySelector('.divnomplant').style.display = "none";
             document.querySelector('.divplant').style.display = "block";
-            /* document.querySelector('.divchar').style.display = "flex"; */
-            /* document.querySelector('.divcharPlantel').style.display = "none"; */
+            document.querySelector('.divchar').style.display = "flex";
+            document.querySelector('.divcharPlantel').style.display = "none";
             document.querySelector('.plnt').innerHTML=resultado.planteles;
             document.querySelector('.pros').innerHTML=resultado.prospectos;
             document.querySelector('.ins').innerHTML=resultado.inscritos;
@@ -28,8 +28,8 @@ function fnTotalesCard(plantel){
             //fnMostrarGraficaPie();
             prospectosInscritosbyPlantel(plantel);
             document.querySelector('.divnomplant').style.display = "block";
-            /* document.querySelector('.divchar').style.display = "none"; */
-            /* document.querySelector('.divcharPlantel').style.display = "flex"; */
+            document.querySelector('.divchar').style.display = "none";
+            document.querySelector('.divcharPlantel').style.display = "flex";
             document.querySelector('.divplant').style.display = "none";
             document.querySelector('.pros').innerHTML=resultado.prospectos;
             document.querySelector('.ins').innerHTML=resultado.inscritos;

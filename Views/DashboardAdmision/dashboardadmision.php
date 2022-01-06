@@ -180,6 +180,223 @@
                         </div>        
                     </div>
                 </div>
+                <div class="col-6">
+							<div class="card flex-fill">
+								<div class="card-header">
+									<div class="card-actions float-end">
+										<div class="dropdown position-relative">
+											<a href="#" data-bs-toggle="dropdown" data-bs-display="static">
+												<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal align-middle"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+											</a>
+
+											<div class="dropdown-menu dropdown-menu-end">
+												<a class="dropdown-item" href="#">Action</a>
+												<a class="dropdown-item" href="#">Another action</a>
+												<a class="dropdown-item" href="#">Something else here</a>
+											</div>
+										</div>
+									</div>
+									<h5 class="card-title mb-0">Ultimas 5 Subcampañas</h5>
+								</div>
+								<table class="table table-borderless my-0">
+									<thead>
+										<tr>
+											<th>Campañas</th>
+											<th class="d-none d-xl-table-cell">Subcampaña</th>
+											<th>Productividad</th>
+											<th class="d-none d-xl-table-cell">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<div class="d-flex">
+													<div class="flex-shrink-0">
+														<div class="bg-light rounded-2">
+															<img class="p-2" src="img/icons/brand-1.svg">
+														</div>
+													</div>
+													<div class="flex-grow-1 ms-3">
+														<strong>Campaña 3</strong><span class="badge bg-danger">NUEVO</span>
+														<div class="text-muted">
+															20/12/2021 - 20/12/2022
+														</div>
+													</div>
+												</div>
+											</td>
+											<td class="d-none d-xl-table-cell">
+												<strong>Subcampaña 3</strong>
+												<div class="text-muted">
+                                                20/12/2021 - 20/12/2022
+												</div>
+											</td>
+											<td>
+												<div class="d-flex flex-column w-100">
+													<small class="text-success mr-1">
+                                                        <i class="fas fa-arrow-up"></i>
+                                                    12%
+                                                    </small>12,000 inscritos
+													<div class="progress progress-sm bg-primary-light w-100">
+														<div class="progress-bar bg-success" role="progressbar" style="width: 78%;"></div>
+													</div>
+												</div>
+											</td>
+											<td class="d-none d-xl-table-cell">
+												<a href="#" class="btn btn-light">Ver</a>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="d-flex">
+													<div class="flex-shrink-0">
+														<div class="bg-light rounded-2">
+															<img class="p-2" src="img/icons/brand-2.svg">
+														</div>
+													</div>
+													<div class="flex-grow-1 ms-3">
+														<strong>Campaña 3</strong>
+														<div class="text-muted">
+                                                        20/12/2021 - 20/12/2022
+														</div>
+													</div>
+												</div>
+											</td>
+											<td class="d-none d-xl-table-cell">
+												<strong>Subcampaña 2</strong>
+												<div class="text-muted">
+                                                20/12/2021 - 20/12/2022
+												</div>
+											</td>
+											<td>
+												<div class="d-flex flex-column w-100">
+													<small class="text-danger mr-1">
+                                                        <i class="fas fa-arrow-down"></i>
+                                                    12%
+                                                    </small>12,000 inscritos
+													<div class="progress progress-sm bg-primary-light w-100">
+														<div class="progress-bar bg-danger" role="progressbar" style="width: 78%;"></div>
+													</div>
+												</div>
+											</td>
+											<td class="d-none d-xl-table-cell">
+												<a href="#" class="btn btn-light">Ver</a>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="d-flex">
+													<div class="flex-shrink-0">
+														<div class="bg-light rounded-2">
+															<img class="p-2" src="img/icons/brand-3.svg">
+														</div>
+													</div>
+													<div class="flex-grow-1 ms-3">
+														<strong>Campaña 3</strong>
+														<div class="text-muted">
+                                                        20/12/2021 - 20/12/2022
+														</div>
+													</div>
+												</div>
+											</td>
+											<td class="d-none d-xl-table-cell">
+												<strong>Subcampaña 1</strong>
+												<div class="text-muted">
+                                                20/12/2021 - 20/12/2022
+												</div>
+											</td>
+											<td>
+												<div class="d-flex flex-column w-100">
+													<small class="text-success mr-1">
+                                                        <i class="fas fa-arrow-up"></i>
+                                                    12%
+                                                    </small>12,000 inscritos
+													<div class="progress progress-sm bg-primary-light w-100">
+														<div class="progress-bar bg-warning" role="progressbar" style="width: 78%;"></div>
+													</div>
+												</div>
+											</td>
+											<td class="d-none d-xl-table-cell">
+												<a href="#" class="btn btn-light">Ver</a>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="d-flex">
+													<div class="flex-shrink-0">
+														<div class="bg-light rounded-2">
+															<img class="p-2" src="img/icons/brand-4.svg">
+														</div>
+													</div>
+													<div class="flex-grow-1 ms-3">
+														<strong>Campaña 2</strong>
+														<div class="text-muted">
+                                                        20/12/2021 - 20/12/2022
+														</div>
+													</div>
+												</div>
+											</td>
+											<td class="d-none d-xl-table-cell">
+												<strong>Subcampaña 2</strong>
+												<div class="text-muted">
+                                                20/12/2021 - 20/12/2022
+												</div>
+											</td>
+                                            <td>
+												<div class="d-flex flex-column w-100">
+													<small class="text-success mr-1">
+                                                        <i class="fas fa-arrow-up"></i>
+                                                    12%
+                                                    </small>12,000 inscritos
+													<div class="progress progress-sm bg-primary-light w-100">
+														<div class="progress-bar bg-success" role="progressbar" style="width: 78%;"></div>
+													</div>
+												</div>
+											</td>
+											<td class="d-none d-xl-table-cell">
+												<a href="#" class="btn btn-light">Ver</a>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="d-flex">
+													<div class="flex-shrink-0">
+														<div class="bg-light rounded-2">
+															<img class="p-2" src="img/icons/brand-5.svg">
+														</div>
+													</div>
+													<div class="flex-grow-1 ms-3">
+														<strong>Campaña 2</strong>
+														<div class="text-muted">
+                                                        20/12/2021 - 20/12/2022
+														</div>
+													</div>
+												</div>
+											</td>
+											<td class="d-none d-xl-table-cell">
+												<strong>Subcampaña 1</strong>
+												<div class="text-muted">
+                                                20/12/2021 - 20/12/2022
+												</div>
+											</td>
+											<td>
+												<div class="d-flex flex-column w-100">
+													<small class="text-success mr-1">
+                                                        <i class="fas fa-arrow-up"></i>
+                                                    12%
+                                                    </small>12,000 inscritos
+													<div class="progress progress-sm bg-primary-light w-100">
+														<div class="progress-bar bg-primary" role="progressbar" style="width: 78%;"></div>
+													</div>
+												</div>
+											</td>
+											<td class="d-none d-xl-table-cell">
+												<a href="#" class="btn btn-light">Ver</a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
             </div>
         <!-- /.row -->
         </div>
