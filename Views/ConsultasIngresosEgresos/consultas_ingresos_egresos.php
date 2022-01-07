@@ -44,7 +44,7 @@
                                         <thead>
                                             <tr>
                                                 <th width="5%">#</th>
-                                                <th>Fecha pago</th>
+                                                <th>Fecha</th>
                                                 <th>Concepto</th>
                                                 <th>Subconcepto</th>
                                                 <th>Descripcion</th>
@@ -54,6 +54,7 @@
                                                 <th>Fecha pago</th>
                                                 <th>Referencia</th>
                                                 <th>Factura</th>
+                                                <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>

@@ -245,10 +245,11 @@ function fnGenerarEstadoCuenta(){
                 showConfirmButton:false,
                 didOpen: () =>{
                     fetch(url).then(res => res.json()).then((resultado) => {
-                       swal.fire("Estado de cuenta","Estado de cuenta generado correctamente!","success").then((result) =>{
+                        console.log(resultado);
+                       /* swal.fire("Estado de cuenta","Estado de cuenta generado correctamente!","success").then((result) =>{
                         document.querySelector('#btnAgregarServicio').disabled = false;
                         document.querySelector('#alertSinEdoCta').style.display = "none";
-                        });
+                        }); */
                     }).catch(err => { throw err });
                 }
             })  
@@ -321,12 +322,12 @@ function fnTiposCobro(value){
     if(value != ""){
         $('#listPromociones').val(null).trigger('change');
         document.querySelector("#listPromociones").innerHTML = "<option value=''>Selecciona una promocion</option>";
-        fnServicios(value);
         if(value == 1){
             document.querySelector('.listServicios').style.display = "inline";
             document.querySelector('.listPromociones').style.display = "inline";
                 
         }else{
+            fnServicios(value);
             document.querySelector('.listServicios').style.display = "block";
             document.querySelector('.listPromociones').style.display = "inline";
         }

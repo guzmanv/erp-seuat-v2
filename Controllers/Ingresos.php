@@ -93,12 +93,12 @@
             $idGrado = $arrGrado['grado'];
             $idPeriodo = $arrPeriodo['id_periodo'];
             $arrData = $this->model->generarEdoCuentaAlumno($idPersonaSeleccionada,$idPlantel,$idCarrera,$idGrado,$idPeriodo);
-            if($arrData){
+            /* if($arrData){
                 $arrResponse = true;
             }else{
                 $arrResponse = false;
-            }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            } */
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
     }

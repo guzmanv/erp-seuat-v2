@@ -1,5 +1,4 @@
 let buscarAlumno = document.querySelector("#btnBuscarAlumno");
-
 //click en boton buscar alumno
 buscarAlumno.addEventListener('click',function() {
     let strBuscarAlumno = document.querySelector('#txtNombrealumno').value;
@@ -23,13 +22,15 @@ function fnGetEstadoCuentaAlumno(str){
             {"data":"fecha"},
             {"data":"concepto"},
             {"data":"subconcepto"},
-            {"data":"observaciones"},
+            {"data":"descripcion"},
             {"data":"cargo"},
             {"data":"abono"},
             {"data":"saldo"},
-            {"data":"fecha_apgo"},
+            {"data":"fecha_pago"},
             {"data":"referencia"},
-            {"data":"factura"}        ],
+            {"data":"factura"},
+            {"data":"options"},
+        ],
         "responsive": true,
         "paging": true,
         "lengthChange": false,
@@ -45,3 +46,7 @@ function fnGetEstadoCuentaAlumno(str){
     });
     $('#tableEstadoCuenta').DataTable();
 }
+btnImprimirEdoCta.addEventListener('click',function(){
+    let url = `${base_url}/ConsultasIngresosEgresos/imprimir_edo_cta`;
+    window.open(url,'_blank');
+})

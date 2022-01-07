@@ -119,13 +119,13 @@
                 array_push($soloMeses,$listaMeses[$mes->format("m")]);
                 $meses++;
             } */
-            $sqlServicios = "SELECT id,codigo_servicio,nombre_servicio FROM t_servicios WHERE aplica_edo_cuenta = 1";
+            $sqlServicios = "SELECT id,codigo_servicio,nombre_servicio FROM t_servicios WHERE aplica_edo_cuenta = 1 AND id_plantel = $idPlantel";
             $requestServicios = $this->select_all($sqlServicios);
             if($requestServicios){
                 foreach ($requestServicios as $key => $servicio) {
                     $idServicio = $servicio['id'];
                     if($servicio['codigo_servicio'] == 'CM'){
-                        $sqlColegiaturas = "SELECT *FROM t_precarga_cuenta AS prc WHERE prc.id_periodo = $idPeriodo AND prc.id_plan_estudio = $idCarrera AND prc.id_servicio = $idServicio AND prc.id_grado = $idGrado AND prc.estatus = 1 ORDER BY prc.fecha ASC";
+                        $sqlColegiaturas = "SELECT *FROM t_precarga_cuenta AS prc WHERE prc.id_periodo = $idPeriodo AND prc.id_plan_estudios = $idCarrera AND prc.id_servicio = $idServicio AND prc.id_grado = $idGrado AND prc.estatus = 1 ORDER BY prc.fecha ASC";
                         $requestColegiaturas = $this->select_all($sqlColegiaturas);
                         foreach ($requestColegiaturas as $key => $colegiatura) {
                             //$observacion = 'coleg. '.$mes;
@@ -148,7 +148,8 @@
                     }
                 }
             }
-            return $requestIngresosDetalle;
+            //return $requestIngresosDetalle;
+            return $requestServicios;
         }
 	}
 ?>  
