@@ -75,5 +75,15 @@
             $request = $this->select($sql);
             return $request;
         }
+        public function selectDataCampSubCampanias(){
+            $sql = "SELECT c.nombre_campania,s.nombre_sub_campania,c.fecha_inicio AS fecha_inicio_campania,c.fecha_fin AS fecha_fin_campania,
+            s.fecha_inicio AS fecha_inicio_subcampania,s.fecha_fin AS fecha_fin_subcampania,COUNT(*) AS total FROM t_subcampania AS s
+            INNER JOIN t_campanias AS c ON s.id_campania = c.id
+            LEFT JOIN t_inscripciones AS i ON i.id_subcampania = s.id
+            GROUP  BY s.nombre_sub_campania HAVING COUNT(*)>=1
+            ORDER BY s.fecha_fin DESC LIMIT 5";
+            $request = $this->select_all($sql);
+            return $request;
+        }
     }
 ?>    

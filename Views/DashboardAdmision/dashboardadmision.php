@@ -133,41 +133,41 @@
                 </div>
                 <!-- ./col -->
             </div>
-            <div class="row">
-                <div class="col-6 divchar">
-                    <div class="card">
-                        <div class="card-header border-0">
-                            <div class="d-flex justify-content-between">
-                                <h3 class="card-title">Prospectos & inscritos - Plantel</h3>
-                            </div>
+            <div class="col-12 divchar">
+                <div class="card" style="width:100%">
+                    <div class="card-header border-0">
+                        <div class="d-flex justify-content-between">
+                            <h3 class="card-title">Prospectos & inscritos - Plantel</h3>
                         </div>
-                        <div class="card-body">
-                            <div class="d-flex"><br><br>
-                            </div>
-                            <div class="position-relative mb-4">
-                                <div class="chartjs-size-monitor">
-                                    <div class="chartjs-size-monitor-expand">
-                                        <div class=""></div>
-                                    </div>
-                                    <div class="chartjs-size-monitor-shrink">
-                                        <div class=""></div>
-                                    </div>
-                                </div>
-                                <canvas id="sales-chart" height="200" width="605"></canvas>
-                            </div>
-                            <div class="d-flex flex-row justify-content-end">
-                                <span class="mr-2">
-                                    <i class="fas fa-square text-primary"></i> Prospectos
-                                </span>
-                                <span>
-                                    <i class="fas fa-square text-gray"></i> Inscritos
-                                </span>
-                            </div>
-                        </div>        
                     </div>
+                    <div class="card-body">
+                        <div class="d-flex"><br><br>
+                        </div>
+                        <div class="position-relative mb-4">
+                            <div class="chartjs-size-monitor">
+                                <div class="chartjs-size-monitor-expand">
+                                    <div class=""></div>
+                                </div>
+                                <div class="chartjs-size-monitor-shrink">
+                                    <div class=""></div>
+                                </div>
+                            </div>
+                            <canvas id="sales-chart" height="200" width="605"></canvas>
+                        </div>
+                        <div class="d-flex flex-row justify-content-end">
+                            <span class="mr-2">
+                                <i class="fas fa-square text-primary"></i> Prospectos
+                            </span>
+                            <span>
+                                <i class="fas fa-square text-gray"></i> Inscritos
+                            </span>
+                        </div>
+                    </div>        
                 </div>
+            </div>
+            <div class="col-12 row">
                 <div class="col-6 divcharPlantel">
-                    <div class="card">
+                    <div class="card" style="width:100%">
                         <div class="card-header border-0">
                             <div class="d-flex justify-content-between">
                                 <h3 class="card-title">Prospectos & inscritos</h3>
@@ -181,222 +181,32 @@
                     </div>
                 </div>
                 <div class="col-6">
-							<div class="card flex-fill">
-								<div class="card-header">
-									<div class="card-actions float-end">
-										<div class="dropdown position-relative">
-											<a href="#" data-bs-toggle="dropdown" data-bs-display="static">
-												<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal align-middle"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
-											</a>
-
-											<div class="dropdown-menu dropdown-menu-end">
-												<a class="dropdown-item" href="#">Action</a>
-												<a class="dropdown-item" href="#">Another action</a>
-												<a class="dropdown-item" href="#">Something else here</a>
-											</div>
-										</div>
-									</div>
-									<h5 class="card-title mb-0">Ultimas 5 Subcampañas</h5>
-								</div>
-								<table class="table table-borderless my-0">
-									<thead>
-										<tr>
-											<th>Campañas</th>
-											<th class="d-none d-xl-table-cell">Subcampaña</th>
-											<th>Productividad</th>
-											<th class="d-none d-xl-table-cell">Action</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>
-												<div class="d-flex">
-													<div class="flex-shrink-0">
-														<div class="bg-light rounded-2">
-															<img class="p-2" src="img/icons/brand-1.svg">
-														</div>
-													</div>
-													<div class="flex-grow-1 ms-3">
-														<strong>Campaña 3</strong><span class="badge bg-danger">NUEVO</span>
-														<div class="text-muted">
-															20/12/2021 - 20/12/2022
-														</div>
-													</div>
-												</div>
-											</td>
-											<td class="d-none d-xl-table-cell">
-												<strong>Subcampaña 3</strong>
-												<div class="text-muted">
-                                                20/12/2021 - 20/12/2022
-												</div>
-											</td>
-											<td>
-												<div class="d-flex flex-column w-100">
-													<small class="text-success mr-1">
-                                                        <i class="fas fa-arrow-up"></i>
-                                                    12%
-                                                    </small>12,000 inscritos
-													<div class="progress progress-sm bg-primary-light w-100">
-														<div class="progress-bar bg-success" role="progressbar" style="width: 78%;"></div>
-													</div>
-												</div>
-											</td>
-											<td class="d-none d-xl-table-cell">
-												<a href="#" class="btn btn-light">Ver</a>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<div class="d-flex">
-													<div class="flex-shrink-0">
-														<div class="bg-light rounded-2">
-															<img class="p-2" src="img/icons/brand-2.svg">
-														</div>
-													</div>
-													<div class="flex-grow-1 ms-3">
-														<strong>Campaña 3</strong>
-														<div class="text-muted">
-                                                        20/12/2021 - 20/12/2022
-														</div>
-													</div>
-												</div>
-											</td>
-											<td class="d-none d-xl-table-cell">
-												<strong>Subcampaña 2</strong>
-												<div class="text-muted">
-                                                20/12/2021 - 20/12/2022
-												</div>
-											</td>
-											<td>
-												<div class="d-flex flex-column w-100">
-													<small class="text-danger mr-1">
-                                                        <i class="fas fa-arrow-down"></i>
-                                                    12%
-                                                    </small>12,000 inscritos
-													<div class="progress progress-sm bg-primary-light w-100">
-														<div class="progress-bar bg-danger" role="progressbar" style="width: 78%;"></div>
-													</div>
-												</div>
-											</td>
-											<td class="d-none d-xl-table-cell">
-												<a href="#" class="btn btn-light">Ver</a>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<div class="d-flex">
-													<div class="flex-shrink-0">
-														<div class="bg-light rounded-2">
-															<img class="p-2" src="img/icons/brand-3.svg">
-														</div>
-													</div>
-													<div class="flex-grow-1 ms-3">
-														<strong>Campaña 3</strong>
-														<div class="text-muted">
-                                                        20/12/2021 - 20/12/2022
-														</div>
-													</div>
-												</div>
-											</td>
-											<td class="d-none d-xl-table-cell">
-												<strong>Subcampaña 1</strong>
-												<div class="text-muted">
-                                                20/12/2021 - 20/12/2022
-												</div>
-											</td>
-											<td>
-												<div class="d-flex flex-column w-100">
-													<small class="text-success mr-1">
-                                                        <i class="fas fa-arrow-up"></i>
-                                                    12%
-                                                    </small>12,000 inscritos
-													<div class="progress progress-sm bg-primary-light w-100">
-														<div class="progress-bar bg-warning" role="progressbar" style="width: 78%;"></div>
-													</div>
-												</div>
-											</td>
-											<td class="d-none d-xl-table-cell">
-												<a href="#" class="btn btn-light">Ver</a>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<div class="d-flex">
-													<div class="flex-shrink-0">
-														<div class="bg-light rounded-2">
-															<img class="p-2" src="img/icons/brand-4.svg">
-														</div>
-													</div>
-													<div class="flex-grow-1 ms-3">
-														<strong>Campaña 2</strong>
-														<div class="text-muted">
-                                                        20/12/2021 - 20/12/2022
-														</div>
-													</div>
-												</div>
-											</td>
-											<td class="d-none d-xl-table-cell">
-												<strong>Subcampaña 2</strong>
-												<div class="text-muted">
-                                                20/12/2021 - 20/12/2022
-												</div>
-											</td>
-                                            <td>
-												<div class="d-flex flex-column w-100">
-													<small class="text-success mr-1">
-                                                        <i class="fas fa-arrow-up"></i>
-                                                    12%
-                                                    </small>12,000 inscritos
-													<div class="progress progress-sm bg-primary-light w-100">
-														<div class="progress-bar bg-success" role="progressbar" style="width: 78%;"></div>
-													</div>
-												</div>
-											</td>
-											<td class="d-none d-xl-table-cell">
-												<a href="#" class="btn btn-light">Ver</a>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<div class="d-flex">
-													<div class="flex-shrink-0">
-														<div class="bg-light rounded-2">
-															<img class="p-2" src="img/icons/brand-5.svg">
-														</div>
-													</div>
-													<div class="flex-grow-1 ms-3">
-														<strong>Campaña 2</strong>
-														<div class="text-muted">
-                                                        20/12/2021 - 20/12/2022
-														</div>
-													</div>
-												</div>
-											</td>
-											<td class="d-none d-xl-table-cell">
-												<strong>Subcampaña 1</strong>
-												<div class="text-muted">
-                                                20/12/2021 - 20/12/2022
-												</div>
-											</td>
-											<td>
-												<div class="d-flex flex-column w-100">
-													<small class="text-success mr-1">
-                                                        <i class="fas fa-arrow-up"></i>
-                                                    12%
-                                                    </small>12,000 inscritos
-													<div class="progress progress-sm bg-primary-light w-100">
-														<div class="progress-bar bg-primary" role="progressbar" style="width: 78%;"></div>
-													</div>
-												</div>
-											</td>
-											<td class="d-none d-xl-table-cell">
-												<a href="#" class="btn btn-light">Ver</a>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
+					<div class="card flex-fill">
+						<div class="card-header">
+							<h5 class="card-title mb-0">Ultimas 5 Subcampañas</h5>
 						</div>
+						<table class="table table-borderless my-0">
+							<thead>
+								<tr>
+								    <th>Campañas</th>
+									<th class="d-none d-xl-table-cell">Subcampaña</th>
+									<th>Productividad</th>
+									<th class="d-none d-xl-table-cell">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+                                <?php foreach ($data['campanias'] as $key => $value) {
+                                    if($key == 0){
+                                        $html = '<tr><td><div class="d-flex"><div class="flex-grow-1 ms-3"><strong>'.$value['nombre_campania'].'</strong><span class="badge bg-danger">NUEVO</span><div class="text-muted">'.$value['fecha_inicio_campania'].' - '.$value['fecha_fin_campania'].'</div></div></div></td><td class="d-none d-xl-table-cell"><strong>'.$value['nombre_sub_campania'].'</strong><div class="text-muted">'.$value['fecha_inicio_subcampania'].' - '.$value['fecha_fin_subcampania'].'</div></td><td><div class="d-flex flex-column w-100"><small class="text-success mr-1"><i class="fas fa-arrow-up"></i>0%</small>6 inscritos<div class="progress progress-sm bg-primary-light w-100"><div class="progress-bar bg-success" role="progressbar" style="width: 78%;"></div></div></div></td><td class="d-none d-xl-table-cell"><a href="'.BASE_URL.'/Inscripcion/admision" class="btn btn-light">Ver</a></td></tr>';
+                                    }else{
+                                        $html = '<tr><td><div class="d-flex"><div class="flex-grow-1 ms-3"><strong>'.$value['nombre_campania'].'</strong><div class="text-muted">'.$value['fecha_inicio_campania'].' - '.$value['fecha_fin_campania'].'</div></div></div></td><td class="d-none d-xl-table-cell"><strong>'.$value['nombre_sub_campania'].'</strong><div class="text-muted">'.$value['fecha_inicio_subcampania'].' - '.$value['fecha_fin_subcampania'].'</div></td><td><div class="d-flex flex-column w-100"><small class="text-danger mr-1"><i class="fas fa-arrow-down"></i>0%</small>0 inscritos<div class="progress progress-sm bg-primary-light w-100"><div class="progress-bar bg-danger" role="progressbar" style="width: 78%;"></div></div></div></td><td class="d-none d-xl-table-cell"><a href="'.BASE_URL.'/Inscripcion/admision" class="btn btn-light">Ver</a></td></tr>';
+                                    }
+                                echo $html;
+                                }?>
+							</tbody>
+						</table>
+					</div>
+				</div>
             </div>
         <!-- /.row -->
         </div>
