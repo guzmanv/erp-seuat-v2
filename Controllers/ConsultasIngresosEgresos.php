@@ -39,6 +39,12 @@
         public function imprimir_edo_cta(){
             $this->views->getView($this,"viewpdf_edo_cta",'');
         }
+        public function getDatosAlumno($str){
+            $edoCtaMatricula = $str;
+            $arrData = $this->model->selectDatosAlumno($edoCtaMatricula);
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
         protected function getSubConcepto($str){
             if(stristr($str,'COL')){
                 $array = explode('.',$str);

@@ -3,6 +3,7 @@ let buscarAlumno = document.querySelector("#btnBuscarAlumno");
 buscarAlumno.addEventListener('click',function() {
     let strBuscarAlumno = document.querySelector('#txtNombrealumno').value;
     fnGetEstadoCuentaAlumno(strBuscarAlumno);
+    fnGetDatosAlumno(strBuscarAlumno);
 })
 
 function fnGetEstadoCuentaAlumno(str){
@@ -50,3 +51,12 @@ btnImprimirEdoCta.addEventListener('click',function(){
     let url = `${base_url}/ConsultasIngresosEgresos/imprimir_edo_cta`;
     window.open(url,'_blank');
 })
+function fnGetDatosAlumno(str){
+    let url = `${base_url}/ConsultasIngresosEgresos/getDatosAlumno/${str}`;
+    fetch(url).then(res => res.json()).then((resultado) => {
+        if(resultado){
+            let nomCompleto = resultado.nombre_persona+' '+resultado.ap_paterno+' '+resultado.ap_materno;
+            document.querySelector('#nomAlumEdoCta').innerHTML = nomCompleto;
+        }
+    }).catch(err => { throw err });
+}
