@@ -1,6 +1,6 @@
 <?php
     headerAdmin($data);
-    //getModal('CategoriaCarrera/modalNuevaCategoriaCarrera',$data);
+    getModal('ConsultasIngresosEgresos/modalBuscarAlumno',$data);
     //getModal('CategoriaCarrera/modalVerCategoriaCarrera',$data);
     //getModal('CategoriaCarrera/modalEditCategoriaCarrera',$data);
 ?>
@@ -33,10 +33,10 @@
                                     </div>
                                     <div class="col-md-6 col-sm-12">
                                         <div class="d-flex justify-content-end">
-                                            <div class="col-6"><input type="text" id="txtNombrealumno" class="form-control" placeholder="Matricula o numero de cuenta"></div>
-                                            <div class="col-2"><button type="button" id="btnBuscarAlumno" class="btn btn-primary">Buscar</button></div>
+                                            <div class="col-6"><input type="text" id="txtNombrealumno" class="form-control" placeholder="Matricula o RFC"></div>
+                                            <div class="col-2"><button type="button" id="btnBuscar" class="btn btn-primary">Buscar</button></div>
                                             <div class="col-1"><p>o</p></div>
-                                            <div class="col-4"><button type="button" id="btnBuscarAlumno" class="btn btn-primary">Buscar por Nmombre</button></div>
+                                            <div class="col-4"><button type="button" id="btnBuscarAlumno"class="btn btn-primary" data-toggle="modal" data-target="#ModalBuscarAlumno">Buscar por Nombre</button></div>
                                         </div> 
                                     </div>
                                     <div class="col-12 row">

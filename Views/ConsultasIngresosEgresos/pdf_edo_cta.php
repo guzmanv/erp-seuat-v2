@@ -1,6 +1,6 @@
 <?php
 date_default_timezone_set('America/Mexico_City');
-
+$formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%d/%m/%Y", strtotime(date('Y-m-d'))));
 ?>
 <!doctype html>
 <html lang="en">
@@ -62,6 +62,12 @@ date_default_timezone_set('America/Mexico_City');
             border-spacing: 0;
             border-collapse: collapse;
         }
+        .edo_cta table tr.heading {
+            font-size: 12px;
+        }
+        .edo_cta table tr.item {
+            font-size: 12px;
+        }
         .edo_cta table td {
             padding: 5px;
             vertical-align: top;
@@ -101,16 +107,16 @@ date_default_timezone_set('America/Mexico_City');
         <div class="c_encabezado">
             <table class="sin_borde">
                 <tr>
-                    <th colspan="5" style="font-size:18px;font-weight: bold; text-align: left;"><?php echo(strtoupper('SISTEMA EDUCATIVO UNIVERSITARIO AZTECA')) ?></th>
+                    <th colspan="5" style="font-size:18px;font-weight: bold; text-align: left;"><?php echo(strtoupper($data['data']['nombre_sistema'])) ?></th>
                 </tr>
                 <tr>
-                    <th colspan="5" style="font-size:12px;font-weight: bold; text-align: left;"><?php  echo(strtoupper('INSTITUTO DE ESTUDIOS SUPERIORES "SOR JUANA INES DE LA CRUZ"')) ?><br><br></th>
+                    <th colspan="5" style="font-size:12px;font-weight: bold; text-align: left;"><?php  echo(strtoupper($data['data']['nombre_plantel'])) ?><br><br></th>
                 </tr>
                 <tr>
                     <td colspan="5" style="padding-top: -15px; font-size: 8px; text-align: left;">
-                        <?php echo('Incorporado a la Secretaria de Educacion Publica') ?><br>
-                        CLAVE: <?php echo('07PSU0018E')?><br>
-                        <?php echo('2a Norte Orientre No 741 Tuxtla Gutierrez Chiapar, Tuxtla Gutierrez Chiapas, Mexico CP')?>.
+                        <?php echo $data['data']['categoria'] ?><br>
+                        CLAVE: <?php echo $data['data']['cve_centro_trabajo'] ?><br>
+                        <?php echo $data['data']['domicilio'].','.$data['data']['colonia'].','.$data['data']['municipio'].','.$data['data']['estado'].', Mexico, CP:'.$data['data']['cod_postal'] ?>
                         <br><br>
                     </td>
                 </tr>
@@ -133,24 +139,24 @@ date_default_timezone_set('America/Mexico_City');
         </p>
     </div>
     <div id="content_pdf">
-        <div style="width:759px; font-size:16px; font-weight: bold; letter-spacing: 0.2em; text-align: center; "> Estado de cuenta del 07/12/2022</div>
+        <div style="width:759px; font-size:16px; font-weight: bold; letter-spacing: 0.2em; text-align: center; "> Estado de cuenta del <?php echo $formatFechaActual ?></div>
         <div class="linea-titulo" style="margin-bottom:20px; "></div>
     </div>
     <div class="edo_cta">
             <table>
                 <tr class="information">
                     <td colspan="4">
-                        <b>Nombre del alumno</b>: Jose Santiz Ruiz<br>
-                        <b>Numero de cuenta</b>: 0123456789<br>
-                        <b>Plantel</b>: SEUAT Tuxtla<br>
-                        <b>Carrera</b>: Lic. Trabajo Social<br>
-                        <b>Periodo actualmente cursado</b>: Septiembre - Diciembre 2022
+                        <b>Nombre del alumno</b>: <?php echo $data['data']['nombre_persona'].' '.$data['data']['ap_paterno'].' '.$data['data']['ap_materno'] ?><br>
+                        <b>Numero de cuenta</b>: <?php echo $data['data']['matricula_interna'] ?><br>
+                        <b>Plantel</b>: <?php echo $data['data']['nombre_plantel'] ?><br>
+                        <b>Carrera</b>: <?php echo $data['data']['nombre_carrera'] ?><br>
+                        <b>Periodo actualmente cursado</b>: <?php echo $data['data']['nombre_periodo']?>
                     </td>
                     <td> </td>
                     <td colspan="3" style="text-align:right">
-                        <br><br>SALTO TOTAL: <b>$2,400.00</b>
+                        <br><br>SALTO TOTAL: <b>$0.00</b>
                     </td>
-                </tr> 
+                </tr>
                 <tr>
                     <td colspan="8" style="text-align:center">SERVICIOS</td>
                 </tr>
@@ -164,56 +170,20 @@ date_default_timezone_set('America/Mexico_City');
                     <td>Abono</td>
                     <td class="text-align-right">Saldo</td>
                 </tr>
-                <tr class="item">
-                    <td>08/enero/2022</td>
-                    <td>2</td>
-                    <td>un-1</td>
-                    <td>Uniforme</td>
-                    <td>$300.00</td>
-                    <td>$0.00</td>
-                    <td>$600.00</td>
-                    <td class="text-align-right">$0.00</td>
-                </tr>
-                <tr class="item">
-                    <td>08/enero/2022</td>
-                    <td>2</td>
-                    <td>un-1</td>
-                    <td>Uniforme</td>
-                    <td>$300.00</td>
-                    <td>$0.00</td>
-                    <td>$600.00</td>
-                    <td class="text-align-right">$0.00</td>
-                </tr>
-                <tr class="item">
-                    <td>08/enero/2022</td>
-                    <td>2</td>
-                    <td>un-1</td>
-                    <td>Uniforme</td>
-                    <td>$300.00</td>
-                    <td>$0.00</td>
-                    <td>$600.00</td>
-                    <td class="text-align-right">$0.00</td>
-                </tr>
-                <tr class="item">
-                    <td>08/enero/2022</td>
-                    <td>2</td>
-                    <td>un-1</td>
-                    <td>Uniforme</td>
-                    <td>$300.00</td>
-                    <td>$0.00</td>
-                    <td>$600.00</td>
-                    <td class="text-align-right">$0.00</td>
-                </tr>
-                <tr class="item last">
-                    <td>08/enero/2022</td>
-                    <td>2</td>
-                    <td>un-1</td>
-                    <td>Uniforme</td>
-                    <td>$300.00</td>
-                    <td>$0.00</td>
-                    <td>$600.00</td>
-                    <td class="text-align-right">$0.00</td>
-                </tr>
+                <?php foreach ($data['edo_cta'] as $key => $value){
+                    if($value['codigo_servicio'] != 'CM'){ ?>
+                        <tr class="item">
+                            <td><?php echo $value['fecha'] ?></td>
+                            <td><?php echo $value['cantidad'] ?></td>
+                            <td><?php echo $value['subconcepto'] ?></td>
+                            <td><?php echo $value['descripcion'] ?></td>
+                            <td><?php echo $value['cargo'] ?></td>
+                            <td><?php echo $value['recargo'] ?></td>
+                            <td><?php echo $value['abono'] ?></td>
+                            <td class="text-align-right"><?php echo $value['saldo'] ?></td>
+                        </tr>
+                    <?php }else{?>
+                <?php }}?>
                 <tr class="total">
                     <td></td>
                     <td></td>
@@ -221,7 +191,7 @@ date_default_timezone_set('America/Mexico_City');
                     <td></td>
                     <td></td>
                     <td colspan="3" style="text-align:right">
-                    <b>Total saldo: $400.00</b>
+                    <b>Total saldo: $0.00</b>
                     </td>
                 </tr>
             </table>
@@ -240,56 +210,20 @@ date_default_timezone_set('America/Mexico_City');
                     <td>Abono</td>
                     <td class="text-align-right">Saldo</td>
                 </tr>
-                <tr class="item">
-                    <td>08/enero/2022</td>
-                    <td>2</td>
-                    <td>un-1</td>
-                    <td>Colegiatura</td>
-                    <td>$300.00</td>
-                    <td>$0.00</td>
-                    <td>$600.00</td>
-                    <td class="text-align-right">$0.00</td>
-                </tr>
-                <tr class="item">
-                    <td>08/enero/2022</td>
-                    <td>2</td>
-                    <td>un-1</td>
-                    <td>Colegiatura</td>
-                    <td>$300.00</td>
-                    <td>$0.00</td>
-                    <td>$600.00</td>
-                    <td class="text-align-right">$0.00</td>
-                </tr>
-                <tr class="item">
-                    <td>08/enero/2022</td>
-                    <td>2</td>
-                    <td>un-1</td>
-                    <td>Colegiatura</td>
-                    <td>$300.00</td>
-                    <td>$0.00</td>
-                    <td>$600.00</td>
-                    <td class="text-align-right">$0.00</td>
-                </tr>
-                <tr class="item">
-                    <td>08/enero/2022</td>
-                    <td>2</td>
-                    <td>un-1</td>
-                    <td>Colegiatura</td>
-                    <td>$300.00</td>
-                    <td>$0.00</td>
-                    <td>$600.00</td>
-                    <td class="text-align-right">$0.00</td>
-                </tr>
-                <tr class="item last">
-                    <td>08/enero/2022</td>
-                    <td>2</td>
-                    <td>un-1</td>
-                    <td>Colegiatura</td>
-                    <td>$300.00</td>
-                    <td>$0.00</td>
-                    <td>$600.00</td>
-                    <td class="text-align-right">$0.00</td>
-                </tr>
+                <?php foreach ($data['edo_cta'] as $key => $value){
+                    if($value['codigo_servicio'] == 'CM'){ ?>
+                        <tr class="item">
+                            <td><?php echo $value['fecha'] ?></td>
+                            <td><?php echo $value['cantidad'] ?></td>
+                            <td><?php echo $value['subconcepto'] ?></td>
+                            <td><?php echo $value['descripcion'] ?></td>
+                            <td><?php echo $value['cargo'] ?></td>
+                            <td><?php echo $value['recargo'] ?></td>
+                            <td><?php echo $value['abono'] ?></td>
+                            <td class="text-align-right"><?php echo $value['saldo'] ?></td>
+                        </tr>
+                    <?php }else{?>
+                <?php }}?>
                 <tr class="total">
                     <td></td>
                     <td></td>
@@ -297,7 +231,7 @@ date_default_timezone_set('America/Mexico_City');
                     <td></td>
                     <td></td>
                     <td colspan="3" style="text-align:right">
-                    <b>Total saldo: $2,000.00</b>
+                    <b>Total saldo: $0.00</b>
                     </td>
                 </tr>
             </table>

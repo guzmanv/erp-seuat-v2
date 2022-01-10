@@ -18,32 +18,39 @@
             $this->views->getView($this,"consultas_ingresos_egresos",$data);
         }
         public function getEstadoCuenta($str){
-            $arrData = $this->model->selectEdoCuenta($str);
-            for ($i=0; $i<count($arrData); $i++){
-                $arrData[$i]['numeracion'] = $i+1;
-                $arrData[$i]['fecha'] = ($arrData[$i]['fecha_pago']== '')?'0000-00-00':$arrData[$i]['fecha_pago'];
-                $arrData[$i]['concepto'] = 'LA-C78MS';
-                $arrData[$i]['subconcepto'] = $this->getSubConcepto(($arrData[$i]['codigo_servicio'] == 'CM')?$arrData[$i]['descripcion'].'.'.$arrData[$i]['fecha_pago']:$arrData[$i]['codigo_servicio']);
-                $arrData[$i]['descripcion'] = ($arrData[$i]['codigo_servicio'] == 'CM')?$arrData[$i]['descripcion']:$arrData[$i]['nombre_servicio'];
-                $arrData[$i]['cargo'] = 0;
-                $arrData[$i]['abono'] = 0;
-                $arrData[$i]['saldo'] = 0;
-                $arrData[$i]['fecha_pago'] = null;
-                $arrData[$i]['referencia'] = null;
-                $arrData[$i]['factura'] = null;
-                $arrData[$i]['options'] = '<a href="'.BASE_URL.'/Ingresos" class="badge badge-primary"> cobrar </a>';
+            $arrData = $this->estadoCuenta($str);
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        public function imprimir_edo_cta($str){
+            $data = [
+                'data'=> $this->datosAlumno($str),
+                'edo_cta'=> $this->estadoCuenta($str)
+                ];
+            $this->views->getView($this,"viewpdf_edo_cta",$data);
+        }
+
+        public function getDatosAlumno($str){
+            $arrData = $this->datosAlumno($str);
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function buscarPersonaModal(){
+            $data = $_GET['val'];
+            $arrData = $this->model->selectPersonasModal($data);
+            for($i = 0; $i <count($arrData); $i++){
+                if($arrData[$i]['rfc'] == null){
+                    $arrData[$i]['rfc'] = '<span class="badge badge-warning">Sin datos fiscales</span>';
+                    $arrData[$i]['options'] = '<button type="button"  id="'.$arrData[$i]['id'].'" class="btn btn-primary btn-sm" rl="'.$arrData[$i]['nombre'].'" r="" m="'.$arrData[$i]['matricula_interna'].'" onclick="seleccionarPersona(this)">Seleccionar</button>';
+                }else{
+                    $arrData[$i]['rfc'] = $arrData[$i]['rfc'];
+                    $arrData[$i]['options'] = '<button type="button"  id="'.$arrData[$i]['id'].'" class="btn btn-primary btn-sm" rl="'.$arrData[$i]['nombre'].'" r="'.$arrData[$i]['rfc'].'" m="'.$arrData[$i]['matricula_interna'].'" onclick="seleccionarPersona(this)">Seleccionar</button>';
+                }
             }
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
-        }
-        public function imprimir_edo_cta(){
-            $this->views->getView($this,"viewpdf_edo_cta",'');
-        }
-        public function getDatosAlumno($str){
-            $edoCtaMatricula = $str;
-            $arrData = $this->model->selectDatosAlumno($edoCtaMatricula);
-            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
-            die();
+
         }
         protected function getSubConcepto($str){
             if(stristr($str,'COL')){
@@ -51,6 +58,33 @@
                 $anio = explode('-',$array[2]);
                 return $array[1].'/'.$anio[0];
             }else{ return $str;}
+        }
+
+        
+        protected function datosAlumno($str){
+            $edoCtaMatricula = $str;
+            $arrData = $this->model->selectDatosAlumno($edoCtaMatricula);
+            return $arrData; 
+        }
+        protected function estadoCuenta($str){
+            $arrData = $this->model->selectEdoCuenta($str);
+            for ($i=0; $i<count($arrData); $i++){
+                $arrData[$i]['numeracion'] = $i+1;
+                $arrData[$i]['fecha'] = ($arrData[$i]['fecha_pago']== '')?'0000-00-00':$arrData[$i]['fecha_pago'];
+                $arrData[$i]['concepto'] = 'LA-C78MS';
+                $arrData[$i]['subconcepto'] = $this->getSubConcepto(($arrData[$i]['codigo_servicio'] == 'CM')?$arrData[$i]['descripcion'].'.'.$arrData[$i]['fecha_pago']:$arrData[$i]['codigo_servicio']);
+                $arrData[$i]['descripcion'] = ($arrData[$i]['codigo_servicio'] == 'CM')?$arrData[$i]['descripcion']:$arrData[$i]['nombre_servicio'];
+                $arrData[$i]['cargo'] = ($arrData[$i]['cargo']=='')?'$0.00':$arrData[$i]['cargo']; 
+                $arrData[$i]['recargo'] = '$0.00';
+                $arrData[$i]['abono'] = '$0.00';
+                $arrData[$i]['saldo'] = '$0.00';
+                $arrData[$i]['cantidad'] = ($arrData[$i]['cantidad']=='')?'0':$arrData[$i]['cantidad']; 
+                $arrData[$i]['fecha_pago'] = null;
+                $arrData[$i]['referencia'] = null;
+                $arrData[$i]['factura'] = null;
+                $arrData[$i]['options'] = '<a href="'.BASE_URL.'/Ingresos" class="badge badge-primary"> cobrar </a>';
+            }
+            return $arrData;
         }
     }
 ?>

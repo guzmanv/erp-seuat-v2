@@ -63,6 +63,8 @@
             }
             echo json_encode($arrRequest,JSON_UNESCAPED_UNICODE);
             die();
+        }        protected function suma($a,$b){
+            return $a+$b;
         }
         public function getServicios($valor){
             $valor = explode(',',$valor);
@@ -98,6 +100,7 @@
             }else{
                 $arrResponse = false;
             } */
+
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
