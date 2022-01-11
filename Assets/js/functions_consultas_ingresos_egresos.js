@@ -14,10 +14,10 @@ function fnGetEstadoCuentaAlumno(str){
         "aProcessing":true,
         "aServerSide":true,
         "language": {
-            "url": " "+base_url+"/Assets/plugins/Spanish.json"
+            "url": ` ${base_url}/Assets/plugin/Spanish.json`
         },
         "ajax":{
-            "url": " "+base_url+"/ConsultasIngresosEgresos/getEstadoCuenta/"+str,
+            "url": ` ${base_url}/ConsultasIngresosEgresos/getEstadoCuenta/${str}`,
             "dataSrc":""
         },
         "columns":[
@@ -70,11 +70,10 @@ function buscarPersona(){
         "aProcessing":true,
         "aServerSide":true,
         "language": {
-            //url:"<?php echo media(); ?>/plugins/Spanish.json"
-            "url": " "+base_url+"/Assets/plugins/Spanish.json"
+            "url": ` ${base_url}/Assets/plugin/Spanish.json`
         },
         "ajax":{
-            "url": " "+base_url+"/ConsultasIngresosEgresos/buscarPersonaModal?val="+textoBusqueda,
+            "url": ` ${base_url}/ConsultasIngresosEgresos/buscarPersonaModal?val=${textoBusqueda}`,
             "dataSrc":""
         },
         "columns":[
@@ -102,7 +101,6 @@ function seleccionarPersona(value){
     $('#cerrarModalBuscarPersona').click();
     let nombreCompleto = value.getAttribute('rl');
     let matricula = value.getAttribute('m');
-    //document.querySelector('#nomAlumEdoCta').innerHTML = nombreCompleto;
     fnGetEstadoCuentaAlumno(matricula);
     fnGetDatosAlumno(matricula);
 }

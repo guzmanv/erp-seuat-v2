@@ -46,9 +46,10 @@
             return $request;
         }
         public function selectColegiaturas(int $idPersona){
-            $sql = "SELECT ing.id AS id_ingresos,ingd.id AS id_ingresos_detalles,prc.descripcion,prc.id_servicio FROM t_ingresos_detalles AS ingd
+            $sql = "SELECT ing.id AS id_ingresos,ingd.id AS id_ingresos_detalles,prc.descripcion,prc.id_servicio,sr.precio_unitario FROM t_ingresos_detalles AS ingd
             INNER JOIN t_ingresos AS ing ON ingd.id_ingresos = ing.id
             INNER JOIN t_precarga_cuenta AS prc ON ingd.id_precarga_cuenta = prc.id
+           	INNER JOIN t_servicios AS sr ON ingd.id_servicio
             WHERE ing.id_persona = $idPersona AND prc.estatus = 1";
             $request = $this->select_all($sql);
             return $request;

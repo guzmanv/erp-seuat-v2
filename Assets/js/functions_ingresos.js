@@ -5,7 +5,6 @@ document.querySelector('#alertSinEdoCta').style.display = "none";
 document.querySelector('#btnAgregarServicio').disabled = true;
 document.querySelector('.listServicios').style.display = "none";
 document.querySelector('.listPromociones').style.display = "none";
-document.querySelector('.txtCantidad').style.display = "none";
 document.querySelector('#listTipoCobro').disabled = true;
 var formGenerarEdoCuenta = document.querySelector("#formGenerarEdoCuenta");
 
@@ -20,9 +19,8 @@ function fnServicios(value){
         arrServiciosTodos = resultado.data;
         document.querySelector("#listServicios").innerHTML = "<option value=''>Selecciona un servicio</option>";
         if(resultado.tipo == "COL"){
-            resultado.data.forEach(servicio => {
-                console.log(servicio);
-                //document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' value='${servicio.id}'>${servicio.nombre_servicio}</option>`;
+            resultado.data.forEach(colegiatura => {
+                document.querySelector("#listServicios").innerHTML += `<option pu='${colegiatura.precio_unitario}' value='${colegiatura.id_ingresos}'>${colegiatura.descripcion}</option>`;
             });
         }else{
             resultado.data.forEach(servicio => {
@@ -46,10 +44,9 @@ function fnServicioSeleccionado(value){
                 });
             }
         }).catch(err => { throw err });
-        document.querySelector('#txtCantidad').value = 1;
         document.querySelector('#listPromociones').focus();
     }else{
-        document.querySelector('#txtCantidad').value = 0;
+
     }
 }
 //Buscar persona por Modal
@@ -60,10 +57,10 @@ function fnInputBuscarPersona(){
         "aProcessing":true,
         "aServerSide":true,
         "language": {
-            "url": " "+base_url+"/Assets/plugins/Spanish.json"
+            "url": ` ${base_url}/Assets/plugins/Spanish.json`
         },
         "ajax":{
-            "url": " "+base_url+"/Ingresos/buscarPersonaModal?val="+textoBusqueda,
+            "url": ` ${base_url}/Ingresos/buscarPersonaModal?val=${textoBusqueda}`,
             "dataSrc":""
         },
         "columns":[
@@ -118,7 +115,7 @@ function seleccionarPersona(answer){
 //Agregar datos del servicio en la Tabla
 function fnBtnAgregarServicioTabla(){
     let servicio = document.querySelector('#listServicios');
-    let cantidad = document.querySelector('#txtCantidad').value;
+    let cantidad = 1;
     let idServicio = servicio.value;
     let nombreServicio = servicio.options[servicio.selectedIndex].text;
     let precioUnitarioServicioSel = servicio.options[servicio.selectedIndex].getAttribute('pu');
@@ -161,7 +158,6 @@ function fnBtnAgregarServicioTabla(){
                 mostrarServiciosTabla();
                 fnServicios();
                 document.querySelector('#listPromociones').innerHTML ="<option value=''>Selecciona una promocion</option>";
-                document.querySelector('#txtCantidad').value = 0;
                 mostrarTotalCuentaServicios();
             }
           })
@@ -187,8 +183,12 @@ function mostrarServiciosTabla(){
         totalServicios += 1;
         let descuentoPorc = 0;
         servicio.promociones.forEach(promocion => {
-            let descuento = parseFloat(promocion.descuento);
-            descuentoPorc += descuento;
+            if(promocion.descuento == null){
+                descuentoPorc += 0;
+            }else{
+                let descuento = parseFloat(promocion.descuento);
+                descuentoPorc += descuento;
+            }
         });
         document.querySelector("#tableServicios").innerHTML += `<tr><td>${totalServicios}</td><td>${servicio.nombre_servicio}</td><td>${formatoMoneda(servicio.precio_unitario)}</td><td><input id='cantidad${servicio.id_servicio}' type='number' style='width: 6em;' value='${servicio.cantidad}' min='0' onkeyup='modCantidadServ(this)'></td><td>${descuentoPorc}%</td><td>${formatoMoneda(servicio.subtotal.toFixed(2))}</td>${servicio.acciones}</tr>`
     });
@@ -201,8 +201,12 @@ function mostrarTotalCuentaServicios(){
     arrServicios.forEach(servicio => {
         let subtotal = parseFloat(servicio.subtotal);
         servicio.promociones.forEach(promocion => {
-            let descuento = parseFloat(promocion.descuento);
-            descuentoPorc += descuento;
+            if(promocion.descuento != null){
+                let descuento = parseFloat(promocion.descuento);
+                descuentoPorc += descuento;
+            }else{
+                descuentoPorc += 0;
+            }
         });
         total += subtotal;
     });
@@ -245,7 +249,6 @@ function fnGenerarEstadoCuenta(){
                 showConfirmButton:false,
                 didOpen: () =>{
                     fetch(url).then(res => res.json()).then((resultado) => {
-                        console.log(resultado);
                        /* swal.fire("Estado de cuenta","Estado de cuenta generado correctamente!","success").then((result) =>{
                         document.querySelector('#btnAgregarServicio').disabled = false;
                         document.querySelector('#alertSinEdoCta').style.display = "none";
@@ -256,59 +259,37 @@ function fnGenerarEstadoCuenta(){
         }
     })
 }
-function fnButtonPagar(){
+function fnButtonCobrar(){
     let total = 0;
     let descuentoPorc = 0;
     let totalDesc = 0;
     arrServicios.forEach(servicio => {
         let subtotal = parseFloat(servicio.subtotal);
         servicio.promociones.forEach(promocion => {
-            let descuento = parseFloat(promocion.descuento);
-            descuentoPorc += descuento;
+            if(promocion.descuento != null){
+                let descuento = parseFloat(promocion.descuento);
+                descuentoPorc += descuento;
+            }else{
+                descuentoPorc += 0;
+            }
         });
         total += subtotal;
     });
     totalDesc = total - (total * (descuentoPorc/100));
-
     if(arrServicios.length == 0){
-        swal.fire("Atención","Agrega al menos un servicio","warning");
+        document.querySelector('#alertSinServicio').style.display = "inline";
+        document.querySelector('#cobro').style.display = "none";
     }else{
-        Swal.fire({
-            title: 'Pagar',
-            html: '<h2><b>Total: </b>'+formatoMoneda(totalDesc.toFixed(2))+'</h2>',
-            input: 'text',
-            inputPlaceholder: 'Ingresa la cantidad a pagar',
-            inputAttributes: {
-              autocapitalize: 'off'
-            },
-            showCancelButton: true,
-            confirmButtonText: 'Pagar',
-            showLoaderOnConfirm: true,
-            preConfirm: (login) => {
-              return fetch(`//api.github.com/users/${login}`)
-                .then(response => {
-                  if (!response.ok) {
-                    throw new Error(response.statusText)
-                  }
-                  return response.json()
-                })
-                .catch(error => {
-                  Swal.showValidationMessage(
-                    'Ingrese una cantidad!'
-                  )
-                })
-            },
-            allowOutsideClick: () => !Swal.isLoading()
-          }).then((result) => {
-            if (result.isConfirmed) {
-                swal.fire("Exito","Venta guardado correctamente!","success");
-            }
-          })
+        document.querySelector('#alertSinServicio').style.display = "none";
+        document.querySelector('#cobro').style.display = "inline";
+        document.querySelector('#txtSubtotalModal').innerHTML= formatoMoneda(total.toFixed(2));
+        document.querySelector('#txtDescuentoModal').innerHTML= `${descuentoPorc} %`;
+        document.querySelector('#txtTotalModal').innerHTML= formatoMoneda(totalDesc.toFixed(2));
     }
 }
 function obtenerPromSeleccionados(param){
     let idList = param;
-    var values = Array.prototype.slice.call(document.querySelectorAll('#'+idList+' option:checked'),0).map(function(v,i,a,) { 
+    var values = Array.prototype.slice.call(document.querySelectorAll(`#${idList} option:checked`),0).map(function(v,i,a,) { 
         return {id_promocion:v.value,descuento:v.getAttribute('des'),nombre_promocion:v.text};
     });
     return values;
@@ -323,6 +304,7 @@ function fnTiposCobro(value){
         $('#listPromociones').val(null).trigger('change');
         document.querySelector("#listPromociones").innerHTML = "<option value=''>Selecciona una promocion</option>";
         if(value == 1){
+            fnServicios(value);
             document.querySelector('.listServicios').style.display = "inline";
             document.querySelector('.listPromociones').style.display = "inline";
                 
@@ -335,4 +317,40 @@ function fnTiposCobro(value){
         document.querySelector('.listPromociones').style.display = "none";
         document.querySelector('.listServicios').style.display = "none";
     }
+}
+function btnCobrarCmbio(){
+    let total = 0;
+    let descuentoPorc = 0;
+    let totalDesc = 0;
+    arrServicios.forEach(servicio => {
+        let subtotal = parseFloat(servicio.subtotal);
+        servicio.promociones.forEach(promocion => {
+            if(promocion.descuento != null){
+                let descuento = parseFloat(promocion.descuento);
+                descuentoPorc += descuento;
+            }else{
+                descuentoPorc += 0;
+            }
+        });
+        total += subtotal;
+    });
+    totalDesc = total - (total * (descuentoPorc/100));
+
+    let intEfectivo = document.querySelector('#txtEfectivo').value;
+
+    if(intEfectivo == ''){
+        swal.fire("Atención","Inserte la cantidad de efectivo","warning");
+        return false;
+    }else if(parseInt(intEfectivo) < total){
+        swal.fire("Atención","La cantidad insertada es menor que el total","warning");
+        return false;
+    }else{
+        let url = ` ${base_url}/Ingresos/setVenta/${convStrToBase64(arrServicios)}`
+        fetch(url).then(res => res.json()).then((resultado) => {
+           console.log(resultado);
+        }).catch(err => { throw err });
+    }
+}
+function convStrToBase64(str){
+    return window.btoa(unescape(encodeURIComponent( str ))); 
 }

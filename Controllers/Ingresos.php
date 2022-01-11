@@ -104,5 +104,13 @@
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
+        public function setVenta($arr){
+            $array = $this->reverse64($arr);
+            echo json_encode($array,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        private function reverse64($arr){
+            return base64_decode($arr);
+        }
     }
 ?>
