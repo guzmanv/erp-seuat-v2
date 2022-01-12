@@ -55,10 +55,9 @@
                                                 <th>Descripcion</th>
                                                 <th>Cargo</th>
                                                 <th>Abono</th>
-                                                <th>Saldo</th>
                                                 <th>Fecha pago</th>
                                                 <th>Referencia</th>
-                                                <th>Factura</th>
+                                                <th>Tipo comprobante</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>

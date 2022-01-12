@@ -46,11 +46,11 @@
             return $request;
         }
         public function selectColegiaturas(int $idPersona){
-            $sql = "SELECT ing.id AS id_ingresos,ingd.id AS id_ingresos_detalles,prc.descripcion,prc.id_servicio,sr.precio_unitario FROM t_ingresos_detalles AS ingd
-            INNER JOIN t_ingresos AS ing ON ingd.id_ingresos = ing.id
-            INNER JOIN t_precarga_cuenta AS prc ON ingd.id_precarga_cuenta = prc.id
-           	INNER JOIN t_servicios AS sr ON ingd.id_servicio
-            WHERE ing.id_persona = $idPersona AND prc.estatus = 1";
+            $sql = "SELECT i.id AS id_ingresos,id.id AS id_ingresos_detalles,id.id_servicio,s.nombre_servicio,s.precio_unitario,pc.descripcion,i.fecha FROM t_ingresos AS i 
+            INNER JOIN t_ingresos_detalles AS id ON id.id_ingresos = i.id 
+            INNER JOIN t_servicios AS s ON id.id_servicio = s.id
+            INNER JOIN t_precarga_cuenta AS pc ON id.id_precarga_cuenta = pc.id
+            WHERE i.id_persona = $idPersona AND pc.estatus = 1";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -152,5 +152,44 @@
             //return $requestIngresosDetalle;
             return $requestServicios;
         }
+        public function updateIngresos($idIngreso,$tipoPago,$tipoComprobante,$observaciones,$folioNuevo,$total){
+            $sql = "UPDATE t_ingresos SET fecha = NOW(),folio = ?,forma_pago = ?,tipo_comprobante = ?,total = ?,observaciones = ?,
+            recibo_inscripcion = ? WHERE id= $idIngreso";
+            $request = $this->update($sql,array($folioNuevo,$tipoPago,$tipoComprobante,$total,$observaciones,1));
+            //$request = $this->update($sql,array($folioNuevo,$tipoPago,$tipoComprobante,$total,$observaciones,1));
+           /*  $total = 0;
+            foreach ($arrDate as $key => $value) {
+                $total += $value->subtotal;
+            }
+            if($total > 0){
+                $sql = "UPDATE t_ingresos SET fecha = NOW(),folio = ?,forma_pago = ?,tipo_comprobante = ?,total = ?,observaciones = ?,
+                recibo_inscripcion = ? WHERE id= $idIngreso";
+                //$request = $this->update($sql,array($folioNuevo,$tipoPago,$tipoComprobante,$total,$observaciones,1));
+            } */
+            return $request;
+        }
+        public function updateIngresosDetalles($idIngreso,$cantidad,$precioUnitario,$subtotal,$arrPromociones){
+            $sql = "UPDATE t_ingresos_detalles SET cantidad = ? ,cargo = ?,abono = ?,saldo = ?,precio_subtotal = ?,promociones_aplicadas = ? WHERE id_ingresos = $idIngreso";
+            $request = $this->update($sql,array($cantidad,$precioUnitario,$precioUnitario,$precioUnitario,$subtotal,$arrPromociones));
+            return $request;
+        }
+        public function selectFolioSig(int $idAlumno){
+            $sqlPlantel = "SELECT pl.id AS id_plantel,pl.abreviacion_plantel,pl.abreviacion_sistema,pl.codigo_plantel  FROM t_personas AS p
+            INNER JOIN t_inscripciones AS i ON i.id_personas = p.id
+            INNER JOIN t_plan_estudios AS ple ON i.id_plan_estudios = ple.id
+            INNER JOIN t_planteles AS pl ON ple.id_plantel = pl.id
+            WHERE p.id = $idAlumno LIMIT 1";
+            $requestPlantel = $this->select($sqlPlantel);
+            $codigoPlantel = $requestPlantel['codigo_plantel'];
+
+            $sqlFolioCosecutivo = "SELECT COUNT(folio) AS num_folios FROM  t_ingresos WHERE folio LIKE '%$codigoPlantel%'";
+            $requestFolioConsecutivo = $this->select($sqlFolioCosecutivo);
+            $cantidadFolios = $requestFolioConsecutivo['num_folios'];
+            $nuevoFolio = $cantidadFolios+1;
+            $nuevoFolioConsecutivo = $codigoPlantel.'IN'.date("mY").substr(str_repeat(0,4).$nuevoFolio,-4);
+
+            return $nuevoFolioConsecutivo;
+        }
+
 	}
 ?>  

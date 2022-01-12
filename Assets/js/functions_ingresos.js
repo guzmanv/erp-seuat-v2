@@ -20,7 +20,8 @@ function fnServicios(value){
         document.querySelector("#listServicios").innerHTML = "<option value=''>Selecciona un servicio</option>";
         if(resultado.tipo == "COL"){
             resultado.data.forEach(colegiatura => {
-                document.querySelector("#listServicios").innerHTML += `<option pu='${colegiatura.precio_unitario}' value='${colegiatura.id_ingresos}'>${colegiatura.descripcion}</option>`;
+                let estatus = (colegiatura.fecha != null)?'/Pagado':'';
+                document.querySelector("#listServicios").innerHTML += `<option pu='${colegiatura.precio_unitario}' es='${colegiatura.fecha}' value='${colegiatura.id_ingresos}'>${colegiatura.descripcion}${estatus}</option>`;
             });
         }else{
             resultado.data.forEach(servicio => {
@@ -119,6 +120,12 @@ function fnBtnAgregarServicioTabla(){
     let idServicio = servicio.value;
     let nombreServicio = servicio.options[servicio.selectedIndex].text;
     let precioUnitarioServicioSel = servicio.options[servicio.selectedIndex].getAttribute('pu');
+    let estatus = servicio.options[servicio.selectedIndex].getAttribute('es');
+    if(estatus != 'null'){
+        swal.fire("Atención","El servicio seleccionado ya ha sido pagado","warning");
+        return false;
+    }  console.log("no pagado");
+    
     let subtotal = precioUnitarioServicioSel*cantidad;
     let acciones = `<td style='text-align:center'><a class='btn' onclick='fnBorrarServicioTabla(${idServicio})'><i class='fas fa-trash text-danger'></i></a></td>`;
     let arrServicio = {id_servicio:idServicio,nombre_servicio:nombreServicio,cantidad:cantidad,precio_unitario:precioUnitarioServicioSel,subtotal:subtotal,acciones:acciones,promociones:obtenerPromSeleccionados('listPromociones')};
@@ -345,12 +352,25 @@ function btnCobrarCmbio(){
         swal.fire("Atención","La cantidad insertada es menor que el total","warning");
         return false;
     }else{
-        let url = ` ${base_url}/Ingresos/setVenta/${convStrToBase64(arrServicios)}`
+        let tipoPago = 'efectivo';
+        let tipoComprobante = (document.querySelector('#listTipoComprobante').value == 1)?'recibo':'factura'
+        let observaciones = document.querySelector('#txtObservaciones').value;
+        let url = ` ${base_url}/Ingresos/setIngresos?idP=${idPersonaSeleccionada}&tipoP=${tipoPago}&tipoCom=${tipoComprobante}&observacion=${observaciones}&date=${jsonToString(arrServicios)}`
         fetch(url).then(res => res.json()).then((resultado) => {
-           console.log(resultado);
+           if(resultado.estatus){
+                let cambio = intEfectivo-total;
+                swal.fire("Exito",resultado.msg+'<br>Su cambio es de: <h1><b>'+formatoMoneda(cambio.toFixed(2))+'</b></h1>',"success").then((result) =>{
+                    if(result.isConfirmed){
+                        $('#cerrarModalCobrar').click();
+                    }
+                });
+           }
         }).catch(err => { throw err });
     }
 }
 function convStrToBase64(str){
     return window.btoa(unescape(encodeURIComponent( str ))); 
+}
+function jsonToString(json){
+    return JSON.stringify(json);
 }

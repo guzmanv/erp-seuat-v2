@@ -76,12 +76,10 @@
                 $arrData[$i]['descripcion'] = ($arrData[$i]['codigo_servicio'] == 'CM')?$arrData[$i]['descripcion']:$arrData[$i]['nombre_servicio'];
                 $arrData[$i]['cargo'] = ($arrData[$i]['cargo']=='')?'$0.00':$arrData[$i]['cargo']; 
                 $arrData[$i]['recargo'] = '$0.00';
-                $arrData[$i]['abono'] = '$0.00';
-                $arrData[$i]['saldo'] = '$0.00';
+                $arrData[$i]['abono'] = $arrData[$i]['abono'];
                 $arrData[$i]['cantidad'] = ($arrData[$i]['cantidad']=='')?'0':$arrData[$i]['cantidad']; 
-                $arrData[$i]['fecha_pago'] = null;
-                $arrData[$i]['referencia'] = null;
-                $arrData[$i]['factura'] = null;
+                $arrData[$i]['fecha_pago'] = $arrData[$i]['fecha_pagado'];
+                $arrData[$i]['referencia'] = $arrData[$i]['folio'];
                 $arrData[$i]['options'] = '<a href="'.BASE_URL.'/Ingresos" class="badge badge-primary"> cobrar </a>';
             }
             return $arrData;

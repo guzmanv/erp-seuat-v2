@@ -10,7 +10,6 @@
             </div>
             <div class="modal-body">
                 <div class="card card-secondary">
-                    <form id="formGenerarEdoCuenta" name="formGenerarEdoCuenta">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12 alert alert-warning" role="alert" id="alertSinServicio">
@@ -18,7 +17,7 @@
                                 </div>
                                 <div class="col-12" id ="cobro">
                                     <div class="row">
-                                            <div class="col-7 metodosPago">
+                                            <div class="col-6 metodosPago">
                                                 <h4 class="mt-2">Selecciona un método de Pago</h4>
                                                 <div class="border p-3 mb-3 rounded">
                                                     <div class="row">
@@ -81,7 +80,7 @@
                                                     <div class="row">
                                                         <div class="col-sm-8">
                                                             <div class="form-check">
-                                                                <input type="radio" id="BillingOptRadio3" name="billingOptions" class="form-check-input" disabled>
+                                                                <input type="radio" id="BillingOptRadio3" name="" class="form-check-input" disabled>
                                                                 <label class="form-check-label font-16 fw-bold" for="BillingOptRadio3">Transferencia</label>
                                                             </div>
                                                         </div>
@@ -91,14 +90,14 @@
                                                     <div class="row">
                                                         <div class="col-sm-8">
                                                             <div class="form-check">
-                                                                <input type="radio" id="BillingOptRadio4" name="billingOptions" class="form-check-input" checked="">
+                                                                <input type="radio" id="BillingOptRadio4" name="" class="form-check-input" checked="">
                                                                 <label class="form-check-label font-16 fw-bold" for="BillingOptRadio4">Efectivo</label>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-5 formPago"><br><br>
+                                            <div class="col-6 formPago"><br><br>
                                             <div class="border p-3 mt-4 mt-lg-0 rounded">
                                                 <h4 class="header-title mb-3">Efectivo</h4>
                                                 <div class="table-responsive">
@@ -134,7 +133,21 @@
                                                             </tr>
                                                         </tbody>
                                                     </table><br>
-                                                    <input type="text" class="form-control" id="txtEfectivo" placeholder="Efectivo"/><br>
+                                                    <div class="form-group col-12">
+                                                        <label>Tipo de comprobante</label>
+                                                        <select class="form-control" id="listTipoComprobante">
+                                                            <option value="1">Recibo</option>
+                                                            <option value="2">Factura</option>
+                                                        </select>  
+                                                    </div>
+                                                    <div class="form-group col-12">
+                                                        <label>Cantidad en efectivo</label>
+                                                        <input type="text" class="form-control" id="txtEfectivo" placeholder="Efectivo"/><br>
+                                                    </div>
+                                                    <div class="form-group col-12">
+                                                        <label>Observaciones</label>
+                                                        <textarea class="form-control form-control-sm" id="txtObservaciones"rows="2" placeholder="Observaciones" maxlength="200"></textarea>
+                                                    </div>
                                                     <div class="text-right"><button class="col-8 btn btn-outline-secondary btn-primary icono-color-principal btn-inline" onclick="btnCobrarCmbio()" ><i class="fas fa-fw fa-lg fa-hand-holding-usd icono-azul"></i></i><span>Cobrar</span></button></div>
                                                 </div>
                                             </div>
@@ -146,9 +159,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="cerrarModalGenerarEdoCuenta"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>
+                    <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="cerrarModalCobrar"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>
                </div>  
-            </form> 
         </div>
     </div>
 </div>
