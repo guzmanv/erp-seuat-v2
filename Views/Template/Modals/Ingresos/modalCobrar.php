@@ -113,26 +113,26 @@
                                                                 </td>
                                                                 <td class="text-end">$129.99</td>
                                                             </tr> -->
-                                                            <tr class="text-end">
+                                                            <!-- <tr class="text-end">
                                                                 <td>
                                                                     <h6 class="m-0">Subtotal:</h6>
                                                                 </td>
                                                                 <td class="text-end"><span id="txtSubtotalModal"></span></td>
-                                                            </tr>
-                                                            <tr class="text-end">
+                                                            </tr> -->
+                                                            <!-- <tr class="text-end">
                                                                 <td>
                                                                     <h6 class="m-0">Descuentos:</h6>
                                                                 </td>
                                                                 <td class="text-end"><span id="txtDescuentoModal"></span></td>
-                                                            </tr>
+                                                            </tr> -->
                                                             <tr class="text-end">
                                                                 <td>
-                                                                    <h5 class="m-0">Total:</h5>
+                                                                    <h2 class="m-0">Total:</h2>
                                                                 </td>
-                                                                <td class="text-end fw-semibold"><span id="txtTotalModal"></span></td>
+                                                                <td class="text-end fw-semibold"><h2><b><span id="txtTotalModal"></span></b></h2></td>
                                                             </tr>
                                                         </tbody>
-                                                    </table><br>
+                                                    </table>
                                                     <div class="form-group col-12">
                                                         <label>Tipo de comprobante</label>
                                                         <select class="form-control" id="listTipoComprobante">
@@ -142,13 +142,13 @@
                                                     </div>
                                                     <div class="form-group col-12">
                                                         <label>Cantidad en efectivo</label>
-                                                        <input type="text" class="form-control" id="txtEfectivo" placeholder="Efectivo"/><br>
+                                                        <input type="text" class="form-control" id="txtEfectivo" placeholder="Efectivo"/>
                                                     </div>
                                                     <div class="form-group col-12">
                                                         <label>Observaciones</label>
                                                         <textarea class="form-control form-control-sm" id="txtObservaciones"rows="2" placeholder="Observaciones" maxlength="200"></textarea>
                                                     </div>
-                                                    <div class="text-right"><button class="col-8 btn btn-outline-secondary btn-primary icono-color-principal btn-inline" onclick="btnCobrarCmbio()" ><i class="fas fa-fw fa-lg fa-hand-holding-usd icono-azul"></i></i><span>Cobrar</span></button></div>
+                                                    <div class="text-right"><button class="col-10 btn btn-outline-secondary btn-primary icono-color-principal btn-inline" onclick="btnCobrarCmbio()" ><i class="fas fa-fw fa-lg fa-hand-holding-usd icono-azul"></i></i><span>Cobrar</span></button></div>
                                                 </div>
                                             </div>
                                         </div>

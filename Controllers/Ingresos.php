@@ -121,13 +121,19 @@
             if($request){
                 $reqIngDetalles = $this->model->updateIngresosDetalles($idIngreso,$cantidad,$precioUnitario,$subtotal,$arrPromociones);
                 if($reqIngDetalles){
-                    $arrResponse = array('estatus' => true,'msg' => 'Datos guardados correctamente!');
+                    $arrResponse = array('estatus' => true,'id'=>$idIngreso,'msg' => 'Datos guardados correctamente!');
                 }else{
-                    $arrResponse = array('estatus' => false, 'msg' => 'No es posible guardar los datos');
+                    $arrResponse = array('estatus' => false,'id'=>$idIngreso, 'msg' => 'No es posible guardar los datos');
                 }
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
+        }
+
+
+        public function imprimir_comprobante_venta(int $idVenta){
+            $data = null;
+            $this->views->getView($this,"viewpdf_comprobante_venta",$data);
         }
         private function reverse64($arr){
             return base64_decode($arr);
