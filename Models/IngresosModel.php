@@ -173,6 +173,7 @@
             $request = $this->update($sql,array($cantidad,$precioUnitario,$precioUnitario,$precioUnitario,$subtotal,$arrPromociones));
             return $request;
         }
+        
         public function selectFolioSig(int $idAlumno){
             $sqlPlantel = "SELECT pl.id AS id_plantel,pl.abreviacion_plantel,pl.abreviacion_sistema,pl.codigo_plantel  FROM t_personas AS p
             INNER JOIN t_inscripciones AS i ON i.id_personas = p.id

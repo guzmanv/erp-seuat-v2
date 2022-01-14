@@ -30,6 +30,7 @@ function fnServicios(value){
 }
 //Lista de Promociones del Servicio seleccionado
 function fnServicioSeleccionado(value){
+    console.log(value);
     if(value != ""){
         let url = `${base_url}/Ingresos/getPromociones/${value}`;
         document.querySelector("#listPromociones").innerHTML = "<option value=''>Selecciona una promocion</option>";

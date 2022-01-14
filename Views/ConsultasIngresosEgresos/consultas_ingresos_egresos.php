@@ -30,7 +30,7 @@
                                 <div class="col-12 row">
                                 <div class="col-md-6 col-sm-12">
                                         <h3 class="card-title">Estados de cuenta</h3><br>                                
-                                    </div>
+                                </div>
                                     <div class="col-md-6 col-sm-12">
                                         <div class="d-flex justify-content-end">
                                             <div class="col-6"><input type="text" id="txtNombrealumno" class="form-control" placeholder="Matricula o RFC"></div>
