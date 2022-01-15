@@ -1,8 +1,8 @@
 <?php
     headerAdmin($data);
-    //getModal("Ingresos/modalPagosServicios",$data);
     getModal("Ingresos/modalBuscarPersona",$data);
     getModal("Ingresos/modalGenerarEdoCuenta",$data);
+    getModal("Ingresos/modalCobrar",$data);
 ?>
 <div id="contentAjax"></div>
 <div class="wrapper">
@@ -62,10 +62,6 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-2 txtCantidad">
-                                        <label>Cantidad</label>
-                                        <input type="number" id="txtCantidad" name="txtCantidad" class="form-control" min="0" value="0">
-                                    </div>
                                     <div class="form-group col-md-2" style="display:flex;align-items:end">
                                         <button type="button" id="btnAgregarServicio" class="btn btn-primary btn-block form-control" onclick="fnBtnAgregarServicioTabla()"><i class="fa fa-plus"></i>Agregar</button>
                                     </div>
@@ -109,9 +105,9 @@
                                         </div>
                                         <div class="col-md-3"></div>
                                     </div>
-                                    <div class="form-group col-md-12 d-flex flex-row-reverse" id="btnPagar">
+                                    <div class="form-group col-md-12 d-flex flex-row-reverse">
                                         <div class="col-md-2">
-                                            <button type="button" class="btn btn-success btn-lg col-md-12" onclick="fnButtonPagar()"><i class="fas fa-dollar-sign mr-3"></i><b>PAGAR</b></button>
+                                            <button type="button" class="btn btn-success btn-lg col-md-12" data-toggle="modal" data-target="#modalCobrar" onclick="fnButtonCobrar()"><i class="fas fa-dollar-sign mr-3"></i><b>COBRAR</b></button>
                                         </div>
                                     </div>
                                 </div>    

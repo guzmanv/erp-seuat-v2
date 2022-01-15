@@ -1,6 +1,6 @@
 <?php
     headerAdmin($data);
-    //getModal('CategoriaCarrera/modalNuevaCategoriaCarrera',$data);
+    getModal('ConsultasIngresosEgresos/modalBuscarAlumno',$data);
     //getModal('CategoriaCarrera/modalVerCategoriaCarrera',$data);
     //getModal('CategoriaCarrera/modalEditCategoriaCarrera',$data);
 ?>
@@ -28,15 +28,20 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="col-12 row">
-                                    <div class="col-md-6 col-sm-12">
+                                <div class="col-md-6 col-sm-12">
                                         <h3 class="card-title">Estados de cuenta</h3><br>                                
-                                    </div>
+                                </div>
                                     <div class="col-md-6 col-sm-12">
-                                        <div class="form-group d-flex justify-content-between">
-                                            <div class="col-8"><input type="text" id="txtNombrealumno" class="form-control" placeholder="Nombre del alumno, matricula o numero de cuenta"></div>
-                                            <div class="col-2"><button type="button" id="btnBuscarAlumno" class="btn btn-primary">Buscar</button></div>
-                                            <div class="col-2"><button type="button" id="btnImprimirEdoCta" class="btn btn-secondary">Imprimir</button></div>
+                                        <div class="d-flex justify-content-end">
+                                            <div class="col-6"><input type="text" id="txtNombrealumno" class="form-control" placeholder="Matricula o RFC"></div>
+                                            <div class="col-2"><button type="button" id="btnBuscar" class="btn btn-primary">Buscar</button></div>
+                                            <div class="col-1"><p>o</p></div>
+                                            <div class="col-4"><button type="button" id="btnBuscarAlumno"class="btn btn-primary" data-toggle="modal" data-target="#ModalBuscarAlumno">Buscar por Nombre</button></div>
                                         </div> 
+                                    </div>
+                                    <div class="col-12 row">
+                                        <div class="col-8 text-center"><h1 id="nomAlumEdoCta"></h1></div>
+                                        <div class="col-4 mt-2" style="text-align:right"><button type="button" id="btnImprimirEdoCta" class="btn btn-secondary">Imprimir</button></div>
                                     </div>
                                 </div>                             
                                 <p class="card-text">
@@ -44,16 +49,16 @@
                                         <thead>
                                             <tr>
                                                 <th width="5%">#</th>
-                                                <th>Fecha pago</th>
+                                                <th>Fecha</th>
                                                 <th>Concepto</th>
                                                 <th>Subconcepto</th>
                                                 <th>Descripcion</th>
                                                 <th>Cargo</th>
                                                 <th>Abono</th>
-                                                <th>Saldo</th>
                                                 <th>Fecha pago</th>
                                                 <th>Referencia</th>
-                                                <th>Factura</th>
+                                                <th>Tipo comprobante</th>
+                                                <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>

@@ -63,6 +63,8 @@
             }
             echo json_encode($arrRequest,JSON_UNESCAPED_UNICODE);
             die();
+        }        protected function suma($a,$b){
+            return $a+$b;
         }
         public function getServicios($valor){
             $valor = explode(',',$valor);
@@ -93,13 +95,68 @@
             $idGrado = $arrGrado['grado'];
             $idPeriodo = $arrPeriodo['id_periodo'];
             $arrData = $this->model->generarEdoCuentaAlumno($idPersonaSeleccionada,$idPlantel,$idCarrera,$idGrado,$idPeriodo);
-            if($arrData){
+            /* if($arrData){
                 $arrResponse = true;
             }else{
                 $arrResponse = false;
-            }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            } */
+
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
+        }
+        public function setIngresos(){
+            $idAlumno = $_GET['idP'];
+            $tipoPago = $_GET['tipoP'];
+            $tipoComprobante = $_GET['tipoCom'];
+            $observaciones = $_GET['observacion'];
+            $arrayDate = json_decode($_GET['date']);
+            foreach ($arrayDate as $key => $value) {
+                if($value->tipo_servicio == 'col'){
+                    $idIngreso = $arrayDate[0]->id_servicio;
+                    $folio = $this->model->selectFolioSig($idAlumno);
+                    $total = $value->subtotal;
+                    $cantidad = $value->cantidad;
+                    $precioUnitario = $value->precio_unitario;
+                    $subtotal = $value->subtotal;
+                    $arrPromociones = $value->promociones;
+                    $request = $this->model->updateIngresos($idIngreso,$tipoPago,$tipoComprobante,$observaciones,$folio,$total);
+                    if($request){
+                        $reqIngDetalles = $this->model->updateIngresosDetalles($idIngreso,$cantidad,$precioUnitario,$subtotal,json_encode($arrPromociones));
+                        if($reqIngDetalles){
+                            $arrResponse = array('estatus' => true,'id'=>$idIngreso,'msg' => 'Datos guardados correctamente!');
+                        }else{
+                            $arrResponse = array('estatus' => false,'id'=>$idIngreso, 'msg' => 'No es posible guardar los datos');
+                        }
+                    }
+                }else{                    
+                    //$total = $value->subtotal;
+                    //$cantidad = $value->cantidad;
+                    //$precioUnitario = $value->precio_unitario;
+                    //$subtotal = $value->subtotal;
+                    //$arrPromociones = $value->promociones;
+                    //$tipoServicio = 'serv';
+                    /* $request = $this->model->updateIngresos($idIngreso,$tipoPago,$tipoComprobante,$observaciones,$folio,$total);
+                    if($request){
+                        $reqIngDetalles = $this->model->updateIngresosDetalles($idIngreso,$cantidad,$precioUnitario,$subtotal,json_encode($arrPromociones));
+                        if($reqIngDetalles){
+                            $arrResponse = array('estatus' => true,'id'=>$idIngreso,'msg' => 'Datos guardados correctamente!');
+                        }else{
+                            $arrResponse = array('estatus' => false,'id'=>$idIngreso, 'msg' => 'No es posible guardar los datos');
+                        }
+                    } */
+                }
+            }
+            echo json_encode($arrayDate,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+
+        public function imprimir_comprobante_venta(int $idVenta){
+            $data = null;
+            $this->views->getView($this,"viewpdf_comprobante_venta",$data);
+        }
+        private function reverse64($arr){
+            return base64_decode($arr);
         }
     }
 ?>
