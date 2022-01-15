@@ -191,6 +191,13 @@
 
             return $nuevoFolioConsecutivo;
         }
+        public function checkIdIngreso(int $idServicio,int $idAlumno){    
+            $sql = "SELECT i.id FROM t_ingresos AS i
+            RIGHT JOIN t_ingresos_detalles AS id ON id.id_ingresos = i.id
+            WHERE id.id_servicio = $idServicio AND i.id_persona = $idAlumno";
+            $request = $this->select($sql);
+            return $request;
+        }
 
 	}
 ?>  

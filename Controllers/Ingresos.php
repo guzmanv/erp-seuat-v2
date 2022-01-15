@@ -110,8 +110,10 @@
             $tipoComprobante = $_GET['tipoCom'];
             $observaciones = $_GET['observacion'];
             $arrayDate = json_decode($_GET['date']);
+            $isOtrosServicios = false;
             foreach ($arrayDate as $key => $value) {
                 if($value->tipo_servicio == 'col'){
+                    $isOtrosServicios = false;
                     $idIngreso = $arrayDate[0]->id_servicio;
                     $folio = $this->model->selectFolioSig($idAlumno);
                     $total = $value->subtotal;
@@ -128,7 +130,12 @@
                             $arrResponse = array('estatus' => false,'id'=>$idIngreso, 'msg' => 'No es posible guardar los datos');
                         }
                     }
-                }else{                    
+                }else{        
+                    if($value->edo_cta == '1'){
+                        $isOtrosServicios = true;
+                    }else{
+                        $isOtrosServicios = false;
+                    }          
                     //$total = $value->subtotal;
                     //$cantidad = $value->cantidad;
                     //$precioUnitario = $value->precio_unitario;
@@ -146,7 +153,37 @@
                     } */
                 }
             }
-            echo json_encode($arrayDate,JSON_UNESCAPED_UNICODE);
+            if($isOtrosServicios){
+                $folio = $this->model->selectFolioSig($idAlumno);
+                $total = 0;
+                $redIdIngreso;
+                foreach ($arrayDate as $key => $value) {
+                    if($value->edo_cta == '1'){
+                        $redIdIngreso = $this->model->checkIdIngreso($value->id_servicio,$idAlumno);
+                    }
+                    $total += $value->subtotal;
+                }
+                if($total != 0){
+                    $request = $this->model->updateIngresos($redIdIngreso['id'],$tipoPago,$tipoComprobante,$observaciones,$folio,$total);
+                    if($request){
+                        foreach ($arrayDate as $key => $value) {
+                            $reqIngDetalles = $this->model->updateIngresosDetalles($request,$value->cantidad,$value->precio_unitario,$value->subtotal,json_encode($value->promociones));
+                            if($reqIngDetalles){
+                                $arrResponse = array('estatus' => true,'id'=>$request,'msg' => 'Datos guardados correctamente!');
+                            }else{
+                                $arrResponse = array('estatus' => false,'id'=>$request, 'msg' => 'No es posible guardar los datos');
+                            }
+                            
+                        }
+                    }
+
+                }
+                //$arrResponse = $total;
+            }else{
+                //$folio = $this->model->selectFolioSig($idAlumno);
+                $arrResponse = "no hay estado de cuenta";
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
 

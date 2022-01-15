@@ -23,7 +23,7 @@ function fnServicios(value){
             });
         }else{
             resultado.data.forEach(servicio => {
-                document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' t="serv" value='${servicio.id}'>${servicio.nombre_servicio}</option>`;
+                document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' ec='${servicio.aplica_edo_cuenta}' t="serv" value='${servicio.id}'>${servicio.nombre_servicio}</option>`;
             });
         }
     }).catch(err => { throw err });
@@ -115,6 +115,7 @@ function fnBtnAgregarServicioTabla(){
     let precioUnitarioServicioSel = servicio.options[servicio.selectedIndex].getAttribute('pu');
     let estatus = servicio.options[servicio.selectedIndex].getAttribute('es');
     let tipo = servicio.options[servicio.selectedIndex].getAttribute('t');
+    let edocta = servicio.options[servicio.selectedIndex].getAttribute('ec');
     if(tipo == 'col'){
         if(estatus != 'null' && idServicio != ''){
             swal.fire("Atención","El servicio seleccionado ya ha sido pagado","warning");
@@ -123,7 +124,7 @@ function fnBtnAgregarServicioTabla(){
     }
     let subtotal = precioUnitarioServicioSel*cantidad;
     let acciones = `<td style='text-align:center'><a class='btn' onclick='fnBorrarServicioTabla(${idServicio})'><i class='fas fa-trash text-danger'></i></a></td>`;
-    let arrServicio = {id_servicio:idServicio,nombre_servicio:nombreServicio,tipo_servicio:tipo,cantidad:cantidad,precio_unitario:precioUnitarioServicioSel,subtotal:subtotal,acciones:acciones,promociones:obtenerPromSeleccionados('listPromociones')};
+    let arrServicio = {id_servicio:idServicio,nombre_servicio:nombreServicio,tipo_servicio:tipo,edo_cta:edocta,cantidad:cantidad,precio_unitario:precioUnitarioServicioSel,subtotal:subtotal,acciones:acciones,promociones:obtenerPromSeleccionados('listPromociones')};
     if(idServicio == "" || cantidad == ""){
         swal.fire("Atención","Atención todos los campos son obligatorios","warning");
         return false;
@@ -194,7 +195,7 @@ function fnBorrarServicioTabla(value){
     let arrServicioNew = [];
     arrServicios.forEach(servicio => {
         if(servicio.id_servicio != value){
-            let arrServicio = {id_servicio:servicio.id_servicio,nombre_servicio:servicio.nombre_servicio,tipo_servicio:servicio.tipo_servicio,promociones:servicio.promociones,cantidad:servicio.cantidad,precio_unitario:servicio.precio_unitario,subtotal:servicio.subtotal,acciones:servicio.acciones};
+            let arrServicio = {id_servicio:servicio.id_servicio,nombre_servicio:servicio.nombre_servicio,tipo_servicio:servicio.tipo_servicio,edo_cta:edo_cta,promociones:servicio.promociones,cantidad:servicio.cantidad,precio_unitario:servicio.precio_unitario,subtotal:servicio.subtotal,acciones:servicio.acciones};
             arrServicioNew.push(arrServicio);
         }
     });
