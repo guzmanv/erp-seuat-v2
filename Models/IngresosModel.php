@@ -166,7 +166,7 @@
                 recibo_inscripcion = ? WHERE id= $idIngreso";
                 //$request = $this->update($sql,array($folioNuevo,$tipoPago,$tipoComprobante,$total,$observaciones,1));
             } */
-            return $request;
+            return $idIngreso;
         }
         public function updateIngresosDetalles($idIngreso,$cantidad,$precioUnitario,$subtotal,$arrPromociones){
             $sql = "UPDATE t_ingresos_detalles SET cantidad = ? ,cargo = ?,abono = ?,saldo = ?,precio_subtotal = ?,promociones_aplicadas = ? WHERE id_ingresos = $idIngreso";

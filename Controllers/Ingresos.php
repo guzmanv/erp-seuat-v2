@@ -110,23 +110,43 @@
             $tipoComprobante = $_GET['tipoCom'];
             $observaciones = $_GET['observacion'];
             $arrayDate = json_decode($_GET['date']);
-            $idIngreso = $arrayDate[0]->id_servicio;
-            $folio = $this->model->selectFolioSig($idAlumno);
-            $total = $arrayDate[0]->subtotal;
-            $cantidad = $arrayDate[0]->cantidad;
-            $precioUnitario = $arrayDate[0]->precio_unitario;
-            $subtotal = $arrayDate[0]->subtotal;
-            $arrPromociones = json_encode($arrayDate[0]->promociones);
-            $request = $this->model->updateIngresos($idIngreso,$tipoPago,$tipoComprobante,$observaciones,$folio,$total);
-            if($request){
-                $reqIngDetalles = $this->model->updateIngresosDetalles($idIngreso,$cantidad,$precioUnitario,$subtotal,$arrPromociones);
-                if($reqIngDetalles){
-                    $arrResponse = array('estatus' => true,'id'=>$idIngreso,'msg' => 'Datos guardados correctamente!');
-                }else{
-                    $arrResponse = array('estatus' => false,'id'=>$idIngreso, 'msg' => 'No es posible guardar los datos');
+            foreach ($arrayDate as $key => $value) {
+                if($value->tipo_servicio == 'col'){
+                    $idIngreso = $arrayDate[0]->id_servicio;
+                    $folio = $this->model->selectFolioSig($idAlumno);
+                    $total = $value->subtotal;
+                    $cantidad = $value->cantidad;
+                    $precioUnitario = $value->precio_unitario;
+                    $subtotal = $value->subtotal;
+                    $arrPromociones = $value->promociones;
+                    $request = $this->model->updateIngresos($idIngreso,$tipoPago,$tipoComprobante,$observaciones,$folio,$total);
+                    if($request){
+                        $reqIngDetalles = $this->model->updateIngresosDetalles($idIngreso,$cantidad,$precioUnitario,$subtotal,json_encode($arrPromociones));
+                        if($reqIngDetalles){
+                            $arrResponse = array('estatus' => true,'id'=>$idIngreso,'msg' => 'Datos guardados correctamente!');
+                        }else{
+                            $arrResponse = array('estatus' => false,'id'=>$idIngreso, 'msg' => 'No es posible guardar los datos');
+                        }
+                    }
+                }else{                    
+                    //$total = $value->subtotal;
+                    //$cantidad = $value->cantidad;
+                    //$precioUnitario = $value->precio_unitario;
+                    //$subtotal = $value->subtotal;
+                    //$arrPromociones = $value->promociones;
+                    //$tipoServicio = 'serv';
+                    /* $request = $this->model->updateIngresos($idIngreso,$tipoPago,$tipoComprobante,$observaciones,$folio,$total);
+                    if($request){
+                        $reqIngDetalles = $this->model->updateIngresosDetalles($idIngreso,$cantidad,$precioUnitario,$subtotal,json_encode($arrPromociones));
+                        if($reqIngDetalles){
+                            $arrResponse = array('estatus' => true,'id'=>$idIngreso,'msg' => 'Datos guardados correctamente!');
+                        }else{
+                            $arrResponse = array('estatus' => false,'id'=>$idIngreso, 'msg' => 'No es posible guardar los datos');
+                        }
+                    } */
                 }
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            echo json_encode($arrayDate,JSON_UNESCAPED_UNICODE);
             die();
         }
 
