@@ -17,6 +17,7 @@
 			$data['page_name'] = "Página Dashboard";
 			$data['page_functions_js'] = "functions_dashboard_admision.js";
 			$data['planteles'] = $this->model->selectPlanteles();
+            $data['campanias'] = $this->model->selectDataCampSubCampanias();
 			$this->views->getView($this,"dashboardadmision",$data);
 		}
 		public function getTotalesCard($plantel){

@@ -133,41 +133,41 @@
                 </div>
                 <!-- ./col -->
             </div>
-            <div class="row">
-                <div class="col-6 divchar">
-                    <div class="card">
-                        <div class="card-header border-0">
-                            <div class="d-flex justify-content-between">
-                                <h3 class="card-title">Prospectos & inscritos - Plantel</h3>
-                            </div>
+            <div class="col-12 divchar">
+                <div class="card" style="width:100%">
+                    <div class="card-header border-0">
+                        <div class="d-flex justify-content-between">
+                            <h3 class="card-title">Prospectos & inscritos - Plantel</h3>
                         </div>
-                        <div class="card-body">
-                            <div class="d-flex"><br><br>
-                            </div>
-                            <div class="position-relative mb-4">
-                                <div class="chartjs-size-monitor">
-                                    <div class="chartjs-size-monitor-expand">
-                                        <div class=""></div>
-                                    </div>
-                                    <div class="chartjs-size-monitor-shrink">
-                                        <div class=""></div>
-                                    </div>
-                                </div>
-                                <canvas id="sales-chart" height="200" width="605"></canvas>
-                            </div>
-                            <div class="d-flex flex-row justify-content-end">
-                                <span class="mr-2">
-                                    <i class="fas fa-square text-primary"></i> Prospectos
-                                </span>
-                                <span>
-                                    <i class="fas fa-square text-gray"></i> Inscritos
-                                </span>
-                            </div>
-                        </div>        
                     </div>
+                    <div class="card-body">
+                        <div class="d-flex"><br><br>
+                        </div>
+                        <div class="position-relative mb-4">
+                            <div class="chartjs-size-monitor">
+                                <div class="chartjs-size-monitor-expand">
+                                    <div class=""></div>
+                                </div>
+                                <div class="chartjs-size-monitor-shrink">
+                                    <div class=""></div>
+                                </div>
+                            </div>
+                            <canvas id="sales-chart" height="200" width="605"></canvas>
+                        </div>
+                        <div class="d-flex flex-row justify-content-end">
+                            <span class="mr-2">
+                                <i class="fas fa-square text-primary"></i> Prospectos
+                            </span>
+                            <span>
+                                <i class="fas fa-square text-gray"></i> Inscritos
+                            </span>
+                        </div>
+                    </div>        
                 </div>
+            </div>
+            <div class="col-12 row">
                 <div class="col-6 divcharPlantel">
-                    <div class="card">
+                    <div class="card" style="width:100%">
                         <div class="card-header border-0">
                             <div class="d-flex justify-content-between">
                                 <h3 class="card-title">Prospectos & inscritos</h3>
@@ -180,6 +180,33 @@
                         </div>        
                     </div>
                 </div>
+                <div class="col-6">
+					<div class="card flex-fill">
+						<div class="card-header">
+							<h5 class="card-title mb-0">Ultimas 5 Subcampañas</h5>
+						</div>
+						<table class="table table-borderless my-0">
+							<thead>
+								<tr>
+								    <th>Campañas</th>
+									<th class="d-none d-xl-table-cell">Subcampaña</th>
+									<th>Productividad</th>
+									<th class="d-none d-xl-table-cell">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+                                <?php foreach ($data['campanias'] as $key => $value) {
+                                    if($key == 0){
+                                        $html = '<tr><td><div class="d-flex"><div class="flex-grow-1 ms-3"><strong>'.$value['nombre_campania'].'</strong><span class="badge bg-danger">NUEVO</span><div class="text-muted">'.$value['fecha_inicio_campania'].' - '.$value['fecha_fin_campania'].'</div></div></div></td><td class="d-none d-xl-table-cell"><strong>'.$value['nombre_sub_campania'].'</strong><div class="text-muted">'.$value['fecha_inicio_subcampania'].' - '.$value['fecha_fin_subcampania'].'</div></td><td><div class="d-flex flex-column w-100"><small class="text-success mr-1"><i class="fas fa-arrow-up"></i>0%</small>6 inscritos<div class="progress progress-sm bg-primary-light w-100"><div class="progress-bar bg-success" role="progressbar" style="width: 78%;"></div></div></div></td><td class="d-none d-xl-table-cell"><a href="'.BASE_URL.'/Inscripcion/admision" class="btn btn-light">Ver</a></td></tr>';
+                                    }else{
+                                        $html = '<tr><td><div class="d-flex"><div class="flex-grow-1 ms-3"><strong>'.$value['nombre_campania'].'</strong><div class="text-muted">'.$value['fecha_inicio_campania'].' - '.$value['fecha_fin_campania'].'</div></div></div></td><td class="d-none d-xl-table-cell"><strong>'.$value['nombre_sub_campania'].'</strong><div class="text-muted">'.$value['fecha_inicio_subcampania'].' - '.$value['fecha_fin_subcampania'].'</div></td><td><div class="d-flex flex-column w-100"><small class="text-danger mr-1"><i class="fas fa-arrow-down"></i>0%</small>0 inscritos<div class="progress progress-sm bg-primary-light w-100"><div class="progress-bar bg-danger" role="progressbar" style="width: 78%;"></div></div></div></td><td class="d-none d-xl-table-cell"><a href="'.BASE_URL.'/Inscripcion/admision" class="btn btn-light">Ver</a></td></tr>';
+                                    }
+                                echo $html;
+                                }?>
+							</tbody>
+						</table>
+					</div>
+				</div>
             </div>
         <!-- /.row -->
         </div>
