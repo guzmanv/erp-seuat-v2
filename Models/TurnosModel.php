@@ -27,10 +27,18 @@ class TurnosModel extends Mysql
         $request = $this->select_all($sql);
         return $request;
     }
+
+    public function selectTurno(int $intIdTurno)
+    {
+        $sql = "SELECT id, nombre_turno, abreviatura, hora_entrada, hora_salida, lu, ma, mi, ju, vi, sa, do, estatus FROM t_turnos WHERE id = $intIdTurno LIMIT 1";
+        $request = $this->select($sql);
+        return $request;
+    }
     
     public function insertTurno(string $nombreTurno, string $abreviatura, string $horaEnt, string $horaSal, int $lun, int $mar, int $mie, int $jue, int $vie, int $sab, int $dom)
     {
-        $return = "";
+        $this->intIdUser = $_SESSION['idUser'];
+        $request;
         $this->strNombreTurno = $nombreTurno;
         $this->strAbreviatura = $abreviatura;
         $this->tmHoraEnt = $horaEnt;
@@ -44,18 +52,75 @@ class TurnosModel extends Mysql
         $this->intDo = $dom;
 
         $sql = "SELECT * FROM t_turnos where nombre_turno = '{$this->strNombreTurno}'";
-        $request = $this->select($sql);
-        if(empty($request))
-        {
-            $query_insert = "INSERT INTO t_turnos(nombre_turno, abreviatura, hora_entrada, hora_salida, lu, ma, mi, ju, vi, sa, do, estatus) VALUES (?,?,?,?,?,?,?,?,?,?,?,1)";
-            $arrData = array($this->strNombreTurno, $this->strAbreviatura, $this->tmHoraEnt, $this->tmHoraSal, $this->intLu,$this->intMa,$this->intMi, $this->intJu, $this->intVi, $this->intSa, $this->intDo);
+        $requestExist = $this->select($sql);
+        if($requestExist){
+            $request['estatus'] = TRUE;
+        }
+        else{
+            $query_insert = "INSERT INTO t_turnos (nombre_turno, abreviatura, hora_entrada, hora_salida, lu, ma, mi, ju, vi, sa, do, estatus, id_categoria_persona, id_usuario_creacion, fecha_creacion) VALUES (?,?,?,?,?,?,?,?,?,?,?,1,2,?,NOW())";
+            $arrData = array($this->strNombreTurno, $this->strAbreviatura, $this->tmHoraEnt, $this->tmHoraSal, $this->intLu, $this->intMa, $this->intMi, $this->intJu, $this->intVi, $this->intSa, $this->intDo, $this->intIdUser);
             $request_insert = $this->insert($query_insert,$arrData);
+            $request['estatus'] = FALSE;
+        }
+        return $request;
+    }
+
+    public function updateTurno(int $idTurno, string $nombreTurno, string $abreviatura, string $horaEnt, string $horaSal, int $lun, int $mar, int $mie, int $jue, int $vie, int $sab, int $dom, int $estatus)
+    {
+        $this->intIdUser = $_SESSION['idUser'];
+        $this->intIdTurno = $idTurno;
+        $this->strNombreTurno = $nombreTurno;
+        $this->strAbreviatura = $abreviatura;
+        $this->tmHoraEnt = $horaEnt;
+        $this->tmHoraSal = $horaSal;
+        $this->intLu = $lun;
+        $this->intMa = $mar;
+        $this->intMi = $mie;
+        $this->intJu = $jue;
+        $this->intVi = $vie;
+        $this->intSa = $sab;
+        $this->intDo = $dom;
+        $this->estatus = $estatus;
+        $request;
+
+        $sql = "SELECT * FROM t_turnos WHERE id=$this->intIdTurno";
+        $requestExist = $this->select($sql);
+        if($requestExist){
+            $request['estatus'] = TRUE;
+        }
+        else{
+            $sql = "UPDATE t_turnos SET nombre_turno = ?, abreviatura = ?, hora_entrada = ?, hora_salida = ?, lu = ?, ma = ?, mi = ?, ju = ?, vi = ?, sa = ?, do = ?, estatus = ? , id_usuario_actualizacion = ? , fecha_actualizacion = NOW() WHERE id=$this->intIdTurno";
+            $arrData = array($this->strNombreTurno, $this->strAbreviatura, $this->tmHoraEnt, $this->tmHoraSal, $this->intLu, $this->intMa, $this->intMi, $this->intJu, $this->intVi, $this->intSa, $this->intDo, $this->estatus, $this->intIdUser);
+            $requestUpdate = $this->update($sql,$arrData);
+            $request['estatus'] = FALSE;
+        }
+
+        return $request;
+    }
+
+    public function deteleTurno(int $idTrn)
+    {
+        $this->intIdTurno = $idTrn;
+        $sql = "SELECT * FROM t_turnos WHERE id=$this->intIdTurno";
+        $request = $this->select_all($sql);
+        if($request)
+        {
+            $sql = "UPDATE t_turnos SET estatus = ? WHERE id=$this->intIdTurno";
+            $arrData = array(0);
+            $requestDel = $this->update($sql,$arrData);
+            if($requestDel)
+            {
+                $request = 'ok';
+            }
+            else
+            {
+                $request = 'error';
+            }
         }
         else
         {
-            $return = "exist";
+            $request = 'exist';
         }
-        return $return;
+        return $request;
     }
-
 }

@@ -13,7 +13,7 @@
                     </div>
                     <div class="col-sm-5">
                         <ol class="breadcrumb float-sm-right btn-block">
-                            <button type="button"  class="btn btn-inline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#ModalNuevoTurno"><i class="fa fa-plus-circle fa-md"></i> Nuevo</button>
+                            <button type="button" id="btnNuevoTurno" onClick="fnNuevoTurno()" class="btn btn-inline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#ModalNuevoTurno"><i class="fa fa-plus-circle fa-md"></i> Nuevo</button>
                         </ol>
                     </div>
                 </div>
@@ -26,14 +26,16 @@
                             <div class="card-body">
 <!--                                 <h3 class="card-title">Listado de planteles</h3>
  -->                                <p class="card-text">
-                                    <table id="tableTurnos" class="table table-bordered table-striped table-sm">
+                                    <table id="tableTurnos" class="table table-bordered table-hover table-striped table-sm">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Nombre de salon</th>
-                                                <th>Periodo</th>
-                                                <th>Grado</th>
-                                                <th>Grupo</th>
+                                                <th>Turno</th>
+                                                <th>Abreviatura</th>
+                                                <th>Hora entrada</th>
+                                                <th>Hora salida</th>
+                                                <th>Estatus</th>
+                                                <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>

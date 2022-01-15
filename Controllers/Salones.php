@@ -1,14 +1,13 @@
 <?php
 class Salones extends Controllers{
-    public function __construct()
-    {
+    public function __construct(){
         parent::__construct();
-			session_start();
-			if(empty($_SESSION['login']))
-			{
-				header('Location: '.base_url().'/login');
-				die();
-			}
+		session_start();
+		if(empty($_SESSION['login']))
+		{
+			header('Location: '.base_url().'/login');
+			die();
+		}
     }
 
     public function salon(){
@@ -24,6 +23,7 @@ class Salones extends Controllers{
         $arrData = $this->model->selectSalones();
         for($i=0; $i<count($arrData); $i++)
         {
+            $arrData[$i]['numeracion'] = $i + 1;
             if($arrData[$i]['estatus'] == 1)
             {
                 $arrData[$i]['estatus'] = '<span class="badge badge-primary">Activo</span>';
@@ -68,36 +68,33 @@ class Salones extends Controllers{
         die();
     }
 
-    //Nuevo salón
-    public function setSalon($tipo)
-    {
-        $tipoAc = $tipo;
-        if($tipoAc == "new")
-        {   $intIdSalon = intval($_POST['idSalonNuevo']);
+    public function setSalon(){
+        $intIdSalonNuevo = isset($_POST['idSalonNuevo']);
+        $intIdSalonEdit = isset($_POST['idSalonEdit']);
+    
+        if ($intIdSalonNuevo == 1) {
             $strNombreSalon = strClean($_POST['txtNombreNuevo']);
             $strCantidadMax = intval($_POST['txtCantidadMax']);
-            $requestSalon = $this->model->insertSalon($strNombreSalon, $strCantidadMax);
-            if($requestSalon){
-                $arrResponse = array('estatus' => true, 'msg' => 'Datos gaurdados correctamente');
-
-            }else{
-                $arrResponse = array('estatus' => false, 'msg' => 'No se pudo guardar');
+            $arrData = $this->model->insertSalon($strNombreSalon, $strCantidadMax);
+            if ($arrData['estatus'] != TRUE) {
+                $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
+            } else {
+                $arrResponse = array('estatus' => false, 'msg' => '¡Atención! el salón ya existe');
             }
         }
-        else
-        {
-            $intIdSalon = intval($_POST['idSalonEdit']);
-            $strNombreSalon = strClean($_POST['txtNombreEdit']);
-            $strCantidadMax = intval($_POST['txtCantidadMaxEdit']);
+
+
+        if($intIdSalonEdit != 0){
+            $strNombreSalonEdit = strClean($_POST['txtNombreEdit']);
+            $strCantidadMaxEdit = intval($_POST['txtCantidadMaxEdit']);
             $intEstatus = intval($_POST['slctEstatus']);
-            $requestSalon = $this->model->updateSalon($intIdSalon, $strNombreSalon, $strCantidadMax, $intEstatus);
-            if($requestSalon){
+            $arrData = $this->model->updateSalon($intIdSalonEdit, $strNombreSalonEdit, $strCantidadMaxEdit, $intEstatus);
+            if($arrData['estatus'] != TRUE){
                 $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente');
-
-            }else{
-                $arrResponse = array('estatus' => false, 'msg' => 'No se pudo actualizar');
             }
-
+            else{
+                $arrResponse = array('estatus' => false, 'msg'=> 'El nombre del salón ya existe');
+            }
         }
         echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
         die();
