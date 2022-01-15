@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function(){
             "dataSrc":""
         },
         "columns":[
-			{"data": "id"},
+			{"data": "numeracion"},
 			{"data": "nombre_salon"},
 			{"data": "cantidad_max_estudiantes"},
 			{"data": "estatus"},
@@ -37,64 +37,75 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 $('#tableSalon').DataTable();
 
+function fnNuevoSalon()
+{
+	document.querySelector('#idSalonNuevo'). value = 1
+}
+
 //Nuevo salón
 formNuevoSalon.addEventListener('submit', (e) => {
-	e.preventDefault();
+	e.preventDefault()
+	strSalonNuevo = document.querySelector('#txtNombreNuevo').value
+	strCantidadMax = document.querySelector('#txtCantidadMax').value
+	if(strSalonNuevo == '' || strCantidadMax == ''){
+        swal.fire("Atención","Atención todos los campos son obligatorios","warning");
+        return false;
+    }
+	let idNuevoSalon = document.querySelector('#idSalonNuevo')
+	idNuevoSalon.value = 1
 	const datosNuevo = new FormData(document.getElementById('formSalonNuevo'))
-	let tipo = "new";
-	let url = `${base_url}/Salones/setSalon/${tipo}`;
+	let url = `${base_url}/Salones/setSalon/`
 	
 	fetch(url, {
 		method: 'POST',
 		body: datosNuevo
 	})
+
 	.then(response => response.json())
 	.then(data => {
-		if(data.estatus)
-		{
+		console.log(data)
+		if(data.estatus){
 			$('#cancelarModalNuevo').click();
 			formNuevoSalon.reset();
 			swal.fire('Salones', data.msg, 'success');
 			tableSalon.api().ajax.reload();
 		}
-		else
-		{
+		else{
 			swal.fire('Error', data.msg, 'error');
+			formNuevoSalon.reset()
 		}
 	})
 
 	.catch(function (err){
-		console.log('Error: ',err);
+		console.log(err);
 	})
 })
 
-formSalonEdit.addEventListener('submit', (e) => {
-	e.preventDefault();
-	const datos = new FormData(document.getElementById('formSalonEdit'))
-	let tipo = "update";
-	let url = `${base_url}/Salones/setSalon/${tipo}`;
+//Editar salón
+formSalonEdit.addEventListener('submit', (e) =>{
+	e.preventDefault()
+	const datosEdit = new FormData(document.getElementById('formSalonEdit'))
+	let url = `${base_url}/Salones/setSalon/`
 	
 	fetch(url, {
 		method: 'POST',
-		body: datos
+		body: datosEdit
 	})
 	.then(response => response.json())
 	.then(data => {
-		if(data.estatus)
-		{
-			$('#cancelarModalEdit').click();
-			formSalonEdit.reset();
-			swal.fire('Salones', data.msg, 'success');
-			tableSalon.api().ajax.reload();
+		console.log(data)
+		if(data.estatus){
+			$('#cancelarModalEdit').click()
+			formSalonEdit.reset()
+			swal.fire('Salones', data.msg, 'success')
+			tableSalon.api().ajax.reload()
 		}
-		else
-		{
-			swal.fire('Error', data.msg, 'error');
+		else{
+			swal.fire('Error', data.msg,'error')
 		}
 	})
-
-	.catch(function (err){
-		console.log('Error: ',err);
+	.catch(function(err){
+		console.log(err)
 	})
 })
 
@@ -135,8 +146,8 @@ function fnEliminarSalon(idSln)
 	var idSalon = idSln
 	swal.fire({
 		icon: "question",
-		title: "Eliminar categoría",
-		text: "¿Quiere eliminar la categoría?",
+		title: "Eliminar salón",
+		text: "¿Quiere eliminar el salón?",
 		type: "warning",
 		showCancelButton: true,
 		confirmButtonColor: '#3085d6', //add

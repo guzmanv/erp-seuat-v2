@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <div class="card card-secondary">
                     <form id="formSalonNuevo" name="formSalonNuevo">
-                        <input type="hidden" id="idSalonNuevo" name="idSalonNuevo" value="0">
+                        <input type="hidden" id="idSalonNuevo" name="idSalonNuevo" value="">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-7">

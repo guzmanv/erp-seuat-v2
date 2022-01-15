@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <div class="card card-secondary">
                     <form id="formTurnoNuevo" name="formTurnoNuevo">
-                        <input type="hidden" id="idTurnoNuevo" name="idTurnoNuevo" value="0">
+                        <input type="hidden" id="idTurnoNuevo" name="idTurnoNuevo" value="">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-7">
@@ -19,7 +19,7 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="">Abreviatura</label>
-                                    <input type="abreviatura" id="txtAbreviatura" name="txtAbreviatura" class="form-control form-control-sm" placeholder="EJ: LVM" required="">
+                                    <input type="text" id="txtAbreviatura" name="txtAbreviatura" class="form-control form-control-sm" placeholder="EJ: LVM" required="">
                                 </div>
                             </div>
                             <div class="row">
@@ -86,7 +86,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalNuevoSalon"><i class="fa fa-fw fa-lg fa-times-circle icono-azul" id="cancelarModalNuevo"></i>Cancelar</a>
+                <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalNuevoSalon"><i class="fa fa-fw fa-lg fa-times-circle icono-azul" id="cancelarModalNTurno"></i>Cancelar</a>
                 <button id="btnActionFormNuevo" type="submit" class="btn btn-outline-secondary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Guardar</span></button>
             </div>
             </form>
