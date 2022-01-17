@@ -47,6 +47,15 @@ function fnNuevoTurno()
 formNuevoTurno.addEventListener('submit', (e) =>{
 	e.preventDefault()
 	let idNuevoTurno = document.querySelector('#idTurnoNuevo')
+	strNombreTurno = document.querySelector('#txtAbreviatura').value
+	strAbreviatura = document.querySelector('#txtTurnoNuevo').value
+	strHoraEntrada = document.querySelector('#txtHoraEnt').value
+	strHoraSalida = document.querySelector('#txtHoraSal').value
+	if(strNombreTurno == "" || strAbreviatura == "" || strHoraEntrada == "" || strHoraSalida == "")
+	{
+		swal.fire("Atención","Atención todos los campos son obligatorios","warning");
+        return false;
+	}
 	idNuevoTurno.value = 1 
 	const datosNuevo = new FormData(document.getElementById('formTurnoNuevo'))
 	let url = `${base_url}/Turnos/setTurnos/`
