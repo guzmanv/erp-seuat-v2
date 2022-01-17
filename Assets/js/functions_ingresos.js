@@ -1,11 +1,16 @@
 var tableIngresos;
 let arrServicios = [];
 let idPersonaSeleccionada;
-document.querySelector('#alertSinEdoCta').style.display = "none";
-document.querySelector('#btnAgregarServicio').disabled = true;
-document.querySelector('.listServicios').style.display = "none";
-document.querySelector('.listPromociones').style.display = "none";
-document.querySelector('#listTipoCobro').disabled = true;
+let alertSinEdoCta = document.querySelector('#alertSinEdoCta');
+let listServicios = document.querySelector('.listServicios');
+let listPromociones = document.querySelector('.listPromociones');
+let btnAgregarServicio = document.querySelector('#btnAgregarServicio');
+let listTipoCobro = document.querySelector('#listTipoCobro');
+alertSinEdoCta.style.display = "none";
+listServicios.style.display = "none";
+listPromociones.style.display = "none";
+btnAgregarServicio.disabled = true;
+listTipoCobro.disabled = true;
 var formGenerarEdoCuenta = document.querySelector("#formGenerarEdoCuenta");
 document.addEventListener('DOMContentLoaded', function(){
     $('.select2').select2(); //Inicializar Select 2 en el input promociones
@@ -94,14 +99,14 @@ function seleccionarPersona(answer){
     let url = `${base_url}/Ingresos/getEstatusEstadoCuenta/${idPersonaSeleccionada}`;
     fetch(url).then(res => res.json()).then((resultado) => {
         if(resultado == true){ //true = tiene estado de cuenta
-            document.querySelector('#alertSinEdoCta').style.display = "none";
-            document.querySelector('#btnAgregarServicio').disabled = false;
-            document.querySelector('#listTipoCobro').disabled = false;
+            alertSinEdoCta.style.display = "none";
+            btnAgregarServicio.disabled = false;
+            listTipoCobro.disabled = false;
             
         }else{
-            document.querySelector('#btnAgregarServicio').disabled = true;
-            document.querySelector('#alertSinEdoCta').style.display = "flex";
-            document.querySelector('#listTipoCobro').disabled = true;
+            btnAgregarServicio.disabled = true;
+            alertSinEdoCta.style.display = "flex";
+            listTipoCobro.disabled = true;
         }
     }).catch(err => { throw err });
     document.querySelector('#alertAgregarAlumno').style.display = "none";
@@ -183,9 +188,9 @@ function fnBtnAgregarServicioTabla(){
                 fnServicios();
                 document.querySelector('#listPromociones').innerHTML ="<option value=''>Selecciona una promocion</option>";
                 mostrarTotalCuentaServicios();
-                document.querySelector('.listPromociones').style.display = "none";
-                document.querySelector('.listServicios').style.display = "none";
-                document.querySelector('#listTipoCobro').querySelector('option[value=""]').selected = true;
+                listPromociones.style.display = "none";
+                listServicios.style.display = "none";
+                listTipoCobro.querySelector('option[value=""]').selected = true;
             }
           })
     }
@@ -217,10 +222,15 @@ function mostrarServiciosTabla(){
                 descuentoPorc += descuento;
             }
         });
-        document.querySelector("#tableServicios").innerHTML += `<tr><td>${totalServicios}</td><td>${servicio.nombre_servicio}</td><td>${formatoMoneda(servicio.precio_unitario)}</td><td><input id='cantidad${servicio.id_servicio}' type='number' style='width: 6em;' value='${servicio.cantidad}' min='0' onkeyup='modCantidadServ(this)'></td><td>${descuentoPorc}%</td><td>${formatoMoneda(servicio.subtotal.toFixed(2))}</td>${servicio.acciones}</tr>`
+        if(servicio['tipo_servicio'] == 'col'){
+            document.querySelector("#tableServicios").innerHTML += `<tr><td>${totalServicios}</td><td>${servicio.nombre_servicio}</td><td>${formatoMoneda(servicio.precio_unitario)}</td><td><input id='cantidad${servicio.id_servicio}' type='number' style='width: 6em;' value='${servicio.cantidad}' min='0' onkeyup='modCantidadServ(this)' disabled></td><td>${descuentoPorc}%</td><td>${formatoMoneda(servicio.subtotal.toFixed(2))}</td>${servicio.acciones}</tr>`
+        }else{
+            document.querySelector("#tableServicios").innerHTML += `<tr><td>${totalServicios}</td><td>${servicio.nombre_servicio}</td><td>${formatoMoneda(servicio.precio_unitario)}</td><td><input id='cantidad${servicio.id_servicio}' type='number' style='width: 6em;' value='${servicio.cantidad}' min='0' onkeyup='modCantidadServ(this)'></td><td>${descuentoPorc}%</td><td>${formatoMoneda(servicio.subtotal.toFixed(2))}</td>${servicio.acciones}</tr>`
+        }
     });
     mostrarTotalCuentaServicios();
 }
+//funcion para mostrar Totales 
 function mostrarTotalCuentaServicios(){
     let total = 0;
     let descuentoPorc = 0;
@@ -242,6 +252,7 @@ function mostrarTotalCuentaServicios(){
     document.querySelector('#txtDescuento').innerHTML = `${descuentoPorc}%`;
     document.querySelector('#txtTotal').innerHTML = `${formatoMoneda(totalDesc.toFixed(2))}`;
 }
+//function para cambiar cantidad de los servicios en Tabla
 function modCantidadServ(val){
     let cantidad = val.value;
     let idServicio = val.id.split('cantidad')[1];
@@ -277,8 +288,8 @@ function fnGenerarEstadoCuenta(){
                 didOpen: () =>{
                     fetch(url).then(res => res.json()).then((resultado) => {
                        /* swal.fire("Estado de cuenta","Estado de cuenta generado correctamente!","success").then((result) =>{
-                        document.querySelector('#btnAgregarServicio').disabled = false;
-                        document.querySelector('#alertSinEdoCta').style.display = "none";
+                        btnAgregarServicio.disabled = false;
+                        alertSinEdoCta.style.display = "none";
                         }); */
                     }).catch(err => { throw err });
                 }
@@ -286,6 +297,7 @@ function fnGenerarEstadoCuenta(){
         }
     })
 }
+//Function para el boton de Cobrar
 function fnButtonCobrar(){
     let total = 0;
     let descuentoPorc = 0;
@@ -314,6 +326,7 @@ function fnButtonCobrar(){
         document.querySelector('#txtTotalModal').innerHTML= formatoMoneda(totalDesc.toFixed(2));
     }
 }
+//Function para obtener un array de las promociones seleccionados en Multiselect
 function obtenerPromSeleccionados(param){
     let idList = param;
     var values = Array.prototype.slice.call(document.querySelectorAll(`#${idList} option:checked`),0).map(function(v,i,a,) { 
@@ -321,30 +334,33 @@ function obtenerPromSeleccionados(param){
     });
     return values;
 }
+//Function para dar formato un numero a Moneda
 function formatoMoneda(numero){
     let str = numero.toString().split(".");
     str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return "$"+str.join(".");
 }
+//Function para los tipos de Cobro
 function fnTiposCobro(value){
     if(value != ""){
         $('#listPromociones').val(null).trigger('change');
         document.querySelector("#listPromociones").innerHTML = "<option value=''>Selecciona una promocion</option>";
         if(value == 1){
             fnServicios(value);
-            document.querySelector('.listServicios').style.display = "inline";
-            document.querySelector('.listPromociones').style.display = "inline";
+            listServicios.style.display = "inline";
+            listPromociones.style.display = "inline";
                 
         }else{
             fnServicios(value);
-            document.querySelector('.listServicios').style.display = "block";
-            document.querySelector('.listPromociones').style.display = "inline";
+            listServicios.style.display = "block";
+            listPromociones.style.display = "inline";
         }
     }else{
-        document.querySelector('.listPromociones').style.display = "none";
-        document.querySelector('.listServicios').style.display = "none";
+        listPromociones.style.display = "none";
+        listServicios.style.display = "none";
     }
 }
+//Function para efectuar el Cobro /mostrar cambio y mandar a imprimir Recibo
 function btnCobrarCmbio(){
     let total = 0;
     let descuentoPorc = 0;
@@ -379,7 +395,7 @@ function btnCobrarCmbio(){
         fetch(url).then(res => res.json()).then((resultado) => {
             if(resultado.estatus){
                 let cambio = intEfectivo-total;
-                swal.fire("Exito",resultado.msg+'<br>Su cambio es de: <h1><b>'+formatoMoneda(cambio.toFixed(2))+'</b></h1>',"success").then((result) =>{
+                swal.fire("Exito",`${resultado.msg}<br>Su cambio es de:<h1><b>${formatoMoneda(cambio.toFixed(2))}</b></h1>`,"success").then((result) =>{
                     if(result.isConfirmed){
                         window.open(`${base_url}/Ingresos/imprimir_comprobante_venta/${resultado.id}`,'_blank');
                         $('#cerrarModalCobrar').click();
@@ -391,9 +407,11 @@ function btnCobrarCmbio(){
         }).catch(err => { throw err });
     }
 }
+//Function para convertir un string  a  Formato Base64
 function convStrToBase64(str){
     return window.btoa(unescape(encodeURIComponent( str ))); 
 }
+//Funcion para convertir json a String
 function jsonToString(json){
     return JSON.stringify(json);
 }
