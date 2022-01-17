@@ -377,8 +377,7 @@ function btnCobrarCmbio(){
         let observaciones = document.querySelector('#txtObservaciones').value;
         let url = ` ${base_url}/Ingresos/setIngresos?idP=${idPersonaSeleccionada}&tipoP=${tipoPago}&tipoCom=${tipoComprobante}&observacion=${observaciones}&date=${jsonToString(arrServicios)}`
         fetch(url).then(res => res.json()).then((resultado) => {
-            console.log(resultado);
-           /* if(resultado.estatus){
+            if(resultado.estatus){
                 let cambio = intEfectivo-total;
                 swal.fire("Exito",resultado.msg+'<br>Su cambio es de: <h1><b>'+formatoMoneda(cambio.toFixed(2))+'</b></h1>',"success").then((result) =>{
                     if(result.isConfirmed){
@@ -388,7 +387,7 @@ function btnCobrarCmbio(){
                         mostrarServiciosTabla();
                     }
                 });
-           } */
+           }
         }).catch(err => { throw err });
     }
 }

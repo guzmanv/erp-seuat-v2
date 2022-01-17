@@ -198,6 +198,16 @@
             $request = $this->select($sql);
             return $request;
         }
+        public function insertIngresos(string $folio,string $formaPago, string $tipoComprobante,int $total,string $observaciones,int $idAlumno){
+            $sqlIngresos = "INSERT INTO t_ingresos(fecha,folio,estatus,forma_pago,tipo_comprobante,total,observaciones,recibo_inscripcion,id_plantel,id_persona,id_usuario) VALUES(NOW(),?,?,?,?,?,?,?,?,?,?)";
+            $requestIngresos = $this->insert($sqlIngresos,array($folio,1,$formaPago,$tipoComprobante,$total,$observaciones,1,2,$idAlumno,1));
+            return $requestIngresos;
+        }
+        public function insertIngresosDetalle(int $cantidad,int $cargo,int $abono,int $saldo,int $precioSubtotal,int $descuentoDinero,int $descuentoPorcentaje,string $promocionesAplicadas,int $idServicio,int $idIngreso){
+            $sqlIngDetalle = "INSERT INTO t_ingresos_detalles(cantidad,cargo,abono,saldo,precio_subtotal,descuento_dinero,descuento_porcentaje,promociones_aplicadas,id_servicio,id_ingresos) VALUES(?,?,?,?,?,?,?,?,?,?)";
+            $requestIngDetalle = $this->insert($sqlIngDetalle,array($cantidad,$cargo,$abono,$saldo,$precioSubtotal,$descuentoDinero,$descuentoPorcentaje,$promocionesAplicadas,$idServicio,$idIngreso));
+            return $requestIngDetalle;
+        }
 
 	}
 ?>  

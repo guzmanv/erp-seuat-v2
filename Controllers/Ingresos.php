@@ -136,21 +136,6 @@
                     }else{
                         $isOtrosServicios = false;
                     }          
-                    //$total = $value->subtotal;
-                    //$cantidad = $value->cantidad;
-                    //$precioUnitario = $value->precio_unitario;
-                    //$subtotal = $value->subtotal;
-                    //$arrPromociones = $value->promociones;
-                    //$tipoServicio = 'serv';
-                    /* $request = $this->model->updateIngresos($idIngreso,$tipoPago,$tipoComprobante,$observaciones,$folio,$total);
-                    if($request){
-                        $reqIngDetalles = $this->model->updateIngresosDetalles($idIngreso,$cantidad,$precioUnitario,$subtotal,json_encode($arrPromociones));
-                        if($reqIngDetalles){
-                            $arrResponse = array('estatus' => true,'id'=>$idIngreso,'msg' => 'Datos guardados correctamente!');
-                        }else{
-                            $arrResponse = array('estatus' => false,'id'=>$idIngreso, 'msg' => 'No es posible guardar los datos');
-                        }
-                    } */
                 }
             }
             if($isOtrosServicios){
@@ -178,10 +163,23 @@
                     }
 
                 }
-                //$arrResponse = $total;
             }else{
-                //$folio = $this->model->selectFolioSig($idAlumno);
-                $arrResponse = "no hay estado de cuenta";
+                $folio = $this->model->selectFolioSig($idAlumno);
+                $total = 0;
+                foreach ($arrayDate as $key => $value) {
+                    $total += $value->subtotal;               
+                }
+                $reqIngreso = $this->model->insertIngresos($folio,$tipoPago,$tipoComprobante,$total,$observaciones,$idAlumno);
+                if($reqIngreso){
+                    foreach ($arrayDate as $key => $value) {
+                        $reqIngDetalles = $this->model->insertIngresosDetalle($value->cantidad,$value->precio_unitario,$value->precio_unitario,$total,$value->subtotal,0,0,json_encode($value->promociones),$value->id_servicio,$reqIngreso);
+                        if($reqIngDetalles){
+                            $arrResponse = array('estatus' => true,'id'=>$reqIngreso,'msg' => 'Datos guardados correctamente!');
+                        }else{
+                            $arrResponse = array('estatus' => false,'id'=>$reqIngreso, 'msg' => 'No es posible guardar los datos');
+                        }
+                    }
+                }
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
