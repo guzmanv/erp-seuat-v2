@@ -14,7 +14,7 @@
 
         public function selectSalones()
         {
-            $sql = "SELECT id, nombre_salon, cantidad_max_estudiantes, estatus FROM t_salones WHERE estatus <> 0";
+            $sql = "SELECT id, nombre_salon, cantidad_max_estudiantes, estatus FROM t_salones WHERE estatus <> 0 ORDER BY id DESC";
             $request = $this->select_all($sql);
             return $request;
         }

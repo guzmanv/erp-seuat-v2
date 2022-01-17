@@ -23,7 +23,7 @@ class TurnosModel extends Mysql
     public function selectTurnos()
     {
         $sql = "SELECT id, nombre_turno, abreviatura, hora_entrada, hora_salida, estatus 
-        FROM t_turnos WHERE estatus <> 0";
+        FROM t_turnos WHERE estatus <> 0 ORDER BY id DESC";
         $request = $this->select_all($sql);
         return $request;
     }
