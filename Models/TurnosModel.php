@@ -83,7 +83,7 @@ class TurnosModel extends Mysql
         $this->estatus = $estatus;
         $request;
 
-        $sql = "SELECT * FROM t_turnos WHERE id=$this->intIdTurno";
+        $sql = "SELECT * FROM t_turnos WHERE nombre_turno = '$this->strNombreTurno' AND id != $this->intIdTurno";
         $requestExist = $this->select($sql);
         if($requestExist){
             $request['estatus'] = TRUE;
@@ -94,7 +94,6 @@ class TurnosModel extends Mysql
             $requestUpdate = $this->update($sql,$arrData);
             $request['estatus'] = FALSE;
         }
-
         return $request;
     }
 

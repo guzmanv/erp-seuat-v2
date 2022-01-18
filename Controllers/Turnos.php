@@ -72,8 +72,21 @@ class Turnos extends Controllers{
 
     public function setTurnos()
     {
-        $intIdTurnoNuevo = isset($_POST['idTurnoNuevo']);
-        $intIdTurnoEdit = isset($_POST['idTurnoEdit']);
+        $intIdTurnoNuevo = 0;
+        $intIdTurnoEdit = 0;
+
+        if(isset($_POST['idTurnoNuevo']))
+        {
+            $intIdTurnoNuevo = intval($_POST['idTurnoNuevo']);
+        }
+
+        if(isset($_POST['idTurnoEdit']))
+        {
+            $intIdTurnoEdit = intval($_POST['idTurnoEdit']);
+        }
+
+        // $intIdTurnoNuevo = isset($_POST['idTurnoNuevo']);
+        // $intIdTurnoEdit = isset($_POST['idTurnoEdit']);
 
         if($intIdTurnoNuevo == 1)
         {
@@ -110,35 +123,33 @@ class Turnos extends Controllers{
 
         if($intIdTurnoEdit != 0)
         {
-            $intIdTurno = intval($_POST['idTurnoEdit']);
-            $strNombreTurno = strClean($_POST['txtTurnoEdit']);
-            $strAbreviatura = strClean($_POST['txtAbreviaturaEdit']);
-            $strHoraEnt = $_POST['txtHoraEntEdit'];
-            $strHoraSal = $_POST['txtHoraSalEdit'];
-            $lun = isset($_POST['chkLunesEdit']);
-            $mar = isset($_POST['chkMartesEdit']);
-            $mie = isset($_POST['chkMiercolesEdit']);
-            $jue = isset($_POST['chkJuevesEdit']);
-            $vie = isset($_POST['chkViernesEdit']);
-            $sab = isset($_POST['chkSabadoEdit']);
-            $dom = isset($_POST['chkDomingoEdit']);
-            $intEstatus = $_POST['slctEstatusTurnoEdit'];
-            $lun == true ? $lun = 1 : $lun = 0;
-            $mar == true ? $mar = 1 : $lun = 0;
-            $mie == true ? $mie = 1 : $lun = 0;
-            $jue == true ? $jue = 1 : $jue = 0;
-            $vie == true ? $vie = 1 : $vie = 0;
-            $sab == true ? $sab = 1 : $sab = 0;
-            $dom == true ? $dom = 1 : $dom = 0;
-
-            $arrData = $this->model->updateTurno($intIdTurno, $strNombreTurno, $strAbreviatura, $strHoraEnt, $strHoraSal, $lun, $mar, $mie, $jue, $vie, $sab, $dom, $intEstatus);
+            $strNombreTurnoEdit = strClean($_POST['txtTurnoEdit']);
+            $strAbreviaturaEdit = strClean($_POST['txtAbreviaturaEdit']);
+            $strHoraEntrEdit = $_POST['txtHoraEntEdit'];
+            $strHoraSaliEdit = $_POST['txtHoraSalEdit'];
+            $lunEdit = isset($_POST['chkLunesEdit']);
+            $marEdit = isset($_POST['chkMartesEdit']);
+            $mieEdit = isset($_POST['chkMiercolesEdit']);
+            $jueEdit = isset($_POST['chkJuevesEdit']);
+            $vieEdit = isset($_POST['chkViernesEdit']);
+            $sabEdit = isset($_POST['chkSabadoEdit']);
+            $domEdit = isset($_POST['chkDomingoEdit']);
+            $lunEdit == true ? $lunEdit = 1 : $lunEdit = 0;
+            $marEdit == true ? $marEdit = 1 : $marEdit = 0;
+            $mieEdit == true ? $mieEdit = 1 : $mieEdit = 0;
+            $jueEdit == true ? $jueEdit = 1 : $jueEdit = 0;
+            $vieEdit == true ? $vieEdit = 1 : $vieEdit = 0;
+            $sabEdit == true ? $sabEdit = 1 : $sabEdit = 0;
+            $domEdit == true ? $domEdit = 1 : $domEdit = 0;
+            $estatus = $_POST['slctEstatusTurnoEdit'];
+            $arrData = $this->model->updateTurno($intIdTurnoEdit, $strNombreTurnoEdit, $strAbreviaturaEdit, $strHoraEntrEdit, $strHoraSaliEdit, $lunEdit, $marEdit, $mieEdit, $jueEdit, $vieEdit, $sabEdit, $domEdit, $estatus);
             if($arrData['estatus'] != TRUE)
             {
-                $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente');
+                $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente.');
             }
             else
             {
-                $arrResponse = array('estatus' => false, 'msg' => 'El nombre del turno ya existe.');
+                $arrResponse = array('estatus' => false, 'msg' => 'El nombre del turno ya existe');
             }
         }
         

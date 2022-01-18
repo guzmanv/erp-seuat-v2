@@ -69,8 +69,18 @@ class Salones extends Controllers{
     }
 
     public function setSalon(){
-        $intIdSalonNuevo = isset($_POST['idSalonNuevo']);
-        $intIdSalonEdit = isset($_POST['idSalonEdit']);
+        $intIdSalonNuevo = 0;
+        $intIdSalonEdit = 0;
+        if(isset($_POST['idSalonNuevo']))
+        {
+            $intIdSalonNuevo = intval($_POST['idSalonNuevo']);
+        }
+        if(isset($_POST['idSalonEdit']))
+        {
+            $intIdSalonEdit = intval($_POST['idSalonEdit']);
+        }
+        //$intIdSalonNuevo = isset($_POST['idSalonNuevo']);
+        //$intIdSalonEdit = isset($_POST['idSalonEdit']);
     
         if ($intIdSalonNuevo == 1) {
             $strNombreSalon = strClean($_POST['txtNombreNuevo']);
