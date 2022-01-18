@@ -101,7 +101,6 @@
             foreach ($arrayDate as $key => $value) {
                 ($value->tipo_servicio =='col')?$isColegiatura = true:$isColegiatura = false;
                 ($value->tipo_servicio =='serv')?$isOtroServicio = true:$isOtroServicio = false;
-                ($value->edo_cta == 1)?$isOtroServicio = true:$isOtroServicio = false;
             }
             foreach ($arrayDate as $key => $value) {
                 if($value->edo_cta == 1){
@@ -111,64 +110,32 @@
                     $isEdoCtaOtrosServ = false;
                 }
             }
-            $arrResponse = $isEdoCtaOtrosServ;
-            foreach ($arrayDate as $key => $value) {
-                if($value->tipo_servicio == 'col'){
-                    //$isColegiatura = true;
-                    /*$idIngreso = $arrayDate[0]->id_servicio;
+            if($isColegiatura){
+                foreach ($arrayDate as $key => $value) {
+                    $idIngreso = $value->id_servicio;
                     $folio = $this->model->selectFolioSig($idAlumno);
                     $total = $value->subtotal;
                     $cantidad = $value->cantidad;
                     $precioUnitario = $value->precio_unitario;
                     $subtotal = $value->subtotal;
                     $arrPromociones = $value->promociones;
-                    $request = $this->model->updateIngresos($idIngreso,$tipoPago,$tipoComprobante,$observaciones,$folio,$total);
-                    if($request){
+                    $reqIngreso = $this->model->updateIngresos($idIngreso,$tipoPago,$tipoComprobante,$observaciones,$folio,$total);
+                    if($reqIngreso){
                         $reqIngDetalles = $this->model->updateIngresosDetalles($idIngreso,$cantidad,$precioUnitario,$subtotal,json_encode($arrPromociones));
                         if($reqIngDetalles){
                             $arrResponse = array('estatus' => true,'id'=>$idIngreso,'msg' => 'Datos guardados correctamente!');
                         }else{
                             $arrResponse = array('estatus' => false,'id'=>$idIngreso, 'msg' => 'No es posible guardar los datos');
                         }
-                    }*/
-                }else{        
-                    /*if($value->edo_cta == '1'){
-                        $isOtrosServicios = true;
-                    }else{
-                        $isOtrosServicios = false;
-                    } */         
-                }
-            }
-            if($isColegiatura){
-               /*  $folio = $this->model->selectFolioSig($idAlumno);
-                $total = 0;
-                $redIdIngreso;
-                foreach ($arrayDate as $key => $value) {
-                    if($value->edo_cta == '1'){
-                        //$redIdIngreso = $this->model->checkIdIngreso($value->id_servicio,$idAlumno);
-                    }
-                    $total += $value->subtotal;
-                } */
-                /* if($total != 0){
-                    $request = $this->model->updateIngresos($redIdIngreso['id'],$tipoPago,$tipoComprobante,$observaciones,$folio,$total);
-                    if($request){
-                        foreach ($arrayDate as $key => $value) {
-                            $reqIngDetalles = $this->model->updateIngresosDetalles($request,$value->cantidad,$value->precio_unitario,$value->subtotal,json_encode($value->promociones));
-                            if($reqIngDetalles){
-                                $arrResponse = array('estatus' => true,'id'=>$request,'msg' => 'Datos guardados correctamente!');
-                            }else{
-                                $arrResponse = array('estatus' => false,'id'=>$request, 'msg' => 'No es posible guardar los datos');
-                            }
-                            
-                        }
                     }
 
-                } */
-            }else{
-                /*$folio = $this->model->selectFolioSig($idAlumno);
+                }
+            }
+            if($isOtroServicio == true && $isEdoCtaOtrosServ == false){
+                $folio = $this->model->selectFolioSig($idAlumno);
                 $total = 0;
                 foreach ($arrayDate as $key => $value) {
-                    $total += $value->subtotal;               
+                    $total += $value->subtotal;
                 }
                 $reqIngreso = $this->model->insertIngresos($folio,$tipoPago,$tipoComprobante,$total,$observaciones,$idAlumno);
                 if($reqIngreso){
@@ -180,7 +147,34 @@
                             $arrResponse = array('estatus' => false,'id'=>$reqIngreso, 'msg' => 'No es posible guardar los datos');
                         }
                     }
-                }*/
+                }
+            }
+            if($isOtroServicio == true && $isEdoCtaOtrosServ == true){
+                $folio = $this->model->selectFolioSig($idAlumno);
+                $total = 0;
+                $redIdIngreso;
+                foreach ($arrayDate as $key => $value) {
+                    if($value->edo_cta == '1'){
+                        $redIdIngreso = $this->model->checkIdIngreso($value->id_servicio,$idAlumno);
+                        break;
+                    }
+                    $total += $value->subtotal;
+                }
+                if($redIdIngreso){
+                    $request = $this->model->updateIngresos($redIdIngreso['id'],$tipoPago,$tipoComprobante,$observaciones,$folio,$total);
+                    if($request){
+                        foreach ($arrayDate as $key => $value) {
+                            if($value->edo_cta == 1){
+                                $reqUpDetalles = $this->model->updateIngresosDetalles($request,$value->cantidad,$value->precio_unitario,$value->subtotal,json_encode($value->promociones));
+                            }else{
+                                $reqInsDetalles = $this->model->insertIngresosDetalle($value->cantidad,$value->precio_unitario,$value->precio_unitario,$total,$value->subtotal,0,0,json_encode($value->promociones),$value->id_servicio,$request);
+                            }                               
+                        }
+                        $arrResponse = array('estatus' => true,'id'=>$request,'msg' => 'Datos guardados correctamente!');   
+                    }else{
+                        $arrResponse = array('estatus' => false,'msg' => 'No es posible guardar los datos');
+                    }
+                }
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
