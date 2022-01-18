@@ -5,24 +5,13 @@
 		{
 			parent::__construct();
 		}
-		//Funcion para consultar lista de Estudiantes
-		/* public function selectEstudiantes(){
-			$sql = "SELECT ins.id,per.id AS id_persona,per.nombre_persona,CONCAT(per.ap_paterno,'&nbsp',per.ap_materno) AS apellidos,
-            plante.nombre_plantel,plante.municipio,planest.nombre_carrera,ins.grado,sal.nombre_salon,per.validacion_doctos,per.validacion_datos_personales,per.id_usuario_verificacion_doctos,per.id_usuario_verificacion_datos_personales FROM t_inscripciones AS ins
-            LEFT JOIN t_historiales AS his ON ins.id_historial = his.id
-            INNER JOIN t_personas AS per ON ins.id_personas = per.id
-            INNER JOIN t_plan_estudios AS planest ON ins.id_plan_estudios = planest.id
-            INNER JOIN t_planteles AS plante ON planest.id_plantel = plante.id
-            LEFT JOIN t_salones AS sal ON ins.id_salon = sal.id
-            WHERE his.inscrito = 1";
-			$request = $this->select_all($sql);
-			return $request;
-		} */
+        //Lista de ingresos
         public function selectIngresos(){
             $sql = "SELECT *FROM t_ingresos";
             $request = $this->select_all($sql);
             return $request;
         }
+        //Obtener datos persona
         public function selectPersonasModal($data){
             $sql = "SELECT per.id,CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) AS nombre,
             ins.id AS id_inscripcion,pln.nombre_carrera,ins.grado,ins.id_salon_compuesto,gr.nombre_grupo FROM t_personas AS per
@@ -35,16 +24,19 @@
             $request = $this->select_all($sql);
             return $request;
         }
+        //Obtener estatus del estado de cuenta
         public function selectStatusEstadoCuenta(int $idPersonaSeleccionada){
             $sql = "SELECT *FROM t_ingresos WHERE id_persona = $idPersonaSeleccionada";
             $request = $this->select_all($sql);
             return $request;
         }
+        //Obtener lista de Servicios
         public function selectServicios(){
             $sql = "SELECT *FROM t_servicios WHERE colegiatura = 0";
             $request = $this->select_all($sql);
             return $request;
         }
+        //Obtener lista de Colegiaturas
         public function selectColegiaturas(int $idPersona){
             $sql = "SELECT i.id AS id_ingresos,id.id AS id_ingresos_detalles,id.id_servicio,s.nombre_servicio,s.precio_unitario,pc.descripcion,i.fecha FROM t_ingresos AS i 
             INNER JOIN t_ingresos_detalles AS id ON id.id_ingresos = i.id 
@@ -54,11 +46,13 @@
             $request = $this->select_all($sql);
             return $request;
         }
+        //Lista de Promociones por Servicio
         public function selecPromociones(int $idServicio){
             $sql = "SELECT *FROM t_servicios AS ser INNER JOIN t_promociones AS prom ON prom.id_servicio = ser.id WHERE ser.id = $idServicio";
             $request = $this->select_all($sql);
             return $request;
         }
+        //Obtener plantel del Alumno
         public function selectPlantelAlumno(int $idPersonaSeleccionada){
             $sql = "SELECT plte.id FROM t_inscripciones AS ins
             INNER JOIN t_plan_estudios AS plnest ON ins.id_plan_estudios = plnest.id
@@ -66,16 +60,19 @@
             $request = $this->select($sql);
             return $request;
         }
+        //Obtener carrera del Alumno
         public function selectCarreraAlumno(int $idPersonaSeleccionada){
             $sql = "SELECT id_plan_estudios FROM t_inscripciones WHERE id_personas = $idPersonaSeleccionada LIMIT 1";
             $request = $this->select($sql);
             return $request;    
         }
+        //Obtener grado del Alumno
         public function selectGradoAlumno(int $idPersonaSeleccionada){
             $sql = "SELECT grado FROM t_inscripciones WHERE id_personas = $idPersonaSeleccionada LIMIT 1";
             $request = $this->select($sql);
             return $request; 
         }
+        //Obtener periodo del Alumno
         public function selectPeriodoAlumno(int $idPersonaSeleccionada){
             $sql = "SELECT ins.id_salon_compuesto,sc.id_periodo FROM t_inscripciones AS ins 
             INNER JOIN t_salones_compuesto AS sc ON ins.id_salon_compuesto = sc.id 
@@ -83,43 +80,9 @@
             $request = $this->select($sql);
             return $request; 
         }
+        //Obtener datos para generar un estado de cuenta
         public function generarEdoCuentaAlumno(int $idPersonaSeleccionada,int $idPlantel, int $idCarrera, int $idGrado, int $idPeriodo){
             $idUser = $_SESSION['idUser'];
-            //setlocale(LC_TIME, "spanish");
-            //$strMesActual = strftime("%B");
-            /* $listaMeses = array('01'=>'Enero','02'=>'Febrero','03'=>'Marzo','04'=>'Abril','05'=>'Mayo','06'=>'Junio','07'=>'Julio','08'=>'Agosto','09'=>'Septiembre','10'=>'Octubre','11'=>'Noviembre','12'=>'Diciembre');
-            $intAnioActual = strftime("%Y");
-            $intMesActual = strftime("%m");
-            $fechaF = $intAnioActual+1;
-            $fechaInicial = "";
-            $fechaFinal = "";
-            switch ($intMesActual) {
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                    $fechaInicial = new DateTime($intAnioActual.'-01-01');
-                    $fechaFinal = new DateTime($intAnioActual.'-12-01');
-                    break;
-                
-                default:
-                    $fechaInicial = new DateTime($intAnioActual.'-09-01');
-                    $fechaFinal = new DateTime($fechaF.'-08-01');
-                    break;
-            }
-            $fechaFinal = $fechaFinal->modify( '+1 month' );
-            $intervalo = DateInterval::createFromDateString('1 month');
-            $periodo = new DatePeriod($fechaInicial, $intervalo, $fechaFinal);
-            $meses = 0;
-            $meses_str = [];
-            $soloMeses = [];
-            foreach($periodo as $mes) {
-                array_push($meses_str,$mes->format("Y/m/d"));
-                array_push($soloMeses,$listaMeses[$mes->format("m")]);
-                $meses++;
-            } */
             $sqlServicios = "SELECT id,codigo_servicio,nombre_servicio FROM t_servicios WHERE aplica_edo_cuenta = 1 AND id_plantel = $idPlantel";
             $requestServicios = $this->select_all($sqlServicios);
             if($requestServicios){
@@ -149,31 +112,22 @@
                     }
                 }
             }
-            //return $requestIngresosDetalle;
             return $requestServicios;
         }
+        //Actualizar ingresos
         public function updateIngresos($idIngreso,$tipoPago,$tipoComprobante,$observaciones,$folioNuevo,$total){
             $sql = "UPDATE t_ingresos SET fecha = NOW(),folio = ?,forma_pago = ?,tipo_comprobante = ?,total = ?,observaciones = ?,
             recibo_inscripcion = ? WHERE id= $idIngreso";
             $request = $this->update($sql,array($folioNuevo,$tipoPago,$tipoComprobante,$total,$observaciones,1));
-            //$request = $this->update($sql,array($folioNuevo,$tipoPago,$tipoComprobante,$total,$observaciones,1));
-           /*  $total = 0;
-            foreach ($arrDate as $key => $value) {
-                $total += $value->subtotal;
-            }
-            if($total > 0){
-                $sql = "UPDATE t_ingresos SET fecha = NOW(),folio = ?,forma_pago = ?,tipo_comprobante = ?,total = ?,observaciones = ?,
-                recibo_inscripcion = ? WHERE id= $idIngreso";
-                //$request = $this->update($sql,array($folioNuevo,$tipoPago,$tipoComprobante,$total,$observaciones,1));
-            } */
             return $idIngreso;
         }
+        //Actualizar ingresos detalles
         public function updateIngresosDetalles($idIngreso,$cantidad,$precioUnitario,$subtotal,$arrPromociones){
             $sql = "UPDATE t_ingresos_detalles SET cantidad = ? ,cargo = ?,abono = ?,saldo = ?,precio_subtotal = ?,promociones_aplicadas = ? WHERE id_ingresos = $idIngreso";
             $request = $this->update($sql,array($cantidad,$precioUnitario,$precioUnitario,$precioUnitario,$subtotal,$arrPromociones));
             return $request;
         }
-        
+        //Obtener el siguiente Folio
         public function selectFolioSig(int $idAlumno){
             $sqlPlantel = "SELECT pl.id AS id_plantel,pl.abreviacion_plantel,pl.abreviacion_sistema,pl.codigo_plantel  FROM t_personas AS p
             INNER JOIN t_inscripciones AS i ON i.id_personas = p.id
@@ -191,6 +145,7 @@
 
             return $nuevoFolioConsecutivo;
         }
+        //Obtener el Id del ingreso de un id Servicio e id Alumno
         public function checkIdIngreso(int $idServicio,int $idAlumno){    
             $sql = "SELECT i.id FROM t_ingresos AS i
             RIGHT JOIN t_ingresos_detalles AS id ON id.id_ingresos = i.id
@@ -198,11 +153,13 @@
             $request = $this->select($sql);
             return $request;
         }
+        //Insertar un nuevo Ingreso
         public function insertIngresos(string $folio,string $formaPago, string $tipoComprobante,int $total,string $observaciones,int $idAlumno){
             $sqlIngresos = "INSERT INTO t_ingresos(fecha,folio,estatus,forma_pago,tipo_comprobante,total,observaciones,recibo_inscripcion,id_plantel,id_persona,id_usuario) VALUES(NOW(),?,?,?,?,?,?,?,?,?,?)";
             $requestIngresos = $this->insert($sqlIngresos,array($folio,1,$formaPago,$tipoComprobante,$total,$observaciones,1,2,$idAlumno,1));
             return $requestIngresos;
         }
+        //Insertar un nuevo ingreso detalle
         public function insertIngresosDetalle(int $cantidad,int $cargo,int $abono,int $saldo,int $precioSubtotal,int $descuentoDinero,int $descuentoPorcentaje,string $promocionesAplicadas,int $idServicio,int $idIngreso){
             $sqlIngDetalle = "INSERT INTO t_ingresos_detalles(cantidad,cargo,abono,saldo,precio_subtotal,descuento_dinero,descuento_porcentaje,promociones_aplicadas,id_servicio,id_ingresos) VALUES(?,?,?,?,?,?,?,?,?,?)";
             $requestIngDetalle = $this->insert($sqlIngDetalle,array($cantidad,$cargo,$abono,$saldo,$precioSubtotal,$descuentoDinero,$descuentoPorcentaje,$promocionesAplicadas,$idServicio,$idIngreso));

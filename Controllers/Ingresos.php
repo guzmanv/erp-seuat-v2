@@ -9,6 +9,7 @@
 			    die();
 		    }
         }
+        //Mostrar vista de ingresos
         public function ingresos(){
             $data['page_id'] = 10;
             $data['page_tag'] = "Ingresos";
@@ -17,32 +18,13 @@
             $data['page_functions_js'] = "functions_ingresos.js";
             $this->views->getView($this,"ingresos",$data);
         }
+        //Funcion obtener lista ingresos
         public function getIngresos(){
             $arrData = $this->model->selectIngresos();
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
-       /*  public function getAlumnos(){
-            $arrData = $this->model->selectEstudiantes();
-            for ($i=0; $i<count($arrData); $i++){
-                $arrData[$i]['numeracion'] = $i+1;
-                $arrData[$i]['options'] = '<div class="text-center">
-				<div class="btn-group">
-					<button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<i class="fas fa-layer-group"></i> &nbsp; Acciones
-					</button>
-					<div class="dropdown-menu">
-						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal pagosServicios" onClick="fnPagosServicios(this)" idper = '.$arrData[$i]['id_persona'].' nomper = '.$arrData[$i]['nombre_persona']."&nbsp".$arrData[$i]['apellidos'].' data-toggle="modal" data-target="#ModalFormPagosServicios" title="Pagos Servicios"> &nbsp;&nbsp; <i class="fas fa-dollar-sign"></i> &nbsp;Pagos Servicios</button>
-                        <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal generarEstadoCuenta onclick="gnGenerarEstadoCuenta(this)" data-toggle="modal" data-target="#ModalFormGenerarEstadoCuenta" title="Generar estado de cuenta"> &nbsp;&nbsp; <i class="fas fa-file-invoice-dollar"></i> &nbsp;Generar estado de cuenta</button>
-						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal reembolsos" onclick="fnReembolsos(this)" idPer = '.$arrData[$i]['id_persona'].' data-toggle="modal" data-target="#ModalFormReembolsos" title="Reembolsos"> &nbsp;&nbsp; <i class="fas fa-hand-holding-usd"></i> &nbsp;Reembolsos</button>
-						<div class="dropdown-divider"></div>
-					</div>
-				</div>
-				</div>';
-            }
-            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
-            die();
-        } */
+        //Funcion para buscar persona en el Modal
         public function buscarPersonaModal(){
             $data = $_GET['val'];
             $arrData = $this->model->selectPersonasModal($data);
@@ -54,6 +36,7 @@
             die();
 
         }
+        //Funcion para obtener si una persona tiene estado de cuenta
         public function getEstatusEstadoCuenta($idPersonaSeleccionada){
             $arrData = $this->model->selectStatusEstadoCuenta($idPersonaSeleccionada);
             if(count($arrData) == 0){
@@ -63,9 +46,8 @@
             }
             echo json_encode($arrRequest,JSON_UNESCAPED_UNICODE);
             die();
-        }        protected function suma($a,$b){
-            return $a+$b;
-        }
+        }        
+        // Funcion para obtener Servicios por Tipo de pago
         public function getServicios($valor){
             $valor = explode(',',$valor);
             $pago = $valor[0];
@@ -80,11 +62,13 @@
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
+        //Funcion para obtener promociones por Id del Servicio
         public function getPromociones($idServicio){
             $arrData = $this->model->selecPromociones($idServicio);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
+        //Funcion para generar un estado de cuenta
         public function generarEdoCuenta($idPersonaSeleccionada){
             $arrPlantel = $this->model->selectPlantelAlumno($idPersonaSeleccionada);
             $arrCarrera = $this->model->selectCarreraAlumno($idPersonaSeleccionada);
@@ -104,17 +88,34 @@
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
+        //Funcion para enviar ingresos
         public function setIngresos(){
             $idAlumno = $_GET['idP'];
             $tipoPago = $_GET['tipoP'];
             $tipoComprobante = $_GET['tipoCom'];
             $observaciones = $_GET['observacion'];
             $arrayDate = json_decode($_GET['date']);
-            $isOtrosServicios = false;
+            $isColegiatura = false;
+            $isOtroServicio = false;
+            $isEdoCtaOtrosServ = false;
+            foreach ($arrayDate as $key => $value) {
+                ($value->tipo_servicio =='col')?$isColegiatura = true:$isColegiatura = false;
+                ($value->tipo_servicio =='serv')?$isOtroServicio = true:$isOtroServicio = false;
+                ($value->edo_cta == 1)?$isOtroServicio = true:$isOtroServicio = false;
+            }
+            foreach ($arrayDate as $key => $value) {
+                if($value->edo_cta == 1){
+                    $isEdoCtaOtrosServ = true;
+                    break;
+                }else{
+                    $isEdoCtaOtrosServ = false;
+                }
+            }
+            $arrResponse = $isEdoCtaOtrosServ;
             foreach ($arrayDate as $key => $value) {
                 if($value->tipo_servicio == 'col'){
-                    $isOtrosServicios = false;
-                    $idIngreso = $arrayDate[0]->id_servicio;
+                    //$isColegiatura = true;
+                    /*$idIngreso = $arrayDate[0]->id_servicio;
                     $folio = $this->model->selectFolioSig($idAlumno);
                     $total = $value->subtotal;
                     $cantidad = $value->cantidad;
@@ -129,26 +130,26 @@
                         }else{
                             $arrResponse = array('estatus' => false,'id'=>$idIngreso, 'msg' => 'No es posible guardar los datos');
                         }
-                    }
+                    }*/
                 }else{        
-                    if($value->edo_cta == '1'){
+                    /*if($value->edo_cta == '1'){
                         $isOtrosServicios = true;
                     }else{
                         $isOtrosServicios = false;
-                    }          
+                    } */         
                 }
             }
-            if($isOtrosServicios){
-                $folio = $this->model->selectFolioSig($idAlumno);
+            if($isColegiatura){
+               /*  $folio = $this->model->selectFolioSig($idAlumno);
                 $total = 0;
                 $redIdIngreso;
                 foreach ($arrayDate as $key => $value) {
                     if($value->edo_cta == '1'){
-                        $redIdIngreso = $this->model->checkIdIngreso($value->id_servicio,$idAlumno);
+                        //$redIdIngreso = $this->model->checkIdIngreso($value->id_servicio,$idAlumno);
                     }
                     $total += $value->subtotal;
-                }
-                if($total != 0){
+                } */
+                /* if($total != 0){
                     $request = $this->model->updateIngresos($redIdIngreso['id'],$tipoPago,$tipoComprobante,$observaciones,$folio,$total);
                     if($request){
                         foreach ($arrayDate as $key => $value) {
@@ -162,9 +163,9 @@
                         }
                     }
 
-                }
+                } */
             }else{
-                $folio = $this->model->selectFolioSig($idAlumno);
+                /*$folio = $this->model->selectFolioSig($idAlumno);
                 $total = 0;
                 foreach ($arrayDate as $key => $value) {
                     $total += $value->subtotal;               
@@ -179,17 +180,17 @@
                             $arrResponse = array('estatus' => false,'id'=>$reqIngreso, 'msg' => 'No es posible guardar los datos');
                         }
                     }
-                }
+                }*/
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
-
-
+        //Funcion para imprimir comprante de una Venta
         public function imprimir_comprobante_venta(int $idVenta){
             $data = null;
             $this->views->getView($this,"viewpdf_comprobante_venta",$data);
         }
+        //Funcion para convertir base64 a Array
         private function reverse64($arr){
             return base64_decode($arr);
         }
