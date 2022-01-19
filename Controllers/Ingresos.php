@@ -174,19 +174,25 @@
                     }else{
                         $arrResponse = array('estatus' => false,'msg' => 'No es posible guardar los datos');
                     }
+                }else{
+                    $arrResponse = array('estatus' => false,'msg' => 'Hay un servicio que no se ha agregado al <b>estado de cuente</b> del Alumno');
                 }
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
         //Funcion para imprimir comprante de una Venta
-        public function imprimir_comprobante_venta(int $idVenta){
-            $data = null;
+        public function imprimir_comprobante_venta(string $idVenta){
+            $idIngreso = $this->reverse64($idVenta);
+            $data['datosInstitucion'] = $this->model->selectDatosInstitucion($idIngreso); //Datos del plantel
+            $data['datos_venta'] = $this->model->selectDatosVenta($idIngreso);//Datos del ingreso/venta
+            $data['datos_alumno'] = $this->model->selectDatosAlumno($idIngreso);//Datos del Alumno
             $this->views->getView($this,"viewpdf_comprobante_venta",$data);
         }
         //Funcion para convertir base64 a Array
         private function reverse64($arr){
             return base64_decode($arr);
         }
+        
     }
 ?>

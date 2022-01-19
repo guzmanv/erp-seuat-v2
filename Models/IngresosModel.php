@@ -165,6 +165,33 @@
             $requestIngDetalle = $this->insert($sqlIngDetalle,array($cantidad,$cargo,$abono,$saldo,$precioSubtotal,$descuentoDinero,$descuentoPorcentaje,$promocionesAplicadas,$idServicio,$idIngreso));
             return $requestIngDetalle;
         }
-
+        //Consultar datos del Plantel para Los recibos
+        public function selectDatosInstitucion(int $idIngreso){
+            $sql = "SELECT i.id_plantel,p.nombre_plantel,p.nombre_sistema,p.cve_centro_trabajo,p.cod_postal,p.colonia,p.domicilio,p.estado,p.localidad,p.municipio,p.abreviacion_sistema FROM t_ingresos AS i 
+            INNER JOIN t_planteles AS p ON i.id_plantel = p.id
+            WHERE i.id = $idIngreso LIMIT 1";
+            $request = $this->select($sql);
+            return $request;
+        }
+        //Consultar datos de la Venta/Ingreso
+        public function selectDatosVenta(int $idIngreso){
+            $sql = "SELECT i.id,i.folio,i.fecha,s.nombre_servicio,id.cantidad,s.precio_unitario,i.total FROM t_ingresos AS i
+            RIGHT JOIN t_ingresos_detalles AS id ON id.id_ingresos = i.id
+            INNER JOIN t_servicios AS s ON id.id_servicio = s.id
+            WHERE i.id= $idIngreso";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+        //Consultar datos del Alumno vinculado a la Venta
+        public function selectDatosAlumno(int $idIngreso){
+            $sql = "SELECT p.id,p.nombre_persona,p.ap_paterno,p.ap_materno,pe.nombre_carrera,h.matricula_interna FROM t_ingresos AS i
+            INNER JOIN t_personas AS p ON i.id_persona = p.id
+            INNER JOIN t_inscripciones AS ins ON i.id_persona = ins.id_personas
+            INNER JOIN t_plan_estudios AS pe ON ins.id_plan_estudios = pe.id
+            INNER JOIN t_historiales AS h ON ins.id_historial = h.id
+            WHERE i.id = $idIngreso LIMIT 1";
+            $request = $this->select($sql);
+            return $request;
+        }
 	}
 ?>  

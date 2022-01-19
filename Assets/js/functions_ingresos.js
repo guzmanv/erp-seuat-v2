@@ -201,7 +201,7 @@ function fnBorrarServicioTabla(value){
     let arrServicioNew = [];
     arrServicios.forEach(servicio => {
         if(servicio.id_servicio != value){
-            let arrServicio = {id_servicio:servicio.id_servicio,nombre_servicio:servicio.nombre_servicio,tipo_servicio:servicio.tipo_servicio,edo_cta:edo_cta,promociones:servicio.promociones,cantidad:servicio.cantidad,precio_unitario:servicio.precio_unitario,subtotal:servicio.subtotal,acciones:servicio.acciones};
+            let arrServicio = {id_servicio:servicio.id_servicio,nombre_servicio:servicio.nombre_servicio,tipo_servicio:servicio.tipo_servicio,edo_cta:servicio.edo_cta,promociones:servicio.promociones,cantidad:servicio.cantidad,precio_unitario:servicio.precio_unitario,subtotal:servicio.subtotal,acciones:servicio.acciones};
             arrServicioNew.push(arrServicio);
         }
     });
@@ -388,7 +388,7 @@ function btnCobrarCmbio(){
     }else if(parseInt(intEfectivo) < total){
         swal.fire("Atención","La cantidad insertada es menor que el total","warning");
         return false;
-    }else{
+    }else{  
         let tipoPago = 'efectivo';
         let tipoComprobante = (document.querySelector('#listTipoComprobante').value == 1)?'recibo':'factura'
         let observaciones = document.querySelector('#txtObservaciones').value;
@@ -398,12 +398,16 @@ function btnCobrarCmbio(){
                 let cambio = intEfectivo-total;
                 swal.fire("Exito",`${resultado.msg}<br>Su cambio es de:<h1><b>${formatoMoneda(cambio.toFixed(2))}</b></h1>`,"success").then((result) =>{
                     if(result.isConfirmed){
-                        window.open(`${base_url}/Ingresos/imprimir_comprobante_venta/${resultado.id}`,'_blank');
+                        window.open(`${base_url}/Ingresos/imprimir_comprobante_venta/${convStrToBase64(resultado.id)}`,'_blank');
                         $('#cerrarModalCobrar').click();
                         arrServicios = [];
                         mostrarServiciosTabla();
                     }
                 });
+           }else{
+            swal.fire("Error",`${resultado.msg}`,"warning").then((result) =>{
+                $('#cerrarModalCobrar').click();
+            })
            }
         }).catch(err => { throw err });
     }

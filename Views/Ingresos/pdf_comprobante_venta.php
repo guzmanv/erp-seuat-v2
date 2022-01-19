@@ -1,25 +1,8 @@
 <?php
     $medidaTicket = 180;
-    $productos = [
-        [
-            "cantidad" => 1,
-            "descripcion" => "Colegiatura Enero",
-            "precio" => 800.00,
-            "total" => 800.00,
-        ],
-        [
-            "cantidad" => 1,
-            "descripcion" => "Uniforme",
-            "precio" => 500.00,
-            "total" => 500.00,
-        ],
-        [
-            "cantidad" => 2,
-            "descripcion" => "Credencial Btca 1",
-            "precio" => 150.00,
-            "total" => 300.00,
-        ]
-    ];
+    $datosInstitucion = $data['datosInstitucion'];
+    $datosVenta = $data['datos_venta'];
+    $datosAlumno = $data['datos_alumno'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -84,33 +67,32 @@
 
 <body>
     <div class="ticket centrado">
-        <p class="encabezado">SISTEMA EDUCATIVO UNIVERSITARIO AZTECA</p>
-        <p class="subencabezado"> CLAVE: 07PSU0018E</p>
-        <p class="direccion">2a. Norte Oriente #741. Tuxtla Gutiérrez,Centro,Tuxtla Gutiérrez,Chiapas, Mexico, CP:29000</p>
+        <p class="encabezado"><?php echo(strtoupper($datosInstitucion['nombre_sistema'])) ?></p>
+        <p class="subencabezado"> CLAVE: <?php echo($datosInstitucion['cve_centro_trabajo']) ?></p>
+        <p class="direccion"><?php echo($datosInstitucion['domicilio'].','.$datosInstitucion['colonia'].','.$datosInstitucion['municipio'].','.$datosInstitucion['estado'].', México, CP:'.$datosInstitucion['cod_postal']) ?></p>
         <table>
             <tr>
                 <td class="cantidad" colspan=2>
-                    Folio: 4566823
+                    <p style="font-size:8px">Folio: <?php echo($datosVenta[0]['folio'])?></p>
                 </td>
-                <td class="producto"></td>
-                <td class="precio">
-                    24/12/2023
+                <td class="precio" colspan=2>
+                    <p style="font-size:8px"><?php echo($datosVenta[0]['fecha']) ?></p>
                 </td>
             </tr>
             <tr>
                 <td class="cantidad" colspan=3>
-                    <p id="datos_alumno">Plantel: SEUAT Tuxtla</p>
-                    <p id="datos_alumno">Estudiante: Jose Santiz Ruiz</p>
-                    <p id="datos_alumno">Carrera: Lic. Trabajo social</p>
-                    <p id="datos_alumno">Matricula: 04515484</p>
+                    <p id="datos_alumno">Plantel: <?php echo($datosInstitucion['abreviacion_sistema'].' '.$datosInstitucion['municipio'])?></p>
+                    <p id="datos_alumno">Estudiante: <?php echo($datosAlumno['nombre_persona'].' '.$datosAlumno['ap_paterno'].' '.$datosAlumno['ap_materno']) ?></p>
+                    <p id="datos_alumno">Carrera: <?php echo($datosAlumno['nombre_carrera']) ?></p>
+                    <p id="datos_alumno">Matricula: <?php echo($datosAlumno['matricula_interna'])?></p>
                 </td>
                 <td class="precio">
                 </td> 
             </tr>
             <thead>
                 <tr class="centrado">
-                    <th class="cantidad">Desc.</th>
-                    <th class="producto">#</th>
+                    <th class="cantidad">#</th>
+                    <th class="producto">Desc.</th>
                     <th class="producto">P.U</th>
                     <th class="precio">Total</th>
                 </tr>
@@ -118,16 +100,16 @@
             <tbody>
                 <?php
                 $total = 0;
-                foreach ($productos as $producto) {
-                    $total += $producto["cantidad"] * $producto["total"];
+                foreach ($datosVenta as $servicio) {
+                    $total += $servicio["cantidad"] * $servicio["total"];
                 ?>
                     <tr>
-                        <td class="cantidad"><?php echo number_format($producto["cantidad"], 2) ?></td>
-                        <td class="producto"><?php echo $producto["descripcion"] ?></td>
-                        <td class="precio">$<?php echo number_format($producto["precio"], 2) ?></td>
-                        <td class="precio">$<?php echo number_format($producto["total"], 2) ?></td>
+                        <td class="cantidad"><p style="font-size:8px"><?php echo($servicio['cantidad']) ?></p></td>
+                        <td class="producto"><p style="font-size:8px"><?php echo($servicio['nombre_servicio'])//echo number_format($producto["cantidad"], 2) ?></p></td>
+                        <td class="precio"><p style="font-size:8px">$<?php echo($servicio['precio_unitario'])?></p></td>
+                        <td class="precio"><p style="font-size:8px">$<?php echo($servicio['total'])?></p></td>
                     </tr>
-                <?php } ?>
+                <?php } ?> 
             </tbody>
             <tr>
                 <td class="cantidad"></td>
