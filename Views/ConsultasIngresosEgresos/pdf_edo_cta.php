@@ -67,6 +67,7 @@ $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%d/%m/%Y", strtotime
         }
         .edo_cta table tr.item {
             font-size: 12px;
+            line-height:20px;
         }
         .edo_cta table td {
             padding: 5px;
@@ -180,7 +181,7 @@ $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%d/%m/%Y", strtotime
                             <td><?php echo $value['cargo'] ?></td>
                             <td><?php echo $value['recargo'] ?></td>
                             <td><?php echo $value['abono'] ?></td>
-                            <td class="text-align-right"><?php echo $value['saldo'] ?></td>
+                            <td class="text-align-right"><?php echo $value['abono'] ?></td>
                         </tr>
                     <?php }else{?>
                 <?php }}?>
@@ -212,15 +213,15 @@ $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%d/%m/%Y", strtotime
                 </tr>
                 <?php foreach ($data['edo_cta'] as $key => $value){
                     if($value['codigo_servicio'] == 'CM'){ ?>
-                        <tr class="item">
-                            <td><?php echo $value['fecha'] ?></td>
-                            <td><?php echo $value['cantidad'] ?></td>
-                            <td><?php echo $value['subconcepto'] ?></td>
-                            <td><?php echo $value['descripcion'] ?></td>
-                            <td><?php echo $value['cargo'] ?></td>
-                            <td><?php echo $value['recargo'] ?></td>
-                            <td><?php echo $value['abono'] ?></td>
-                            <td class="text-align-right"><?php echo $value['saldo'] ?></td>
+                        <tr class="item" style="line-height:1px;">
+                            <td><p style="font-size:10px"><?php echo $value['fecha'] ?></p></td>
+                            <td><p style="font-size:10px"><?php echo $value['cantidad'] ?></p></td>
+                            <td><p style="font-size:10px"><?php echo $value['subconcepto'] ?></p></td>
+                            <td><p style="font-size:10px"><?php echo $value['descripcion'] ?></p></td>
+                            <td><p style="font-size:10px"><?php echo $value['cargo'] ?></p></td>
+                            <td><p style="font-size:10px"><?php echo $value['recargo'] ?></p></td>
+                            <td><p style="font-size:10px"><?php echo $value['abono'] ?></p></td>
+                            <td class="text-align-right"><p style="font-size"><?php echo $value['abono'] ?></p></td>
                         </tr>
                     <?php }else{?>
                 <?php }}?>

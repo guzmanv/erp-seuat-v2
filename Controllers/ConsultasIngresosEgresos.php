@@ -80,7 +80,7 @@
                 $arrData[$i]['cantidad'] = ($arrData[$i]['cantidad']=='')?'0':$arrData[$i]['cantidad']; 
                 $arrData[$i]['fecha_pago'] = $arrData[$i]['fecha_pagado'];
                 $arrData[$i]['referencia'] = $arrData[$i]['folio'];
-                $arrData[$i]['options'] = '<a href="'.BASE_URL.'/Ingresos" class="badge badge-primary"> cobrar </a>';
+                $arrData[$i]['options'] = ($arrData[$i]['fecha_pago'] == '')?'<a href="'.BASE_URL.'/Ingresos" class="badge badge-primary">Cobrar</a>':'<a href="'.BASE_URL.'/Ingresos" class="badge badge-primary"></a>';
             }
             return $arrData;
         }
