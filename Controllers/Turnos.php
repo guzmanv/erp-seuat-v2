@@ -149,7 +149,7 @@ class Turnos extends Controllers{
             }
             else
             {
-                $arrResponse = array('estatus' => false, 'msg' => 'El nombre del turno ya existe');
+                $arrResponse = array('estatus' => false, 'msg' => $arrData['msg']);
             }
         }
         

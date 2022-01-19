@@ -51,7 +51,7 @@ class TurnosModel extends Mysql
         $this->intSa = $sab;
         $this->intDo = $dom;
 
-        $sql = "SELECT * FROM t_turnos where nombre_turno = '{$this->strNombreTurno}'";
+        $sql = "SELECT * FROM t_turnos where nombre_turno = '$this->strNombreTurno' OR abreviatura = '$this->strAbreviatura'";
         $requestExist = $this->select($sql);
         if($requestExist){
             $request['estatus'] = TRUE;
@@ -83,7 +83,40 @@ class TurnosModel extends Mysql
         $this->estatus = $estatus;
         $request;
 
-        $sql = "SELECT * FROM t_turnos WHERE nombre_turno = '$this->strNombreTurno' AND id != $this->intIdTurno";
+        $sqlExistNombre = "SELECT * FROM t_turnos WHERE nombre_turno = '$this->strNombreTurno' AND id != $this->intIdTurno";
+        $requestExistNom = $this->select($sqlExistNombre);
+        if($requestExistNom){
+            $sqlExistAbr = "SELECT * FROM t_turnos WHERE abreviatura = '$this->strAbreviatura' AND id != $this->intIdTurno";
+            $requestAbre = $this->select($sqlExistAbr);
+            $request['estatus'] = TRUE;
+            $request['msg'] = 'Nombre existente en los registros';
+            if($requestAbre){
+                $request['estatus'] = TRUE;
+                $request['msg'] = 'Nombre y abreviatura existen en los registros';
+            }
+            else{
+                $request['estatus'] = TRUE;
+                $request['msg'] = 'Nombre ya existe en los registros';
+            }
+        } 
+        else{
+            $sqlExisteAbre = "SELECT * FROM t_turnos WHERE abreviatura = '$this->strAbreviatura' AND id != $this->intIdTurno";
+            $requestExistAbre = $this->select($sqlExisteAbre);
+            if($requestExistAbre){
+                $request['estatus'] = TRUE;
+                $request['msg'] = 'Abreviatura existente en los registros';
+            }
+            else{
+                $sql = "UPDATE t_turnos SET nombre_turno = ?, abreviatura = ?, hora_entrada = ?, hora_salida = ?, lu = ?, ma = ?, mi = ?, ju = ?, vi = ?, sa = ?, do = ?, estatus = ? , id_usuario_actualizacion = ? , fecha_actualizacion = NOW() WHERE id=$this->intIdTurno";
+                $arrData = array($this->strNombreTurno, $this->strAbreviatura, $this->tmHoraEnt, $this->tmHoraSal, $this->intLu, $this->intMa, $this->intMi, $this->intJu, $this->intVi, $this->intSa, $this->intDo, $this->estatus, $this->intIdUser);
+                $requestUpdate = $this->update($sql,$arrData); 
+                $request['estatus'] = FALSE;
+                $request['msg'] = "";
+            }
+        }
+
+        return $request; 
+        /*$sql = "SELECT * FROM t_turnos WHERE nombre_turno = '$this->strNombreTurno' AND id != $this->intIdTurno";
         $requestExist = $this->select($sql);
         if($requestExist){
             $request['estatus'] = TRUE;
@@ -93,8 +126,7 @@ class TurnosModel extends Mysql
             $arrData = array($this->strNombreTurno, $this->strAbreviatura, $this->tmHoraEnt, $this->tmHoraSal, $this->intLu, $this->intMa, $this->intMi, $this->intJu, $this->intVi, $this->intSa, $this->intDo, $this->estatus, $this->intIdUser);
             $requestUpdate = $this->update($sql,$arrData);
             $request['estatus'] = FALSE;
-        }
-        return $request;
+        }*/
     }
 
     public function deteleTurno(int $idTrn)
