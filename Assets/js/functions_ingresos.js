@@ -288,10 +288,13 @@ function fnGenerarEstadoCuenta(){
                 showConfirmButton:false,
                 didOpen: () =>{
                     fetch(url).then(res => res.json()).then((resultado) => {
-                       /* swal.fire("Estado de cuenta","Estado de cuenta generado correctamente!","success").then((result) =>{
-                        btnAgregarServicio.disabled = false;
-                        alertSinEdoCta.style.display = "none";
-                        }); */
+                        if(resultado){
+                            swal.fire("Estado de cuenta","Estado de cuenta generado correctamente!","success").then((result) =>{
+                            btnAgregarServicio.disabled = false;
+                            alertSinEdoCta.style.display = "none";
+                            listTipoCobro.disabled = false;
+                            });
+                        }
                     }).catch(err => { throw err });
                 }
             })  

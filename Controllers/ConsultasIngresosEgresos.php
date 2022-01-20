@@ -63,7 +63,22 @@
         
         protected function datosAlumno($str){
             $edoCtaMatricula = $str;
-            $arrData = $this->model->selectDatosAlumno($edoCtaMatricula);
+            $arrData['datos'] = $this->model->selectDatosAlumno($edoCtaMatricula);
+            $arrData['totalSaldo'] = $this->model->selectEdoCuenta($str);
+            $total = 0;
+            $saldoServicios = 0;
+            $saldoColegiatura = 0;
+            foreach ($arrData['totalSaldo'] as $key => $value) {
+                $total += $value['precio_unitario'];
+                if($value['codigo_servicio'] == 'CM'){
+                    $saldoColegiatura += $value['precio_unitario'];
+                }else{
+                    $saldoServicios += $value['precio_unitario'];
+                }
+            }
+            $arrData['totalSaldo'] = $total;
+            $arrData['saldoServicios'] = $saldoServicios;
+            $arrData['saldoColegiaturas'] = $saldoColegiatura;
             return $arrData; 
         }
         protected function estadoCuenta($str){
@@ -78,6 +93,7 @@
                 $arrData[$i]['recargo'] = '$0.00';
                 $arrData[$i]['abono'] = $arrData[$i]['abono'];
                 $arrData[$i]['cantidad'] = ($arrData[$i]['cantidad']=='')?'0':$arrData[$i]['cantidad']; 
+                $arrData[$i]['precio_unitario'] = '$'.$arrData[$i]['precio_unitario'];
                 $arrData[$i]['fecha_pago'] = $arrData[$i]['fecha_pagado'];
                 $arrData[$i]['referencia'] = $arrData[$i]['folio'];
                 $arrData[$i]['options'] = ($arrData[$i]['fecha_pago'] == '')?'<a href="'.BASE_URL.'/Ingresos" class="badge badge-primary">Cobrar</a>':'<a href="'.BASE_URL.'/Ingresos" class="badge badge-primary"></a>';

@@ -81,8 +81,7 @@
             return $request; 
         }
         //Obtener datos para generar un estado de cuenta
-        public function generarEdoCuentaAlumno(int $idPersonaSeleccionada,int $idPlantel, int $idCarrera, int $idGrado, int $idPeriodo){
-            $idUser = $_SESSION['idUser'];
+        public function generarEdoCuentaAlumno(int $idPersonaSeleccionada,int $idPlantel, int $idCarrera, int $idGrado, int $idPeriodo, int $idUser){
             $sqlServicios = "SELECT id,codigo_servicio,nombre_servicio FROM t_servicios WHERE aplica_edo_cuenta = 1 AND id_plantel = $idPlantel";
             $requestServicios = $this->select_all($sqlServicios);
             if($requestServicios){
@@ -93,11 +92,12 @@
                         $requestColegiaturas = $this->select_all($sqlColegiaturas);
                         foreach ($requestColegiaturas as $key => $colegiatura) {
                             //$observacion = 'coleg. '.$mes;
+                            $idPrecargarCta = $colegiatura['id'];
                             $sqlIngresos = "INSERT INTO t_ingresos(estatus,id_plantel,id_persona,id_usuario) VALUES(?,?,?,?)";
                             $requestIngresos = $this->insert($sqlIngresos,array(1,$idPlantel,$idPersonaSeleccionada,$idUser));
                             if($requestIngresos){
-                                $sqlIngresosDetalle = "INSERT INTO t_ingresos_detalles(descuento_dinero,descuento_porcentaje,id_servicio,id_ingresos) VALUES(?,?,?,?)";
-                                $requestIngresosDetalle = $this->insert($sqlIngresosDetalle,array(0,'0',$idServicio,$requestIngresos));
+                                $sqlIngresosDetalle = "INSERT INTO t_ingresos_detalles(descuento_dinero,descuento_porcentaje,id_servicio,id_ingresos,id_precarga_cuenta) VALUES(?,?,?,?,?)";
+                                $requestIngresosDetalle = $this->insert($sqlIngresosDetalle,array(0,'0',$idServicio,$requestIngresos,$idPrecargarCta));
                             }
                         }
                     }else{
@@ -108,11 +108,10 @@
                             $sqlIngresosDetalle = "INSERT INTO t_ingresos_detalles(descuento_dinero,descuento_porcentaje,id_servicio,id_ingresos) VALUES(?,?,?,?)";
                             $requestIngresosDetalle = $this->insert($sqlIngresosDetalle,array(0,'0',$idServicio,$requestIngresos));
                         }
-
                     }
                 }
             }
-            return $requestServicios;
+            return $requestIngresosDetalle;
         }
         //Actualizar ingresos
         public function updateIngresos($idIngreso,$tipoPago,$tipoComprobante,$observaciones,$folioNuevo,$total){

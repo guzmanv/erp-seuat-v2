@@ -1,5 +1,6 @@
 <?php
     class Ingresos extends Controllers{
+        private $idUser;
         public function __construct(){
             parent::__construct();
             session_start();
@@ -8,6 +9,7 @@
 			    header('Location: '.base_url().'/login');
 			    die();
 		    }
+            $this->idUser = $_SESSION['idUser'];
         }
         //Mostrar vista de ingresos
         public function ingresos(){
@@ -78,14 +80,13 @@
             $idCarrera = $arrCarrera['id_plan_estudios'];
             $idGrado = $arrGrado['grado'];
             $idPeriodo = $arrPeriodo['id_periodo'];
-            $arrData = $this->model->generarEdoCuentaAlumno($idPersonaSeleccionada,$idPlantel,$idCarrera,$idGrado,$idPeriodo);
-            /* if($arrData){
+            $arrData = $this->model->generarEdoCuentaAlumno($idPersonaSeleccionada,$idPlantel,$idCarrera,$idGrado,$idPeriodo,$this->idUser);
+            if($arrData){
                 $arrResponse = true;
             }else{
                 $arrResponse = false;
-            } */
-
-            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
         //Funcion para enviar ingresos
