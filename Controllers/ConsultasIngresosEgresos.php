@@ -63,14 +63,32 @@
         
         protected function datosAlumno($str){
             $edoCtaMatricula = $str;
-            $arrData = $this->model->selectDatosAlumno($edoCtaMatricula);
+            $arrData['datos'] = $this->model->selectDatosAlumno($edoCtaMatricula);
+            $arrData['totalSaldo'] = $this->model->selectEdoCuenta($str);
+            $total = 0;
+            $saldoServicios = 0;
+            $saldoColegiatura = 0;
+            foreach ($arrData['totalSaldo'] as $key => $value) {
+                if($value['fecha_pagado'] == ''){
+                    $total += $value['precio_unitario'];
+                    if($value['codigo_servicio'] == 'CM'){
+                        $saldoColegiatura += $value['precio_unitario'];
+                    }else{
+                        $saldoServicios += $value['precio_unitario'];
+                    }
+                }
+            }
+            $arrData['totalSaldo'] = $total;
+            $arrData['saldoServicios'] = $saldoServicios;
+            $arrData['saldoColegiaturas'] = $saldoColegiatura;
             return $arrData; 
         }
         protected function estadoCuenta($str){
             $arrData = $this->model->selectEdoCuenta($str);
+            $datosAlumno = $this->model->selectDatosAlumno($str);
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
-                $arrData[$i]['fecha'] = ($arrData[$i]['fecha_pago']== '')?'0000-00-00':$arrData[$i]['fecha_pago'];
+                $arrData[$i]['fecha'] = ($arrData[$i]['fecha_pago']== '')?'0000:00:00':$arrData[$i]['fecha_pago'];
                 $arrData[$i]['concepto'] = 'LA-C78MS';
                 $arrData[$i]['subconcepto'] = $this->getSubConcepto(($arrData[$i]['codigo_servicio'] == 'CM')?$arrData[$i]['descripcion'].'.'.$arrData[$i]['fecha_pago']:$arrData[$i]['codigo_servicio']);
                 $arrData[$i]['descripcion'] = ($arrData[$i]['codigo_servicio'] == 'CM')?$arrData[$i]['descripcion']:$arrData[$i]['nombre_servicio'];
@@ -78,9 +96,25 @@
                 $arrData[$i]['recargo'] = '$0.00';
                 $arrData[$i]['abono'] = $arrData[$i]['abono'];
                 $arrData[$i]['cantidad'] = ($arrData[$i]['cantidad']=='')?'0':$arrData[$i]['cantidad']; 
+                $arrData[$i]['precio_unitario'] = '$'.$arrData[$i]['precio_unitario'];
                 $arrData[$i]['fecha_pago'] = $arrData[$i]['fecha_pagado'];
                 $arrData[$i]['referencia'] = $arrData[$i]['folio'];
-                $arrData[$i]['options'] = '<a href="'.BASE_URL.'/Ingresos" class="badge badge-primary"> cobrar </a>';
+                $arrData[$i]['options'] = ($arrData[$i]['fecha_pago'] == '')?'<div class="text-center"><button type="button" class="btn btn-primary btn-sm" onclick="fnPagarServicio('.$arrData[$i]['id'].','.$datosAlumno['matricula_interna'].')">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCobrar&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button></div>':'<div class="text-center">
+				<div class="btn-group">
+                    <button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-layer-group"></i> &nbsp; Acciones
+                    </button>
+					<div class="dropdown-menu">
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditModalidad" onClick="fntEditModalidad()" data-toggle="modal" data-target="#ModalFormEditModalidad" title="Editar"> &nbsp;&nbsp; 
+                            <i class="fas fa-print"></i> &nbsp; Reimprimir recibo
+                        </button>
+						<div class="dropdown-divider">
+                        </div>
+						    <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelModalidad" onClick="fntDelModalidad()" title="Eliminar"> &nbsp;&nbsp; <i class="fas fa-ban "></i> &nbsp; Cancelar
+                            </button>
+					</div>
+				</div>
+				</div>';
             }
             return $arrData;
         }
