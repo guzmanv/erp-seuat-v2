@@ -13,7 +13,7 @@
                 WHERE per.estatus !=0 AND per.id_categoria_persona = 1";
                 $requestProspectos = $this->select($sqlProspectos);
                 $sqlInscritos = "SELECT COUNT(*) AS total FROM t_inscripciones AS ins
-                WHERE ins.tipo_ingreso = 'Inscripcion' AND ins.grado = 1";
+                WHERE ins.tipo_ingreso = 'Inscripcion'";
                 $requestInscritos = $this->select($sqlInscritos);
                 $request['planteles'] = $requestPlanteles['total'];
                 $request['prospectos'] = $requestProspectos['total'];
