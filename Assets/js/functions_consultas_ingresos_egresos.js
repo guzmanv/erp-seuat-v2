@@ -1,4 +1,5 @@
 let buscar = document.querySelector("#btnBuscar");
+let verEdoCta = document.querySelector("#btnVerEdoCta");
 let buscarAlumno = document.querySelector("#btnBuscarAlumno");
 let cardsEdoCta = document.querySelector('.card_dato_cta');
 let dataTableEdoCta = document.querySelector('#tableEstadoCuenta');
@@ -10,11 +11,16 @@ buscar.addEventListener('click',function() {
     let strBuscarAlumno = document.querySelector('#txtNombrealumno').value;
     if(strBuscarAlumno == ''){
         swal.fire("Atención","Campo vacio de Matricula o RFC","warning");
+        cardsEdoCta.style.display = "none";
         return false;
     }else{
-        fnGetEstadoCuentaAlumno(strBuscarAlumno);
-        fnGetDatosAlumno(strBuscarAlumno);   
+        fnGetDatosAlumno(strBuscarAlumno);  
     }
+})
+//click en boton buscar alumno
+verEdoCta.addEventListener('click',function() {
+    let strBuscarAlumno = document.querySelector('#txtNombrealumno').value;
+    fnGetEstadoCuentaAlumno(strBuscarAlumno);   
 })
 
 function fnGetEstadoCuentaAlumno(str){
@@ -66,6 +72,7 @@ function fnGetDatosAlumno(str){
     let url = `${base_url}/ConsultasIngresosEgresos/getDatosAlumno/${str}`;
     fetch(url).then(res => res.json()).then((resultado) => {
         if(resultado.datos){
+            console.log(resultado);
             cardsEdoCta.style.display = "block";
             strAlumno = str;
             let nomCompleto = resultado.datos.nombre_persona+' '+resultado.datos.ap_paterno+' '+resultado.datos.ap_materno;
@@ -126,9 +133,16 @@ function seleccionarPersona(value){
     fnGetEstadoCuentaAlumno(matricula);
     fnGetDatosAlumno(matricula);
 }
+function fnPagarServicio(idServicio,matricula){
+    location.href = `${base_url}/Ingresos/set_date_ingreso?i=${convStrToBase64(idServicio)}&m=${convStrToBase64(matricula)}`;
+}
 //Function para dar formato un numero a Moneda
 function formatoMoneda(numero){
     let str = numero.toString().split(".");
     str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return "$"+str.join(".");
+}
+//Function para convertir un string  a  Formato Base64
+function convStrToBase64(str){
+    return window.btoa(unescape(encodeURIComponent( str ))); 
 }

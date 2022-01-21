@@ -98,7 +98,7 @@
                                                         </div>
                                                         <div>
                                                             <div class="mb-4 row">
-                                                                <div class="col-md-6 form-group"><button class="form-control btn btn-primary">Ver estado de cuenta</button></div>
+                                                                <div class="col-md-6 form-group"><button id="btnVerEdoCta" class="form-control btn btn-primary">Ver estado de cuenta</button></div>
                                                                 <div class="col-md-6 form-group"><button class="form-control btn btn-secondary" id="btnImprimirEdoCta">Imprimir</button></div>
                                                             </div>
                                                         </div>
