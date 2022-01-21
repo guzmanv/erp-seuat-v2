@@ -400,6 +400,36 @@
                   </p>
               </a>
           </li>
+<<<<<<< HEAD
+=======
+        
+          <li class="nav-header"><h6>Prospección</h6></li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Campanias" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="server"></i>
+                  <p>
+                      Campanias
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Subcampanias" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="tag"></i>
+                  <p>
+                      Subcampanias
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/AgendaProspecto" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="tag"></i>
+                  <p>
+                      Agendaprospecto
+                  </p>
+              </a>
+          </li>
+
+>>>>>>> menu
           <li class="nav-header"><h6>Administración</h6></li>
           <li class="nav-item">
             <a href="#" class="nav-link">
