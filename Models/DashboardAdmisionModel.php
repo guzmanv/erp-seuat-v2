@@ -5,32 +5,33 @@
         }
         public function selectTotalesCard($plantel){
             if($plantel == "all"){
-                $sqlPlanteles = "SELECT COUNT(*) AS total FROM t_inscripciones AS ins
+                $sqlPlanteles = "SELECT COUNT(*) FROM t_inscripciones AS ins
                 INNER JOIN t_plan_estudios AS pe ON ins.id_plan_estudios = pe.id
-                WHERE ins.grado = 1";
-                $requestPlanteles = $this->select($sqlPlanteles);
+                INNER JOIN t_planteles AS p ON pe.id_plantel = p.id 
+                WHERE p.estatus = 1 GROUP BY p.id";
+                $requestPlanteles = $this->select_all($sqlPlanteles);
                 $sqlProspectos = "SELECT COUNT(*) AS total FROM t_personas AS per
                 WHERE per.estatus !=0 AND per.id_categoria_persona = 1";
                 $requestProspectos = $this->select($sqlProspectos);
                 $sqlInscritos = "SELECT COUNT(*) AS total FROM t_inscripciones AS ins
                 WHERE ins.tipo_ingreso = 'Inscripcion'";
                 $requestInscritos = $this->select($sqlInscritos);
-                $request['planteles'] = $requestPlanteles['total'];
+                $request['planteles'] = count($requestPlanteles);
                 $request['prospectos'] = $requestProspectos['total'];
                 $request['inscritos'] = $requestInscritos['total'];
                 $request['tipo'] = "all";
             }else{
-                $sqlPlanteles = "SELECT COUNT(*) AS total FROM t_inscripciones AS ins
-                INNER JOIN t_plan_estudios AS pe ON ins.id_plan_estudios = pe.id
-                WHERE ins.grado = 1 AND pe.id_plantel  = $plantel";
+                /*$sqlPlanteles = "SELECT COUNT(*) AS total FROM t_inscripciones AS ins
+                RIGHT JOIN t_plan_estudios AS pe ON ins.id_plan_estudios = pe.id
+                WHERE pe.id_plantel  = $plantel";
                 $requestPlanteles = $this->select($sqlPlanteles);
-                $requestPlanteles = $this->select($sqlPlanteles);
+                $requestPlanteles = $this->select($sqlPlanteles);*/
                 $sqlProspectos = "SELECT COUNT(*) AS total FROM t_personas AS per
                 WHERE per.estatus !=0 AND per.id_plantel_interes = $plantel AND per.id_categoria_persona = 1";
                 $requestProspectos = $this->select($sqlProspectos);
                 $sqlInscritos = "SELECT COUNT(*) AS total FROM t_inscripciones AS ins
                 INNER JOIN t_plan_estudios AS pe ON ins.id_plan_estudios = pe.id
-                WHERE ins.tipo_ingreso = 'Inscripcion' AND ins.grado = 1 AND pe.id_plantel = $plantel";
+                WHERE ins.tipo_ingreso = 'Inscripcion' AND pe.id_plantel = $plantel";
                 $requestInscritos = $this->select($sqlInscritos);
                 $request['prospectos'] = $requestProspectos['total'];
                 $request['inscritos'] = $requestInscritos['total'];
@@ -57,8 +58,7 @@
         public function selectPlantelesInscripcion(){
             $sql = "SELECT p.id, p.abreviacion_plantel,p.abreviacion_sistema,p.municipio FROM t_inscripciones AS ins
             INNER JOIN t_plan_estudios AS pe ON ins.id_plan_estudios = pe.id
-            INNER JOIN t_planteles AS p ON pe.id_plantel = p.id
-            WHERE ins.grado = 1";
+            INNER JOIN t_planteles AS p ON pe.id_plantel = p.id";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -71,7 +71,7 @@
         public function selectInscritosbyPlantel(int $idPlantel){
             $sql = "SELECT COUNT(*) AS total FROM t_inscripciones AS ins
             INNER JOIN t_plan_estudios AS pe ON ins.id_plan_estudios = pe.id
-            WHERE ins.tipo_ingreso = 'Inscripcion' AND ins.grado = 1 AND pe.id_plantel = $idPlantel";
+            WHERE ins.tipo_ingreso = 'Inscripcion' AND pe.id_plantel = $idPlantel";
             $request = $this->select($sql);
             return $request;
         }
