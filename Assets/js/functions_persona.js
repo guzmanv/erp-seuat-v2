@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function(){
         },
         "columns":[
             {"data":"numeracion"},
+            {"data":"alias"},
             {"data":"nombre_persona"},
 			{"data":"apellidos"},
             {"data":"email"},
@@ -43,26 +44,13 @@ formPersonaNueva.onsubmit = function(e){
     document.querySelector("#idNuevo").value = 1;
 
     let txtNombre = document.querySelector('#txtNombreNuevo').value;
-    let txtAppParerno = document.querySelector('#txtApellidoPaNuevo').value;
-    let txtAppMaterno = document.querySelector('#txtApellidoMaNuevo').value;
+    let txtAlias = document.querySelector('#txtAliasNuevo').value;
     let txtSexo = document.querySelector('#listSexoNuevo').value;
-    let txtEdad = document.querySelector('#txtEdadNuevo').value;
-    let txtEstadoCivil = document.querySelector('#listEstadoCivilNuevo').value;
-    let txtFechaNac = document.querySelector('#txtFechaNacimientONuevo').value;
-    let txtOcupacion = document.querySelector('#txtOcupacionNuevo').value;
-    let txtTelCel = document.querySelector('#txtTelCelNuevo').value;
-    let txtEscolaridad = document.querySelector('#listEscolaridadNuevo').value;
-    let txtEstado = document.querySelector('#listEstadoNuevo').value;
-    let txtMunicipio = document.querySelector('#listMunicipioNuevo').value;
+    let txtMedioCaptacion = document.querySelector('#listMediosCaptacion').value;
     let txtLocalidad = document.querySelector('#listLocalidadNuevo').value;
-    let txtColonia = document.querySelector('#txtColoniaNuevo').value;
-    let txtCP = document.querySelector('#txtCPNuevo').value;
-    let txtDireccion = document.querySelector('#txtDireccionNuevo').value;
+    let txtObservacion = document.querySelector('#txtObservacion').value;
 
-    if (txtNombre == '' || txtAppParerno == '' || txtAppMaterno == '' || txtSexo == '' || txtEdad == '' 
-    || txtEstadoCivil == '' || txtFechaNac == '' || txtOcupacion == '' || txtTelCel == '' 
-    || txtEscolaridad == ''
-    || txtEstado == '' || txtMunicipio == '' || txtLocalidad == '' || txtColonia == '' || txtCP == '' || txtDireccion == ''){
+    if (txtNombre == '' || txtAlias == '' || txtSexo == '' || txtMedioCaptacion == '' || txtLocalidad == '' || txtObservacion == ''){
         swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
         return false;
     }
@@ -218,9 +206,9 @@ function fntEditPersona(idPersona){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
             if(objData){
-                console.log(objData);
                 document.querySelector("#idEdit").value = objData.id;
                 document.querySelector("#txtNombreEdit").value = objData.nombre_persona;    
+                document.querySelector("#txtAliasEdit").value = objData.alias;    
                 document.querySelector("#txtApellidoPaEdit").value = objData.ap_paterno;
                 document.querySelector("#txtApellidoMaEdit").value = objData.ap_materno;
                 document.querySelector("#txtDireccionEdit").value = objData.direccion;
@@ -231,16 +219,30 @@ function fntEditPersona(idPersona){
                 document.querySelector("#txtTelCelEdit").value = objData.tel_celular;
                 document.querySelector("#txtTelFiEdit").value = objData.tel_fijo;
                 document.querySelector("#txtEmailEdit").value = objData.email;
-                document.querySelector('#listEstadoCivilEdit').querySelector('option[value="'+objData.edo_civil+'"]').selected = true;
+                if(objData.edo_civil == null){
+                    document.querySelector('#listEstadoCivilEdit').querySelector('option[value=""]').selected = true;
+                }else{
+                    document.querySelector('#listEstadoCivilEdit').querySelector('option[value="'+objData.edo_civil+'"]').selected = true;
+                }
                 document.querySelector("#txtOcupacionEdit").value = objData.ocupacion;
-                //document.querySelector("#txtValidacionEdit").value = objData.validacion;
-                document.querySelector('#listEscolaridadEdit').querySelector('option[value="'+objData.id_escolaridad+'"]').selected = true;
-                document.querySelector('#listPlantelInteresEdit').querySelector('option[value="'+objData.id_plantel_interes+'"]').selected = true;
-                document.querySelector('#listCarreraInteresEdit').innerHTML = "<option>"+objData.carrera_interes+"</option>"
+                if(objData.id_escolaridad == null){
+                    document.querySelector('#listEscolaridadEdit').querySelector('option[value=""]').selected = true;
+                }else{
+                    document.querySelector('#listEscolaridadEdit').querySelector('option[value="'+objData.id_escolaridad+'"]').selected = true;
+                }
+                if(objData.id_plantel_interes == null){
+                    document.querySelector('#listPlantelInteresEdit').querySelector('option[value=""]').selected = true;
+                }else{
+                    document.querySelector('#listPlantelInteresEdit').querySelector('option[value="'+objData.id_plantel_interes+'"]').selected = true;
+                }
                 document.querySelector('#txtMedioCaptacionEdit').value = objData.medio_captacion;
                 document.querySelector('#txtNombreEscuelaProcEdit').value = objData.escuela_procedencia;
                 document.querySelector("#txtFechaNacimientoEdit").value = objData.fecha_nacimiento;
-                document.querySelector('#listNivelCarreraInteresEdit').querySelector('option[value="'+objData.id_nivel_carrera_interes+'"]').selected = true;
+                if(objData.id_nivel_carrera_interes == null){
+                    document.querySelector('#listNivelCarreraInteresEdit').querySelector('option[value=""]').selected = true;
+                }else{
+                    document.querySelector('#listNivelCarreraInteresEdit').querySelector('option[value="'+objData.id_nivel_carrera_interes+'"]').selected = true;
+                }
                 let urlCarreraInteres = base_url+"/Persona/getCarrerasInteres?idNivel="+objData.id_nivel_carrera_interes;
                 fetch(urlCarreraInteres)
                 .then(res => res.json())
@@ -330,14 +332,10 @@ var formEditPersona = document.querySelector("#formPersonaEdit");
         e.preventDefault();
         var intId = document.querySelector("#idEdit").value;
         var strNombre = document.querySelector("#txtNombreEdit").value;
-        var strApellidoPat = document.querySelector("#txtApellidoPaEdit").value;
-        var strApellidoMat = document.querySelector("#txtApellidoMaEdit").value;
-        var strTelCel = document.querySelector("#txtTelCelEdit").value;
-        var strTelFij = document.querySelector("#txtTelFiEdit").value;
-        let intPlantel = document.querySelector('#listPlantelInteresEdit').value;
+        var strAlias = document.querySelector("#txtAliasEdit").value;
+        var strObservaciones = document.querySelector("#txtObservacionEdit").value;
 
-        if (intId == '' || strNombre == '' || strApellidoPat == '' || strApellidoMat == '' 
-        || strTelCel == '' || strTelFij == ''|| intPlantel == ''){
+        if (intId == '' || strNombre == '' || strAlias == '' || strObservaciones == ''){
             swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
             return false;
         }
@@ -376,6 +374,7 @@ function fntVerPersona(idPersona){
             if(objData){
                 document.querySelector("#idVer").value = objData.id;
                 document.querySelector("#txtNombreVer").value = objData.nombre_persona;    
+                document.querySelector("#txtAliasVer").value = objData.alias;    
                 document.querySelector("#txtApellidoPaVer").value = objData.ap_paterno;
                 document.querySelector("#txtApellidoMaVer").value = objData.ap_materno;
                 document.querySelector("#txtDireccionVer").value = objData.direccion;

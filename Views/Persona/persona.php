@@ -33,6 +33,7 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
+                                                <th>Alias</th>
                                                 <th>Nombre</th>
                                                 <th>Apellidos</th>
                                                 <th>Email</th>

@@ -1,5 +1,6 @@
 <?php
     class Persona extends Controllers{
+        private $idUser;
         public function __construct(){
             parent::__construct();
             session_start();
@@ -8,6 +9,7 @@
 			    header('Location: '.base_url().'/login');
 			    die();
 		    }
+            $this->idUser = $_SESSION['idUser'];
         }
         public function persona(){
             $data['page_id'] = 9;
@@ -53,7 +55,7 @@
                         <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnVerPersona" onClick="fntVerPersona('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalFormVerPersona" title="Ver"> &nbsp;&nbsp; <i class="fas fa-eye icono-azul"></i> &nbsp; Ver</button>
 						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditPersona" onClick="fntEditPersona('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalFormEditPersona" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>
 						<div class="dropdown-divider"></div>
-						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelPersona" onClick="fntDelPersona('.$arrData[$i]['id'].')" title="Eliminar"> &nbsp;&nbsp; <i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>
+						<!--<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelPersona" onClick="fntDelPersona('.$arrData[$i]['id'].')" title="Eliminar"> &nbsp;&nbsp; <i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>-->
 						<!--<a class="dropdown-item" href="#">link</a>-->
 					</div>
 				</div>
@@ -73,7 +75,7 @@
                 $intIdPersonaEdit = intval($_POST['idEdit']);
             }
             if($intIdPersonaNueva == 1){
-                $arrData = $this->model->insertPersona($data);
+                $arrData = $this->model->insertPersona($data,$this->idUser);
                 if($arrData){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
                 }else{
@@ -81,7 +83,7 @@
                 }
             }
             if($intIdPersonaEdit !=0){
-                $arrData = $this->model->updatePersona($intIdPersonaEdit,$data);
+                $arrData = $this->model->updatePersona($intIdPersonaEdit,$data,$this->idUser);
                 if($arrData){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos Actualizados Correctamente');
                 }else{

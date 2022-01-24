@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="ModalFormEditPersona" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header headerUpdated">
                 <h5 class="modal-title" id="titleModalEdit">Editar Persona</h5>
@@ -13,22 +13,27 @@
                     <form id="formPersonaEdit" name="formPersonaEdit">
                         <input type="hidden" id="idEdit" name="idEdit" value="">
                         <div class="card-body">
+                            <small class="text-muted pb-4">Los campos con asterisco (<span class="required">*</span>) son obligatorios..</small>
                             <div class="row" >
-                                    <div class="form-group col-md-4">
-                                        <label>Nombre</label>
+                                    <div class="form-group col-md-3">
+                                        <label for="txtNombreEdit">Nombre <span class="required">*</span></label>
                                         <input type="text" id="txtNombreEdit" name="txtNombreEdit" class="form-control form-control-sm " placeholder="Nombre"  required>
                                     </div>
-                                    <div class="form-group col-md-4">
-                                        <label>Apellido Paterno</label>
-                                        <input type="text" id="txtApellidoPaEdit" name="txtApellidoPaEdit" class="form-control form-control-sm" placeholder="Apellido paterno"   required>
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label>Apellido Materno</label>
-                                        <input type="text" id="txtApellidoMaEdit" name="txtApellidoMaEdit" class="form-control form-control-sm" placeholder="Apellido materno"   required>
+                                    <div class="form-group col-md-3">
+                                        <label for="txtAliasEdit">Alias <span class="required">*</span></label>
+                                        <input type="text" id="txtAliasEdit" name="txtAliasEdit" class="form-control form-control-sm" placeholder="Alias" maxlength="45" required>
                                     </div>
                                     <div class="form-group col-md-3">
+                                        <label>Apellido Paterno</label>
+                                        <input type="text" id="txtApellidoPaEdit" name="txtApellidoPaEdit" class="form-control form-control-sm" placeholder="Apellido paterno">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>Apellido Materno</label>
+                                        <input type="text" id="txtApellidoMaEdit" name="txtApellidoMaEdit" class="form-control form-control-sm" placeholder="Apellido materno">
+                                    </div>
+                                    <div class="form-group col-md-2">
                                         <label>Sexo</label>
-                                        <select class="form-control form-control-sm" id="listSexoEdit" name="listSexoEdit" required disabled>
+                                        <select class="form-control form-control-sm" id="listSexoEdit" name="listSexoEdit" disabled>
                                         <option value="">Seleccionar</option>
                                         <option value="H">H</option>
                                         <option value="M">M</option>
@@ -36,31 +41,31 @@
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label>Edad</label>
-                                        <input type="text" id="txtEdadEdit" name="txtEdadEdit" class="form-control form-control-sm" placeholder="Edad"  required disabled>
+                                        <input type="text" id="txtEdadEdit" name="txtEdadEdit" class="form-control form-control-sm" placeholder="Edad">
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-2">
                                         <label>Estado Civil</label>
-                                        <select class="form-control form-control-sm" id="listEstadoCivilEdit" name="listEstadoCivilEdit" required disabled>
+                                        <select class="form-control form-control-sm" id="listEstadoCivilEdit" name="listEstadoCivilEdit">
                                         <option value="">Seleccionar</option>
                                         <option value="Soltero">Soltero(a)</option>
                                         <option value="Casado">Casado(a)</option>
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3">
                                         <label>Fecha de Nacimiento</label>
-                                        <input type="date" id="txtFechaNacimientoEdit"  name="txtFechaNacimientoEdit" class="form-control form-control-sm form-control form-control-sm-sm" required disabled>
+                                        <input type="date" id="txtFechaNacimientoEdit"  name="txtFechaNacimientoEdit" class="form-control form-control-sm form-control form-control-sm-sm">
                                     </div>
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3">
                                         <label>CURP</label>
-                                        <input type="text" id="txtCURPEdit" name="txtCURPEdit" class="form-control form-control-sm form-control form-control-sm-sm"  placeholder="CURP" required disabled>
+                                        <input type="text" id="txtCURPEdit" name="txtCURPEdit" class="form-control form-control-sm form-control form-control-sm-sm"  placeholder="CURP">
                                     </div>
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3">
                                         <label>Ocupacion</label>
-                                        <input type="text" id="txtOcupacionEdit" name="txtOcupacionEdit" class="form-control form-control-sm" placeholder="Ocupación"  required disabled>
+                                        <input type="text" id="txtOcupacionEdit" name="txtOcupacionEdit" class="form-control form-control-sm" placeholder="Ocupación">
                                     </div>
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3">
                                         <label>Categoria Persona</label>
-                                        <select class="form-control form-control-sm" id="listCategoriaEdit" name="listCategoriaEdit" required  disabled>
+                                        <select class="form-control form-control-sm" id="listCategoriaEdit" name="listCategoriaEdit" disabled>
                                         <option value="">Seleccionar</option>
                                         <?php 
                                             foreach ($data['categoria_persona'] as $value) {
@@ -71,17 +76,17 @@
                                         ?>
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3">
                                         <label>Telefono Celular</label>
-                                        <input type="text" id="txtTelCelEdit" name="txtTelCelEdit" class="form-control form-control-sm" placeholder="Telefono celular"   required>
+                                        <input type="text" id="txtTelCelEdit" name="txtTelCelEdit" class="form-control form-control-sm" placeholder="Telefono celular">
                                     </div>
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3">
                                         <label>Telefono Fijo</label>
-                                        <input type="text" id="txtTelFiEdit" name="txtTelFiEdit" class="form-control form-control-sm" placeholder="Telefono fijo"  required>
+                                        <input type="text" id="txtTelFiEdit" name="txtTelFiEdit" class="form-control form-control-sm" placeholder="Telefono fijo">
                                     </div>
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3">
                                         <label>Escolaridad</label>
-                                        <select class="form-control form-control-sm" id="listEscolaridadEdit" name="listEscolaridadEdit" required disabled>
+                                        <select class="form-control form-control-sm" id="listEscolaridadEdit" name="listEscolaridadEdit">
                                             <option value="">Seleccionar</option>
                                             <?php 
                                                 foreach ($data['grados_estudios'] as $value) {
@@ -92,9 +97,9 @@
                                             ?>
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-8">
+                                    <div class="form-group col-md-5">
                                         <label>Plantel de interés</label>
-                                        <select class="form-control form-control-sm" id="listPlantelInteresEdit" name="listPlantelInteresEdit" required>
+                                        <select class="form-control form-control-sm" id="listPlantelInteresEdit" name="listPlantelInteresEdit">
                                             <option value="">Seleccionar</option>
                                             <?php  foreach ($data['planteles'] as $key => $plantel) { ?>
                                                 <option value="<?php echo $plantel['id'] ?>"><?php echo($plantel['nombre_plantel'].'('.$plantel['municipio'].')') ?></option>
@@ -103,7 +108,7 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Nivel carrera de interés</label>
-                                        <select class="form-control form-control-sm" id="listNivelCarreraInteresEdit" name="listNivelCarreraInteresEdit" onchange="nivelCarreraInteresSeleccionadoEdit(value)" required disabled>
+                                        <select class="form-control form-control-sm" id="listNivelCarreraInteresEdit" name="listNivelCarreraInteresEdit" onchange="nivelCarreraInteresSeleccionadoEdit(value)">
                                             <option value="">Seleccionar</option>
                                             <?php 
                                                 foreach ($data['grados_estudios'] as $value) {
@@ -115,28 +120,28 @@
                                         </select>
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-3">
                                         <label>Carrera de interés</label>
-                                        <select class="form-control form-control-sm form-control form-control-sm-sm" id="listCarreraInteresEdit"  name="listCarreraInteresEdit" required disabled>
+                                        <select class="form-control form-control-sm form-control form-control-sm-sm" id="listCarreraInteresEdit"  name="listCarreraInteresEdit">
                                         <option value="">Seleccionar</option>
                                         
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-3">
                                         <label>Medio de captación</label>
-                                        <input type="text" id="txtMedioCaptacionEdit" class="form-control form-control-sm"   disabled>
+                                        <input type="text" id="txtMedioCaptacionEdit" name = "txtMedioCaptacionEdit" class="form-control form-control-sm" disabled>
                                     </div>
-                                    <div class="form-group col-md-8">
+                                    <div class="form-group col-md-6">
                                         <label>Escuela de procedencia</label>
-                                        <input type="text" id="txtNombreEscuelaProcEdit" class="form-control form-control-sm" disabled>
+                                        <input type="text" id="txtNombreEscuelaProcEdit" name = "txtNombreEscuelaProcEdit" class="form-control form-control-sm">
                                     </div>
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3">
                                         <label>Email</label>
-                                        <input type="text" id="txtEmailEdit" name="txtEmailEdit" class="form-control form-control-sm" placeholder="Email"  required disabled>
+                                        <input type="text" id="txtEmailEdit" name="txtEmailEdit" class="form-control form-control-sm" placeholder="Email">
                                     </div>
-                                    <div class="form-group col-md-4">
-                                        <label>Estado</label>
-                                        <select class="form-control form-control-sm" id="listEstadoEdit" name="listEstadoEdit" onchange="estadoSeleccionadoEdit(value)" required disabled>
+                                    <div class="form-group col-md-3">
+                                        <label >Estado </label>
+                                        <select class="form-control form-control-sm" id="listEstadoEdit" name="listEstadoEdit" onchange="estadoSeleccionadoEdit(value)" disabled>
                                             <option value="">Seleccionar</option>
                                             <?php 
                                                 foreach ($data['estados'] as $value) {
@@ -147,33 +152,33 @@
                                             ?>
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-4">
-                                        <label>Municipio</label>
-                                        <select class="form-control form-control-sm" id="listMunicipioEdit" name="listMunicipioEdit" onchange="municipioSeleccionadoEdit(value)" required disabled>
+                                    <div class="form-group col-md-3">
+                                        <label >Municipio </label>
+                                        <select class="form-control form-control-sm" id="listMunicipioEdit" name="listMunicipioEdit" onchange="municipioSeleccionadoEdit(value)" disabled>
                                             <option value="">Seleccionar</option>
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3">
                                         <label>Localidad</label>
-                                        <select class="form-control form-control-sm" id="listLocalidadEdit" name="listLocalidadEdit" required disabled>
+                                        <select class="form-control form-control-sm" id="listLocalidadEdit" name="listLocalidadEdit" disabled>
                                         <option value="">Seleccionar</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-10">
                                         <label>Colonia</label>
-                                        <input type="text" id="txtColoniaEdit" name="txtColoniaEdit" class="form-control form-control-sm" placeholder="Colonia"  required disabled>
+                                        <input type="text" id="txtColoniaEdit" name="txtColoniaEdit" class="form-control form-control-sm" placeholder="Colonia">
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label>CP</label>
-                                        <input type="text" id="txtCPEdit" name="txtCPEdit" class="form-control form-control-sm" placeholder="CP"   required disabled>
+                                        <input type="text" id="txtCPEdit" name="txtCPEdit" class="form-control form-control-sm" placeholder="CP">
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label>Direccion</label>
-                                        <input type="text" id="txtDireccionEdit" name="txtDireccionEdit" class="form-control form-control-sm" placeholder="Direccion" required disabled>   
+                                        <input type="text" id="txtDireccionEdit" name="txtDireccionEdit" class="form-control form-control-sm" placeholder="Direccion">   
                                     </div> 
                                     <div class="form-group col-md-12">
-                                        <label>Observación</label>
-                                        <textarea id="txtObservacionEdit" class="form-control form-control-sm" disabled></textarea>
+                                        <label for="txtObservacionEdit">Observación <span class="required">*</span></label>
+                                        <textarea id="txtObservacionEdit" name="txtObservacionEdit" class="form-control form-control-sm" required></textarea>
                                     </div>                                
                                     <!-- <div class="form-group col-md-2">
                                         <label>Estatus</label>
