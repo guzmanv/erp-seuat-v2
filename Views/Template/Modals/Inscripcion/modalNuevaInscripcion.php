@@ -82,7 +82,14 @@
                                             <div class="form-group col-md-12">
                                                 <label><b>Campaña</b></label>
                                                 <input type="hidden" id="idSubcampaniaNuevo" name="idSubcampaniaNuevo" value="<?php echo $data['subcampanias']['id_subcampania']?>">
-                                                <p>Estas inscribiendo a la <span class="badge badge-warning"><?php echo $data['subcampanias']['nombre_sub_campania']?></span></p>                            
+                                                <p>Estas inscribiendo a la <span class="badge badge-warning"><?php echo $data['subcampanias']['nombre_sub_campania']?></span>&nbsp&nbsp 
+                                                <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>                           </p>
+                                                <div class="col-md-6 row">
+                                                    <select class="form-control form-control-sm col-10" id="listCampaniaSubCampania" name="listCampaniaSubCampania" required>
+                                                    <option value="">Seleccionar</option>
+                                                    </select> 
+                                                    <div class="col-2"><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalNombrePersona"><i class="fa fa-times"></i></button></div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>    
