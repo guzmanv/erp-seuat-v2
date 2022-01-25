@@ -70,7 +70,7 @@ function fnListaInscritos(answer){
             var contador = 0;
 			resultado.forEach(element => {
                 contador += 1;
-                document.getElementById('valoresListaInscritos').innerHTML +='<tr><td>'+contador+'</td><td>'+element.nombre_persona+'</td><td>'+element.apellidos+'</td><td><button type="button" class="btn btn-outline-secondary btn-primary btn-sm icono-color-principal btn-inline" style="display: inline;" onclick="fnImprimirSolInscripcion('+element.id+')"><i class="fas fa-print icono-azul"></i></i><span> Imprimir</span></button></td></tr>'
+                document.getElementById('valoresListaInscritos').innerHTML +='<tr><td class="text-center"><input type="checkbox" aria-label="check" id="'+element.id+'"></td><td>'+contador+'</td><td>'+element.nombre_persona+'</td><td>'+element.apellidos+'</td><td><button type="button" class="btn btn-outline-secondary btn-secondary btn-sm" onclick=fnBtnDesInscribir('+element.id+')>Cancelar</button></td><td><button type="button" class="btn btn-outline-secondary btn-primary btn-sm icono-color-principal btn-inline" style="display: inline;" onclick="fnImprimirSolInscripcion('+element.id+')"><i class="fas fa-print icono-azul"></i></i><span> Imprimir</span></button></td></tr>'
             });
         })
         .catch(err => { throw err });
@@ -442,4 +442,116 @@ function campaniaSeleccionada(value){
         document.querySelector('#idSubcampaniaNuevo').value =idSubCampania;
     }
 }
+function fnCheckAllInscritos(){
+    let check = document.querySelector('#tableListaInscritos');
+    let arrInput = check.getElementsByTagName("input");
+    if(document.querySelector('#checkAllInscritos').checked == true){
+        arrInput.forEach(element => {
+            element.checked = true;
+        });
+        document.querySelector('#listAccionesUsSel').disabled = false;
+    }else{
+        arrInput.forEach(element => {
+            element.checked = false;
+        }); 
+        document.querySelector('#listAccionesUsSel').disabled = true;
+    }
+}
+function fnBtnDesInscribir(value){
+    Swal.fire({
+        title: 'Des-inscribir',
+        text: "¿Realmente desea des-inscribir al usuario 'Alumno' (Previamente inscrito)?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, des-inscribir',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let url = `${base_url}/Inscripcion/des_inscribir/${value}`;
+            fetch(url)
+            .then(res => res.json())
+            .then((resultado) => {
+                if(resultado.estatus){
+                    tableInscripciones.api().ajax.reload();
+                    $('#cerrarModalListaInscritos').click();
+                    Swal.fire(
+                        'Exito!',
+                        resultado.msg,
+                        'success'
+                    )
+                }
+            })
+            .catch(err => { throw err });
+        }
+    })
+}
+function accionesUsuariosSeleccionados(value){
+    let check = document.querySelector('#tableListaInscritos');
+    let arrInput = check.getElementsByTagName("input");
+    let arrCheck = [];
+    if(value != ''){
+        if(value == 0){
+            arrInput.forEach(element => {
+                if(parseInt(element.id) && element.checked){
+                    let arr = {'id_inscripcion':parseInt(element.id),'estatus_check':element.checked}
+                    arrCheck.push(arr);
+                }
+            });
+            if(arrCheck.length >=1){
+                Swal.fire({
+                    title: 'Des-inscribir',
+                    text: "¿Realmente desea des-inscribir al los usuarios 'Alumnos' (Previamente inscritos)?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, des-inscribir',
+                    cancelButtonText: 'No'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let url = `${base_url}/Inscripcion/des_inscribir_usuarios/${jsonToString(arrCheck)}`;
+                        fetch(url)
+                        .then(res => res.json())
+                        .then((resultado) => {
+                            console.log(resultado);
+                            /* if(resultado.estatus){
+                                tableInscripciones.api().ajax.reload();
+                                $('#cerrarModalListaInscritos').click();
+                                Swal.fire(
+                                    'Exito!',
+                                    resultado.msg,
+                                    'success'
+                                )
+                            } */
+                        })
+                        .catch(err => { throw err });
+                    }
+                })
+            }
+        }else if(value == 1){
+            arrInput.forEach(element => {
+                if(parseInt(element.id)){
+                    let arr = {'id_inscripcion':parseInt(element.id),'estatus_check':element.checked}
+                    arrCheck.push(arr);
+                }
+            }); 
+        }
+    }
+}
 
+
+askaokdokasojdfijsaifuihaulhlas
+asfksdoajfioñdjas
+sdjafijsdaijgfisda
+sdafijsdifias
+dasjfidasjifiasd
+asdjfijasdifj
+adfjsaijsdaifjidasjifjiasdf
+dsaifji
+console.log(arrCkeckedInput);
+//Funcion para convertir json a String
+function jsonToString(json){
+    return JSON.stringify(json);
+}

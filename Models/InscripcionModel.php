@@ -28,6 +28,8 @@
                                 LEFT JOIN t_grupos AS grup ON sal.id_grupo = grup.id
                                 INNER JOIN t_planteles AS plant ON plan.id_plantel = plant.id
                                 INNER JOIN t_turnos AS tur ON ins.id_horario = tur.id
+                                INNER JOIN t_historiales AS h ON ins.id_historial = h.id
+                                WHERE h.inscrito = 1
                                 GROUP BY plan.nombre_carrera,ins.grado,tur.nombre_turno HAVING COUNT(*)>=1";
                 $request = $this->select_all($sql);
             }else{
@@ -213,7 +215,8 @@
         public function selectInscritos(int $idCarrera, int $grado, int $turno){
             $sql = "SELECT ins.id,per.nombre_persona,CONCAT(per.ap_paterno,' ',per.ap_materno) AS apellidos FROM t_inscripciones AS ins
             INNER JOIN t_personas AS per ON ins.id_personas = per.id
-            WHERE ins.id_plan_estudios = $idCarrera AND ins.grado = $grado AND ins.id_horario = $turno";
+            INNER JOIN t_historiales AS h ON ins.id_historial = h.id
+            WHERE ins.id_plan_estudios = $idCarrera AND ins.grado = $grado AND ins.id_horario = $turno AND h.inscrito = 1";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -247,6 +250,18 @@
             INNER JOIN t_detalle_documentos AS dest ON dest.id_documentos = doc.id
             WHERE plnest.id = $idPlanEstudios";
             $request = $this->select_all($sql);
+            return $request;
+        }
+        public function updateEstatusInscripcion(int $idInscripcion){
+            $sqlHistorial = "SELECT id_historial FROM t_inscripciones AS i
+            INNER JOIN t_historiales AS h ON i.id_historial = h.id
+            WHERE i.id = $idInscripcion LIMIT 1";
+            $requestHistorial = $this->select($sqlHistorial);
+            if($requestHistorial){
+                $idHistorial = $requestHistorial['id_historial'];
+                $sql = "UPDATE t_historiales SET inscrito = ?,cancelado = ?,fecha_cancelado = NOW() WHERE id= $idHistorial";
+                $request = $this->update($sql,array(0,1));
+            }
             return $request;
         }
     }

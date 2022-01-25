@@ -190,5 +190,20 @@
             $data['doc'] = $arrDataDoc;
             $this->views->getView($this,"viewpdf",$data);
         }
+        public function des_inscribir(int $idInscripcion){
+            $request = $this->model->updateEstatusInscripcion($idInscripcion);
+            if($request){
+                $arrResponse = array('estatus' => true, 'msg' => 'Inscripcion cancelada');
+            }else{
+                $arrResponse = array('estatus' => false, 'msg' => 'No es posible la cancelación');
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function des_inscribir_usuarios($arr){
+            $arr = json_decode($arr);
+            echo json_encode($arr,JSON_UNESCAPED_UNICODE);
+            die();
+        }
     }
 ?>
