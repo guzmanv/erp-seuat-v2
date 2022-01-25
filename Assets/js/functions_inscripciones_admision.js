@@ -2,6 +2,7 @@ var tableInscripciones;
 var idPersonaSeleccionada;
 var formInscripcionNueva = document.querySelector("#formInscripcionNueva");
 var formTutorNuevo = document.querySelector("#formAgregarTutor");
+let divCambiarSubcampania = document.querySelector('.cambiarsubcampania');
 
 document.getElementById("btnAnterior").style.display = "none";
 document.getElementById("btnAnteriorEdit").style.display = "none";
@@ -13,6 +14,8 @@ var tabActual = 0;
 var tabActualEdit = 0;
 mostrarTab(tabActual);
 mostrarTabEdit(tabActualEdit);
+
+divCambiarSubcampania.style.display = "none";
 
 document.addEventListener('DOMContentLoaded', function(){
 	fnPlantelSeleccionadoDatatable(document.querySelector('#listPlantelDatatable').value);
@@ -422,5 +425,21 @@ function fnPlantelSeleccionadoDatatable(value){
 function fnImprimirSolInscripcion(value){
     var idInscripcion = value;
     window.open(base_url+'/Inscripcion/imprimir_solicitud_inscripcion/'+idInscripcion, '_blank');
+}
+
+function fnCambiarCamSubcampania(){
+    divCambiarSubcampania.style.display = "flex";
+}
+function fnQuitCambiarSubCampania(){
+    divCambiarSubcampania.style.display = "none";
+}
+
+function campaniaSeleccionada(value){
+    if(value != ''){
+        let idSubCampania = value;
+        let str = document.querySelector('.listCampSub').options[document.querySelector('.listCampSub').selectedIndex].text;
+        document.querySelector('.nombrecampania').textContent = str;
+        document.querySelector('#idSubcampaniaNuevo').value =idSubCampania;
+    }
 }
 

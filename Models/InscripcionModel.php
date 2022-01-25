@@ -173,10 +173,11 @@
             return $request;
         }
         public function selectSubcampanias(){
-            $sql = "SELECT camp.id AS id_campania, subc.id AS id_subcampania, subc.nombre_sub_campania FROM t_subcampania AS subc
-            INNER JOIN t_campanias AS camp ON subc.id_campania = camp.id 
-            WHERE subc.estatus = 1";
-            $request = $this->select($sql);
+            $sql = "SELECT c.id AS id_campania,c.nombre_campania,c.fecha_fin AS fecha_fin_campania,s.id AS id_subcampania,s.nombre_sub_campania,s.fecha_fin AS fecha_fin_subcampania FROM t_campanias AS c
+            RIGHT JOIN t_subcampania AS s ON s.id_campania = c.id
+            WHERE c.fecha_fin >= NOW()
+            ORDER BY c.fecha_fin DESC";
+            $request = $this->select_all($sql);
             return $request;
         }
         public function selectPlanes(){
