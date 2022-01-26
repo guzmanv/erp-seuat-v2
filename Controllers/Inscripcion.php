@@ -202,7 +202,34 @@
         }
         public function des_inscribir_usuarios($arr){
             $arr = json_decode($arr);
-            echo json_encode($arr,JSON_UNESCAPED_UNICODE);
+            foreach ($arr as $key => $value) {
+                if($value->estatus_check){
+                    $request = $this->model->updateEstatusInscripcion($value->id_inscripcion);
+                    if($request){
+                        $arrResponse = array('estatus' => true, 'msg' => 'Inscripciones canceladas');
+                    }else{
+                        $arrResponse = array('estatus' => false, 'msg' => 'No es posible la cancelación');
+                        break;
+                    }
+                }
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function posponer_usuarios($arr){
+            $arr = json_decode($arr);
+            $arrDatos = $arr->datos;
+            $idSubcampania = $arr->idSubcampania;
+            foreach ($arrDatos as $key => $value) {
+                $request = $this->model->updatePosponerInscripcion($value->id_inscripcion,$idSubcampania);
+                if($request){
+                    $arrResponse = array('estatus' => true, 'msg' => 'Inscripciones pospuestos');
+                }else{
+                    $arrResponse = array('estatus' => false, 'msg' => 'No es posible posponer');
+                    break;
+                }
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
     }

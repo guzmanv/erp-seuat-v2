@@ -264,5 +264,17 @@
             }
             return $request;
         }
+        public function updatePosponerInscripcion(int $idInscripcion, int $idSubcampania){
+            $sqlHistorial = "SELECT id_historial FROM t_inscripciones AS i
+            INNER JOIN t_historiales AS h ON i.id_historial = h.id
+            WHERE i.id = $idInscripcion LIMIT 1";
+            $requestHistorial = $this->select($sqlHistorial);
+            if($requestHistorial){
+                $idHistorial = $requestHistorial['id_historial'];
+                $sql = "UPDATE t_historiales SET inscrito = ?,pospuesto = ?,fecha_pospuesto = NOW() WHERE id= $idHistorial";
+                $request = $this->update($sql,array(0,1));
+            }
+            return $request;
+        }
     }
 ?>
