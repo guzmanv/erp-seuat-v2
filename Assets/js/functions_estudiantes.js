@@ -5,6 +5,8 @@ var formDocumentacion = document.querySelector("#formDocumentacionNueva");
 var formDatosPersonales = document.querySelector("#formPersonaEdit");
 var formPrestamoDocumentos = document.querySelector("#formDocumentosEntregados");
 var formEditTutor = document.querySelector("#formEditTutor");
+var formDatosFiscales = document.querySelector("#formDatosFiscales");
+
 document.getElementById("btnAnterior").style.display = "none";
 document.getElementById("btnSiguiente").style.display = "none";
 document.getElementById("btnConfirmPrestamo").style.display = "none";
@@ -964,10 +966,20 @@ function fnCartaAutenticidad(){
     window.open(url, '_blank');
 }
 function fnDatosFiscales(value){
+    formDatosFiscales.reset();
     let idPer = value.getAttribute('idPer');
     let url = base_url+"/Estudiantes/getDatosFiscales/"+idPer;
     fetch(url).then(res => res.json()).then((resDatos) => {
-        console.log(resDatos);
+        document.querySelector('#idPersonaDatosFis').value = idPer;
+        document.querySelector('#txtNombreAlumno').value= `${resDatos.nombre_persona} ${resDatos.ap_paterno} ${resDatos.ap_materno}`;
+        document.querySelector('#txtRFC').value = resDatos.rfc;
+        document.querySelector('#txtNombreSocial').value = resDatos.nombre_social;
+        document.querySelector('#txtCP').value = resDatos.cp;
+        document.querySelector('#txtTelefono').value = resDatos.telefono;
+        document.querySelector('#txtEmail').value = resDatos.email;
+        document.querySelector('#txtTelefono').value = resDatos.telefono;
+        document.querySelector('#txtDireccion').value = resDatos.direccion;
+        document.querySelector('#txtLugar').value = resDatos.lugar;
     })
 }
 function fnDateDatePicker(){
@@ -981,7 +993,53 @@ function fnDateDatePicker(){
     var actual = n.getFullYear() + '-' + mes + '-' + dia;
     return actual;
 }
+
+formDatosFiscales.onsubmit = function(e){
+    e.preventDefault();
+        let intIdPersona = document.querySelector('#idPersonaDatosFis').value;
+        let strRFC = document.querySelector('#txtRFC').value;
+        let strRazonSocial = document.querySelector('#txtNombreSocial').value;
+        let intCP = document.querySelector('#txtCP').value;
+        let intTelefono = document.querySelector('#txtTelefono').value;
+        let strEmail = document.querySelector('#txtEmail').value;
+        let strDireccion = document.querySelector('#txtDireccion').value;
+        let strLugar = document.querySelector('#txtLugar').value;
+        if(intIdPersona == '' || strRFC == '' || strRazonSocial == '' || intCP == '' || intTelefono == '' || strEmail == '' || strDireccion == '' || strLugar == ''){
+            swal.fire("Atención", "Algunos campos son obligatorios", "warning");
+            return false;
+        }
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = base_url+'/Estudiantes/setDatosFiscales';
+        var formData = new FormData(formDatosFiscales);
+        request.open("POST",ajaxUrl,true);
+        request.send(formData);
+        request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+            var objData = JSON.parse(request.responseText);
+            if(objData.estatus){
+                formDatosFiscales.reset();
+                swal.fire("Datos fiscales", objData.msg, "success").then((result) =>{
+                    $('.close').click();
+                });
+            }else{
+                swal.fire("Datos fiscales", objData.msg, "error").then((result) =>{
+                    $('.close').click();
+                });
+            }
+        }
+        return false;
+    }
+}
+
 function convToBase64(string){
     let value = window.btoa(unescape(encodeURIComponent(string)));
     return value;
 }   
+
+//Funcion para Aceptar solo Numeros en un Input
+function validarNumeroInput(event){
+    if(event.charCode >= 48 && event.charCode <= 57){
+        return true;
+    }
+    return false;
+}

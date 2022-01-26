@@ -341,6 +341,38 @@
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
+        public function setDatosFiscales(){
+            $datos = $_POST;
+            $idAlumno = $datos['idPersonaDatosFis'];
+            $CP = $datos['txtCP'];
+            $direccion = $datos['txtDireccion'];
+            $email = $datos['txtEmail'];
+            $lugar = $datos['txtLugar'];
+            $razonSocial = $datos['txtNombreSocial'];
+            $RFC = $datos['txtRFC'];
+            $telefono = $datos['txtTelefono'];
+            $respondeStatusDatFiscales = $this->model->selectStatusDatosFiscales($idAlumno);
+            if($respondeStatusDatFiscales['id_datos_fiscales'] == null){
+                $responseDaosFiscales = $this->model->insertDatosFiscales($idAlumno,$CP,$direccion,$email,$lugar,$razonSocial,$RFC,$telefono);
+                if($responseDaosFiscales){
+                    $responseEstatusDatFisPersona = $this->model->updateDatFiscPersona($idAlumno,$responseDaosFiscales);
+                    if($responseEstatusDatFisPersona){
+                        $arrResponse = array('estatus' => true, 'msg' => 'Datos fiscales agregado correctamente');
+                    }else{
+                        $arrResponse = array('estatus' => false, 'msg' => 'No es posible agregar los datos');
+                    }
+                }
+            }else{
+                $response = $this->model->updateDatosFiscales($respondeStatusDatFiscales['id_datos_fiscales'],$CP,$direccion,$email,$lugar,$razonSocial,$RFC,$telefono);
+                if($response){
+                    $arrResponse = array('estatus' => true, 'msg' => 'Datos fiscales actualizados correctamente');
+                }else{
+                    $arrResponse = array('estatus' => false, 'msg' => 'No es posible actualizar los datos');
+                }
+            }
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            die();
+        }
         public function setTutor(){
             $data = $_POST;
             $arrData = $this->model->updateTutorAlumno($data);

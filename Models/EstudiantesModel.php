@@ -348,8 +348,30 @@
             return $requestTutor;
         }
         public function selectDatosFiscales(int $idAlumno){
-            $sql = "SELECT *FROM t_personas AS per INNER JOIN t_datos_fiscales AS datfis ON per.id_datos_fiscales = datfis.id LIMIT 1";
+            $sql = "SELECT *FROM t_personas AS per 
+            LEFT JOIN t_datos_fiscales AS datfis ON per.id_datos_fiscales = datfis.id 
+            WHERE per.id = $idAlumno LIMIT 1";
             $request = $this->select($sql);
+            return $request;
+        }
+        public function selectStatusDatosFiscales(int $idAlumno){
+            $sqlDatosFiscales = "SELECT per.id_datos_fiscales FROM t_personas AS per WHERE per.id = $idAlumno";
+            $requestDatosFiscales = $this->select($sqlDatosFiscales);
+            return $requestDatosFiscales;
+        }
+        public function insertDatosFiscales(int $idAlumno,int $CP,string $direccion,string $email,string $lugar,string $razonSocial,string $RFC,int $telefono){
+            $sql = "INSERT INTO t_datos_fiscales(rfc,nombre_social,direccion,lugar,cp,telefono,email) VALUES(?,?,?,?,?,?,?)";
+            $request = $this->insert($sql,array($RFC,$razonSocial,$direccion,$lugar,$CP,$telefono,$email));
+            return $request;
+        }
+        public function updateDatosFiscales(int $idDatosFiscales,int $CP,string $direccion,string $email,string $lugar,string $razonSocial,string $RFC,int $telefono){
+            $sql = "UPDATE t_datos_fiscales SET rfc = ?,nombre_social = ?,direccion = ?,lugar = ?,cp = ?,telefono = ?,email = ? WHERE id=$idDatosFiscales";
+            $request = $this->update($sql,array($RFC,$razonSocial,$direccion,$lugar,$CP,$telefono,$email));
+            return $request;
+        }
+        public function updateDatFiscPersona(int $idAlumno, int $idDatosFiscales){
+            $sql = "UPDATE t_personas SET id_datos_fiscales = ? WHERE id= $idAlumno";
+            $request = $this->update($sql,array($idDatosFiscales));
             return $request;
         }
         //Obtener datos para la impresion de solicitud de inscripcion
