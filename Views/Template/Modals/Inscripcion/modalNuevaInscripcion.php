@@ -81,8 +81,25 @@
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <label><b>Campaña</b></label>
-                                                <input type="hidden" id="idSubcampaniaNuevo" name="idSubcampaniaNuevo" value="<?php echo $data['subcampanias']['id_subcampania']?>">
-                                                <p>Estas inscribiendo a la <span class="badge badge-warning"><?php echo $data['subcampanias']['nombre_sub_campania']?></span></p>                            
+                                                <?php 
+                                                    $campanias = $data['subcampanias'];
+                                                    $campania = array_shift($campanias);
+                                                ?>
+                                                <input type="hidden" id="idSubcampaniaNuevo" name="idSubcampaniaNuevo" value="<?php echo $campania['id_subcampania']?>">
+                                                <p>Estas inscribiendo a la campania/subcampania&nbsp<span class="badge badge-warning nombrecampania"><?php echo($campania['nombre_campania'].'/'.$campania['nombre_sub_campania'])?></span>&nbsp 
+                                                    <button type="button" onclick="fnCambiarCamSubcampania()" class="btn btn-sm"><i class="fa fa-pencil-alt"></i></button>
+                                                </p>
+                                                <div class="col-md-8 row cambiarsubcampania">
+                                                    <select class="form-control form-control-sm col-8 listCampSub" onchange="campaniaSeleccionada(value)">
+                                                        <option value="">Seleccionar</option>
+                                                        <?php 
+                                                            foreach ($data['subcampanias'] as $key => $value) { ?>
+                                                                <option value="<?php echo($value['id_subcampania']) ?>"><?php echo($value['nombre_campania'].'/'.$value['nombre_sub_campania'].'  ('.$value['fecha_fin_subcampania'].')') ?></option>
+                                                            <?php }
+                                                        ?>
+                                                    </select> 
+                                                    <div class="col-4"><button onclick="fnQuitCambiarSubCampania()" type="button" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button></div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>    

@@ -2,6 +2,7 @@ var tableInscripciones;
 var idPersonaSeleccionada;
 var formInscripcionNueva = document.querySelector("#formInscripcionNueva");
 var formTutorNuevo = document.querySelector("#formAgregarTutor");
+let divCambiarSubcampania = document.querySelector('.cambiarsubcampania');
 
 document.getElementById("btnAnterior").style.display = "none";
 document.getElementById("btnAnteriorEdit").style.display = "none";
@@ -9,10 +10,13 @@ document.getElementById("btnSiguiente").style.display = "none";
 document.getElementById("btnSiguienteEdit").style.display = "none";
 document.getElementById("btnActionFormNuevo").style.display = "none";
 document.getElementById("btnActionFormEdit").style.display = "none";
+document.querySelector('.listCampSubPos').style.display = "none";
 var tabActual = 0;
 var tabActualEdit = 0;
 mostrarTab(tabActual);
 mostrarTabEdit(tabActualEdit);
+
+divCambiarSubcampania.style.display = "none";
 
 document.addEventListener('DOMContentLoaded', function(){
 	fnPlantelSeleccionadoDatatable(document.querySelector('#listPlantelDatatable').value);
@@ -67,7 +71,7 @@ function fnListaInscritos(answer){
             var contador = 0;
 			resultado.forEach(element => {
                 contador += 1;
-                document.getElementById('valoresListaInscritos').innerHTML +='<tr><td>'+contador+'</td><td>'+element.nombre_persona+'</td><td>'+element.apellidos+'</td><td><button type="button" class="btn btn-outline-secondary btn-primary btn-sm icono-color-principal btn-inline" style="display: inline;" onclick="fnImprimirSolInscripcion('+element.id+')"><i class="fas fa-print icono-azul"></i></i><span> Imprimir</span></button></td></tr>'
+                document.getElementById('valoresListaInscritos').innerHTML +='<tr><td class="text-center"><input type="checkbox" onclick="fnCheckInputAlumno()" aria-label="check" id="'+element.id+'"></td><td>'+contador+'</td><td>'+element.nombre_persona+'</td><td>'+element.apellidos+'</td><td><button type="button" class="btn btn-outline-secondary btn-secondary btn-sm" onclick=fnBtnDesInscribir('+element.id+')>Cancelar</button></td><td><button type="button" class="btn btn-outline-secondary btn-primary btn-sm icono-color-principal btn-inline" style="display: inline;" onclick="fnImprimirSolInscripcion('+element.id+')"><i class="fas fa-print icono-azul"></i></i><span> Imprimir</span></button></td></tr>'
             });
         })
         .catch(err => { throw err });
@@ -424,3 +428,184 @@ function fnImprimirSolInscripcion(value){
     window.open(base_url+'/Inscripcion/imprimir_solicitud_inscripcion/'+idInscripcion, '_blank');
 }
 
+function fnCambiarCamSubcampania(){
+    divCambiarSubcampania.style.display = "flex";
+}
+function fnQuitCambiarSubCampania(){
+    divCambiarSubcampania.style.display = "none";
+}
+
+function campaniaSeleccionada(value){
+    if(value != ''){
+        let idSubCampania = value;
+        let str = document.querySelector('.listCampSub').options[document.querySelector('.listCampSub').selectedIndex].text;
+        document.querySelector('.nombrecampania').textContent = str;
+        document.querySelector('#idSubcampaniaNuevo').value =idSubCampania;
+    }
+}
+function fnCheckAllInscritos(){
+    let check = document.querySelector('#tableListaInscritos');
+    let arrInput = check.getElementsByTagName("input");
+    if(document.querySelector('#checkAllInscritos').checked == true){
+        arrInput.forEach(element => {
+            element.checked = true;
+        });
+        document.querySelector('#listAccionesUsSel').disabled = false;
+        document.querySelector('.listCampSubPos').style.display = "none";
+    }else{
+        arrInput.forEach(element => {
+            element.checked = false;
+        }); 
+        document.querySelector('#listAccionesUsSel').disabled = true;
+        document.querySelector('.listCampSubPos').style.display = "none";
+    }
+}
+function fnCheckInputAlumno(){
+    if(sizeCheckInput() != 0){
+        document.querySelector('#listAccionesUsSel').disabled = false;
+        document.querySelector('.listCampSubPos').style.display = "none";
+    }else{
+        document.querySelector('#listAccionesUsSel').disabled = true;
+        document.querySelector('.listCampSubPos').style.display = "none";
+    }
+}
+function fnBtnDesInscribir(value){
+    Swal.fire({
+        title: 'Des-inscribir',
+        text: "¿Realmente desea des-inscribir al usuario 'Alumno' (Previamente inscrito)?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, des-inscribir',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let url = `${base_url}/Inscripcion/des_inscribir/${value}`;
+            fetch(url)
+            .then(res => res.json())
+            .then((resultado) => {
+                if(resultado.estatus){
+                    tableInscripciones.api().ajax.reload();
+                    $('#cerrarModalListaInscritos').click();
+                    Swal.fire(
+                        'Exito!',
+                        resultado.msg,
+                        'success'
+                    )
+                }
+            })
+            .catch(err => { throw err });
+        }
+    })
+}
+function accionesUsuariosSeleccionados(value){
+    if(value != ''){
+        //Desinscribir usuarios seleccionados
+        if(value == 0){
+            if(sizeCheckInput() > 0){
+                Swal.fire({
+                    title: 'Des-inscribir',
+                    text: "¿Realmente desea des-inscribir al los usuarios 'Alumnos' (Previamente inscritos)?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, des-inscribir',
+                    cancelButtonText: 'No'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let url = `${base_url}/Inscripcion/des_inscribir_usuarios/${jsonToString(arrCkeckedInputTrue())}`;
+                        fetch(url)
+                        .then(res => res.json())
+                        .then((resultado) => {
+                            if(resultado.estatus){
+                                tableInscripciones.api().ajax.reload();
+                                $('#cerrarModalListaInscritos').click();
+                                Swal.fire('Exito!',resultado.msg,'success')
+                            }else{
+                                Swal.fire('Error!',resultado.msg,'error');
+                            }
+                        }).catch(err => {throw err});
+                    }
+                })
+            }
+            document.querySelector('.listCampSubPos').style.display = "none";
+        }else if(value == 1){
+            document.querySelector('.listCampSubPos').style.display = "inline";
+        }
+    }
+}
+function campSubPosSeleccionada(value){
+    let arrData = {'datos':arrCkeckedInputTrue(),'idSubcampania':value};
+    let url = `${base_url}/Inscripcion/posponer_usuarios/${jsonToString(arrData)}`;
+    if(value != ''){
+        Swal.fire({
+            title: 'Posponer',
+            text: "¿Realmente desea posponer al los usuarios 'Alumnos' (Previamente inscritos)?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, posponer',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(url)
+                .then(res => res.json())
+                .then((resultado) => {
+                    if(resultado.estatus){
+                        tableInscripciones.api().ajax.reload();
+                        $('#cerrarModalListaInscritos').click();
+                        Swal.fire('Exito!',resultado.msg,'success')
+                    }else{
+                        Swal.fire('Error!',resultado.msg,'error');
+                    }
+                }).catch(err => {throw err});
+            }
+        })
+    }
+}
+//Retorna todos los input check TRUE
+function arrCkeckedInputTrue(){
+    let check = document.querySelector('#tableListaInscritos');
+    let arrInput = check.getElementsByTagName("input");
+    let arrCheck = [];
+    arrInput.forEach(element => {
+        if(parseInt(element.id) && element.checked == true){
+            let arr = {'id_inscripcion':parseInt(element.id),'estatus_check':element.checked}
+            arrCheck.push(arr);
+        }
+    });
+    return arrCheck;
+}
+//Retorna todos los input con true o false del checked
+function arrCkeckedInput(){
+    let check = document.querySelector('#tableListaInscritos');
+    let arrInput = check.getElementsByTagName("input");
+    let arrCheck = [];
+    arrInput.forEach(element => {
+        if(parseInt(element.id)){
+            let arr = {'id_inscripcion':parseInt(element.id),'estatus_check':element.checked}
+            arrCheck.push(arr);
+        }
+    });
+    return arrCheck;
+}
+//Retornar numero de cheked en la tabla
+function sizeCheckInput(){
+    let check = document.querySelector('#tableListaInscritos');
+    let arrInput = check.getElementsByTagName("input");
+    let size = 0;
+    arrInput.forEach(element => {
+        if(parseInt(element.id) && element.checked == true){
+            size += 1;
+        }
+    });
+    return size;
+}
+//console.log(arrCkeckedInput);
+//Funcion para convertir json a String
+function jsonToString(json){
+    return JSON.stringify(json);
+}
