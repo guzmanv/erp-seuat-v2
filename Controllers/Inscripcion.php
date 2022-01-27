@@ -69,7 +69,7 @@
                 }else{
                     
                 }
-                if($arrData[$i]['total'] >= 15){
+                if($arrData[$i]['total'] >= 4){
                     $arrData[$i]['total'] = '<h5><span class="badge badge-success pr-2 pl-2">'.$arrData[$i]['total'].' alumnos</span></h5>';
                 }else{
                     $arrData[$i]['total'] = '<h5><span class="badge badge-warning pr-2 pl-2">'.$arrData[$i]['total'].' alumnos</span></h5>';
