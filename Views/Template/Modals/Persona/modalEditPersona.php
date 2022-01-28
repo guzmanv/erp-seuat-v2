@@ -22,15 +22,15 @@
 								    <div class="card-body row">
                                         <div class="form-group col-md-3">
                                             <label for="txtNombreEdit">Nombre <span class="required">*</span></label>
-                                            <input type="text" id="txtNombreEdit" name="txtNombreEdit" class="form-control form-control-sm " placeholder="Nombre"  required>
+                                            <input type="text" id="txtNombreEdit" name="txtNombreEdit" class="form-control form-control-sm " placeholder="Nombre"  maxlength="45" required>
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>Apellido Paterno</label>
-                                            <input type="text" id="txtApellidoPaEdit" name="txtApellidoPaEdit" class="form-control form-control-sm" placeholder="Apellido paterno">
+                                            <input type="text" id="txtApellidoPaEdit" name="txtApellidoPaEdit" class="form-control form-control-sm" placeholder="Apellido paterno" maxlength="70">
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>Apellido Materno</label>
-                                            <input type="text" id="txtApellidoMaEdit" name="txtApellidoMaEdit" class="form-control form-control-sm" placeholder="Apellido materno">
+                                            <input type="text" id="txtApellidoMaEdit" name="txtApellidoMaEdit" class="form-control form-control-sm" placeholder="Apellido materno" maxlength="70">
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label>Sexo</label>
@@ -42,7 +42,7 @@
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label>Edad</label>
-                                            <input type="text" id="txtEdadEdit" name="txtEdadEdit" class="form-control form-control-sm" placeholder="Edad">
+                                            <input type="number" id="txtEdadEdit" name="txtEdadEdit" class="form-control form-control-sm" placeholder="Edad" min = "0" max="120" onkeypress="return validarNumeroInput(event)">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="txtAliasEdit">Alias <span class="required">*</span></label>
@@ -62,11 +62,11 @@
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>CURP</label>
-                                            <input type="text" id="txtCURPEdit" name="txtCURPEdit" class="form-control form-control-sm form-control form-control-sm-sm"  placeholder="CURP">
+                                            <input type="text" id="txtCURPEdit" name="txtCURPEdit" class="form-control form-control-sm form-control form-control-sm-sm"  placeholder="CURP" maxlength="18">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Ocupacion</label>
-                                            <input type="text" id="txtOcupacionEdit" name="txtOcupacionEdit" class="form-control form-control-sm" placeholder="Ocupación">
+                                            <input type="text" id="txtOcupacionEdit" name="txtOcupacionEdit" class="form-control form-control-sm" placeholder="Ocupación" maxlength="50">
                                         </div>
                                         <div class="form-group col-md-4">
                                     <label>Categoria Persona</label>
@@ -90,11 +90,11 @@
 								    <div class="card-body row">
                                         <div class="form-group col-md-4">
                                             <label>Telefono Celular</label>
-                                            <input type="text" id="txtTelCelEdit" name="txtTelCelEdit" class="form-control form-control-sm" placeholder="Telefono celular">
+                                            <input type="text" id="txtTelCelEdit" name="txtTelCelEdit" class="form-control form-control-sm" placeholder="Telefono celular" onkeypress="return validarNumeroInput(event)" maxlength="10">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Telefono Fijo</label>
-                                            <input type="text" id="txtTelFiEdit" name="txtTelFiEdit" class="form-control form-control-sm" placeholder="Telefono fijo">
+                                            <input type="text" id="txtTelFiEdit" name="txtTelFiEdit" class="form-control form-control-sm" placeholder="Telefono fijo" onkeypress="return validarNumeroInput(event)" maxlength="10">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Email</label>
@@ -190,7 +190,7 @@
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label>CP</label>
-                                            <input type="text" id="txtCPEdit" name="txtCPEdit" class="form-control form-control-sm" placeholder="CP">
+                                            <input type="text" id="txtCPEdit" name="txtCPEdit" class="form-control form-control-sm" placeholder="CP" onkeypress="return validarNumeroInput(event)">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label>Colonia</label>

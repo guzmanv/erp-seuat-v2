@@ -42,7 +42,7 @@
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label>Edad</label>
-                                            <input type="number" id="txtEdadNuevo" name="txtEdadNuevo" class="form-control form-control-sm" placeholder="Edad"  min = "0" max="120" onkeypress="return validarNumeroInput(event)">
+                                            <input type="number" id="txtEdadNuevo" name="txtEdadNuevo" class="form-control form-control-sm" placeholder="Edad"  min = "0" max="120"  onkeypress="return validarNumeroInput(event)">
                                         </div>
                                         <div class="form-group col-md-12">
                                             <label for="txtAliasNuevo">Alias <span class="required">*</span></label>
