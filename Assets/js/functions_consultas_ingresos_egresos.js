@@ -134,7 +134,7 @@ function seleccionarPersona(value){
     fnGetDatosAlumno(matricula);
 }
 function fnPagarServicio(idServicio,matricula){
-    location.href = `${base_url}/Ingresos/set_date_ingreso?i=${convStrToBase64(idServicio)}&m=${convStrToBase64(matricula)}`;
+    location.href = `${base_url}/Ingresos/ingresos?i=${convStrToBase64(idServicio)}&m=${convStrToBase64(matricula)}`;
 }
 //Function para dar formato un numero a Moneda
 function formatoMoneda(numero){

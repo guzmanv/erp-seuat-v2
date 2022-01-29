@@ -14,6 +14,14 @@ listTipoCobro.disabled = true;
 var formGenerarEdoCuenta = document.querySelector("#formGenerarEdoCuenta");
 document.addEventListener('DOMContentLoaded', function(){
     $('.select2').select2(); //Inicializar Select 2 en el input promociones
+
+    let url = new URLSearchParams(location.search);
+    let i= url.get('i');
+    let m= url.get('m');
+    if(i != null && m != null){
+        insertDatosAlServ(i,m);
+    }
+
 });
 //Mostrar lista de servicios dependiendo del tipo de cobro a realizar   
 function fnServicios(value){
@@ -429,4 +437,17 @@ function validarNumeroInput(event){
         return true;
     }
     return false;
+}
+function insertDatosAlServ(i,m){
+    let url = `${base_url}/ConsultasIngresosEgresos/getDatosAlumno/${atob(m)}`;
+    fetch(url)
+    .then(res => res.json())
+    .then((resultado) =>{
+        document.querySelector('#txtNombreNuevo').value = `${resultado.datos.nombre_persona} ${resultado.datos.ap_paterno} ${resultado.datos.ap_materno}`;
+        if(document.querySelector('#txtNombreNuevo').value != ""){
+            document.querySelector('#listTipoCobro').disabled = false;
+            document.querySelector('#btnAgregarServicio').disabled = false;
+        }
+        
+    }).catch(err => {throw err});
 }
