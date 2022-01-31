@@ -112,7 +112,9 @@
                     $isEdoCtaOtrosServ = false;
                 }
             }
+            
             if($isColegiatura){
+                
                 foreach ($arrayDate as $key => $value) {
                     $idIngreso = $value->id_servicio;
                     $folio = $this->model->selectFolioSig($idAlumno);
@@ -179,7 +181,7 @@
                 }else{
                     $arrResponse = array('estatus' => false,'msg' => 'Hay un servicio que no se ha agregado al <b>estado de cuente</b> del Alumno');
                 }
-            }
+            } 
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }

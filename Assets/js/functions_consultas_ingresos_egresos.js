@@ -72,7 +72,6 @@ function fnGetDatosAlumno(str){
     let url = `${base_url}/ConsultasIngresosEgresos/getDatosAlumno/${str}`;
     fetch(url).then(res => res.json()).then((resultado) => {
         if(resultado.datos){
-            console.log(resultado);
             cardsEdoCta.style.display = "block";
             strAlumno = str;
             let nomCompleto = resultado.datos.nombre_persona+' '+resultado.datos.ap_paterno+' '+resultado.datos.ap_materno;
@@ -133,9 +132,7 @@ function seleccionarPersona(value){
     fnGetEstadoCuentaAlumno(matricula);
     fnGetDatosAlumno(matricula);
 }
-function fnPagarServicio(idServicio,matricula){
-    location.href = `${base_url}/Ingresos/ingresos?i=${convStrToBase64(idServicio)}&m=${convStrToBase64(matricula)}`;
-}
+
 //Function para dar formato un numero a Moneda
 function formatoMoneda(numero){
     let str = numero.toString().split(".");

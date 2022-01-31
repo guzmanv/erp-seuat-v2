@@ -16,12 +16,12 @@ document.addEventListener('DOMContentLoaded', function(){
     $('.select2').select2(); //Inicializar Select 2 en el input promociones
 
     let url = new URLSearchParams(location.search);
-    let i= url.get('i');
-    let m= url.get('m');
-    if(i != null && m != null){
-        insertDatosAlServ(i,m);
+    let i= url.get('d');
+    let b64 = atob(i);
+    let datos = JSON.parse(b64);
+    if(datos){
+        insertDatosAlServ(datos.id,datos.id_alumno,datos.nombre_completo,datos.nombre_servicio,datos.pu,datos.tipo);
     }
-
 });
 //Mostrar lista de servicios dependiendo del tipo de cobro a realizar   
 function fnServicios(value){
@@ -438,16 +438,39 @@ function validarNumeroInput(event){
     }
     return false;
 }
-function insertDatosAlServ(i,m){
-    let url = `${base_url}/ConsultasIngresosEgresos/getDatosAlumno/${atob(m)}`;
-    fetch(url)
-    .then(res => res.json())
-    .then((resultado) =>{
-        document.querySelector('#txtNombreNuevo').value = `${resultado.datos.nombre_persona} ${resultado.datos.ap_paterno} ${resultado.datos.ap_materno}`;
-        if(document.querySelector('#txtNombreNuevo').value != ""){
-            document.querySelector('#listTipoCobro').disabled = false;
-            document.querySelector('#btnAgregarServicio').disabled = false;
+function insertDatosAlServ(id,id_alumno,nombre_completo,nombre_servicio,precio_unitario,tipo){
+    idPersonaSeleccionada = id_alumno;
+    document.querySelector('#txtNombreNuevo').value = nombre_completo;
+    document.querySelector('#listTipoCobro').disabled = false;
+    document.querySelector('#btnAgregarServicio').disabled = false;
+    document.querySelector('#alertAgregarAlumno').style.display = "none";
+    let edocta = true;
+    let cantidad = 1;
+    let subtotal = parseInt(precio_unitario.replace('$',''));
+    let acciones = `<td style='text-align:center'><a class='btn' onclick='fnBorrarServicioTabla(${id})'><i class='fas fa-trash text-danger'></i></a></td>`;
+    let arrServicio = {id_servicio:id,nombre_servicio:nombre_servicio,tipo_servicio:tipo,edo_cta:edocta,cantidad:cantidad,precio_unitario:subtotal,subtotal:subtotal,acciones:acciones,promociones:obtenerPromSeleccionados('listPromociones')};
+    Swal.fire({
+        title: 'Agregar?',
+        text: "Agregar el nuevo servicio",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si',
+        cancelButtonText: 'No'
+      }).then((result) => {
+        if (result.isConfirmed) {
+            document.querySelector("#tableServicios").innerHTML ="";
+            document.querySelector('#listPromociones').innerHTML = "";
+            arrServicios.push(arrServicio);
+            mostrarServiciosTabla();
+            fnServicios();
+            document.querySelector('#listPromociones').innerHTML ="<option value=''>Selecciona una promocion</option>";
+            mostrarTotalCuentaServicios();
+            listPromociones.style.display = "none";
+            listServicios.style.display = "none";
+            listTipoCobro.querySelector('option[value=""]').selected = true;
         }
-        
-    }).catch(err => {throw err});
+      })
+    
 }
