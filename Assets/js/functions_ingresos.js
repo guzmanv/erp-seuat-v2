@@ -17,10 +17,12 @@ document.addEventListener('DOMContentLoaded', function(){
 
     let url = new URLSearchParams(location.search);
     let i= url.get('d');
-    let b64 = atob(i);
-    let datos = JSON.parse(b64);
-    if(datos){
-        insertDatosAlServ(datos.id,datos.id_alumno,datos.nombre_completo,datos.nombre_servicio,datos.pu,datos.tipo);
+    if(i != null){
+        let b64 = atob(i);
+        let datos = JSON.parse(b64);
+        if(datos){
+            insertDatosAlServ(datos.id,datos.id_alumno,datos.nombre_completo,datos.nombre_servicio,datos.pu,datos.tipo);
+        }
     }
 });
 //Mostrar lista de servicios dependiendo del tipo de cobro a realizar   
@@ -405,7 +407,8 @@ function btnCobrarCmbio(){
         let observaciones = document.querySelector('#txtObservaciones').value;
         let url = ` ${base_url}/Ingresos/setIngresos?idP=${idPersonaSeleccionada}&tipoP=${tipoPago}&tipoCom=${tipoComprobante}&observacion=${observaciones}&date=${jsonToString(arrServicios)}`
         fetch(url).then(res => res.json()).then((resultado) => {
-            if(resultado.estatus){
+            console.log(resultado);
+           if(resultado.estatus){
                 let cambio = intEfectivo-total;
                 swal.fire("Exito",`${resultado.msg}<br>Su cambio es de:<h1><b>${formatoMoneda(cambio.toFixed(2))}</b></h1>`,"success").then((result) =>{
                     if(result.isConfirmed){
@@ -419,7 +422,7 @@ function btnCobrarCmbio(){
             swal.fire("Error",`${resultado.msg}`,"warning").then((result) =>{
                 $('#cerrarModalCobrar').click();
             })
-           }
+           } 
         }).catch(err => { throw err });
     }
 }

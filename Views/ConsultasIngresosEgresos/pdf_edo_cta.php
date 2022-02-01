@@ -1,6 +1,7 @@
 <?php
 date_default_timezone_set('America/Mexico_City');
 $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%d/%m/%Y", strtotime(date('Y-m-d'))));
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -108,16 +109,16 @@ $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%d/%m/%Y", strtotime
         <div class="c_encabezado">
             <table class="sin_borde">
                 <tr>
-                    <th colspan="5" style="font-size:18px;font-weight: bold; text-align: left;"><?php echo(strtoupper($data['data']['nombre_sistema'])) ?></th>
+                    <th colspan="5" style="font-size:18px;font-weight: bold; text-align: left;"><?php echo(strtoupper($data['data']['datos']['nombre_sistema'])) ?></th>
                 </tr>
                 <tr>
-                    <th colspan="5" style="font-size:12px;font-weight: bold; text-align: left;"><?php  echo(strtoupper($data['data']['nombre_plantel'])) ?><br><br></th>
+                    <th colspan="5" style="font-size:12px;font-weight: bold; text-align: left;"><?php  echo(strtoupper($data['data']['datos']['nombre_plantel'])) ?><br><br></th>
                 </tr>
                 <tr>
                     <td colspan="5" style="padding-top: -15px; font-size: 8px; text-align: left;">
-                        <?php echo $data['data']['categoria'] ?><br>
-                        CLAVE: <?php echo $data['data']['cve_centro_trabajo'] ?><br>
-                        <?php echo $data['data']['domicilio'].','.$data['data']['colonia'].','.$data['data']['municipio'].','.$data['data']['estado'].', Mexico, CP:'.$data['data']['cod_postal'] ?>
+                        <?php echo $data['data']['datos']['categoria'] ?><br>
+                        CLAVE: <?php echo $data['data']['datos']['cve_centro_trabajo'] ?><br>
+                        <?php echo $data['data']['datos']['domicilio'].','.$data['data']['datos']['colonia'].','.$data['data']['datos']['municipio'].','.$data['data']['datos']['estado'].', Mexico, CP:'.$data['data']['datos']['cod_postal'] ?>
                         <br><br>
                     </td>
                 </tr>
@@ -147,15 +148,15 @@ $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%d/%m/%Y", strtotime
             <table>
                 <tr class="information">
                     <td colspan="4">
-                        <b>Nombre del alumno</b>: <?php echo $data['data']['nombre_persona'].' '.$data['data']['ap_paterno'].' '.$data['data']['ap_materno'] ?><br>
-                        <b>Numero de cuenta</b>: <?php echo $data['data']['matricula_interna'] ?><br>
-                        <b>Plantel</b>: <?php echo $data['data']['nombre_plantel'] ?><br>
-                        <b>Carrera</b>: <?php echo $data['data']['nombre_carrera'] ?><br>
-                        <b>Periodo actualmente cursado</b>: <?php echo $data['data']['nombre_periodo']?>
+                        <b>Nombre del alumno</b>: <?php echo $data['data']['datos']['nombre_persona'].' '.$data['data']['datos']['ap_paterno'].' '.$data['data']['datos']['ap_materno'] ?><br>
+                        <b>Numero de cuenta</b>: <?php echo $data['data']['datos']['matricula_interna'] ?><br>
+                        <b>Plantel</b>: <?php echo $data['data']['datos']['nombre_plantel'] ?><br>
+                        <b>Carrera</b>: <?php echo $data['data']['datos']['nombre_carrera'] ?><br>
+                        <b>Periodo actualmente cursado</b>: <?php echo $data['data']['datos']['nombre_periodo']?>
                     </td>
                     <td> </td>
                     <td colspan="3" style="text-align:right">
-                        <br><br>SALTO TOTAL: <b>$0.00</b>
+                        <br><br>SALTO TOTAL: <b>$ <?php echo formatoMoneda($data['data']['totalSaldo']) ?></b>
                     </td>
                 </tr>
                 <tr>
@@ -181,7 +182,7 @@ $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%d/%m/%Y", strtotime
                             <td><?php echo $value['cargo'] ?></td>
                             <td><?php echo $value['recargo'] ?></td>
                             <td><?php echo $value['abono'] ?></td>
-                            <td class="text-align-right"><?php echo $value['abono'] ?></td>
+                            <td class="text-align-right"><?php echo ('$ '.formatoMoneda($value['abono'])) ?></td>
                         </tr>
                     <?php }else{?>
                 <?php }}?>
@@ -192,7 +193,7 @@ $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%d/%m/%Y", strtotime
                     <td></td>
                     <td></td>
                     <td colspan="3" style="text-align:right">
-                    <b>Total saldo: $0.00</b>
+                    <b>Total saldo: $ <?php echo formatoMoneda($data['data']['saldoServicios']) ?></b>
                     </td>
                 </tr>
             </table>
@@ -221,7 +222,7 @@ $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%d/%m/%Y", strtotime
                             <td><p style="font-size:10px"><?php echo $value['cargo'] ?></p></td>
                             <td><p style="font-size:10px"><?php echo $value['recargo'] ?></p></td>
                             <td><p style="font-size:10px"><?php echo $value['abono'] ?></p></td>
-                            <td class="text-align-right"><p style="font-size"><?php echo $value['abono'] ?></p></td>
+                            <td class="text-align-right"><p style="font-size"><?php echo ('$ '.formatoMoneda($value['abono'])) ?></p></td>
                         </tr>
                     <?php }else{?>
                 <?php }}?>
@@ -232,7 +233,7 @@ $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%d/%m/%Y", strtotime
                     <td></td>
                     <td></td>
                     <td colspan="3" style="text-align:right">
-                    <b>Total saldo: $0.00</b>
+                    <b>Total saldo: $ <?php echo formatoMoneda($data['data']['saldoColegiaturas']) ?></b>
                     </td>
                 </tr>
             </table>

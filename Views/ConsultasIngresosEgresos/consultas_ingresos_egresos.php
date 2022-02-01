@@ -10,17 +10,17 @@
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-lg-6">
                         <h1 class="m-0">  <?= $data['page_title'] ?></h1><br>
                     </div>
-                    <div class="col-md-6 row">
-                        <div class="form-group col-md-7">
+                    <div class="col-md-6  col-lg-6 row">
+                        <div class="form-group col-md-6 col-lg-7">
                             <input type="text" style="background-color:#FFF !important" id="txtNombrealumno" class="form-control" placeholder="Matricula o RFC">
                         </div>
-                        <div class="form-group col-md-2">
+                        <div class="form-group col-md-3 col-lg-2">
                             <button type="button" id="btnBuscar" class="form-control btn btn-primary">Buscar</button>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-3 col-lg-3">
                             <button type="button" id="btnBuscarAlumno"class="form-control btn btn-primary" data-toggle="modal" data-target="#ModalBuscarAlumno">Buscar por Nombre</button>
                         </div>
                     </div>
@@ -35,7 +35,6 @@
                             <div class="card-body">
                                 <div class="col-12 row">
                                     <div class="col-md-6 col-sm-12">
-                                        <h3 class="card-title">Estados de cuenta</h3><br><br>                                
                                     </div>
                                     <div class="col-12 card_dato_cta">
                                         <div class="row mb-5">

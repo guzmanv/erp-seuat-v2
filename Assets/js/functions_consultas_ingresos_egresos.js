@@ -64,10 +64,13 @@ function fnGetEstadoCuentaAlumno(str){
     });
     $('#tableEstadoCuenta').DataTable();
 }
+
+//Imprimir estado de cuenta al hacer click en btnImprimirEdoCta
 btnImprimirEdoCta.addEventListener('click',function(){
-    let url = `${base_url}/ConsultasIngresosEgresos/imprimir_edo_cta/${strAlumno}`;
+    let url = `${base_url}/ConsultasIngresosEgresos/imprimir_edo_cta/${convStrToBase64(strAlumno)}`;
     window.open(url,'_blank');
 })
+
 function fnGetDatosAlumno(str){
     let url = `${base_url}/ConsultasIngresosEgresos/getDatosAlumno/${str}`;
     fetch(url).then(res => res.json()).then((resultado) => {
@@ -129,6 +132,7 @@ function seleccionarPersona(value){
     $('#cerrarModalBuscarPersona').click();
     let nombreCompleto = value.getAttribute('rl');
     let matricula = value.getAttribute('m');
+    console.log(nombreCompleto)
     fnGetEstadoCuentaAlumno(matricula);
     fnGetDatosAlumno(matricula);
 }

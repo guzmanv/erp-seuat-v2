@@ -9,33 +9,36 @@
 			    die();
 		    }
         }
+        //Vista de consultas
         public function consultas(){
             $data['page_id'] = 10;
-            $data['page_tag'] = "Consultas de Ingresos y Egresos";
-            $data['page_title'] = "Consultas de ingresos y egresos";
+            $data['page_tag'] = "Consultas de estado de cuentas";
+            $data['page_title'] = "Consultas de estado de cuentas";
             $data['page_content'] = "";
             $data['page_functions_js'] = "functions_consultas_ingresos_egresos.js";
             $this->views->getView($this,"consultas_ingresos_egresos",$data);
         }
+        //Obtener estado de cuenta
         public function getEstadoCuenta($str){
             $arrData = $this->estadoCuenta($str);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
 
+        //Imprimir estado de cuenta
         public function imprimir_edo_cta($str){
-            $data = [
-                'data'=> $this->datosAlumno($str),
-                'edo_cta'=> $this->estadoCuenta($str)
-                ];
+            $str = base64_decode($str);
+            $data = ['data'=> $this->datosAlumno($str),'edo_cta'=> $this->estadoCuenta($str)];
+            //var_dump($data);
             $this->views->getView($this,"viewpdf_edo_cta",$data);
         }
-
+        //Obtener datos del Alumno
         public function getDatosAlumno($str){
             $arrData = $this->datosAlumno($str);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
+        //Buscar persona median el Modal
         public function buscarPersonaModal(){
             $data = $_GET['val'];
             $arrData = $this->model->selectPersonasModal($data);
@@ -52,6 +55,7 @@
             die();
 
         }
+        //Obtener subconcepto
         protected function getSubConcepto($str){
             if(stristr($str,'COL')){
                 $array = explode('.',$str);
