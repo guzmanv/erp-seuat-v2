@@ -392,7 +392,7 @@ function fnPlantelSeleccionadoDatatable(value){
         	"url": " "+base_url+"/Assets/plugins/Spanish.json"
         },
         "ajax":{
-            "url": " "+base_url+"/Inscripcion/getInscripcionesAdmision?idplantel="+idPlantel,
+            "url": " "+base_url+"/Inscripcion/getInscripcionesControlEscolar?idplantel="+idPlantel,
             "dataSrc":""
         },
         "columns":[

@@ -24,12 +24,12 @@
                 </table>
                 <div class="form-group col-md-12 row">
                     <div class="col-md-4"><p>Con los usuarios seleccionados...</p></div>
-                    <select class="form-control form-control-sm col-md-4" id="listAccionesUsSel" onchange="accionesUsuariosSeleccionados(value)" name="listAccionesUsSel" disabled>
+                    <select class="form-control form-control-sm col-md-4" id="listAccionesUsSel" onclick="accionesUsuariosSeleccionados(value)" name="listAccionesUsSel" disabled>
                         <option value="">Elegir...</option>                            
                         <option value="0">Cancelar</option>                            
                         <option value="1">Posponer a una nuevo ciclo</option>                            
                     </select>
-                    <select class="form-control form-control-sm col-md-4 listCampSubPos" onchange="campSubPosSeleccionada(value)">
+                    <select class="form-control form-control-sm col-md-4 listCampSubPos" onclick="campSubPosSeleccionada(value)">
                         <option value="">Elegir...</option>     
                         <?php foreach ($data['subcampanias'] as $key => $value) { ?>
                             <option value="<?php echo($value['id_subcampania']) ?>"><?php echo($value['nombre_campania'].'/'.$value['nombre_sub_campania'].'  ('.$value['fecha_fin_subcampania'].')') ?></option>
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="cerrarModalListaInscritos"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cerrar</a>
+                <a class="btn btn-outline-secondary btn-primary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="cerrarModalListaInscritos"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cerrar</a>
             </div>
         </div>
     </div>
