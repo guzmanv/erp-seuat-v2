@@ -15,14 +15,16 @@ class Campania extends Controllers{
     $data['page_tag'] = "Campañas";
     $data['page_title'] = "Campañas";
     $data['page_name'] = "campania";
-    $data['page_functions_js'] = "functions_campania.js";
+    $data['page_functions_js'] = "functionsCampania.js";
     $this->views->getView($this,"Campania",$data);
   }
 
   public function getCampanias(){
     $arrData = $this->model->selectCampanias();
     for($i=0; $i < count($arrData); $i++){
+      $arrData[$i]['id_guardado'] = $arrData[$i]['id'];
       $arrData[$i]['id'] = $i+1;
+      // $arrData[$i]['id'] = $i+1;
       if($arrData[$i]['estatus'] == 1){
         $arrData[$i]['estatus'] = '<span class="badge badge-dark">Activo</span>';
       }else{
@@ -35,11 +37,11 @@ class Campania extends Controllers{
                                         <i class="fas fa-layer-group"></i> &nbsp; Acciones
                                       </button>
                                       <div class="dropdown-menu">
-                                        <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditCampania" onClick="fntEditCampanias(this,'.$arrData[$i]['id'].')" title="Editar"> &nbsp;&nbsp;
+                                        <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditCampania" onClick="fntEditCampanias(this,'.$arrData[$i]['id_guardado'].')" title="Editar"> &nbsp;&nbsp;
                                           <i class="fas fa-pencil-alt"></i> &nbsp; Editar
                                         </button>
                                       <div class="dropdown-divider"></div>
-                                        <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelCampania" onClick="fntDelCampania('.$arrData[$i]['id'].')" title="Eliminar"> &nbsp;&nbsp;
+                                        <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelCampania" onClick="fntDelCampania('.$arrData[$i]['id_guardado'].')" title="Eliminar"> &nbsp;&nbsp;
                                           <i class="far fa-trash-alt "></i> &nbsp; Eliminar
                                         </button>
                                       </div>
