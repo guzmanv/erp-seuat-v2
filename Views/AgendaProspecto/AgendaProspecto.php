@@ -1,8 +1,9 @@
 <?php
   headerAdmin($data);
+  getModal('AgendaProspecto/modalAgendaProspectoTablaSeguimiento',$data);
 ?>
 
-<div class="contentAjax">
+<div class="contentAjax" id="vistaAgendaProspecto">
 
   <div class="wrapper">
 
@@ -18,19 +19,6 @@
                 <?= $data['page_title'] ?>
               </h1>
 
-            </div>
-
-            <div class="col-sm-5">
-              <ol class="breadcrumb float-sm-right btn-block">
-                <button type="button" onclick="openModalNI();" class="btn btn-inline btn-primary btn-sm btn-block" >
-                  <i class="fa fa-times-circle fa-md"></i>No interesado
-                </button>
-              </ol>
-              <ol class="breadcrumb float-sm-right btn-block">
-                <button type="button" onclick="openModalPd();" class="btn btn-inline btn-primary btn-sm btn-block" >
-                  <i class="fa fa-user-circle fa-md"></i>Prospecto del dia
-                </button>
-              </ol>
             </div>
 
           </div>
@@ -55,15 +43,11 @@
 
                         <tr>
 
-                          <th width="7%">#</th>
-                          <th>Nombre(s)</th>
-                          <th>Apellido Paterno</th>
-                          <th>Apellido Materno</th>
-                          <th width="12%">Fecha Programada</th>
+                          <th width="1%">#</th>
+                          <th width="7%">Fecha</th>
                           <th width="7%">Hora</th>
-                          <th width="12%">Telefono</th>
-                          <th width="12%">Estado</th>
-                          <th width="12%">Acciones</th>
+                          <th width="20%">Asunto</th>
+                          <th width="7%">Estado</th>
 
                         </tr>
 

@@ -32,84 +32,130 @@ class AgendaProspecto extends Controllers{
     $this->views->getView($this,"AgendaProspecto",$data);
   }
 
-  public function t_agendaIsNull(){
-    $arrData = $this->model->selectAgenda();
-    if(empty($arrData)){
-      $arrResponse = array('estatus' => true, 'msg' => 'la El registro esta vacio');
-    }else{
-      $arrResponse = array('estatus' => false, 'msg' => 'Se encontraron datos en el registro');
-    }
-    echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-    die();
-  }
-
-  public function nuevosRegistros(){
-    $arrData = $this->model->selectRegistros();
-    if(empty($arrData)){
-      $arrResponse = array('estatus' => false, 'msg' => 'El Registro esta vacio');
-    }else{
-      $arrResponse = array('estatus' => true, 'msg' => 'Se encontraron nuevos datos en el registro');
-    }
-    echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-    die();
-  }
-
   // !! Funcion para llenar la tabla principal de la vista !!
   public function getAgendaProspectos(){
 
     $arrData = $this->model->selectAgendaProspectos();
+
     for($i = 0; $i < count($arrData); $i++){
-      if($arrData[$i]['estatus'] == 1) {
-        $arrData[$i]['estatus'] = '<span class="badge badge-success">Por llamar</span>';
-      }else if($arrData[$i]['estatus'] == 2){
-        $arrData[$i]['estatus'] = '<span class="badge badge-warning">Llamar Hoy</span>';
+
+      $arrData[$i]['id_guardado'] = $arrData[$i]['id'];
+      $arrData[$i]['id'] = $i+1;
+
+      if($arrData[$i]['lectura'] == 2) {
+
+
+        $arrData[$i]['lectura'] = '
+                                   <a class="cerrarModal btnAgendarProspecto" onClick="ftnAgendarProspecto(this,'.$arrData[$i]['id_guardado'].')" title="'.$arrData[$i]['asunto'].'">
+                                     <span class="badge badge-success">
+                                       Atendido
+                                     </span>
+                                   </a>
+                                  ';
+
       }else{
-        $arrData[$i]['estatus'] = '<span class="badge badge-danger">Tarde</span>';
+
+        $arrData[$i]['lectura'] = '
+                                   <a class="cerrarModal btnAgendarProspecto"   onClick="ftnAgendarProspecto(this,'.$arrData[$i]['id_guardado'].')" title="'.$arrData[$i]['asunto'].'">
+                                     <span class="badge badge-danger">
+                                      Pendiente
+                                     </span>
+                                   </a>
+                                  ';
       }
-      $arrData[$i]['options'] = '
-                                  <div class="text-center">
-                                    <div class="btn-group">
-                                      <button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-layer-group"></i> &nbsp; Acciones
-                                      </button>
-                                      <div class="dropdown-menu">
-                                        <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal BTN_HEY_ESTO_SE_CAMBIA" onClick="FTN_HEY_ESTO_SE_CAMBIA(this,'.$arrData[$i]['id'].')" title="HEY_ESTO_SE_CAMBIA"> &nbsp;&nbsp;
-                                          <i class="fas fa-pencil-alt"></i> &nbsp; Agendar
-                                        </button>
-                                      <div class="dropdown-divider"></div>
-                                      <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal BTN_HEY_ESTO_SE_CAMBIA" onClick="FTN_HEY_ESTO_SE_CAMBIA('.$arrData[$i]['id'].')" title="HEY_ESTO_SE_CAMBIA"> &nbsp;&nbsp;
-                                        <i class="far fa-calendar-alt"></i> &nbsp;  Seguimiento
-                                      </button>
-                                      <div class="dropdown-divider"></div>
-                                      <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal BTN_HEY_ESTO_SE_CAMBIA" onClick="FTN_HEY_ESTO_SE_CAMBIA('.$arrData[$i]['id'].')" title="HEY_ESTO_SE_CAMBIA"> &nbsp;&nbsp;
-                                        <i class="fas fa-user-times"></i> &nbsp; No Interesado
-                                      </button>
-                                      </div>
-                                    </div>
-                                  </div>
-                                ';
     }
+
     echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
     die();
 
   }
 
-  public function getEstadosUp(){
-    $arrResponse =  $this->model->updateEstados();
-    echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+  public function getAgendaProspecto($id_guardado){
+
+    $intIdAgenda_guardado = intval(strClean($id_guardado));
+
+    if ($intIdAgenda_guardado > 0) {
+
+      $arrData = $this->model->selectAgendaProspecto($intIdAgenda_guardado);
+
+      if(empty($arrData)){
+
+        $arrResponse = array('estatus' => false, 'msg' => 'Datos no encontrados.');
+
+      }else{
+
+        $arrData['info'] = '<b>HABLAR A: </b>'.$arrData['nombre_persona'].' '.$arrData['ap_paterno'].' '.$arrData['ap_materno'].'<br>
+                        <b>EL DÍA: </b>'.$arrData['fecha_programada'].'<br>
+                        <b>A LAS: </b>'.$arrData['hora_programada'].'<b> HORAS</b> <br>
+                        <b>AL TELEFONO </b>'.$arrData['tel_celular'].'<br>
+                        <b>O AL </b>'.$arrData['tel_fijo'];
+        $arrResponse = array('estatus' => true, 'data' => $arrData);
+
+      }
+
+      echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+
+    }
+
     die();
   }
 
-  public function setAgendaProspectos(){
-    $insertAgendaProspecto = $this->model->insertAgendaProspecto();
-    // echo json_encode($insertAgendaProspecto,JSON_UNESCAPED_UNICODE);
-    if($insertAgendaProspecto > 0){
-      $arrResponse = array('estatus' => true, 'msg' => 'Tabla Actualizada');
-    }else{
-      $arrResponse = array("estatus" => false, "msg" => 'No es posible la tabla, probablemente existan registros con el mismo nombre o presenta algún problema con la red.');
+  public function setLecturaProspecto(){
+
+    if($_POST){
+      if(empty($_POST['idAgendaLtrUp']) || empty($_POST['txtLectura'])){
+          $arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
+      }else{
+        $intIdAgenda = intval($_POST['idAgendaLtrUp']);
+        $intLectura = intvaL($_POST['txtLectura']);
+
+        if($intIdAgenda <> 0) {
+
+          $request = $this->model->lecturaUpdate($intIdAgenda, $intLectura);
+          $option = 1;
+
+        }
+        if($request > 0){
+          if($option == 1){
+            $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente.');
+          }
+        }else{
+          $arrResponse = array("estatus" => false, "msg" => 'No es posible actualizar los datos, probablemente existe un registro con el mismo nombre o presenta algún problema con la red.');
+        }
+      }
+
+      echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+
     }
-    echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+
     die();
+
+  }
+
+  public function getNombreUsuarioCreacion($id){
+
+    $intIdUsuarioCreacion = intval(strClean($id));
+
+    if($intIdUsuarioCreacion > 0){
+
+      $arrData = $this->model->selectNombreUsuairoCreacion($intIdUsuarioCreacion);
+
+      if(empty($arrData)){
+
+        $arrResponse = array('estatus' => false, 'msg' => 'Datos no encontrados.');
+
+      }else{
+
+        $arrResponse = array('estatus' => true, 'data' => $arrData);
+
+      }
+
+      echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+
+    }
+
+    die();
+
   }
 
 

@@ -15,7 +15,7 @@
       $data['page_tag'] = "Subcampaña";
       $data['page_title'] = "Subcampaña";
       $data['page_name'] = "subcampania";
-      $data['page_functions_js'] = "functions_subcampania.js";
+      $data['page_functions_js'] = "functionsSubcampania.js";
       // $data['dataCampania'] = $this->model->selectCampania();
       $data['dataLastCampania'] = $this->model->selectLastCampania();
       $this->views->getView($this,"subcampania",$data);
@@ -24,6 +24,7 @@
     public function getSubcampania(){
       $arrData = $this->model->selectSubcampania();
       for ($i=0; $i < count($arrData); $i++){
+        $arrData[$i]['id_guardado'] = $arrData[$i]['id'];
         $arrData[$i]['id'] = $i+1;
         if($arrData[$i]['estatus'] == 1){
           $arrData[$i]['estatus'] = '<span class="badge badge-dark">Activo</span>';
@@ -37,11 +38,11 @@
                                           <i class="fas fa-layer-group"></i> &nbsp; Acciones
                                         </button>
                                         <div class="dropdown-menu">
-                                        <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditSubcampania" onClick="ftnEditarSubcampania(this,'.$arrData[$i]['id'].')" title="Editar"> &nbsp;&nbsp;
+                                        <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditSubcampania" onClick="ftnEditarSubcampania(this,'.$arrData[$i]['id_guardado'].')" title="Editar"> &nbsp;&nbsp;
                                           <i class="fas fa-pencil-alt"></i> &nbsp; Editar
                                         </button>
                                         <div class="dropdown-divider"></div>
-                                        <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSubcampania" onClick="ftnDelSubcampania('.$arrData[$i]['id'].')" title="Eliminar"> &nbsp;&nbsp;
+                                        <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSubcampania" onClick="ftnDelSubcampania('.$arrData[$i]['id_guardado'].')" title="Eliminar"> &nbsp;&nbsp;
                                           <i class="far fa-trash-alt "></i> &nbsp; Eliminar
                                         </button>
                                       </div>
