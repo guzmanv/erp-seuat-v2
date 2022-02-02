@@ -127,26 +127,46 @@ class SeguimientoModel extends Mysql{
     public function selectPersonaSeguimiento(int $idPer)
     {
         $this->intIdPers = $idPer;
-        $sql = "SELECT per.id, per.nombre_persona, CONCAT(per.ap_paterno, ' ', per.ap_materno) as apellidos, mun.nombre as municipio, est.nombre as estado,
-        med.medio_captacion, CONCAT(per2.nombre_persona, ' ', per2.ap_paterno, ' ', per2.ap_materno ) as nombre_usuario_creacion,
-        per.fecha_creacion, nvl.nombre_nivel_educativo, carr.nombre_carrera
+        $sql = "SELECT per.id, per.nombre_persona, CONCAT(per.ap_paterno,' ', per.ap_materno) as apellidos, per.tel_celular, per.email, 
+        munc.nombre as municipio, est.nombre as estado, med.medio_captacion, CONCAT(per2.nombre_persona,' ', per2.ap_paterno, ' ', per2.ap_materno) as nombre_usuario_creacion, 
+        per.fecha_creacion, nvl.nombre_nivel_educativo, crr_int.nombre_carrera
         FROM t_personas as per
         INNER JOIN t_localidades as loc
         ON per.id_localidad = loc.id
-        INNER JOIN t_municipios as mun
-        ON loc.id_municipio = mun.id
-        INNER JOIN t_estados as est
-        ON mun.id_estados = est.id
-        INNER JOIN t_personas as per2
-        ON per.id_usuario_creacion = per2.id
-        INNER JOIN t_nivel_educativos as nvl
-        ON per.id_nivel_carrera_interes = nvl.id
-        INNER JOIN t_carrera_interes as carr
-        ON per.id_carrera_interes = carr.id
-        INNER JOIN t_medio_captacion as med
+        INNER JOIN t_municipios as munc 
+        ON loc.id_municipio = munc.id 
+        INNER JOIN t_estados = est 
+        ON munc.id_estados = est.id 
+        INNER JOIN t_medio_captacion as med 
         ON per.id_medio_captacion = med.id
+        INNER JOIN t_personas as per2 
+        ON per.id_usuario_creacion = per2.id
+        LEFT JOIN t_nivel_educativos as nvl 
+        ON per.id_nivel_carrera_interes = nvl.id
+        LEFT JOIN t_carrera_interes as crr_int 
+        ON per.id_carrera_interes = crr_int.id
         WHERE per.id = $this->intIdPers";
         $request = $this->select($sql);
+        return $request;
+    }
+
+    
+    public function selectSeguimientoProspecto(int $idPer){
+        $this->intIdPers = $idPer;
+        $sql = "SELECT seg_pros.fecha, resp.respuesta_rapida, seg_pros.comentario, CONCAT(per.nombre_persona,' ',per.ap_paterno, ' ',per.ap_materno) as nombre_usuario_atendio  
+        FROM t_seguimiento_prospecto as seg_pros
+        INNER JOIN t_personas as per
+        ON seg_pros.id_usuario_atendio = per.id 
+        INNER JOIN t_respuesta_rapida as resp 
+        ON seg_pros.respuesta_rapida = resp.id
+        WHERE seg_pros.id_persona = $this->intIdPers";
+        $request = $this->select_all($sql);
+        return $request;
+    }
+
+    public function selectRespuestasRapidas(){
+        $sql = "SELECT * FROM t_respuesta_rapida";
+        $request = $this->select_all($sql);
         return $request;
     }
 

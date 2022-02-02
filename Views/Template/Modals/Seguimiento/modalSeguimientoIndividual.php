@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="modalProspeccionIndividual" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-xs" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Seguimiento individual</h5>
@@ -10,11 +10,24 @@
             </div>
             <div class="modal-body">
                 <div class="row ">
-                    <label for="" class="text-lg text-center"><i class="fas fa-reply"></i> Respuestas rapidas</label>
+                    <label for="" class="text-lg text-center"><i class="fas fa-reply"></i> Respuestas rápidas</label>
                 </div>
+                <!-- <div class="form-check">
+                    <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="" id="" value="checkedValue" checked>
+                    Display value
+                  </label>
+                </div> -->
                 <div class="row">
-                    <div id="respuestas" class="form-group col-md-12">
-                        Aquí van las respuestas
+                    <div class="col-md-6">
+                        <div id="respuestasRapidas1" class="form-check">
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="respuestasRapidas2" class="form-check">
+
+                        </div>
                     </div>
                 </div>
                 <hr>

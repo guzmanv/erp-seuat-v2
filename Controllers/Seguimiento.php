@@ -41,6 +41,14 @@ class Seguimiento extends Controllers{
         $this->views->getView($this,'seguimiento_prospectos',$data);
     }
 
+    public function getRespuestasRapidas(){
+        $arrData = $this->model->selectRespuestasRapidas();
+        for($i=0; $i<count($arrData); $i++){
+            $arrData[$i]['respuesta_rapida'] = '<input type="radio" class="form-check-input" id="rad'.$arrData[$i]['identificador'].'" name="rad'.$arrData[$i]['identificador'].'" value="'.$arrData[$i]['id'].'">'.$arrData[$i]['respuesta_rapida']."<br>";
+        }
+        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+    }
+
     public function getProspectos(){
         $arrData = $this->model->selectProspectos();
         for($i=0; $i<count($arrData); $i++){
@@ -60,7 +68,6 @@ class Seguimiento extends Controllers{
                     <div class="dropdown-menu">
                         <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditSalon" data-toggle="modal" data-target="#ModalAgendarProspectoSeguimiento" onClick="ftnAgendar('. $arrData[$i]['id'] .')" title="Agendar"> &nbsp;&nbsp; <i class="fas fa-calendar-alt"></i> &nbsp; Agendar</button>
 						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" data-toggle="modal" data-target="#ModalEditDatosProspectoSeguimiento" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>
-                        <!--<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" data-toggle="modal" data-target="#ModalEgresadoSeguimiento" title="Egresado"> &nbsp;&nbsp; <i class="fas fa-user-graduate"></i> &nbsp; Egresado</button> -->
                         <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" onClick="fnDarSeguimiento('. $arrData[$i]['id'] .')" data-toggle="modal" data-target="#ModalSeguimiento" title="Seguimiento"> &nbsp;&nbsp; <i class="far fa-arrow-alt-circle-right"></i> &nbsp; Seguimiento</button>
                     </div>
                 </div>
@@ -78,7 +85,7 @@ class Seguimiento extends Controllers{
                         <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditSalon" data-toggle="modal" data-target="#ModalAgendarProspectoSeguimiento" onClick="ftnAgendar('. $arrData[$i]['id'] .')" title="Editar"> &nbsp;&nbsp; <i class="fas fa-calendar-alt"></i> &nbsp; Agendar</button>
 						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" data-toggle="modal" data-target="#ModalEditDatosProspectoSeguimiento" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>
                         <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" data-toggle="modal" data-target="#ModalEgresadoSeguimiento" title="Egresado"> &nbsp;&nbsp; <i class="fas fa-user-graduate"></i> &nbsp; Egresado</button>
-                        <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" data-toggle="modal" data-target="#ModalSeguimiento" title="Seguimiento"> &nbsp;&nbsp; <i class="far fa-arrow-alt-circle-right"></i> &nbsp; Seguimiento</button>
+                        <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" onClick="fnDarSeguimiento('. $arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalSeguimiento" title="Seguimiento"> &nbsp;&nbsp; <i class="far fa-arrow-alt-circle-right"></i> &nbsp; Seguimiento</button>
                     </div>
                 </div>
             </div>';
@@ -126,17 +133,21 @@ class Seguimiento extends Controllers{
         $intIdPersona = intval($idPersona);
         if($intIdPersona > 0)
         {
-            $arrData = $this->model->selectPersonaSeguimiento($intIdPersona);
-            if(empty($arrData))
+            $data['datos'] = $this->model->selectPersonaSeguimiento($intIdPersona);
+            $data['seguimiento'] = $this->model->selectSeguimientoProspecto($intIdPersona);
+            if(empty($data['datos']))
             {
-                $arrResponse = array('estatus' => false, 'msg' => 'Datos no encontrados');
+                $data['response'] = array('estatus' => false, 'msg' => 'Datos no encontrados'); 
             }
             else
             {
-                $arrResponse = array('estatus' => true, 'data' => $arrData);
+                $data['response'] = array('estatus' => true, 'msg' => $data['datos']);
             }
-            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            for($i=0;$i<count($data['seguimiento']);$i++)
+            {
+                $data['seguimiento'][$i]['respuesta_rapida'] = '<span class="badge badge-info">'.$data['seguimiento'][$i]['respuesta_rapida'].'</span>';
+            }
         }
-        die();
+        echo json_encode($data,JSON_UNESCAPED_UNICODE);
     }
 }
