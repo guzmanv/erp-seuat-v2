@@ -307,17 +307,17 @@
           </li>
           <li class="nav-item">
               <a href="<?php echo BASE_URL ?>/Subcampania" class="nav-link">
-                  <i class="ml-3 mr-2" data-feather="tag"></i>
+                  <i class="ml-3 mr-2" data-feather="calendar"></i>
                   <p>
                       Subcampanias
                   </p>
               </a>
           </li>
           <li class="nav-item">
-              <a href="<?php echo BASE_URL ?>/AgendaProspecto" class="nav-link">
-                  <i class="ml-3 mr-2" data-feather="tag"></i>
+              <a href="<?php echo BASE_URL ?>/Seguimiento" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="fast-forward"></i>
                   <p>
-                      Agendaprospecto
+                      Seguimiento
                   </p>
               </a>
           </li>
@@ -409,6 +409,7 @@
                   </p>
               </a>
           </li>
+          <!--
           <li class="nav-item">
               <a href="<?php echo BASE_URL ?>/Egresos" class="nav-link">
                   <i class="ml-3 mr-2" data-feather="corner-right-up"></i>
@@ -416,7 +417,7 @@
                       Egresos
                   </p>
               </a>
-          </li>
+          </li>-->
           <li class="nav-item">
               <a href="<?php echo BASE_URL ?>/ConsultasIngresosEgresos/consultas" class="nav-link">
                   <i class="ml-3 mr-2" data-feather="pie-chart"></i>
