@@ -18,6 +18,7 @@
             $data['page_title'] = "Caja (ingresos)";
             $data['page_content'] = "";
             $data['page_functions_js'] = "functions_ingresos.js";
+            
             $this->views->getView($this,"ingresos",$data);
         }
         //Funcion obtener lista ingresos
@@ -111,7 +112,9 @@
                     $isEdoCtaOtrosServ = false;
                 }
             }
+            
             if($isColegiatura){
+                
                 foreach ($arrayDate as $key => $value) {
                     $idIngreso = $value->id_servicio;
                     $folio = $this->model->selectFolioSig($idAlumno);
@@ -178,7 +181,7 @@
                 }else{
                     $arrResponse = array('estatus' => false,'msg' => 'Hay un servicio que no se ha agregado al <b>estado de cuente</b> del Alumno');
                 }
-            }
+            } 
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
@@ -190,14 +193,14 @@
             $data['datos_alumno'] = $this->model->selectDatosAlumno($idIngreso);//Datos del Alumno
             $this->views->getView($this,"viewpdf_comprobante_venta",$data);
         }
-        public function set_date_ingreso(){
-            $data['page_id'] = 10;
-            $data['page_tag'] = "Ingresos";
-            $data['page_title'] = "Caja (ingresos)";
-            $data['page_content'] = "";
-            $data['page_functions_js'] = "functions_ingresos.js";
-            $this->views->getView($this,"ingresos",$data);
-        }
+
+
+
+
+
+
+
+
         //Funcion para convertir base64 a Array
         private function reverse64($arr){
             return base64_decode($arr);

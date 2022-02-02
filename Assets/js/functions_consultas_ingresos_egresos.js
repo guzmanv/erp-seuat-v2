@@ -64,15 +64,17 @@ function fnGetEstadoCuentaAlumno(str){
     });
     $('#tableEstadoCuenta').DataTable();
 }
+
+//Imprimir estado de cuenta al hacer click en btnImprimirEdoCta
 btnImprimirEdoCta.addEventListener('click',function(){
-    let url = `${base_url}/ConsultasIngresosEgresos/imprimir_edo_cta/${strAlumno}`;
+    let url = `${base_url}/ConsultasIngresosEgresos/imprimir_edo_cta/${convStrToBase64(strAlumno)}`;
     window.open(url,'_blank');
 })
+
 function fnGetDatosAlumno(str){
     let url = `${base_url}/ConsultasIngresosEgresos/getDatosAlumno/${str}`;
     fetch(url).then(res => res.json()).then((resultado) => {
         if(resultado.datos){
-            console.log(resultado);
             cardsEdoCta.style.display = "block";
             strAlumno = str;
             let nomCompleto = resultado.datos.nombre_persona+' '+resultado.datos.ap_paterno+' '+resultado.datos.ap_materno;
@@ -130,12 +132,11 @@ function seleccionarPersona(value){
     $('#cerrarModalBuscarPersona').click();
     let nombreCompleto = value.getAttribute('rl');
     let matricula = value.getAttribute('m');
+    console.log(nombreCompleto)
     fnGetEstadoCuentaAlumno(matricula);
     fnGetDatosAlumno(matricula);
 }
-function fnPagarServicio(idServicio,matricula){
-    location.href = `${base_url}/Ingresos/set_date_ingreso?i=${convStrToBase64(idServicio)}&m=${convStrToBase64(matricula)}`;
-}
+
 //Function para dar formato un numero a Moneda
 function formatoMoneda(numero){
     let str = numero.toString().split(".");
