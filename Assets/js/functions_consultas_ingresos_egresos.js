@@ -86,9 +86,9 @@ function fnGetEstadoCuentaAlumno(matriculaRFAlumno,idAlumno){
     $('#tableEstadoCuenta').DataTable();
 }
 
-//Imprimir estado de cuenta al hacer click en btnImprimirEdoCta
+//Imprimir estado de cuenta al hacer click en  por matriculaRFC o ID
 btnImprimirEdoCta.addEventListener('click',function(){
-    let url = `${base_url}/ConsultasIngresosEgresos/imprimir_edo_cta/${convStrToBase64(matriculaRFAlumno)}`;
+    let url = `${base_url}/ConsultasIngresosEgresos/imprimir_edo_cta/${convStrToBase64(matriculaRFAlumno)}/${convStrToBase64(idAlumnoSeleccionado)}`;
     window.open(url,'_blank');
 })
 

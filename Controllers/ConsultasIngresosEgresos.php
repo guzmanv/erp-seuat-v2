@@ -33,10 +33,51 @@
             die();
         }
         //Imprimir estado de cuenta
-        public function imprimir_edo_cta($str){
-            $str = base64_decode($str);
-            $data = ['data'=> $this->datosAlumno($str),'edo_cta'=> $this->estadoCuenta($str)];
-            //var_dump($data);
+        public function imprimir_edo_cta($args){
+            $arrArgs = explode(',',$args);
+            $matriculaRFC = base64_decode($arrArgs[0]);
+            $idAlumno = base64_decode($arrArgs[1]);
+            if($matriculaRFC != 'null'){
+                $arrData['datos'] = $this->model->selectDatosAlumnoByMatriculaRFC($matriculaRFC);
+                $arrData['totalSaldo'] = $this->model->selectEdoCuentaByMatriculaRFC($matriculaRFC);
+                $total = 0;
+                $saldoServicios = 0;
+                $saldoColegiatura = 0;
+                foreach ($arrData['totalSaldo'] as $key => $value) {
+                    if($value['fecha_pagado'] == ''){
+                        $total += $value['precio_unitario'];
+                        if($value['codigo_servicio'] == 'CM'){
+                            $saldoColegiatura += $value['precio_unitario'];
+                        }else{
+                            $saldoServicios += $value['precio_unitario'];
+                        }
+                    }
+                }
+                $arrData['totalSaldo'] = $total;
+                $arrData['saldoServicios'] = $saldoServicios;
+                $arrData['saldoColegiaturas'] = $saldoColegiatura;
+            }else{
+                $arrData['datos'] = $this->model->selectDatosAlumnoById($idAlumno);
+                $arrData['totalSaldo'] = $this->model->selectEdoCuentaById($idAlumno);
+                $total = 0;
+                $saldoServicios = 0;
+                $saldoColegiatura = 0;
+                foreach ($arrData['totalSaldo'] as $key => $value) {
+                    if($value['fecha_pagado'] == ''){
+                        $total += $value['precio_unitario'];
+                        if($value['codigo_servicio'] == 'CM'){
+                            $saldoColegiatura += $value['precio_unitario'];
+                        }else{
+                            $saldoServicios += $value['precio_unitario'];
+                        }
+                    }
+                }
+                $arrData['totalSaldo'] = $total;
+                $arrData['saldoServicios'] = $saldoServicios;
+                $arrData['saldoColegiaturas'] = $saldoColegiatura;
+            }
+
+            $data = ['data'=> $arrData,'edo_cta'=> $this->estadoCuenta($matriculaRFC,$idAlumno)];
             $this->views->getView($this,"viewpdf_edo_cta",$data);
         }
         //Obtener datos del Alumno y datos del Estado de Cuenta
@@ -99,28 +140,6 @@
             }
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
-        }
-        protected function datosAlumno($str){
-            //$edoCtaMatricula = $str;
-            //$arrData['datos'] = $this->model->selectDatosAlumnoByMatriculaRFC($edoCtaMatricula);
-            //$arrData['totalSaldo'] = $this->model->selectEdoCuentaByMatriculaRFC($str);
-            $total = 0;
-            $saldoServicios = 0;
-            $saldoColegiatura = 0;
-            foreach ($arrData['totalSaldo'] as $key => $value) {
-                if($value['fecha_pagado'] == ''){
-                    $total += $value['precio_unitario'];
-                    if($value['codigo_servicio'] == 'CM'){
-                        $saldoColegiatura += $value['precio_unitario'];
-                    }else{
-                        $saldoServicios += $value['precio_unitario'];
-                    }
-                }
-            }
-            $arrData['totalSaldo'] = $total;
-            $arrData['saldoServicios'] = $saldoServicios;
-            $arrData['saldoColegiaturas'] = $saldoColegiatura;
-            return $arrData; 
         }
 
         //Buscar persona median el Modal
