@@ -3,36 +3,57 @@ let verEdoCta = document.querySelector("#btnVerEdoCta");
 let buscarAlumno = document.querySelector("#btnBuscarAlumno");
 let cardsEdoCta = document.querySelector('.card_dato_cta');
 let dataTableEdoCta = document.querySelector('#tableEstadoCuenta');
-let strAlumno = "";
+let matriculaRFAlumno = "";
+let idAlumnoSeleccionado;
 cardsEdoCta.style.display = "none";
 dataTableEdoCta.style.display = "row";
+
 //click en boton buscar alumno
 buscar.addEventListener('click',function() {
-    let strBuscarAlumno = document.querySelector('#txtNombrealumno').value;
-    if(strBuscarAlumno == ''){
+    matriculaRFAlumno = document.querySelector('#txtNombrealumno').value;
+    idAlumnoSeleccionado = null;
+    if(matriculaRFAlumno == ''){
         swal.fire("Atención","Campo vacio de Matricula o RFC","warning");
         cardsEdoCta.style.display = "none";
         return false;
     }else{
-        fnGetDatosAlumno(strBuscarAlumno);  
+        fnGetDatosAlumno(matriculaRFAlumno,idAlumnoSeleccionado);  //Ejecutar funcion
     }
 })
-//click en boton buscar alumno
+//Selecciionar persona en el Modal Buscar persona
+function seleccionarPersona(value){
+    $('#cerrarModalBuscarPersona').click();
+    let matricula = value.getAttribute('m');
+    let rfc = value.getAttribute('r');
+    let id = value.getAttribute('id');
+    idAlumnoSeleccionado = id;
+    if(matricula == '' && rfc == ''){
+        matriculaRFAlumno = null;
+    }else if(matricula == '' && rfc != ''){
+        matriculaRFAlumno = rfc;
+    }else if(matricula != '' && rfc == ''){
+        matriculaRFAlumno = matricula;
+    }else if(matricula != '' && rfc != ''){
+        matriculaRFAlumno = matricula;
+    }
+    fnGetDatosAlumno(matriculaRFAlumno,idAlumnoSeleccionado); //Ejecutar funcion
+}
+
+//click en el boton ver estado de cuenta
 verEdoCta.addEventListener('click',function() {
-    let strBuscarAlumno = document.querySelector('#txtNombrealumno').value;
-    fnGetEstadoCuentaAlumno(strBuscarAlumno);   
+    fnGetEstadoCuentaAlumno(matriculaRFAlumno,idAlumnoSeleccionado);   
 })
 
-function fnGetEstadoCuentaAlumno(str){
-    var tableEdoCta;
-    tableEdoCta = $('#tableEstadoCuenta').dataTable( {
+//Consultar estado de cuenta y mostrar en Datatable
+function fnGetEstadoCuentaAlumno(matriculaRFAlumno,idAlumno){
+    dataTableEdoCta = $('#tableEstadoCuenta').dataTable( {
         "aProcessing":true,
         "aServerSide":true,
         "language": {
             "url": ` ${base_url}/Assets/plugin/Spanish.json`
         },
         "ajax":{
-            "url": ` ${base_url}/ConsultasIngresosEgresos/getEstadoCuenta/${str}`,
+            "url": ` ${base_url}/ConsultasIngresosEgresos/getEstadoCuenta/${matriculaRFAlumno}/${idAlumno}`,
             "dataSrc":""
         },
         "columns":[
@@ -67,33 +88,11 @@ function fnGetEstadoCuentaAlumno(str){
 
 //Imprimir estado de cuenta al hacer click en btnImprimirEdoCta
 btnImprimirEdoCta.addEventListener('click',function(){
-    let url = `${base_url}/ConsultasIngresosEgresos/imprimir_edo_cta/${convStrToBase64(strAlumno)}`;
+    let url = `${base_url}/ConsultasIngresosEgresos/imprimir_edo_cta/${convStrToBase64(matriculaRFAlumno)}`;
     window.open(url,'_blank');
 })
 
-function fnGetDatosAlumno(str){
-    let url = `${base_url}/ConsultasIngresosEgresos/getDatosAlumno/${str}`;
-    fetch(url).then(res => res.json()).then((resultado) => {
-        if(resultado.datos){
-            cardsEdoCta.style.display = "block";
-            strAlumno = str;
-            let nomCompleto = resultado.datos.nombre_persona+' '+resultado.datos.ap_paterno+' '+resultado.datos.ap_materno;
-            document.querySelector('#nomAlumEdoCta').innerHTML = nomCompleto;
-            document.querySelector('#totalSaldo').innerHTML = formatoMoneda(resultado.totalSaldo.toFixed(2));
-            document.querySelector('#telCelAlumno').innerHTML = " "+resultado.datos.tel_celular;
-            document.querySelector('#emailAlumno').innerHTML = " "+resultado.datos.email;
-            document.querySelector('#domicilioAlumno').innerHTML = " "+resultado.datos.domicilio;
-            document.querySelector('#carreraAlumno').innerHTML = " "+resultado.datos.nombre_carrera;
-            document.querySelector('#nombreSalon').innerHTML = " "+resultado.datos.nombre_salon;
-            document.querySelector('#saldoColegiaturas').innerHTML = formatoMoneda(resultado.saldoColegiaturas.toFixed(2));
-            document.querySelector('#saldoServicios').innerHTML = formatoMoneda(resultado.saldoServicios.toFixed(2));
-        }else{
-            swal.fire("Atención","Datos del alumno no encontrado","warning");
-            cardsEdoCta.style.display = "none";
-            return false;
-        }
-    }).catch(err => { throw err });
-}
+//Mostrar resultado en Datatable en Modal de Buscar persona
 function buscarPersona(){
     let textoBusqueda = $("input#busquedaPersona").val();
     var tablePersonas;
@@ -128,15 +127,32 @@ function buscarPersona(){
     });
     $('#tablePersonas').DataTable();
 }
-function seleccionarPersona(value){
-    $('#cerrarModalBuscarPersona').click();
-    let nombreCompleto = value.getAttribute('rl');
-    let matricula = value.getAttribute('m');
-    console.log(nombreCompleto)
-    fnGetEstadoCuentaAlumno(matricula);
-    fnGetDatosAlumno(matricula);
-}
 
+//Obtener datos Personales y Estado de cuenta del Alumno por matricula/RFC o ID
+function fnGetDatosAlumno(matriculaRFAlumno,idAlumno){
+    let url = `${base_url}/ConsultasIngresosEgresos/getDatosAlumno/${matriculaRFAlumno}/${idAlumno}`;
+    fetch(url).then(res => res.json()).then((resultado) => {
+        if(resultado.estatus){
+            cardsEdoCta.style.display = "block";
+            var table = $('#tableEstadoCuenta').DataTable();
+            table.clear().draw();
+            let nomCompleto = resultado.datos.nombre_persona+' '+resultado.datos.ap_paterno+' '+resultado.datos.ap_materno;
+            document.querySelector('#nomAlumEdoCta').innerHTML = nomCompleto;
+            document.querySelector('#totalSaldo').innerHTML = formatoMoneda(resultado.totalSaldo.toFixed(2));
+            document.querySelector('#telCelAlumno').innerHTML = " "+resultado.datos.tel_celular;
+            document.querySelector('#emailAlumno').innerHTML = " "+resultado.datos.email;
+            document.querySelector('#domicilioAlumno').innerHTML = " "+resultado.datos.domicilio;
+            document.querySelector('#carreraAlumno').innerHTML = " "+resultado.datos.nombre_carrera;
+            document.querySelector('#nombreSalon').innerHTML = " "+resultado.datos.nombre_salon;
+            document.querySelector('#saldoColegiaturas').innerHTML = formatoMoneda(resultado.saldoColegiaturas.toFixed(2));
+            document.querySelector('#saldoServicios').innerHTML = formatoMoneda(resultado.saldoServicios.toFixed(2));
+        }else{
+            swal.fire("Atención","El alumno no tiene estado de cuenta","warning");
+            //cardsEdoCta.style.display = "none";
+            return false; 
+        }
+    }).catch(err => { throw err });
+}
 //Function para dar formato un numero a Moneda
 function formatoMoneda(numero){
     let str = numero.toString().split(".");
