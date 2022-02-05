@@ -153,6 +153,59 @@ function fnGetDatosAlumno(matriculaRFAlumno,idAlumno){
         }
     }).catch(err => { throw err });
 }
+
+//Funcion para Facturar
+function fnFacturarVenta(value){
+    Swal.fire({
+        title: 'Facturar?',
+        text: "Desea facturar al folio " +value.id+ " ?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, facturar!',
+        cancelButtonText: 'No',
+    })
+}
+
+//Reimpsirmir comprobante
+function fnReimprimirComprobante(value){
+    Swal.fire({
+        title: 'Reimprimir?',
+        text: "Desea reimprimir el comprobante del folio " +value.id+ " ?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, reimprimir!',
+        cancelButtonText: 'No',
+    }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            'Exito!',
+            'Comprobante generado correctamente.',
+            'success'
+          )
+            let url = `${base_url}/Ingresos/imprimir_comprobante_venta/${convStrToBase64(value.id)}`;
+            window.open(url,'_blank');
+
+        }
+      })
+}
+
+//Funcion para cancelar una Venta
+function fnCancelarVenta(value){
+    Swal.fire({
+        title: 'Cancelar?',
+        text: "Desea cancelar al folio " +value.id+ " ?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si!',
+        cancelButtonText: 'No',
+    })
+}
 //Function para dar formato un numero a Moneda
 function formatoMoneda(numero){
     let str = numero.toString().split(".");

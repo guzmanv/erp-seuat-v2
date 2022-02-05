@@ -191,15 +191,8 @@
             $data['datosInstitucion'] = $this->model->selectDatosInstitucion($idIngreso); //Datos del plantel
             $data['datos_venta'] = $this->model->selectDatosVenta($idIngreso);//Datos del ingreso/venta
             $data['datos_alumno'] = $this->model->selectDatosAlumno($idIngreso);//Datos del Alumno
-            $this->views->getView($this,"viewpdf_comprobante_venta",$data);
+            $this->views->getView($this,"viewpdf_compromante_venta_media_carta",$data);
         }
-
-
-
-
-
-
-
 
         //Funcion para convertir base64 a Array
         private function reverse64($arr){
