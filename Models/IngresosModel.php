@@ -166,15 +166,17 @@
         }
         //Consultar datos del Plantel para Los recibos
         public function selectDatosInstitucion(int $idIngreso){
-            $sql = "SELECT i.id_plantel,p.nombre_plantel,p.nombre_sistema,p.cve_centro_trabajo,p.cod_postal,p.colonia,p.domicilio,p.estado,p.localidad,p.municipio,p.abreviacion_sistema FROM t_ingresos AS i 
+            $sql = "SELECT i.id_plantel,p.nombre_plantel,p.nombre_sistema,p.cve_centro_trabajo,p.cod_postal,p.colonia,p.domicilio,p.estado,p.localidad,p.municipio,
+            p.abreviacion_sistema,df.rfc,p.codigo_plantel FROM t_ingresos AS i 
             INNER JOIN t_planteles AS p ON i.id_plantel = p.id
+            INNER JOIN t_datos_fiscales AS df ON p.id_datos_fiscales = df.id
             WHERE i.id = $idIngreso LIMIT 1";
             $request = $this->select($sql);
             return $request;
         }
         //Consultar datos de la Venta/Ingreso
         public function selectDatosVenta(int $idIngreso){
-            $sql = "SELECT i.id,i.folio,i.fecha,s.nombre_servicio,id.cantidad,s.precio_unitario,i.total FROM t_ingresos AS i
+            $sql = "SELECT i.id,i.folio,i.fecha,s.nombre_servicio,id.cantidad,s.precio_unitario,i.total,s.codigo_servicio FROM t_ingresos AS i
             RIGHT JOIN t_ingresos_detalles AS id ON id.id_ingresos = i.id
             INNER JOIN t_servicios AS s ON id.id_servicio = s.id
             WHERE i.id= $idIngreso";
@@ -188,6 +190,7 @@
             INNER JOIN t_inscripciones AS ins ON i.id_persona = ins.id_personas
             INNER JOIN t_plan_estudios AS pe ON ins.id_plan_estudios = pe.id
             INNER JOIN t_historiales AS h ON ins.id_historial = h.id
+            INNER JOIN t_salones_compuesto AS sc ON ins.id_salon_compuesto = sc.id
             WHERE i.id = $idIngreso LIMIT 1";
             $request = $this->select($sql);
             return $request;
