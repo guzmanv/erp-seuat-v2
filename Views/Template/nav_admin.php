@@ -409,20 +409,35 @@
                   </p>
               </a>
           </li>
-          <!--
-          <li class="nav-item">
-              <a href="<?php echo BASE_URL ?>/Egresos" class="nav-link">
-                  <i class="ml-3 mr-2" data-feather="corner-right-up"></i>
-                  <p>
-                      Egresos
-                  </p>
-              </a>
-          </li>-->
           <li class="nav-item">
               <a href="<?php echo BASE_URL ?>/ConsultasIngresosEgresos/consultas" class="nav-link">
                   <i class="ml-3 mr-2" data-feather="pie-chart"></i>
                   <p>
                       Consultas
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/HistorialPagosAlumno/historial" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="corner-right-up"></i>
+                  <p>
+                      Historial de pagos
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/VentasDia" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="zap"></i>
+                  <p>
+                      Ventas del día
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/CorteCaja" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="hard-drive"></i>
+                  <p>
+                      Corte de caja
                   </p>
               </a>
           </li>
