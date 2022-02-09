@@ -185,13 +185,24 @@
         }
         //Consultar datos del Alumno vinculado a la Venta
         public function selectDatosAlumno(int $idIngreso){
-            $sql = "SELECT p.id,p.nombre_persona,p.ap_paterno,p.ap_materno,pe.nombre_carrera,h.matricula_interna FROM t_ingresos AS i
+            $sql = "SELECT p.id,p.nombre_persona,p.ap_paterno,p.ap_materno,pe.nombre_carrera,h.matricula_interna,per.fecha_inicio_periodo,per.fecha_fin_periodo,pe.nombre_carrera FROM t_ingresos AS i
             INNER JOIN t_personas AS p ON i.id_persona = p.id
             INNER JOIN t_inscripciones AS ins ON i.id_persona = ins.id_personas
             INNER JOIN t_plan_estudios AS pe ON ins.id_plan_estudios = pe.id
             INNER JOIN t_historiales AS h ON ins.id_historial = h.id
             INNER JOIN t_salones_compuesto AS sc ON ins.id_salon_compuesto = sc.id
+            INNER JOIN t_periodos AS per ON sc.id_periodo = per.id
             WHERE i.id = $idIngreso LIMIT 1";
+            $request = $this->select($sql);
+            return $request;
+        }
+        public function selectDatosUsuario(int $idUsuario){
+            $sql = "SELECT p.nombre_persona, p.ap_paterno, p.ap_materno, l.nombre AS localidad, m.nombre AS municipio, e.nombre AS estado FROM t_usuarios AS u 
+            INNER JOIN t_personas AS p ON u.id_persona = p.id 
+            INNER JOIN t_localidades AS l ON p.id_localidad = l.id
+            INNER JOIN t_municipios AS m ON l.id_municipio = m.id
+            INNER JOIN t_estados AS e ON m.id_estados = e.id
+            LIMIT 1";
             $request = $this->select($sql);
             return $request;
         }

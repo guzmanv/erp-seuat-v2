@@ -191,6 +191,7 @@
             $data['datosInstitucion'] = $this->model->selectDatosInstitucion($idIngreso); //Datos del plantel
             $data['datos_venta'] = $this->model->selectDatosVenta($idIngreso);//Datos del ingreso/venta
             $data['datos_alumno'] = $this->model->selectDatosAlumno($idIngreso);//Datos del Alumno
+            $data['datos_usuario'] = $this->model->selectDatosUsuario($this->idUser);//Datos del Usuario Admin
             $this->views->getView($this,"viewpdf_compromante_venta_media_carta",$data);
         }
 

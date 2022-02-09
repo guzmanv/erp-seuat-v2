@@ -153,7 +153,7 @@ table.sin_borde{border:0px solid #ffffff; width: 100%;}
         </div>
         <div id="fila-normal" >
             <div class="subfila" style="width: 96px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;text-align:left">PARA ESTUDIAR</div>
-            <div class="subfila" style="width:262px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; ">LICENCIATURA EN FISICA</div>
+            <div class="subfila" style="width:262px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php echo(strtoupper($data['datos_alumno']['nombre_carrera'])) ?></div>
         </div>
         <div id="fila-normal">
             <div class="subfila" style="width: 180px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;text-align:left">POR CONCEPTO DE: <b>INSCRIPCION</b></div>
@@ -190,17 +190,32 @@ table.sin_borde{border:0px solid #ffffff; width: 100%;}
         </div>
         <div id="fila-normal">
             <div class="subfila" style="width: 110px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;text-align:left">EN EL PERIODO DEL:</div>
-            <div class="subfila" style="width: 150px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "></div>
+            <div class="subfila" style="width: 150px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php 
+            $mes = date("m",strtotime($data['datos_alumno']['fecha_inicio_periodo']));
+            $listaMeses = array('01'=>'Enero','02'=>'Febrero','03'=>'Marzo','04'=>'Abril','05'=>'Mayo','06'=>'Junio','07'=>'Julio','08'=>'Agosto','09'=>'Septiembre','10'=>'Octubre','11'=>'Noviembre','12'=>'Diciembre');
+            echo(strtoupper($listaMeses[$mes]));
+            ?></div>
             <div class="subfila" style="width: 10px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 4px;text-align:left">AL</div>
-            <div class="subfila" style="width: 150px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "></div>
-            <div class="subfila" style="width: 40px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 4px;text-align:left">DEL 20</div>
-            <div class="subfila" style="width: 30px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "></div>
+            <div class="subfila" style="width: 150px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php 
+            $mes = date("m",strtotime($data['datos_alumno']['fecha_fin_periodo']));
+            $listaMeses = array('01'=>'Enero','02'=>'Febrero','03'=>'Marzo','04'=>'Abril','05'=>'Mayo','06'=>'Junio','07'=>'Julio','08'=>'Agosto','09'=>'Septiembre','10'=>'Octubre','11'=>'Noviembre','12'=>'Diciembre');
+            echo(strtoupper($listaMeses[$mes]));
+            ?></div>
+            <div class="subfila" style="width: 40px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 4px;text-align:left">DEL</div>
+            <div class="subfila" style="width: 30px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php 
+            $anio = date("Y",strtotime($data['datos_alumno']['fecha_fin_periodo']));
+            echo($anio);
+            ?></div>
             <div class="subfila" style="width: 232px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 4px;text-align:left">.</div>
         </div>
         <hr>
         <div id="fila-normal">
             <div class="subfila" style="width: 180px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;text-align:left">LUGAR Y FECHA DE EXPEDICIÓN:</div>
-            <div class="subfila" style="width: 232px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "></div>
+            <div class="subfila" style="width: 550px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php 
+            $listaMeses = array('01'=>'Enero','02'=>'Febrero','03'=>'Marzo','04'=>'Abril','05'=>'Mayo','06'=>'Junio','07'=>'Julio','08'=>'Agosto','09'=>'Septiembre','10'=>'Octubre','11'=>'Noviembre','12'=>'Diciembre');
+            $listaDias = array('1'=>'Lunes','2'=>'Martes','3'=>'Miercoles','4'=>'Jueves','5'=>'Viernes','6'=>'Sabado','7'=>'Domingo');
+            echo ($data['datos_usuario']['localidad'].','.$data['datos_usuario']['municipio'].','.$data['datos_usuario']['estado'].' a las '.date("h:i:s A").' del dia '.$listaDias[date("N")].' , '.$listaMeses[date("m")].','.date("Y"));
+            ?></div>
         </div><br><br>  
         <div id="fila-normal">
             <div class="subfila" style="width: 425px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;text-align:left">
@@ -214,12 +229,12 @@ table.sin_borde{border:0px solid #ffffff; width: 100%;}
                             <div style="text-align:justify;font-weight:normal">PRESNTE ESTE RECIBO ANEXANDO LA DOCUMENTACIÓN DE INGRESO AL DEPARTAMENTO DE CONTROL ESCOLAR DE LA INSTITUCIÓN PARA CONCLUIR SUS TRÁMITES DE REGISTRO DE ESCOLARIDAD</div>
                             <br><br><br><br><br>
                             <div class="row">
-                                <div style="width:45%;float:left;font-size:10px;">
+                                <div style="width:45%;float:left;font-size:10px;text-align:center">NOMBRE
                                     <div style="border-top: 1px solid #000;">DIRECCIÓN DE PROMOCIÓN Y DIFUCIÓN</div>
                                 </div>
                                 <div style="width:10%;float:left">                            
                                 </div>
-                                <div style="width:45%;float:right;font-size:10px">
+                                <div style="width:45%;float:right;font-size:10px;text-align:center"><?php echo(strtoupper($data['datos_usuario']['nombre_persona'].' '.$data['datos_usuario']['ap_paterno'].' '.$data['datos_usuario']['ap_materno'])) ?>
                                     <div style="border-top: 1px solid #000;">NOMBRE Y FIRMA DEL CAJERO(A)</div>
                                 </div>
                             </div>
@@ -262,7 +277,6 @@ table.sin_borde{border:0px solid #ffffff; width: 100%;}
             }
             return $num_word;
         }
-        var_dump($data);
     ?>
 </div>
 </html>
