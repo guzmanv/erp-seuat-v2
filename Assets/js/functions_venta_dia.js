@@ -45,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function(){
             {"data":"carrera"},
             {"data":"grado"},
             {"data":"fecha"},
+            {"data":"factura"},
             {"data":"total_formato"},
 			{"data":"acciones"}
         ],
@@ -97,16 +98,20 @@ function detallesIngreso(value){
         if(resultado.detalles.length != 0){
             let count = 0;
             resultado.detalles.forEach(element => {
-                console.log(element.prmociones_aplicadas);
                 count += 1;
+                let promociones = JSON.parse(element.promociones_aplicadas);
                 let table = document.querySelector('#tableDetallesVentaModal');
-                let row = `<tr><td>${count}</td><td>${element.nombre_servicio}</td><td>${formatoMoneda(element.precio_unitario)}</td><td><span class="badge badge-primary m-1">${element.promociones_aplicadas}</span><span class="badge badge-primary m-1">Promocion 2(12%)</span><span class="badge badge-primary m-1">Promocion 3(14%)</span></td></tr>`;
+                let badgePromociones = "";
+                promociones.forEach(promocion => {
+                    badgePromociones += `<span class="badge badge-primary m-1">${promocion.nombre_promocion}(${promocion.descuento})</span>`;
+                });
+                let row = `<tr><td>${count}</td><td>${element.nombre_servicio}</td><td>${formatoMoneda(element.precio_unitario)}</td><td>${badgePromociones}</td></tr>`;
                 table.innerHTML += row;
             });
         }
     }).catch(err => {throw err});
 }
-
+//Funcion para imprimir Venta del Dia
 function fnImprimirReporteVentaDia(){
     Swal.fire({
         title: 'Imprmir?',
@@ -127,6 +132,26 @@ function fnImprimirReporteVentaDia(){
         }
       })
 }
+//Funcion para guardar Corte
+function btnGuardarCorte(){
+    let totalVenta = 0;
+    let totalEfectivo = document.querySelector('#totalEfectivoCorte').value;
+    if(totalEfectivo == ""){
+        swal.fire("Atención", "Ingrese el total de Efectivo", "warning");
+        return false;
+    }
+    let url = `${base_url}/VentasDia/setCorteDia`
+    fetch(url)
+    .then(res => res.json())
+    .then((resultado) =>{
+        if(resultado.estatus){
+            swal.fire("Corte", resultado.msg, "success").then((result) =>{
+                $('.close').click();
+            });
+        }
+    }).catch(err => {throw err});
+}
+
 //Function para dar formato un numero a Moneda
 function formatoMoneda(numero){
     let str = numero.toString().split(".");

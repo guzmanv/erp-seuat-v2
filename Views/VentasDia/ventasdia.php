@@ -59,6 +59,7 @@
                                                 <th>Carrera</th>
                                                 <th>Grado</th>
                                                 <th>Fecha</th>
+                                                <th>Factura</th>
                                                 <th>Total</th>
                                                 <th>Acciones</th>
                                             </tr>

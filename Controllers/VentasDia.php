@@ -33,6 +33,7 @@
                 $arrData[$i]['plantel'] = $array['plantel'];
                 $arrData[$i]['carrera'] = $array['nombre_carrera'];
                 $arrData[$i]['grado'] = $array['grado'];
+                $arrData[$i]['factura'] = 1;
                 $arrData[$i]['total_formato'] = '$ '.formatoMoneda($arrData[$i]['total']);
                 $arrData[$i]['acciones'] = '<button type="button"  id="'.$arrData[$i]['id'].'" f="'.$arrData[$i]['folio'].'" class="btn btn-secondary btn-xs" onclick="detallesIngreso('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#modalVentaDetallesDia">Detalles</button>';
             }
@@ -49,7 +50,12 @@
             die();
         }
 
-
+        public function setCorteDia(){
+            $response['estatus'] = true;
+            $response['msg'] = "Corte realizado correctamente";
+            echo json_encode($response,JSON_UNESCAPED_UNICODE);
+            die();
+        }
         
         private function getDatosAlumno(int $idAlumno){
             $arrData = $this->model->selectDatosAlumno($idAlumno);
