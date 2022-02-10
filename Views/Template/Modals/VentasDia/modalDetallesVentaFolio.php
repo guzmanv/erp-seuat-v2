@@ -12,8 +12,8 @@
                 <div class="col-12 col-xl-12">
 		            <div class="card">
 				        <div class="card-header">
-					        <h5 class="card-title">Folio: TGZIN0220220006</h5>
-					        <h6 class="card-subtitle text-muted m-auto"> &nbsp&nbsp&nbsp<i><span>Este la observacion del Folio</span></i></h6>
+					        <h5 class="card-title">Folio: <span id="folioDetallesVenta"></span></h5>
+					        <h6 class="card-subtitle text-muted m-auto"> &nbsp&nbsp&nbsp<i><span id="observacionIngreso"></span></i></h6>
 				        </div>
 				        <table class="table">
 					        <thead>
@@ -24,7 +24,7 @@
 							        <th style="width:40%">Promociones</th>
 						        </tr>
 					        </thead>
-					        <tbody>
+					        <tbody id="tableDetallesVentaModal">
 						        <tr>
 							        <td>1</td>
 							        <td>CREDENCIAL</td>

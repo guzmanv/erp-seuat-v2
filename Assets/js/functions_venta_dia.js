@@ -86,6 +86,27 @@ function fnCortePArcialDia(){
     document.querySelector("#totalVentaCorteParcial").textContent = document.querySelector('#totalSaldo').textContent;
 }
 
+function detallesIngreso(value){
+    let folio = document.getElementById(value).getAttribute('f');
+    document.querySelector('#folioDetallesVenta').textContent = folio;
+    let url = `${base_url}/VentasDia/getDetallesVenta/${value}`;
+    fetch(url)
+    .then(res => res.json())
+    .then((resultado) =>{
+        document.querySelector('#observacionIngreso').textContent = resultado.observacion;
+        if(resultado.detalles.length != 0){
+            let count = 0;
+            resultado.detalles.forEach(element => {
+                console.log(element.prmociones_aplicadas);
+                count += 1;
+                let table = document.querySelector('#tableDetallesVentaModal');
+                let row = `<tr><td>${count}</td><td>${element.nombre_servicio}</td><td>${formatoMoneda(element.precio_unitario)}</td><td><span class="badge badge-primary m-1">${element.promociones_aplicadas}</span><span class="badge badge-primary m-1">Promocion 2(12%)</span><span class="badge badge-primary m-1">Promocion 3(14%)</span></td></tr>`;
+                table.innerHTML += row;
+            });
+        }
+    }).catch(err => {throw err});
+}
+
 function fnImprimirReporteVentaDia(){
     Swal.fire({
         title: 'Imprmir?',

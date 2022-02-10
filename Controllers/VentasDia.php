@@ -34,12 +34,23 @@
                 $arrData[$i]['carrera'] = $array['nombre_carrera'];
                 $arrData[$i]['grado'] = $array['grado'];
                 $arrData[$i]['total_formato'] = '$ '.formatoMoneda($arrData[$i]['total']);
-                $arrData[$i]['acciones'] = '<button type="button"  id="'.$arrData[$i]['id'].'" class="btn btn-secondary btn-xs" onclick="detallesIngreso(this)" data-toggle="modal" data-target="#modalVentaDetallesDia">Detalles</button>';
+                $arrData[$i]['acciones'] = '<button type="button"  id="'.$arrData[$i]['id'].'" f="'.$arrData[$i]['folio'].'" class="btn btn-secondary btn-xs" onclick="detallesIngreso('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#modalVentaDetallesDia">Detalles</button>';
             }
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
 			die();
         }
 
+        public function getDetallesVenta(int $idIngreso){
+            $observacion = $this->model->selectObservacionIngreso($idIngreso);
+            $response['observacion'] = ($observacion['observaciones'] == '' || $observacion['observaciones'] == NULL)?'Sin observación':$observacion['observaciones'];
+            $detallesVenta = $this->model->selectDetallesVenta($idIngreso);
+            $response['detalles'] = $detallesVenta;
+            echo json_encode($response,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+
+        
         private function getDatosAlumno(int $idAlumno){
             $arrData = $this->model->selectDatosAlumno($idAlumno);
             $arrData['nombre_completo'] = $arrData['nombre_persona'].' '.$arrData['ap_paterno'].' '.$arrData['ap_materno'];

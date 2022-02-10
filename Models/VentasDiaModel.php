@@ -23,5 +23,18 @@
             $request = $this->select($sql);
             return $request;
         }
+        public function selectObservacionIngreso(int $idIngreso){
+            $sql = "SELECT observaciones FROM t_ingresos WHERE id= $idIngreso LIMIT 1";
+            $request = $this->select($sql);
+            return $request;
+        }
+
+        public function selectDetallesVenta(int $idIngreso){
+            $sql = "SELECT *FROM t_ingresos_detalles AS idet
+            INNER JOIN t_servicios AS s ON idet.id_Servicio = s.id 
+            WHERE idet.id_ingresos = $idIngreso";
+            $request = $this->select_all($sql);
+            return $request;
+        }
 	}
 ?>
