@@ -83,9 +83,6 @@ function ventaTotalDia(){
 }
 
 
-function fnCortePArcialDia(){
-    document.querySelector("#totalVentaCorteParcial").textContent = document.querySelector('#totalSaldo').textContent;
-}
 
 function detallesIngreso(value){
     let folio = document.getElementById(value).getAttribute('f');

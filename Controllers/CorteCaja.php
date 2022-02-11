@@ -11,7 +11,6 @@
 			$data['page_tag'] = "Corte caja";
 			$data['page_title'] = "Corte caja";
 			$data['page_name'] = "Corte caja";
-			$data['datos'] = $this->model->selectAlumnos();
 			$this->views->getView($this,"cortecaja",$data);
 		}
 	}
