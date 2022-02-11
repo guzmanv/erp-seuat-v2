@@ -339,6 +339,14 @@
               </a>
           </li>
           <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Reinscripcion/reinscripcion" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="repeat"></i>
+                  <p>
+                      Reinscripción
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
               <a href="<?php echo BASE_URL ?>/Salones/salon" class="nav-link">
                   <i class="ml-3 mr-2" data-feather="twitch"></i>
                   <p>
