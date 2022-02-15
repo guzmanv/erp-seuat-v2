@@ -36,94 +36,96 @@
                                     </nav>
                                     <div class="card-body"> 
                                         <div class="tab">
-                                            <div class="row">
-                                                <div class="form-group col-md-12">
-                                                    <div class="col-md-6">
-                                                        <label>Nombre del Alumno</label>
-                                                        <div class="input-group mb-3">
-                                                            <input type="text" class="form-control" placeholder="Nombre del alumno" id="nombreAlumno">
-                                                            <div class="input-group-append">
-                                                                <a type="button" data-toggle="modal" data-target="#modalBuscarAlumno"><span class="input-group-text" id="basic-addon2">Buscar</span></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12" id="alertBuscar">
-                                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                                        <strong>Aviso!</strong>Busca un alumno dando click en el boton <b>Buscar</b>.
-                                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-5" id="divDatosAlumno" style="display:none">
-                                                    <div class="col-md-12">
-                                                        <div class="card text-center">
-                                                            <label>Datos del Alumno seleccionado</label>
-                                                            <div class="card-body">
-                                                                <img src="https://coderthemes.com/hyper_2/saas/assets/images/users/avatar-1.jpg" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image">
-                                                                <h4 class="mb-0 mt-2" id="nombrePersona"></h4>
-                                                                <p class="text-muted font-14" id="categoriaPersona"></p>
-                                                                <button type="button" class="btn btn-primary mb-2">Historial Academico</button>
-                                                                <button type="button" class="btn btn-secondary mb-2">Enviar mensaje</button>
-                                                                <div class="text-start mt-3">
-                                                                    <p class="text-muted mb-2 font-13"><strong>Plantel :</strong> <span class="ms-2" id="nombrePlantel"></span></p>
-                                                                    <p class="text-muted mb-2 font-13"><strong>Carrera :</strong><span class="ms-2" id="nombreCarrera"></span></p>
-                                                                    <p class="text-muted mb-2 font-13"><strong>Generación :</strong><span class="ms-2" id="nombreGeneracion"></span></p>
-                                                                    <p class="text-muted mb-2 font-13"><strong>Ciclo :</strong><span class="ms-2" id="nombreCiclo"></span></p>
-                                                                    <p class="text-muted mb-2 font-13"><strong>Periodo :</strong><span class="ms-2" id="nombrePeriodo"></span></p>
-                                                                    <p class="text-muted mb-2 font-13"><strong>Grado y Grupo :</strong> <span class="ms-2 " id="carreraGrupo"></span></p>
-                                                                    <p class="text-muted mb-1 font-13"><strong>Estatus :</strong> <span class="ms-2" id="estatus"></span></p>
+                                            <form id="formDatosFiscales" name="formDatosFiscales">
+                                                <div class="row">
+                                                    <div class="form-group col-md-12">
+                                                        <div class="col-md-6">
+                                                            <label>Nombre del Alumno</label>
+                                                            <div class="input-group mb-3">
+                                                                <input type="text" class="form-control" placeholder="Nombre del alumno" id="nombreAlumno">
+                                                                <div class="input-group-append">
+                                                                    <a type="button" data-toggle="modal" data-target="#modalBuscarAlumno"><span class="input-group-text" id="basic-addon2">Buscar</span></a>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div> 
-                                                </div>
-                                                <div class="col-md-7" id="divDatosReinscripcion" style="display:none">
-                                                    <div class="card">
-                                                        <div class="card-body">
-                                                            <h3>Datos de la reinscripcion</h3><br><br><br>
-                                                            <label>Plantel</label>
-                                                            <input type="text" class="form-control" placeholder="Plantel" value="" id="txtNombrePlantel" disabled>
-                                                            <label>Carrera</label>
-                                                            <input type="text" class="form-control" placeholder="Carrera" value="" id="txtNombreCarrera" disabled>
-                                                            <label>Generación</label>
-                                                            <input type="text" class="form-control" placeholder="Generacion" value="" id="txtNombreGeneracion" disabled>
-                                                            <label>Ciclo</label>
-                                                            <select class="custom-select">
-                                                                <option selected>Seleccionar...</option>
-                                                                <?php foreach ($data['ciclos'] as $key => $value) { ?>
-                                                                    <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_ciclo'] ?></option>
-                                                                <?php } ?>
-                                                            </select>
-                                                            <label>Periodo</label>
-                                                            <select class="custom-select">
-                                                                <option selected>Seleccionar...</option>
-                                                                <?php foreach ($data['periodos'] as $key => $value) { ?>
-                                                                    <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_periodo'] ?></option>
-                                                                <?php }?>
-                                                            </select>
-                                                            <label>Grado</label>
-                                                            <select class="custom-select">
-                                                                <option selected>Seleccionar...</option>
-                                                                <?php foreach ($data['grados'] as $key => $value) { ?>
-                                                                    <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_grado'] ?></option>
-                                                                <?php }?>
-                                                            </select>
-                                                            <label>Grupo</label>
-                                                            <select class="custom-select">
-                                                                <option selected>Seleccionar...</option>
-                                                                <?php foreach ($data['grupos'] as $key => $value) { ?>
-                                                                    <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_grupo'] ?></option>
-                                                                <?php }?>
-                                                            </select>
+                                                    </div>
+                                                    <div class="col-md-12" id="alertBuscar">
+                                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                                            <strong>Aviso!</strong>Busca un alumno dando click en el boton <b>Buscar</b>.
+                                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-5" id="divDatosAlumno" style="display:none">
+                                                        <div class="col-md-12">
+                                                            <div class="card text-center">
+                                                                <label>Datos del Alumno seleccionado</label>
+                                                                <div class="card-body">
+                                                                    <img src="https://coderthemes.com/hyper_2/saas/assets/images/users/avatar-1.jpg" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image">
+                                                                    <h4 class="mb-0 mt-2" id="nombrePersona"></h4>
+                                                                    <p class="text-muted font-14" id="categoriaPersona"></p>
+                                                                    <button type="button" class="btn btn-primary mb-2">Historial Academico</button>
+                                                                    <button type="button" class="btn btn-secondary mb-2">Enviar mensaje</button>
+                                                                    <div class="text-start mt-3">
+                                                                        <p class="text-muted mb-2 font-13"><strong>Plantel :</strong> <span class="ms-2" id="nombrePlantel"></span></p>
+                                                                        <p class="text-muted mb-2 font-13"><strong>Carrera :</strong><span class="ms-2" id="nombreCarrera"></span></p>
+                                                                        <p class="text-muted mb-2 font-13"><strong>Generación :</strong><span class="ms-2" id="nombreGeneracion"></span></p>
+                                                                        <p class="text-muted mb-2 font-13"><strong>Ciclo :</strong><span class="ms-2" id="nombreCiclo"></span></p>
+                                                                        <p class="text-muted mb-2 font-13"><strong>Periodo :</strong><span class="ms-2" id="nombrePeriodo"></span></p>
+                                                                        <p class="text-muted mb-2 font-13"><strong>Grado y Grupo :</strong> <span class="ms-2 " id="carreraGrupo"></span></p>
+                                                                        <p class="text-muted mb-1 font-13"><strong>Estatus :</strong> <span class="ms-2" id="estatus"></span></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div> 
+                                                    </div>
+                                                    <div class="col-md-7" id="divDatosReinscripcion" style="display:none">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <h3>Datos de la reinscripcion</h3><br><br><br>
+                                                                <label>Plantel</label>
+                                                                <input type="text" class="form-control" placeholder="Plantel" value="" id="txtNombrePlantel" disabled>
+                                                                <label>Carrera</label>
+                                                                <input type="text" class="form-control" placeholder="Carrera" value="" id="txtNombreCarrera" disabled>
+                                                                <label>Generación</label>
+                                                                <input type="text" class="form-control" placeholder="Generacion" value="" id="txtNombreGeneracion" disabled>
+                                                                <label>Ciclo</label>
+                                                                <select class="custom-select" required>
+                                                                    <option selected>Seleccionar...</option>
+                                                                    <?php foreach ($data['ciclos'] as $key => $value) { ?>
+                                                                        <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_ciclo'] ?></option>
+                                                                    <?php } ?>
+                                                                </select>
+                                                                <label>Periodo</label>
+                                                                <select class="custom-select">
+                                                                    <option selected>Seleccionar...</option>
+                                                                    <?php foreach ($data['periodos'] as $key => $value) { ?>
+                                                                        <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_periodo'] ?></option>
+                                                                    <?php }?>
+                                                                </select>
+                                                                <label>Grado</label>
+                                                                <select class="custom-select">
+                                                                    <option selected>Seleccionar...</option>
+                                                                    <?php foreach ($data['grados'] as $key => $value) { ?>
+                                                                        <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_grado'] ?></option>
+                                                                    <?php }?>
+                                                                </select>
+                                                                <label>Grupo</label>
+                                                                <select class="custom-select">
+                                                                    <option selected>Seleccionar...</option>
+                                                                    <?php foreach ($data['grupos'] as $key => $value) { ?>
+                                                                        <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_grupo'] ?></option>
+                                                                    <?php }?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 text-center">
+                                                        <button type="sumbit" class="btn btn-primary col-md-6" onclick="fnReinscribir()">Reinscribir</button>
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-12 text-center">
-                                                    <button type="button" class="btn btn-primary col-md-6">Reinscribir</button>
-                                                </div>
-                                            </div>
+                                            </form>
                                         </div>
                                         <div class="tab">
                                             <div class="row">

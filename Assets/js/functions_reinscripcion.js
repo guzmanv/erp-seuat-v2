@@ -83,3 +83,7 @@ function seleccionarPersona(value){
     }
     $('.close').click();
 }
+
+function fnReinscribir(){
+     
+}
