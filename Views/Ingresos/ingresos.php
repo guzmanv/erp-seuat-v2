@@ -24,10 +24,10 @@
                             <div class="card-body">
                                 <div class="row col-12">
                                     <div class="col-12 row">
-                                        <div class="form-group col-md-6 col-sm-12">
+                                        <div class="form-group col-md-4 col-sm-12">
                                             <input type="text" id="txtNombreNuevo" name="txtNombreNuevo" class="form-control" placeholder="Nombre de la persona a buscar"  name="" readonly required> 
                                         </div>
-                                        <div class="form-group col-md-6 col-sm-12">
+                                        <div class="form-group col-md-4 col-sm-12">
                                             <button type="button" class="btn btn-primary col-md-4 col-sm-12" data-toggle="modal" data-target="#modalNombrePersona"><i class="fa fa-search"></i> Buscar</button>
                                         </div>
                                     </div>
@@ -39,13 +39,23 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-12">
+                                        <div class="col-md-3 p-0">
                                         <label>Que desea cobrar?</label>
                                         <select class="form-control" id="listTipoCobro"  name="listTipoCobro" onchange="fnTiposCobro(value)" style="width: 100%;" required >
                                             <option value="">Selecciona una</option>
                                             <option value="1">Colegiaturas mensuales</option>
                                             <option value="2">Otros servicios</option>
-                                        </select>
+                                        </select></div>
+                                    </div>
+                                    <div class="form-group col-md-2 listGrado">
+                                            <label>Grado</label>
+                                            <select class="form-control" id="listGrado" onchange="fnChangeGrado(value)" required >
+                                                <option value="">Selecciona un grado</option>
+                                                <option value="1">1</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                            </select>
                                     </div>
                                     <div class="form-group col-md-4 listServicios">
                                         <label>Servicios</label>
@@ -53,7 +63,7 @@
                                             <option value="">Selecciona un servicio</option>
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-3 listPromociones">
+                                    <div class="form-group col-md-4 listPromociones">
                                         <label>Promociones</label>
                                         <div class="select2-blue">
                                             <select class="select2 form-control" multiple="multiple" id="listPromociones"  name="listPromociones" data-placeholder="Seleccciona una promocion" data-dropdown-css-class="select2-blue" style="width: 100%;" required>
@@ -100,7 +110,7 @@
                                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button><br>
-                                            <div class="col-md-12"><div class="form-group col-md-5 m-auto" style="display:flex;align-items:end">
+                                            <div class="col-md-12"><div class="form-group m-auto" style="display:flex;align-items:end">
                                                 <button type="button" class="btn btn-secondary btn-block form-control" onclick="fnGenerarEstadoCuenta()"><i class="fas fa-dollar-sign"></i></i> Generar estado de cuenta</button>
                                             </div></div>
                                         </div>

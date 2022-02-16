@@ -53,14 +53,17 @@
         // Funcion para obtener Servicios por Tipo de pago
         public function getServicios($valor){
             $valor = explode(',',$valor);
-            $pago = $valor[0];
-            $idPersona = $valor[1];
+            $pago = $valor[1];
+            $grado = $valor[0];
+            $idPersona = $valor[2];
             if($pago == 1){
                 $arrData['tipo'] = "COL";
-                $arrData['data'] = $this->model->selectColegiaturas($idPersona);
+                $arrData['data'] = $this->model->selectColegiaturas($idPersona,$grado);
             }else{
                 $arrData['tipo'] = "SERV";
-                $arrData['data'] = $this->model->selectServicios($idPersona);
+                //$arrData['data'] = $this->model->selectServicios($idPersona,$grado);
+                $datos = $this->model->selectServicios($idPersona,$grado);
+                $arrData['data'] = $datos;
             }
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
@@ -82,12 +85,7 @@
             $idGrado = $arrGrado['grado'];
             $idPeriodo = $arrPeriodo['id_periodo'];
             $arrData = $this->model->generarEdoCuentaAlumno($idPersonaSeleccionada,$idPlantel,$idCarrera,$idGrado,$idPeriodo,$this->idUser);
-            if($arrData){
-                $arrResponse = true;
-            }else{
-                $arrResponse = false;
-            }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
         //Funcion para enviar ingresos
@@ -97,10 +95,55 @@
             $tipoComprobante = $_GET['tipoCom'];
             $observaciones = $_GET['observacion'];
             $arrayDate = json_decode($_GET['date']);
-            $isColegiatura = false;
-            $isOtroServicio = false;
-            $isEdoCtaOtrosServ = false;
+            $isEdoCta = false;
+            $total = 0;
+            $estados;
             foreach ($arrayDate as $key => $value) {
+                $total += $value->subtotal;
+            }
+            foreach ($arrayDate as $key => $value) {
+                if($value->edo_cta == '1'){
+                    $isEdoCta = true;
+                    break;
+                }
+            }
+            if($isEdoCta){
+                $folio = $this->model->selectFolioSig($idAlumno);
+                $estados = [];
+                foreach ($arrayDate as $key => $value) {
+                    if($value->edo_cta == '1'){
+                        $reqIngreso = $this->model->updateIngresos($value->id_servicio,$tipoPago,$tipoComprobante,$observaciones,$folio,$total);
+                        if($reqIngreso){
+                            $reqIngDetalles = $this->model->updateIngresosDetalles($value->id_servicio,$value->cantidad,$value->precio_unitario,$value->subtotal,json_encode($value->promociones));
+                            if($reqIngDetalles){
+                                $arrResponse = array('estatus' => true,'id'=>$value->id_servicio,'msg' => 'Datos guardados correctamente!');
+                            }else{
+                                $arrResponse = array('estatus' => false,'id'=>$value->id_servicio, 'msg' => 'No es posible guardar los datos');
+                            }
+                        }
+                    }else{
+                        $reqIngreso = $this->model->insertIngresos($folio,$tipoPago,$tipoComprobante,$total,$observaciones,$idAlumno);
+                        if($reqIngreso){
+                            foreach ($arrayDate as $key => $value) {
+                                $reqIngDetalles = $this->model->insertIngresosDetalle($value->cantidad,$value->precio_unitario,$value->precio_unitario,$total,$value->subtotal,0,0,json_encode($value->promociones),$value->id_servicio,$reqIngreso);
+                                if($reqIngDetalles){
+                                    $arrResponse = array('estatus' => true,'id'=>$reqIngreso,'msg' => 'Datos guardados correctamente!');
+                                }else{
+                                    $arrResponse = array('estatus' => false,'id'=>$reqIngreso, 'msg' => 'No es posible guardar los datos');
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+            $arrResponse = $estados;
+            
+            //$isColegiatura = false;
+            //$isOtroServicio = false;
+            //$isEdoCtaOtrosServ = false;
+            
+            /* foreach ($arrayDate as $key => $value) {
                 ($value->tipo_servicio =='col')?$isColegiatura = true:$isColegiatura = false;
                 ($value->tipo_servicio =='serv')?$isOtroServicio = true:$isOtroServicio = false;
             }
@@ -112,9 +155,7 @@
                     $isEdoCtaOtrosServ = false;
                 }
             }
-            
-            if($isColegiatura){
-                
+            if($isColegiatura){    
                 foreach ($arrayDate as $key => $value) {
                     $idIngreso = $value->id_servicio;
                     $folio = $this->model->selectFolioSig($idAlumno);
@@ -132,7 +173,6 @@
                             $arrResponse = array('estatus' => false,'id'=>$idIngreso, 'msg' => 'No es posible guardar los datos');
                         }
                     }
-
                 }
             }
             if($isOtroServicio == true && $isEdoCtaOtrosServ == false){
@@ -142,6 +182,7 @@
                     $total += $value->subtotal;
                 }
                 $reqIngreso = $this->model->insertIngresos($folio,$tipoPago,$tipoComprobante,$total,$observaciones,$idAlumno);
+
                 if($reqIngreso){
                     foreach ($arrayDate as $key => $value) {
                         $reqIngDetalles = $this->model->insertIngresosDetalle($value->cantidad,$value->precio_unitario,$value->precio_unitario,$total,$value->subtotal,0,0,json_encode($value->promociones),$value->id_servicio,$reqIngreso);
@@ -151,7 +192,7 @@
                             $arrResponse = array('estatus' => false,'id'=>$reqIngreso, 'msg' => 'No es posible guardar los datos');
                         }
                     }
-                }
+                } 
             }
             if($isOtroServicio == true && $isEdoCtaOtrosServ == true){
                 $folio = $this->model->selectFolioSig($idAlumno);
@@ -181,7 +222,7 @@
                 }else{
                     $arrResponse = array('estatus' => false,'msg' => 'Hay un servicio que no se ha agregado al <b>estado de cuente</b> del Alumno');
                 }
-            } 
+            } */
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
