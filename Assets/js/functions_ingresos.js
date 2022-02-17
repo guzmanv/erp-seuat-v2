@@ -14,6 +14,7 @@ listGrado.style.display = "none";
 btnAgregarServicio.disabled = true;
 listTipoCobro.disabled = true;
 let tipoCobroSeleccionado;
+let gradoSeleccionado;
 var formGenerarEdoCuenta = document.querySelector("#formGenerarEdoCuenta");
 document.addEventListener('DOMContentLoaded', function(){
     $('.select2').select2(); //Inicializar Select 2 en el input promociones
@@ -32,20 +33,23 @@ document.addEventListener('DOMContentLoaded', function(){
 function fnServicios(grado,tipoCobro){
     let url = `${base_url}/Ingresos/getServicios/${grado}/${tipoCobro}/${idPersonaSeleccionada}`;
     fetch(url).then(res => res.json()).then((resultado) => {
-        
-        /* arrServiciosTodos = resultado.data;
+        arrServiciosTodos = resultado.data;
         document.querySelector("#listServicios").innerHTML = "<option value=''>Selecciona un servicio</option>";
         if(resultado.tipo == "COL"){
             resultado.data.forEach(colegiatura => {
-                let estatus = (colegiatura.fecha != null)?'/Pagado':'';
-                document.querySelector("#listServicios").innerHTML += `<option pu='${colegiatura.precio_unitario}' ec='1' es='${colegiatura.fecha}' t='col' value='${colegiatura.id_ingresos}'>${colegiatura.descripcion}${estatus}</option>`;
+                let estatus = (colegiatura.pagado == 1)?'/Pagado':'';
+                document.querySelector("#listServicios").innerHTML += `<option pu='${colegiatura.precio_unitario}' ec='1' es='${estatus}' t='col' value='${colegiatura.id_edo_cta}' idprecarga='${colegiatura.id_precarga}'>${colegiatura.nombre_servicio}${estatus}</option>`;
                 
             });
         }else{
             resultado.data.forEach(servicio => {
-                document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' ec='${servicio.aplica_edo_cuenta}' t="serv" value='${servicio.id}'>${servicio.nombre_servicio}${(servicio.aplica_edo_cuenta == 1)?'(----si----)':''}</option>`;
+                if(servicio.id_edo_cta){
+                    document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' ec='1' t="serv" value='${servicio.id_edo_cta}' idprecarga='${servicio.id_precarga}'>${servicio.nombre_servicio}---Si---</option>`;
+                }else{
+                    document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' ec='${servicio.aplica_edo_cuenta}' t="serv" value='${servicio.id}'>${servicio.nombre_servicio}${(servicio.aplica_edo_cuenta == 1)?'(----si----)':''}</option>`;
+                }
             });
-        } */
+        }
     }).catch(err => { throw err });
 }
 //Lista de Promociones del Servicio seleccionado
@@ -136,15 +140,16 @@ function fnBtnAgregarServicioTabla(){
     let estatus = servicio.options[servicio.selectedIndex].getAttribute('es');
     let tipo = servicio.options[servicio.selectedIndex].getAttribute('t');
     let edocta = servicio.options[servicio.selectedIndex].getAttribute('ec');
+    let precarga = servicio.options[servicio.selectedIndex].getAttribute('idprecarga');
     if(tipo == 'col'){
-        if(estatus != 'null' && idServicio != ''){
+        if(estatus != '' && idServicio != ''){
             swal.fire("Atención","El servicio seleccionado ya ha sido pagado","warning");
             return false;
         }
     }
     let subtotal = precioUnitarioServicioSel*cantidad;
     let acciones = `<td style='text-align:center'><a class='btn' onclick='fnBorrarServicioTabla(${idServicio})'><i class='fas fa-trash text-danger'></i></a></td>`;
-    let arrServicio = {id_servicio:idServicio,nombre_servicio:nombreServicio,tipo_servicio:tipo,edo_cta:edocta,cantidad:cantidad,precio_unitario:precioUnitarioServicioSel,subtotal:subtotal,acciones:acciones,promociones:obtenerPromSeleccionados('listPromociones')};
+    let arrServicio = {id_servicio:idServicio,nombre_servicio:nombreServicio,tipo_servicio:tipo,edo_cta:edocta,precarga:precarga,cantidad:cantidad,precio_unitario:precioUnitarioServicioSel,subtotal:subtotal,acciones:acciones,promociones:obtenerPromSeleccionados('listPromociones')};
     if(idServicio == "" || cantidad == ""){
         swal.fire("Atención","Atención todos los campos son obligatorios","warning");
         return false;
@@ -173,6 +178,7 @@ function fnBtnAgregarServicioTabla(){
             //isTipo['msg'] = 'No puedes cobrar servicios con colegiaturas';
         }
     });
+    
         /* if(isTipo['is']){
             swal.fire("Atención",isTipo['msg'],"warning");
             return false;
@@ -180,7 +186,7 @@ function fnBtnAgregarServicioTabla(){
     if(isExist){
         swal.fire("Atención","Ya existe el servicio, modifica la cantidad en la tabla","warning").then((result) =>{
             if(result.isConfirmed){
-                fnServicios();
+                fnServicios(gradoSeleccionado,tipoCobroSeleccionado);   //Error
                 document.querySelector('#listPromociones').innerHTML = "";
             }
         });
@@ -200,7 +206,7 @@ function fnBtnAgregarServicioTabla(){
                 document.querySelector('#listPromociones').innerHTML = "";
                 arrServicios.push(arrServicio);
                 mostrarServiciosTabla();
-                fnServicios();
+                fnServicios(gradoSeleccionado,tipoCobroSeleccionado);
                 document.querySelector('#listPromociones').innerHTML ="<option value=''>Selecciona una promocion</option>";
                 mostrarTotalCuentaServicios();
                 listPromociones.style.display = "none";
@@ -215,7 +221,7 @@ function fnBorrarServicioTabla(value){
     let arrServicioNew = [];
     arrServicios.forEach(servicio => {
         if(servicio.id_servicio != value){
-            let arrServicio = {id_servicio:servicio.id_servicio,nombre_servicio:servicio.nombre_servicio,tipo_servicio:servicio.tipo_servicio,edo_cta:servicio.edo_cta,promociones:servicio.promociones,cantidad:servicio.cantidad,precio_unitario:servicio.precio_unitario,subtotal:servicio.subtotal,acciones:servicio.acciones};
+            let arrServicio = {id_servicio:servicio.id_servicio,nombre_servicio:servicio.nombre_servicio,tipo_servicio:servicio.tipo_servicio,edo_cta:servicio.edo_cta,precarga:servicio.precarga,promociones:servicio.promociones,cantidad:servicio.cantidad,precio_unitario:servicio.precio_unitario,subtotal:servicio.subtotal,acciones:servicio.acciones};
             arrServicioNew.push(arrServicio);
         }
     });
@@ -383,9 +389,11 @@ function fnTiposCobro(value){
     }
 }
 function fnChangeGrado(value){
-    let grado = value;
+    gradoSeleccionado = value;
    if(value != ""){
-       fnServicios(grado,tipoCobroSeleccionado);
+       fnServicios(gradoSeleccionado,tipoCobroSeleccionado);
+   }else{
+        document.querySelector("#listServicios").innerHTML = "<option value=''>Selecciona un servicio</option>";    
    }
 }
 //Function para efectuar el Cobro /mostrar cambio y mandar a imprimir Recibo
@@ -422,12 +430,11 @@ function btnCobrarCmbio(){
         let url = ` ${base_url}/Ingresos/setIngresos?idP=${idPersonaSeleccionada}&tipoP=${tipoPago}&tipoCom=${tipoComprobante}&observacion=${observaciones}&date=${jsonToString(arrServicios)}`
 
         fetch(url).then(res => res.json()).then((resultado) => {
-            console.log(resultado);
-           /* if(resultado.estatus){
+           if(resultado.estatus){
                 let cambio = intEfectivo-total;
                 swal.fire("Exito",`${resultado.msg}<br>Su cambio es de:<h1><b>${formatoMoneda(cambio.toFixed(2))}</b></h1>`,"success").then((result) =>{
                     if(result.isConfirmed){
-                        window.open(`${base_url}/Ingresos/imprimir_comprobante_venta/${convStrToBase64(resultado.id)}`,'_blank');
+                        //window.open(`${base_url}/Ingresos/imprimir_comprobante_venta/${convStrToBase64(resultado.id)}`,'_blank');
                         $('#cerrarModalCobrar').click();
                         arrServicios = [];
                         mostrarServiciosTabla();
@@ -437,7 +444,7 @@ function btnCobrarCmbio(){
             swal.fire("Error",`${resultado.msg}`,"warning").then((result) =>{
                 $('#cerrarModalCobrar').click();
             })
-           }  */
+           }
         }).catch(err => { throw err });
     }
 }
@@ -466,7 +473,7 @@ function insertDatosAlServ(id,id_alumno,nombre_completo,nombre_servicio,precio_u
     let cantidad = 1;
     let subtotal = parseInt(precio_unitario.replace('$',''));
     let acciones = `<td style='text-align:center'><a class='btn' onclick='fnBorrarServicioTabla(${id})'><i class='fas fa-trash text-danger'></i></a></td>`;
-    let arrServicio = {id_servicio:id,nombre_servicio:nombre_servicio,tipo_servicio:tipo,edo_cta:edocta,cantidad:cantidad,precio_unitario:subtotal,subtotal:subtotal,acciones:acciones,promociones:obtenerPromSeleccionados('listPromociones')};
+    let arrServicio = {id_servicio:id,nombre_servicio:nombre_servicio,tipo_servicio:tipo,edo_cta:edocta,precarga:precarga,cantidad:cantidad,precio_unitario:subtotal,subtotal:subtotal,acciones:acciones,promociones:obtenerPromSeleccionados('listPromociones')};
     Swal.fire({
         title: 'Agregar?',
         text: "Agregar el nuevo servicio",
@@ -482,7 +489,7 @@ function insertDatosAlServ(id,id_alumno,nombre_completo,nombre_servicio,precio_u
             document.querySelector('#listPromociones').innerHTML = "";
             arrServicios.push(arrServicio);
             mostrarServiciosTabla();
-            fnServicios();
+            fnServicios(gradoSeleccionado,tipoCobroSeleccionado);
             document.querySelector('#listPromociones').innerHTML ="<option value=''>Selecciona una promocion</option>";
             mostrarTotalCuentaServicios();
             listPromociones.style.display = "none";

@@ -32,7 +32,7 @@
         }
         //Obtener lista de Servicios
         public function selectServicios(int $idPersona, int $idGrado){
-            $sqlSerEdoCta = "SELECT ec.id AS id_edo_cta,s.nombre_servicio,s.precio_unitario,cs.colegiatura FROM t_estado_cuenta AS ec
+            $sqlSerEdoCta = "SELECT ec.id AS id_edo_cta,p.id AS id_precarga,s.nombre_servicio,s.precio_unitario,cs.colegiatura FROM t_estado_cuenta AS ec
             INNER JOIN t_precarga AS p ON ec.id_precarga = p.id
             INNER JOIN t_servicios AS s ON p.id_servicio = s.id
             INNER JOIN t_categoria_servicios AS cs ON s.id_categoria_servicio = cs.id
@@ -54,7 +54,7 @@
         }
         //Obtener lista de Colegiaturas
         public function selectColegiaturas(int $idPersona, int $idGrado){
-            $sql = "SELECT ec.id AS id_edo_cta,s.nombre_servicio,s.precio_unitario FROM t_estado_cuenta AS ec
+            $sql = "SELECT ec.id AS id_edo_cta,p.id AS id_precarga,s.nombre_servicio,s.precio_unitario,ec.pagado FROM t_estado_cuenta AS ec
             INNER JOIN t_precarga AS p ON ec.id_precarga = p.id
             INNER JOIN t_servicios AS s ON p.id_servicio = s.id
             INNER JOIN t_categoria_servicios AS cs ON s.id_categoria_servicio = cs.id
@@ -105,8 +105,8 @@
             if($requestServicios){
                 foreach ($requestServicios as $key => $servicio) {
                     $idPrecarga = $servicio['id_precarga'];
-                    $sqlEdoCta = "INSERT INTO t_estado_cuenta(estatus,id_usuario_creacion,fecha_creacion,id_precarga,id_persona) VALUES(?,?,NOW(),?,?)";
-                    $requestEdoCta = $this->insert($sqlEdoCta,array(1,$idUser,$idPrecarga,$idPersonaSeleccionada));
+                    $sqlEdoCta = "INSERT INTO t_estado_cuenta(pagado,estatus,id_usuario_creacion,fecha_creacion,id_precarga,id_persona) VALUES(?,?,?,NOW(),?,?)";
+                    $requestEdoCta = $this->insert($sqlEdoCta,array(0,1,$idUser,$idPrecarga,$idPersonaSeleccionada));
                     if($requestEdoCta){
                         $request['estatus'] = true;
                         $request['msg'] = null;
@@ -119,12 +119,12 @@
             return $request;
         }
         //Actualizar ingresos
-        public function updateIngresos($idIngreso,$tipoPago,$tipoComprobante,$observaciones,$folioNuevo,$total){
+       /*  public function updateIngresos($idIngreso,$tipoPago,$tipoComprobante,$observaciones,$folioNuevo,$total){
             $sql = "UPDATE t_ingresos SET fecha = NOW(),folio = ?,forma_pago = ?,tipo_comprobante = ?,total = ?,observaciones = ?,
             recibo_inscripcion = ? WHERE id= $idIngreso";
             $request = $this->update($sql,array($folioNuevo,$tipoPago,$tipoComprobante,$total,$observaciones,1));
             return $idIngreso;
-        }
+        } */
         //Actualizar ingresos detalles
         public function updateIngresosDetalles($idIngreso,$cantidad,$precioUnitario,$subtotal,$arrPromociones){
             $sql = "UPDATE t_ingresos_detalles SET cantidad = ? ,cargo = ?,abono = ?,saldo = ?,precio_subtotal = ?,promociones_aplicadas = ? WHERE id_ingresos = $idIngreso";
@@ -159,15 +159,20 @@
         } */
         
         //Insertar un nuevo Ingreso
-        public function insertIngresos(string $folio,string $formaPago, string $tipoComprobante,int $total,string $observaciones,int $idAlumno){
-            $sqlIngresos = "INSERT INTO t_ingresos(fecha,folio,estatus,forma_pago,tipo_comprobante,total,observaciones,recibo_inscripcion,id_plantel,id_persona,id_usuario) VALUES(NOW(),?,?,?,?,?,?,?,?,?,?)";
-            $requestIngresos = $this->insert($sqlIngresos,array($folio,1,$formaPago,$tipoComprobante,$total,$observaciones,1,2,$idAlumno,1));
+        public function insertIngresos(string $folio,string $formaPago, string $tipoComprobante,int $total,string $observaciones,int $idAlumno, int $idPlantel){
+            $sqlIngresos = "INSERT INTO t_ingresos(fecha,folio,estatus,forma_pago,tipo_comprobante,referencia,total,observaciones,recibo_inscripcion,id_plantel,id_persona,id_usuario) VALUES(NOW(),?,?,?,?,?,?,?,?,?,?,?)";
+            $requestIngresos = $this->insert($sqlIngresos,array($folio,1,$formaPago,$tipoComprobante,$folio,$total,$observaciones,1,$idPlantel,$idAlumno,1));
             return $requestIngresos;
         }
         //Insertar un nuevo ingreso detalle
-        public function insertIngresosDetalle(int $cantidad,int $cargo,int $abono,int $saldo,int $precioSubtotal,int $descuentoDinero,int $descuentoPorcentaje,string $promocionesAplicadas,int $idServicio,int $idIngreso){
-            $sqlIngDetalle = "INSERT INTO t_ingresos_detalles(cantidad,cargo,abono,saldo,precio_subtotal,descuento_dinero,descuento_porcentaje,promociones_aplicadas,id_servicio,id_ingresos) VALUES(?,?,?,?,?,?,?,?,?,?)";
-            $requestIngDetalle = $this->insert($sqlIngDetalle,array($cantidad,$cargo,$abono,$saldo,$precioSubtotal,$descuentoDinero,$descuentoPorcentaje,$promocionesAplicadas,$idServicio,$idIngreso));
+        public function insertIngresosDetalle(int $cantidad,int $cargo,int $abono,int $saldo,int $precioSubtotal,int $descuentoDinero,int $descuentoPorcentaje,string $promocionesAplicadas,$idServicio,$idPrecarga,int $idIngreso){
+            if($idServicio == null && $idPrecarga != null){ //Edo Cta
+                $sqlIngDetalle = "INSERT INTO t_ingresos_detalles(cantidad,cargo,abono,saldo,precio_subtotal,descuento_dinero,descuento_porcentaje,promociones_aplicadas,id_servicio,id_ingresos,id_precarga) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+                $requestIngDetalle = $this->insert($sqlIngDetalle,array($cantidad,$cargo,$abono,$saldo,$precioSubtotal,$descuentoDinero,$descuentoPorcentaje,$promocionesAplicadas,NULL,$idIngreso,$idPrecarga));
+            }else if($idServicio !=null && $idPrecarga == null){
+                $sqlIngDetalle = "INSERT INTO t_ingresos_detalles(cantidad,cargo,abono,saldo,precio_subtotal,descuento_dinero,descuento_porcentaje,promociones_aplicadas,id_servicio,id_ingresos,id_precarga) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+                $requestIngDetalle = $this->insert($sqlIngDetalle,array($cantidad,$cargo,$abono,$saldo,$precioSubtotal,$descuentoDinero,$descuentoPorcentaje,$promocionesAplicadas,$idServicio,$idIngreso,NULL));
+            }
             return $requestIngDetalle;
         }
         //Consultar datos del Plantel para Los recibos
@@ -210,6 +215,11 @@
             INNER JOIN t_estados AS e ON m.id_estados = e.id
             LIMIT 1";
             $request = $this->select($sql);
+            return $request;
+        }
+        public function updateEdoCta(int $id){
+            $sql = "UPDATE t_estado_cuenta SET pagado = ? ,id_usuario_actualizacion = ?,fecha_actualizacion = NOW() WHERE id = $id";
+            $request = $this->update($sql,array(1,1));
             return $request;
         }
 	}
