@@ -434,7 +434,7 @@ function btnCobrarCmbio(){
                 let cambio = intEfectivo-total;
                 swal.fire("Exito",`${resultado.msg}<br>Su cambio es de:<h1><b>${formatoMoneda(cambio.toFixed(2))}</b></h1>`,"success").then((result) =>{
                     if(result.isConfirmed){
-                        //window.open(`${base_url}/Ingresos/imprimir_comprobante_venta/${convStrToBase64(resultado.id)}`,'_blank');
+                        window.open(`${base_url}/Ingresos/imprimir_comprobante_venta/${convStrToBase64(resultado.id)}`,'_blank');
                         $('#cerrarModalCobrar').click();
                         arrServicios = [];
                         mostrarServiciosTabla();

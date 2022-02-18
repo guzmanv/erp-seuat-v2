@@ -148,6 +148,27 @@
             $data['datos_venta'] = $this->model->selectDatosVenta($idIngreso);//Datos del ingreso/venta
             $data['datos_alumno'] = $this->model->selectDatosAlumno($idIngreso);//Datos del Alumno
             $data['datos_usuario'] = $this->model->selectDatosUsuario($this->idUser);//Datos del Usuario Admin
+            $arrDatosVenta = [];
+            $total = 0;
+            $inscripcion = 0;
+            $colegiatura = 0;
+            $otros = 0;
+            foreach ($data['datos_venta'] as $key => $venta) {
+                if($venta['codigo_servicio_precarga'] == 'CM'){
+                    $colegiatura += $venta['precio_unitario_precarga'];
+                }else if($venta['codigo_servicio_precarga'] == 'IN'){
+                    $inscripcion += $venta['precio_unitario_precarga'];
+                }else if($venta['codigo_servicio']!= null){
+                    $otros += $venta['precio_unitario'];
+                }
+                $total = $venta['total'];
+            }
+            $arrDatosVenta['total'] = $total;
+            $arrDatosVenta['inscripcion'] = $inscripcion;
+            $arrDatosVenta['colegiatura'] = $colegiatura;
+            $arrDatosVenta['otros'] = $otros;
+            
+            $data['datos_venta'] = $arrDatosVenta;
             $this->views->getView($this,"viewpdf_compromante_venta_media_carta",$data);
         }
 

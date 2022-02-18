@@ -187,10 +187,13 @@
         }
         //Consultar datos de la Venta/Ingreso
         public function selectDatosVenta(int $idIngreso){
-            $sql = "SELECT i.id,i.folio,i.fecha,s.nombre_servicio,id.cantidad,s.precio_unitario,i.total,s.codigo_servicio FROM t_ingresos AS i
+            $sql = "SELECT i.id AS id_ingreso,i.folio,i.fecha AS fecha_ingreso,id.cantidad,id.id AS id_ingreso_detalle,i.total,s.nombre_servicio,s.precio_unitario,s.codigo_servicio,
+            id.id_precarga,sp.nombre_servicio AS nombre_servicio_precarga,sp.precio_unitario AS precio_unitario_precarga,sp.codigo_servicio AS codigo_servicio_precarga FROM t_ingresos AS i       
             RIGHT JOIN t_ingresos_detalles AS id ON id.id_ingresos = i.id
-            INNER JOIN t_servicios AS s ON id.id_servicio = s.id
-            WHERE i.id= $idIngreso";
+            LEFT JOIN t_servicios AS s ON id.id_servicio = s.id
+            LEFT JOIN t_precarga AS p ON id.id_precarga = p.id
+            LEFT JOIN t_servicios AS sp ON p.id_servicio = sp.id
+            WHERE i.id = $idIngreso";
             $request = $this->select_all($sql);
             return $request;
         }

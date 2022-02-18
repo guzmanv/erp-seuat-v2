@@ -86,11 +86,20 @@
             $matriculaRFC = $arrArgs[0];
             $idAlumno = $arrArgs[1];
             if($matriculaRFC != 'null'){
-                $estatus = $this->model->selectStatusEstadoCuentaByMatrRFC($matriculaRFC);
+                $idAlumno = null;
+                $isRFC = $this->model->selectIdAlumnoByRFC($matriculaRFC);
+                if($isRFC){
+                    $idAlumno = $isRFC['id'];
+                }
+                $isMatricula = $this->model->selectIdAlumnoByMatricula($matriculaRFC);
+                if($isMatricula){
+                    $idAlumno = $isMatricula['id'];
+                }
+                $estatus = $this->model->selectStatusEstadoCuentaById($idAlumno);
                 if(count($estatus) > 0){
                     $arrData['estatus'] = true;
-                    $arrData['datos'] = $this->model->selectDatosAlumnoByMatriculaRFC($matriculaRFC);
-                    $arrData['totalSaldo'] = $this->model->selectEdoCuentaByMatriculaRFC($matriculaRFC);
+                    $arrData['datos'] = $this->model->selectDatosAlumnoById($idAlumno);
+                    $arrData['totalSaldo'] = $this->model->selectEdoCuentaById($idAlumno);
                     $total = 0;
                     $saldoServicios = 0;
                     $saldoColegiatura = 0;
@@ -167,20 +176,38 @@
                 return $array[1].'/'.$anio[0];
             }else{ return $str;}
         }
-        protected function estadoCuenta($matriculaRFC,$idAlumno){
+        protected function estadoCuenta($matriculaRFC,$idAlum){
+            $idAlumno = null;
             if($matriculaRFC != 'null'){
-                $arrData = $this->model->selectEdoCuentaByMatriculaRFC($matriculaRFC);
-                $datosAlumno = $this->model->selectDatosAlumnoByMatriculaRFC($matriculaRFC);
+                $isRFC = $this->model->selectIdAlumnoByRFC($matriculaRFC);
+                if($isRFC){
+                    $idAlumno = $isRFC['id'];
+                }
+                $isMatricula = $this->model->selectIdAlumnoByMatricula($matriculaRFC);
+                if($isMatricula){
+                    $idAlumno = $isMatricula['id'];
+                }
             }else{
+                $idAlumno = $idAlum;
+            }
+            if($idAlumno != null){
                 $arrData = $this->model->selectEdoCuentaById($idAlumno);
                 $datosAlumno = $this->model->selectDatosAlumnoById($idAlumno);
             }
+
+           /*  if($matriculaRFC != 'null'){
+                $arrData = $this->model->selectEdoCuentaById($idAlumno);
+                $datosAlumno = $this->model->selectDatosAlumnoById($idAlumno);
+            }else{
+                $arrData = $this->model->selectEdoCuentaById($idAlumno);
+                $datosAlumno = $this->model->selectDatosAlumnoById($idAlumno);
+            } */
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
-                $arrData[$i]['fecha'] = ($arrData[$i]['fecha_pago']== '')?'0000:00:00':$arrData[$i]['fecha_pago'];
+                $arrData[$i]['fecha'] = ($arrData[$i]['fecha_limite_cobro']== '')?'0000:00:00':$arrData[$i]['fecha_limite_cobro'];
                 $arrData[$i]['concepto'] = 'LA-C78MS';
-                $arrData[$i]['subconcepto'] = $this->getSubConcepto(($arrData[$i]['codigo_servicio'] == 'CM')?$arrData[$i]['descripcion'].'.'.$arrData[$i]['fecha_pago']:$arrData[$i]['codigo_servicio']);
-                $arrData[$i]['descripcion'] = ($arrData[$i]['codigo_servicio'] == 'CM')?$arrData[$i]['descripcion']:$arrData[$i]['nombre_servicio'];
+                //$arrData[$i]['subconcepto'] = $this->getSubConcepto(($arrData[$i]['codigo_servicio'] == 'CM')?$arrData[$i]['descripcion'].'.'.$arrData[$i]['fecha_pago']:$arrData[$i]['codigo_servicio']);
+                //$arrData[$i]['descripcion'] = ($arrData[$i]['codigo_servicio'] == 'CM')?$arrData[$i]['descripcion']:$arrData[$i]['nombre_servicio'];
                 $arrData[$i]['cargo'] = ($arrData[$i]['cargo']=='')?'$0.00':$arrData[$i]['cargo']; 
                 $arrData[$i]['recargo'] = '$0.00';
                 $arrData[$i]['abono'] = $arrData[$i]['abono'];
@@ -188,7 +215,7 @@
                 $arrData[$i]['precio_unitario'] = '$'.$arrData[$i]['precio_unitario'];
                 $arrData[$i]['fecha_pago'] = $arrData[$i]['fecha_pagado'];
                 $arrData[$i]['referencia'] = $arrData[$i]['folio'];
-                $params = array('id'=>$arrData[$i]['id'],'id_alumno'=>$datosAlumno['id'],'nombre_completo'=>$datosAlumno['nombre_persona'].' '.$datosAlumno['ap_paterno'].' '.$datosAlumno['ap_materno'],'nombre_servicio'=>$arrData[$i]['descripcion'],'pu'=>$arrData[$i]['precio_unitario'],'tipo'=>($arrData[$i]['codigo_servicio'] == 'CM')?'col':'serv');
+                $params = array('id'=>$arrData[$i]['id'],'id_alumno'=>$datosAlumno['id'],'nombre_completo'=>$datosAlumno['nombre_persona'].' '.$datosAlumno['ap_paterno'].' '.$datosAlumno['ap_materno'],'nombre_servicio'=>$arrData[$i]['nombre_servicio'],'pu'=>$arrData[$i]['precio_unitario'],'tipo'=>($arrData[$i]['codigo_servicio'] == 'CM')?'col':'serv');
                 $params = json_encode($params);
                 $params64 = base64_encode($params);
                 $arrData[$i]['options'] = ($arrData[$i]['fecha_pago'] == '')?'<div class="text-center"><a type="button" class="btn btn-primary btn-xs" href="'.BASE_URL.'/Ingresos/ingresos?d='.$params64.'">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCobrar&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a></div>':'<div class="text-center">
@@ -210,7 +237,7 @@
 					</div>
 				</div>
 				</div>';
-            }
+            } 
             return $arrData;
         }
     }

@@ -49,13 +49,13 @@
                                         </select></div>
                                     </div>
                                     <div class="form-group col-md-2 listGrado">
-                                            <label>Grado</label>
-                                            <select class="form-control" id="listGrado" onchange="fnChangeGrado(value)" required >
-                                                <option value="">Selecciona un grado</option>
-                                                <option value="1">1</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                            </select>
+                                        <label>Grado</label>
+                                        <select class="form-control" id="listGrado" onchange="fnChangeGrado(value)" required >
+                                            <option value="">Selecciona un grado</option>
+                                            <option value="1">1</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                        </select>
                                     </div>
                                     <div class="form-group col-md-4 listServicios">
                                         <label>Servicios</label>
