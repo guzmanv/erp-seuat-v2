@@ -25,32 +25,35 @@ document.addEventListener('DOMContentLoaded', function(){
         let b64 = atob(i);
         let datos = JSON.parse(b64);
         if(datos){
-            insertDatosAlServ(datos.id,datos.id_alumno,datos.nombre_completo,datos.nombre_servicio,datos.pu,datos.tipo);
+            insertDatosAlServ(datos.id,datos.id_alumno,datos.nombre_completo,datos.nombre_servicio,datos.pu,datos.tipo,datos.precarga);
         }
     }
 });
 //Mostrar lista de servicios dependiendo del tipo de cobro a realizar   
 function fnServicios(grado,tipoCobro){
-    let url = `${base_url}/Ingresos/getServicios/${grado}/${tipoCobro}/${idPersonaSeleccionada}`;
-    fetch(url).then(res => res.json()).then((resultado) => {
-        arrServiciosTodos = resultado.data;
-        document.querySelector("#listServicios").innerHTML = "<option value=''>Selecciona un servicio</option>";
-        if(resultado.tipo == "COL"){
-            resultado.data.forEach(colegiatura => {
-                let estatus = (colegiatura.pagado == 1)?'/Pagado':'';
-                document.querySelector("#listServicios").innerHTML += `<option pu='${colegiatura.precio_unitario}' ec='1' es='${estatus}' t='col' value='${colegiatura.id_edo_cta}' idprecarga='${colegiatura.id_precarga}'>${colegiatura.nombre_servicio}${estatus}</option>`;
-                
-            });
-        }else{
-            resultado.data.forEach(servicio => {
-                if(servicio.id_edo_cta){
-                    document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' ec='1' t="serv" value='${servicio.id_edo_cta}' idprecarga='${servicio.id_precarga}'>${servicio.nombre_servicio}---Si---</option>`;
-                }else{
-                    document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' ec='${servicio.aplica_edo_cuenta}' t="serv" value='${servicio.id}'>${servicio.nombre_servicio}${(servicio.aplica_edo_cuenta == 1)?'(----si----)':''}</option>`;
-                }
-            });
-        }
-    }).catch(err => { throw err });
+    let url;
+    if(grado != null || tipoCobro != null){
+        url = `${base_url}/Ingresos/getServicios/${grado}/${tipoCobro}/${idPersonaSeleccionada}`;
+        fetch(url).then(res => res.json()).then((resultado) => {
+            arrServiciosTodos = resultado.data;
+            document.querySelector("#listServicios").innerHTML = "<option value=''>Selecciona un servicio</option>";
+            if(resultado.tipo == "COL"){
+                resultado.data.forEach(colegiatura => {
+                    let estatus = (colegiatura.pagado == 1)?'/Pagado':'';
+                    document.querySelector("#listServicios").innerHTML += `<option pu='${colegiatura.precio_unitario}' ec='1' es='${estatus}' t='col' value='${colegiatura.id_edo_cta}' idprecarga='${colegiatura.id_precarga}'>${colegiatura.nombre_servicio}${estatus}</option>`;
+                    
+                });
+            }else{
+                resultado.data.forEach(servicio => {
+                    if(servicio.id_edo_cta){
+                        document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' ec='1' t="serv" value='${servicio.id_edo_cta}' idprecarga='${servicio.id_precarga}'>${servicio.nombre_servicio}---Si---</option>`;
+                    }else{
+                        document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' ec='${servicio.aplica_edo_cuenta}' t="serv" value='${servicio.id}'>${servicio.nombre_servicio}${(servicio.aplica_edo_cuenta == 1)?'(----si----)':''}</option>`;
+                    }
+                });
+            }
+        }).catch(err => { throw err });
+    }
 }
 //Lista de Promociones del Servicio seleccionado
 function fnServicioSeleccionado(value){
@@ -463,7 +466,7 @@ function validarNumeroInput(event){
     }
     return false;
 }
-function insertDatosAlServ(id,id_alumno,nombre_completo,nombre_servicio,precio_unitario,tipo){
+function insertDatosAlServ(id,id_alumno,nombre_completo,nombre_servicio,precio_unitario,tipo,precarga){
     idPersonaSeleccionada = id_alumno;
     document.querySelector('#txtNombreNuevo').value = nombre_completo;
     document.querySelector('#listTipoCobro').disabled = false;

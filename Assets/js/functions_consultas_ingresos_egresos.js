@@ -46,7 +46,11 @@ verEdoCta.addEventListener('click',function() {
 
 //Consultar estado de cuenta y mostrar en Datatable
 function fnGetEstadoCuentaAlumno(matriculaRFAlumno,idAlumno){
-    dataTableEdoCta = $('#tableEstadoCuenta').dataTable( {
+     let url = `${base_url}/ConsultasIngresosEgresos/getEstadoCuenta/${matriculaRFAlumno}/${idAlumno}`;
+    fetch(url).then(res => res.json()).then((resultado) => {
+        console.log(resultado);
+    }).catch(err => { throw err }); 
+    /* dataTableEdoCta = $('#tableEstadoCuenta').dataTable( {
         "aProcessing":true,
         "aServerSide":true,
         "language": {
@@ -68,7 +72,7 @@ function fnGetEstadoCuentaAlumno(matriculaRFAlumno,idAlumno){
             {"data":"fecha_pago"},
             {"data":"referencia"},
             {"data":"tipo_comprobante"},
-            {"data":"id"},
+            {"data":"options"},
         ],
         "responsive": true,
         "paging": true,
@@ -83,7 +87,7 @@ function fnGetEstadoCuentaAlumno(matriculaRFAlumno,idAlumno){
         "order": [[ 0, "asc" ]],
         "iDisplayLength": 20
     });
-    $('#tableEstadoCuenta').DataTable();
+    $('#tableEstadoCuenta').DataTable(); */
 }
 
 //Imprimir estado de cuenta al hacer click en  por matriculaRFC o ID
