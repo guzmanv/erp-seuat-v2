@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function(){
         let b64 = atob(i);
         let datos = JSON.parse(b64);
         if(datos){
-            insertDatosAlServ(datos.id,datos.id_alumno,datos.nombre_completo,datos.nombre_servicio,datos.pu,datos.tipo,datos.precarga);
+           insertDatosAlServ(datos.id,datos.id_alumno,datos.nombre_completo,datos.nombre_servicio,datos.pu,datos.tipo,datos.precarga,datos.id_precarga);
         }
     }
 });
@@ -466,7 +466,8 @@ function validarNumeroInput(event){
     }
     return false;
 }
-function insertDatosAlServ(id,id_alumno,nombre_completo,nombre_servicio,precio_unitario,tipo,precarga){
+function insertDatosAlServ(id,id_alumno,nombre_completo,nombre_servicio,precio_unitario,tipo,precarga,id_precarga){
+    console.log(id_precarga)
     idPersonaSeleccionada = id_alumno;
     document.querySelector('#txtNombreNuevo').value = nombre_completo;
     document.querySelector('#listTipoCobro').disabled = false;
@@ -476,7 +477,7 @@ function insertDatosAlServ(id,id_alumno,nombre_completo,nombre_servicio,precio_u
     let cantidad = 1;
     let subtotal = parseInt(precio_unitario.replace('$',''));
     let acciones = `<td style='text-align:center'><a class='btn' onclick='fnBorrarServicioTabla(${id})'><i class='fas fa-trash text-danger'></i></a></td>`;
-    let arrServicio = {id_servicio:id,nombre_servicio:nombre_servicio,tipo_servicio:tipo,edo_cta:edocta,precarga:precarga,cantidad:cantidad,precio_unitario:subtotal,subtotal:subtotal,acciones:acciones,promociones:obtenerPromSeleccionados('listPromociones')};
+    let arrServicio = {id_servicio:id,nombre_servicio:nombre_servicio,tipo_servicio:tipo,edo_cta:edocta,precarga:id_precarga,cantidad:cantidad,precio_unitario:subtotal,subtotal:subtotal,acciones:acciones,promociones:obtenerPromSeleccionados('listPromociones')};
     Swal.fire({
         title: 'Agregar?',
         text: "Agregar el nuevo servicio",

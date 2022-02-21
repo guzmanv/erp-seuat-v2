@@ -33,46 +33,69 @@
             $matriculaRFC = base64_decode($arrArgs[0]);
             $idAlumno = base64_decode($arrArgs[1]);
             if($matriculaRFC != 'null'){
-                $arrData['datos'] = $this->model->selectDatosAlumnoByMatriculaRFC($matriculaRFC);
-                $arrData['totalSaldo'] = $this->model->selectEdoCuentaByMatriculaRFC($matriculaRFC);
-                $total = 0;
-                $saldoServicios = 0;
-                $saldoColegiatura = 0;
-                foreach ($arrData['totalSaldo'] as $key => $value) {
-                    if($value['fecha_pagado'] == ''){
-                        $total += $value['precio_unitario'];
-                        if($value['codigo_servicio'] == 'CM'){
-                            $saldoColegiatura += $value['precio_unitario'];
-                        }else{
-                            $saldoServicios += $value['precio_unitario'];
+                $idAlumno = null;
+                $isRFC = $this->model->selectIdAlumnoByRFC($matriculaRFC);
+                if($isRFC){
+                    $idAlumno = $isRFC['id'];
+                }
+                $isMatricula = $this->model->selectIdAlumnoByMatricula($matriculaRFC);
+                if($isMatricula){
+                    $idAlumno = $isMatricula['id'];
+                }
+                $estatus = $this->model->selectStatusEstadoCuentaById($idAlumno);
+                if(count($estatus) > 0){
+                    $arrData['estatus'] = true;
+                    $arrData['datos'] = $this->model->selectDatosAlumnoById($idAlumno);
+                    $arrData['totalSaldo'] = $this->model->selectEdoCuentaById($idAlumno);
+                    $total = 0;
+                    $saldoServicios = 0;
+                    $saldoColegiatura = 0;
+                    foreach ($arrData['totalSaldo'] as $key => $value) {
+                        if($value['pagado'] == 0){
+                            $total += $value['precio_unitario'];
+                            if($value['codigo_servicio'] == 'CM'){
+                                $saldoColegiatura += $value['precio_unitario'];
+                            }else{
+                                $saldoServicios += $value['precio_unitario'];
+                            }
                         }
                     }
+                    $arrData['totalSaldo'] = $total;
+                    $arrData['saldoServicios'] = $saldoServicios;
+                    $arrData['saldoColegiaturas'] = $saldoColegiatura;
+                }else{
+                    $arrData['estatus'] = false;
+                    $arrData['datos'] = null;
                 }
-                $arrData['totalSaldo'] = $total;
-                $arrData['saldoServicios'] = $saldoServicios;
-                $arrData['saldoColegiaturas'] = $saldoColegiatura;
             }else{
-                $arrData['datos'] = $this->model->selectDatosAlumnoById($idAlumno);
-                $arrData['totalSaldo'] = $this->model->selectEdoCuentaById($idAlumno);
-                $total = 0;
-                $saldoServicios = 0;
-                $saldoColegiatura = 0;
-                foreach ($arrData['totalSaldo'] as $key => $value) {
-                    if($value['fecha_pagado'] == ''){
-                        $total += $value['precio_unitario'];
-                        if($value['codigo_servicio'] == 'CM'){
-                            $saldoColegiatura += $value['precio_unitario'];
-                        }else{
-                            $saldoServicios += $value['precio_unitario'];
+                $estatus = $this->model->selectStatusEstadoCuentaById($idAlumno);
+                if(count($estatus) > 0){
+                    $arrData['estatus'] = true;
+                    $arrData['datos'] = $this->model->selectDatosAlumnoById($idAlumno);
+                    $arrData['totalSaldo'] = $this->model->selectEdoCuentaById($idAlumno);
+                    $total = 0;
+                    $saldoServicios = 0;
+                    $saldoColegiatura = 0;
+                    foreach ($arrData['totalSaldo'] as $key => $value) {
+                        if($value['pagado'] == 0){
+                            $total += $value['precio_unitario'];
+                            if($value['codigo_servicio'] == 'CM'){
+                                $saldoColegiatura += $value['precio_unitario'];
+                            }else{
+                                $saldoServicios += $value['precio_unitario'];
+                            }
                         }
                     }
+                    $arrData['totalSaldo'] = $total;
+                    $arrData['saldoServicios'] = $saldoServicios;
+                    $arrData['saldoColegiaturas'] = $saldoColegiatura;
+                }else{
+                    $arrData['estatus'] = false;
+                    $arrData['datos'] = null;
                 }
-                $arrData['totalSaldo'] = $total;
-                $arrData['saldoServicios'] = $saldoServicios;
-                $arrData['saldoColegiaturas'] = $saldoColegiatura;
             }
-
             $data = ['data'=> $arrData,'edo_cta'=> $this->estadoCuenta($matriculaRFC,$idAlumno)];
+            //var_dump($data['edo_cta']);
             $this->views->getView($this,"viewpdf_edo_cta",$data);
         }
         //Obtener datos del Alumno y datos del Estado de Cuenta
@@ -99,7 +122,7 @@
                     $saldoServicios = 0;
                     $saldoColegiatura = 0;
                     foreach ($arrData['totalSaldo'] as $key => $value) {
-                        if($value['fecha_pagado'] == ''){
+                        if($value['pagado'] == 0){
                             $total += $value['precio_unitario'];
                             if($value['codigo_servicio'] == 'CM'){
                                 $saldoColegiatura += $value['precio_unitario'];
@@ -125,7 +148,7 @@
                     $saldoServicios = 0;
                     $saldoColegiatura = 0;
                     foreach ($arrData['totalSaldo'] as $key => $value) {
-                        if($value['fecha_pagado'] == ''){
+                        if($value['pagado'] == 0){
                             $total += $value['precio_unitario'];
                             if($value['codigo_servicio'] == 'CM'){
                                 $saldoColegiatura += $value['precio_unitario'];
@@ -193,10 +216,10 @@
                     if($value['pagado'] == 1){
                         //Pagado
                         $datosPago = $this->model->selectDetallePago($value['id_precarga'], $idAlumno);
-                        $date = array('id_edo_cta' => $value['id_edo_cta'],'pagado'=>true,'codigo_servicio'=>$value['codigo_servicio'],'nombre_servicio'=>$value['nombre_servicio'],'precio_unitario'=>$value['precio_unitario'],'fecha_limite_cobro'=>$value['fecha_limite_cobro'],'cargo'=>$datosPago['cargo'],'abono'=>$datosPago['abono'],'cantidad'=>$datosPago['cantidad'],'fecha_pago'=>$datosPago['fecha'],'referencia'=>$datosPago['folio'],'tipo_comprobante'=>$datosPago['tipo_comprobante']);
+                        $date = array('id_edo_cta' => $value['id_edo_cta'],'id_precarga'=>$value['id_precarga'],'pagado'=>true,'codigo_servicio'=>$value['codigo_servicio'],'nombre_servicio'=>$value['nombre_servicio'],'precio_unitario'=>$value['precio_unitario'],'fecha_limite_cobro'=>$value['fecha_limite_cobro'],'cargo'=>$datosPago['cargo'],'abono'=>$datosPago['abono'],'cantidad'=>$datosPago['cantidad'],'fecha_pago'=>$datosPago['fecha'],'referencia'=>$datosPago['folio'],'tipo_comprobante'=>$datosPago['tipo_comprobante']);
                         array_push($datos,$date);
                     }else{
-                        $date = array('id_edo_cta' => $value['id_edo_cta'],'pagado'=>false,'codigo_servicio'=>$value['codigo_servicio'],'nombre_servicio'=>$value['nombre_servicio'],'precio_unitario'=>$value['precio_unitario'],'fecha_limite_cobro'=>$value['fecha_limite_cobro'],'cargo'=>'','abono'=>'','cantidad'=>'','fecha_pago'=>'','referencia'=>'','tipo_comprobante'=>'');
+                        $date = array('id_edo_cta' => $value['id_edo_cta'],'id_precarga'=>$value['id_precarga'],'pagado'=>false,'codigo_servicio'=>$value['codigo_servicio'],'nombre_servicio'=>$value['nombre_servicio'],'precio_unitario'=>$value['precio_unitario'],'fecha_limite_cobro'=>$value['fecha_limite_cobro'],'cargo'=>'','abono'=>'','cantidad'=>'','fecha_pago'=>'','referencia'=>'','tipo_comprobante'=>'');
                         array_push($datos,$date);
                     }
                 }
@@ -217,7 +240,7 @@
                 $datos[$i]['precio_unitario'] = '$'.$datos[$i]['precio_unitario'];
                 //$datos[$i]['fecha_pago'] = $datos[$i]['fecha_pagado'];
                 //$datos[$i]['referencia'] = $datos[$i]['folio'];
-                $params = array('id'=>$datos[$i]['id_edo_cta'],'id_alumno'=>$datosAlumno['id'],'nombre_completo'=>$datosAlumno['nombre_persona'].' '.$datosAlumno['ap_paterno'].' '.$datosAlumno['ap_materno'],'nombre_servicio'=>$datos[$i]['nombre_servicio'],'pu'=>$datos[$i]['precio_unitario'],'tipo'=>($datos[$i]['codigo_servicio'] == 'CM')?'col':'serv','precarga'=>true);
+                $params = array('id'=>$datos[$i]['id_edo_cta'],'id_alumno'=>$datosAlumno['id'],'nombre_completo'=>$datosAlumno['nombre_persona'].' '.$datosAlumno['ap_paterno'].' '.$datosAlumno['ap_materno'],'nombre_servicio'=>$datos[$i]['nombre_servicio'],'pu'=>$datos[$i]['precio_unitario'],'tipo'=>($datos[$i]['codigo_servicio'] == 'CM')?'col':'serv','precarga'=>true,'id_precarga'=>$datos[$i]['id_precarga']);
                 $params = json_encode($params);
                 $params64 = base64_encode($params);
                 $datos[$i]['options'] = ($datos[$i]['fecha_pago'] == '')?'<div class="text-center"><a type="button" class="btn btn-primary btn-xs" href="'.BASE_URL.'/Ingresos/ingresos?d='.$params64.'">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCobrar&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a></div>':'<div class="text-center">

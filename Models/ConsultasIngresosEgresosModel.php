@@ -49,12 +49,9 @@
 			return $request;
 		} */
 		public function selectEdoCuentaById(int $idAlumno){
-			$sql = "SELECT ec.id,s.codigo_servicio,s.nombre_servicio,i.folio,i.observaciones,id.abono,id.cargo,s.precio_unitario,p.fecha_limite_cobro,
-			i.fecha AS fecha_pagado,id.cantidad,i.tipo_comprobante FROM t_estado_cuenta AS ec
+			$sql = "SELECT ec.id,s.codigo_servicio,s.precio_unitario,ec.pagado FROM t_estado_cuenta AS ec
 			INNER JOIN t_precarga AS p ON ec.id_precarga = p.id
 			INNER JOIN t_servicios AS s ON p.id_servicio = s.id
-			LEFT JOIN t_ingresos_detalles AS id ON id.id_precarga = p.id
-			LEFT JOIN t_ingresos AS i ON id.id_ingresos = i.id
 			WHERE ec.id_persona = $idAlumno";
 			$request = $this->select_all($sql);
 			return $request;

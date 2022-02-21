@@ -1,7 +1,6 @@
 <?php
 date_default_timezone_set('America/Mexico_City');
 $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%d/%m/%Y", strtotime(date('Y-m-d'))));
-
 ?>
 <!doctype html>
 <html lang="en">
@@ -175,14 +174,14 @@ $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%d/%m/%Y", strtotime
                 <?php foreach ($data['edo_cta'] as $key => $value){
                     if($value['codigo_servicio'] != 'CM'){ ?>
                         <tr class="item">
-                            <td><?php echo $value['fecha'] ?></td>
+                            <td><?php echo $value['fecha_pago'] ?></td>
                             <td><?php echo $value['cantidad'] ?></td>
-                            <td><?php echo $value['subconcepto'] ?></td>
-                            <td><?php echo $value['descripcion'] ?></td>
+                            <td><?php echo $value['codigo_servicio'] ?></td>
+                            <td><?php echo $value['nombre_servicio'] ?></td>
                             <td><?php echo $value['cargo'] ?></td>
                             <td><?php echo $value['recargo'] ?></td>
                             <td><?php echo $value['abono'] ?></td>
-                            <td class="text-align-right"><?php echo ('$ '.formatoMoneda($value['abono'])) ?></td>
+                            <td class="text-align-right"><?php echo ('$ '.($value['fecha_pago'] == '')?$value['precio_unitario']:formatoMoneda($value['abono'])) ?></td>
                         </tr>
                     <?php }else{?>
                 <?php }}?>
@@ -214,15 +213,15 @@ $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%d/%m/%Y", strtotime
                 </tr>
                 <?php foreach ($data['edo_cta'] as $key => $value){
                     if($value['codigo_servicio'] == 'CM'){ ?>
-                        <tr class="item" style="line-height:1px;">
-                            <td><p style="font-size:10px"><?php echo $value['fecha'] ?></p></td>
+                        <tr class="item">
+                            <td><p style="font-size:10px"><?php echo $value['fecha_pago'] ?></p></td>
                             <td><p style="font-size:10px"><?php echo $value['cantidad'] ?></p></td>
-                            <td><p style="font-size:10px"><?php echo $value['subconcepto'] ?></p></td>
-                            <td><p style="font-size:10px"><?php echo $value['descripcion'] ?></p></td>
+                            <td><p style="font-size:10px"><?php echo $value['codigo_servicio'] ?></p></td>
+                            <td><p style="font-size:10px"><?php echo $value['nombre_servicio'] ?></p></td>
                             <td><p style="font-size:10px"><?php echo $value['cargo'] ?></p></td>
                             <td><p style="font-size:10px"><?php echo $value['recargo'] ?></p></td>
                             <td><p style="font-size:10px"><?php echo $value['abono'] ?></p></td>
-                            <td class="text-align-right"><p style="font-size"><?php echo ('$ '.formatoMoneda($value['abono'])) ?></p></td>
+                            <td class="text-align-right"><?php echo ('$ '.($value['fecha_pago'] == '')?$value['precio_unitario']:formatoMoneda($value['abono'])) ?></td>
                         </tr>
                     <?php }else{?>
                 <?php }}?>
