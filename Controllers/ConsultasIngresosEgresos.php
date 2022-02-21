@@ -192,7 +192,7 @@
                 foreach ($arrData as $key => $value) {
                     if($value['pagado'] == 1){
                         //Pagado
-                        $datosPago = $this->model->selectDetallePago($value['id_edo_cta'], $idAlumno);
+                        $datosPago = $this->model->selectDetallePago($value['id_precarga'], $idAlumno);
                         $date = array('id_edo_cta' => $value['id_edo_cta'],'pagado'=>true,'codigo_servicio'=>$value['codigo_servicio'],'nombre_servicio'=>$value['nombre_servicio'],'precio_unitario'=>$value['precio_unitario'],'fecha_limite_cobro'=>$value['fecha_limite_cobro'],'cargo'=>$datosPago['cargo'],'abono'=>$datosPago['abono'],'cantidad'=>$datosPago['cantidad'],'fecha_pago'=>$datosPago['fecha'],'referencia'=>$datosPago['folio'],'tipo_comprobante'=>$datosPago['tipo_comprobante']);
                         array_push($datos,$date);
                     }else{
@@ -204,7 +204,7 @@
                
                 
             }
-            /* for ($i=0; $i<count($datos); $i++){
+            for ($i=0; $i<count($datos); $i++){
                 $datos[$i]['numeracion'] = $i+1;
                 $datos[$i]['fecha'] = ($datos[$i]['fecha_limite_cobro']== '')?'0000:00:00':$datos[$i]['fecha_limite_cobro'];
                 $datos[$i]['concepto'] = 'LA-C78MS';
@@ -239,7 +239,7 @@
 					</div>
 				</div>
 				</div>';
-            } */
+            }
             return $datos;
         }
     }

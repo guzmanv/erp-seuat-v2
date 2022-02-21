@@ -122,7 +122,7 @@
 
 		/////////////////////////
 		public function selectEdoCta(int $idAlumno){
-			$sql = "SELECT ec.id AS id_edo_cta,s.codigo_servicio,s.nombre_servicio,s.precio_unitario,p.fecha_limite_cobro,ec.pagado
+			$sql = "SELECT ec.id AS id_edo_cta,s.codigo_servicio,s.nombre_servicio,s.precio_unitario,p.fecha_limite_cobro,ec.pagado,p.id AS id_precarga
 			FROM t_estado_cuenta AS ec
 			INNER JOIN t_precarga AS p ON ec.id_precarga = p.id
 			INNER JOIN t_servicios AS s ON p.id_servicio = s.id
@@ -130,12 +130,11 @@
 			$request = $this->select_all($sql);
 			return $request;
 		}
-		public function selectDetallePago(int $idEdoCta, int $idPersona){
-			$sql = "SELECT i.id AS id_ingreso, i.folio,i.observaciones,id.abono,id.cargo,i.fecha,id.cantidad,i.tipo_comprobante  FROM t_ingresos AS i
-			INNER JOIN t_ingresos_detalles AS id ON id.id_ingresos = i.id
-			INNER JOIN t_precarga AS p ON id.id_precarga = p.id
-			INNER JOIN t_estado_cuenta AS ec ON ec.id_precarga = p.id
-			WHERE ec.id = $idEdoCta AND i.id_persona = $idPersona AND ec.id_persona = $idPersona";
+		public function selectDetallePago(int $idPrecarga, int $idPersona){
+            $sql = "SELECT i.id AS id_ingreso, i.folio, i.observaciones,idet.abono,idet.cargo,i.fecha,idet.cantidad,i.tipo_comprobante FROM t_ingresos_detalles AS idet
+            INNER JOIN t_precarga AS p ON idet.id_precarga = p.id 
+            LEFT JOIN t_ingresos i ON idet.id_ingresos = i.id 
+            WHERE i.id_persona = $idPersona AND p.id = $idPrecarga";
 			$request = $this->select($sql);
 			return $request;
 		}
