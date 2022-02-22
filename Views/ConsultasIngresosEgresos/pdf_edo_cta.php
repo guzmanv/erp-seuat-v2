@@ -181,8 +181,13 @@ $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%d/%m/%Y", strtotime
                             <td><?php echo $value['cargo'] ?></td>
                             <td><?php echo $value['recargo'] ?></td>
                             <td><?php echo $value['abono'] ?></td>
-                            <td class="text-align-right"><?php echo ('$ '.($value['fecha_pago'] == '')?$value['precio_unitario']:formatoMoneda($value['abono'])) ?></td>
-                        </tr>
+                            <td class="text-align-right"><?php
+                               if($value['pagado'] == true){
+                                   echo '$ 0.00';
+                               }else{
+                                   echo ($value['precio_unitario']);
+                               }
+                           ?></td></tr>
                     <?php }else{?>
                 <?php }}?>
                 <tr class="total">
@@ -221,8 +226,13 @@ $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%d/%m/%Y", strtotime
                             <td><p style="font-size:10px"><?php echo $value['cargo'] ?></p></td>
                             <td><p style="font-size:10px"><?php echo $value['recargo'] ?></p></td>
                             <td><p style="font-size:10px"><?php echo $value['abono'] ?></p></td>
-                            <td class="text-align-right"><?php echo ('$ '.($value['fecha_pago'] == '')?$value['precio_unitario']:formatoMoneda($value['abono'])) ?></td>
-                        </tr>
+                            <td class="text-align-right"><?php
+                               if($value['pagado'] == true){
+                                   echo '$ 0.00';
+                               }else{
+                                   echo ($value['precio_unitario']);
+                               }
+                           ?></td></tr>
                     <?php }else{?>
                 <?php }}?>
                 <tr class="total">

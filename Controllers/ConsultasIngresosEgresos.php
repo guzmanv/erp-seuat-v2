@@ -216,10 +216,10 @@
                     if($value['pagado'] == 1){
                         //Pagado
                         $datosPago = $this->model->selectDetallePago($value['id_precarga'], $idAlumno);
-                        $date = array('id_edo_cta' => $value['id_edo_cta'],'id_precarga'=>$value['id_precarga'],'pagado'=>true,'codigo_servicio'=>$value['codigo_servicio'],'nombre_servicio'=>$value['nombre_servicio'],'precio_unitario'=>$value['precio_unitario'],'fecha_limite_cobro'=>$value['fecha_limite_cobro'],'cargo'=>$datosPago['cargo'],'abono'=>$datosPago['abono'],'cantidad'=>$datosPago['cantidad'],'fecha_pago'=>$datosPago['fecha'],'referencia'=>$datosPago['folio'],'tipo_comprobante'=>$datosPago['tipo_comprobante']);
+                        $date = array('id_edo_cta' => $value['id_edo_cta'],'id_precarga'=>$value['id_precarga'],'pagado'=>true,'codigo_servicio'=>$value['codigo_servicio'],'nombre_servicio'=>$value['nombre_servicio'],'precio_unitario'=>$value['precio_unitario'],'fecha_limite_cobro'=>$value['fecha_limite_cobro'],'cargo'=>$datosPago['cargo'],'abono'=>$datosPago['abono'],'cantidad'=>$datosPago['cantidad'],'fecha_pago'=>$datosPago['fecha'],'referencia'=>$datosPago['folio'],'tipo_comprobante'=>$datosPago['tipo_comprobante'],'id_ingreso'=>$datosPago['id_ingreso']);
                         array_push($datos,$date);
                     }else{
-                        $date = array('id_edo_cta' => $value['id_edo_cta'],'id_precarga'=>$value['id_precarga'],'pagado'=>false,'codigo_servicio'=>$value['codigo_servicio'],'nombre_servicio'=>$value['nombre_servicio'],'precio_unitario'=>$value['precio_unitario'],'fecha_limite_cobro'=>$value['fecha_limite_cobro'],'cargo'=>'','abono'=>'','cantidad'=>'','fecha_pago'=>'','referencia'=>'','tipo_comprobante'=>'');
+                        $date = array('id_edo_cta' => $value['id_edo_cta'],'id_precarga'=>$value['id_precarga'],'pagado'=>false,'codigo_servicio'=>$value['codigo_servicio'],'nombre_servicio'=>$value['nombre_servicio'],'precio_unitario'=>$value['precio_unitario'],'fecha_limite_cobro'=>$value['fecha_limite_cobro'],'cargo'=>'','abono'=>'','cantidad'=>'','fecha_pago'=>'','referencia'=>'','tipo_comprobante'=>'','id_ingreso'=>'');
                         array_push($datos,$date);
                     }
                 }
@@ -249,7 +249,7 @@
                         <i class="fas fa-layer-group"></i> &nbsp; Acciones
                     </button>
 					<div class="dropdown-menu">
-						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal" id="'.$datos[$i]['id_edo_cta'].'" onclick="fnReimprimirComprobante(this)"> &nbsp;&nbsp; 
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal" id="'.$datos[$i]['id_ingreso'].'" onclick="fnReimprimirComprobante(this)"> &nbsp;&nbsp; 
                             <i class="fas fa-print"></i> &nbsp; Reimprimir recibo
                         </button>
                         <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal" id="'.$datos[$i]['referencia'].'"  onClick="fnFacturarVenta(this)"> &nbsp;&nbsp; 

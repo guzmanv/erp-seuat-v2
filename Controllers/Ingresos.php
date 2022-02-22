@@ -169,7 +169,7 @@
             $arrDatosVenta['otros'] = $otros;
             
             $data['datos_venta'] = $arrDatosVenta;
-            $this->views->getView($this,"viewpdf_compromante_venta_media_carta",$data);
+            $this->views->getView($this,"viewpdf_compromante_venta_media_carta",$data); 
         }
 
         //Funcion para convertir base64 a Array

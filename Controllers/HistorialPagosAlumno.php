@@ -33,8 +33,42 @@ class HistorialPagosAlumno extends Controllers{
     }
     public function getUltimosMovimientosAlumno($idAlumno){
         $arrData = $this->model->selectUltimosMovimientos($idAlumno);
+        for($i = 0; $i<count($arrData); $i++){
+            $arrData[$i]['segundos'] = $this->convertSecToHuman($arrData[$i]['segundos']);
+        }
         echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
         die();
+    }
+    public function getTodosMovimientosAlumno($idAlumno){
+        $arrData = $this->model->selectTodosMovimientos($idAlumno);
+        echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    //Convertir segundos a Dias, Horas, minutos y segundos
+    private function convertSecToHuman(int $segundos){
+        $secondsInAMinute = 60;
+        $secondsInAHour = 60 * $secondsInAMinute;
+        $secondsInADay = 24 * $secondsInAHour;
+
+        $days = floor($segundos / $secondsInADay);
+
+        $hourSeconds = $segundos % $secondsInADay;
+        $hour = floor($hourSeconds / $secondsInAHour);
+
+        $minuteSeconds = $hourSeconds % $secondsInAHour;
+        $minutes = floor($minuteSeconds / $secondsInAMinute);
+
+        $remainingSeconds = $minuteSeconds % $secondsInAMinute;
+        $seconds = ceil($remainingSeconds);
+        $obj = array(
+            'd' => (int) $days,
+            'h' => (int) $hour,
+            'm' => (int) $minutes,
+            's' => (int) $seconds,
+        );
+        return $obj['d'].' dias, '.$obj['h'].' horas ,'.$obj['m'].' minutos y '.$obj['s'].' segundos';
+        //return $obj;
     }
 }
 ?>
