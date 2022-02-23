@@ -23,6 +23,8 @@
   <link rel="stylesheet" href="<?= media(); ?>/plugins/select2/css/select2.min.css">
   <!--Google Charts-->
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
 </head>
 
 <?php require_once("nav_admin.php"); ?>

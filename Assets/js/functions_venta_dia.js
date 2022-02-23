@@ -92,6 +92,7 @@ function detallesIngreso(value){
     .then(res => res.json())
     .then((resultado) =>{
         document.querySelector('#observacionIngreso').textContent = resultado.observacion;
+        document.querySelector('#tableDetallesVentaModal').innerHTML = "";
         if(resultado.detalles.length != 0){
             let count = 0;
             resultado.detalles.forEach(element => {
@@ -99,15 +100,23 @@ function detallesIngreso(value){
                 let promociones = JSON.parse(element.promociones_aplicadas);
                 let table = document.querySelector('#tableDetallesVentaModal');
                 let badgePromociones = "";
-                promociones.forEach(promocion => {
+                let nombre_servicio = (element.nombre_servicio == null)?element.nombre_servicio_precarga:element.nombre_servicio;
+                let precio = (element.precio_unitario == null)?element.precio_unitario_precarga:element.precio_unitario;
+                if(promociones.length > 0){
+                    promociones.forEach(promocion => {
                     badgePromociones += `<span class="badge badge-primary m-1">${promocion.nombre_promocion}(${promocion.descuento})</span>`;
-                });
-                let row = `<tr><td>${count}</td><td>${element.nombre_servicio}</td><td>${formatoMoneda(element.precio_unitario)}</td><td>${badgePromociones}</td></tr>`;
+                    });
+                }else{
+                    badgePromociones = '<span class="badge badge-warning m-1">Sin promoción</span>';
+                }
+                let row = `<tr><td>${count}</td><td>${nombre_servicio}</td><td>${formatoMoneda(precio)}</td><td>${badgePromociones}</td></tr>`;
                 table.innerHTML += row;
             });
         }
     }).catch(err => {throw err});
 }
+
+
 //Funcion para imprimir Venta del Dia
 function fnImprimirReporteVentaDia(){
     Swal.fire({
@@ -120,13 +129,7 @@ function fnImprimirReporteVentaDia(){
         confirmButtonText: 'Si, imprimir!',
         cancelButtonText: 'No'
       }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire(
-            'Exito!',
-            'Impresión con éxito.',
-            'success'
-          )
-        }
+            window.open(`${base_url}/VentasDia/imprimir_reporte_venta_dia/`,'_blank');
       })
 }
 //Funcion para guardar Corte

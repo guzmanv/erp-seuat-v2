@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="modalVentaDetallesDia" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Detalles Venta</h5>
@@ -12,15 +12,15 @@
                 <div class="col-12 col-xl-12">
 		            <div class="card">
 				        <div class="card-header">
-					        <h5 class="card-title">Folio: <span id="folioDetallesVenta"></span></h5>
-					        <h6 class="card-subtitle text-muted m-auto"> &nbsp&nbsp&nbsp<i><span id="observacionIngreso"></span></i></h6>
+					        <h5 class="card-title">Folio: <span id="folioDetallesVenta"></span></h5><br>
+					        <h6 class="card-subtitle text-muted m-auto">Observaciones: <i><span id="observacionIngreso"></span></i></h6>
 				        </div>
 				        <table class="table table-striped">
 					        <thead>
 						        <tr>
 							        <th style="width:5%;">No</th>
-							        <th style="width:30%">Concepto</th>
-							        <th style="width:25%">Precio unitario</th>
+							        <th style="width:40%">Concepto</th>
+							        <th style="width:15%">Precio unitario</th>
 							        <th style="width:40%">Promociones</th>
 						        </tr>
 					        </thead>
