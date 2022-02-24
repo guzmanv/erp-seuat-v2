@@ -401,6 +401,7 @@ function fnChangeGrado(value){
 }
 //Function para efectuar el Cobro /mostrar cambio y mandar a imprimir Recibo
 function btnCobrarCmbio(){
+    let metodoPago = document.querySelector('#metodos_pago').value
     let total = 0;
     let descuentoPorc = 0;
     let totalDesc = 0;
@@ -427,10 +428,9 @@ function btnCobrarCmbio(){
         swal.fire("Atención","La cantidad insertada es menor que el total","warning");
         return false;
     }else{  
-        let tipoPago = 'efectivo';
         let tipoComprobante = (document.querySelector('#listTipoComprobante').value == 1)?'recibo':'factura'
         let observaciones = document.querySelector('#txtObservaciones').value;
-        let url = ` ${base_url}/Ingresos/setIngresos?idP=${idPersonaSeleccionada}&tipoP=${tipoPago}&tipoCom=${tipoComprobante}&observacion=${observaciones}&date=${jsonToString(arrServicios)}`
+        let url = ` ${base_url}/Ingresos/setIngresos?idP=${idPersonaSeleccionada}&tipoP=${metodoPago}&tipoCom=${tipoComprobante}&observacion=${observaciones}&date=${jsonToString(arrServicios)}`
 
         fetch(url).then(res => res.json()).then((resultado) => {
            if(resultado.estatus){

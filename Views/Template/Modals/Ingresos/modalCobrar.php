@@ -19,7 +19,13 @@
                                 <div class="row">
                                     <div class="col-md-6 metodosPago">
                                         <h4 class="mt-2">Selecciona un método de Pago</h4>
-                                        <div class="border p-3 mb-3 rounded">
+                                        
+                                        <select class="custom-select" id="metodos_pago">
+                                            <?php foreach ($data['metodos_pago'] as $key => $metodos) { ?>
+                                                <option value="<?php echo $metodos['id'] ?>"><?php echo $metodos['descripcion'] ?></option>
+                                            <?php } ?>
+                                        </select>
+                                        <!-- <div class="border p-3 mb-3 rounded">
                                             <div class="row">
                                                 <div class="col-sm-8">
                                                     <div class="form-check">
@@ -28,7 +34,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4 text-sm-end mt-3 mt-sm-0">
-                                                    <img src="<?php echo media() ?>/images/img/paypal.png" height="25" alt="paypal-img">
+                                                    <img src="<?php //echo media() ?>/images/img/paypal.png" height="25" alt="paypal-img">
                                                 </div>
                                             </div>
                                         </div>
@@ -41,8 +47,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4 text-sm-end mt-3 mt-sm-0">
-                                                    <img src="<?php echo media() ?>/images/img/master.png" height="24" alt="master-card-img">
-                                                    <img src="<?php echo media() ?>/images/img/visa.png" height="24" alt="visa-card-img">
+                                                    <img src="<?php //echo media() ?>/images/img/master.png" height="24" alt="master-card-img">
+                                                    <img src="<?php //echo media() ?>/images/img/visa.png" height="24" alt="visa-card-img">
                                                 </div>
                                             </div>
                                             <div class="row mt-4" style="display:none">
@@ -93,7 +99,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <div class="col-md-6 formPago"><br><br>
                                         <div class="border p-3 mt-4 mt-lg-0 rounded">

@@ -17,6 +17,7 @@
             $data['page_tag'] = "Ingresos";
             $data['page_title'] = "Caja (ingresos)";
             $data['page_content'] = "";
+            $data['metodos_pago'] = $this->model->selectMetodosPago();
             $data['page_functions_js'] = "functions_ingresos.js";
             
             $this->views->getView($this,"ingresos",$data);

@@ -15,6 +15,7 @@ var rvoes = [];
 //var $salesChartPlantel = $('#sales-chart-plantel');
 function plataformaSeleccionada(value){
     let nombrePlantel = document.querySelector('#listPlataformas').options[document.querySelector('#listPlataformas').selectedIndex].text;
+    console.log(nombrePlantel);
     document.querySelector('.plntuno').innerHTML = nombrePlantel;
     var plantel = value;
     fnTotalesCard(plantel);

@@ -27,26 +27,26 @@
                                                     <div class="col-md-3">
                                                         <label>Corte de caja No.</label>
                                                         <div class="input-group">
-                                                            <input type="text" class="form-control" value="00003" disabled>
+                                                            <input type="text" class="form-control" value="<?php echo substr(str_repeat(0,3).$data['corte_actual'],-3) ?>" disabled>
                                                             <div class="input-group-append">
                                                                 <span type="button" class="input-group-text" id="basic-addon2">Buscar</span>
                                                             </div>
                                                         </div>
                                                         <label>Fecha</label>
-                                                        <input type="text" class="form-control" value="2022/03/15 12:00:00 pm">
+                                                        <input type="text" class="form-control" value="<?php echo date("j/m/Y H:i:s A"); ?>">
                                                     </div>
                                                     <div class="col-md-5">
                                                         <label>Cajero</label>
                                                         <div class="input-group">
-                                                            <select class="custom-select">
-                                                                <option selected>Seleccionar...</option>
-                                                                <option value="1">Jose Santiz Ruiz</option>
-                                                                <option value="2">Francisco Perez Gomez</option>
-                                                                <option value="3">Emmanuel Espinoza Ruiz</option>
+                                                            <select class="custom-select" onchange="fnSelectCajero(value)">
+                                                                <option value="">Seleccionar...</option>
+                                                                <?php foreach ($data['cajeros'] as $key => $cajero) { ?>
+                                                                    <option value="<?php echo $cajero['id_caja'] ?>"><?php echo $cajero['nombre_persona'].' '.$cajero['ap_paterno'].' '.$cajero['ap_materno']  ?></option>
+                                                                <?php } ?>
                                                             </select>
                                                         </div>
                                                         <label>Caja No</label>
-                                                        <input type="text" class="form-control" value="5" disabled>
+                                                        <input type="text" id="num_caja" class="form-control" value="" disabled>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div>

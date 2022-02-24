@@ -159,8 +159,8 @@
         } */
         
         //Insertar un nuevo Ingreso
-        public function insertIngresos(string $folio,string $formaPago, string $tipoComprobante,int $total,string $observaciones,int $idAlumno, int $idPlantel){
-            $sqlIngresos = "INSERT INTO t_ingresos(fecha,folio,estatus,forma_pago,tipo_comprobante,referencia,total,observaciones,recibo_inscripcion,id_plantel,id_persona,id_usuario) VALUES(NOW(),?,?,?,?,?,?,?,?,?,?,?)";
+        public function insertIngresos(string $folio,int $formaPago, string $tipoComprobante,int $total,string $observaciones,int $idAlumno, int $idPlantel){
+            $sqlIngresos = "INSERT INTO t_ingresos(fecha,folio,estatus,id_metodo_pago,tipo_comprobante,referencia,total,observaciones,recibo_inscripcion,id_plantel,id_persona,id_usuario) VALUES(NOW(),?,?,?,?,?,?,?,?,?,?,?)";
             $requestIngresos = $this->insert($sqlIngresos,array($folio,1,$formaPago,$tipoComprobante,$folio,$total,$observaciones,1,$idPlantel,$idAlumno,1));
             return $requestIngresos;
         }
@@ -223,6 +223,12 @@
         public function updateEdoCta(int $id){
             $sql = "UPDATE t_estado_cuenta SET pagado = ? ,id_usuario_actualizacion = ?,fecha_actualizacion = NOW() WHERE id = $id";
             $request = $this->update($sql,array(1,1));
+            return $request;
+        }
+
+        public function selectMetodosPago(){
+            $sql = "SELECT *FROM t_metodos_pago WHERE estatus = 1";
+            $request = $this->select_all($sql);
             return $request;
         }
 	}
