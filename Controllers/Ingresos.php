@@ -18,8 +18,8 @@
             $data['page_title'] = "Caja (ingresos)";
             $data['page_content'] = "";
             $data['metodos_pago'] = $this->model->selectMetodosPago();
+            $data['estatus_caja'] = $this->model->selectEstatusCaja($this->idUser);
             $data['page_functions_js'] = "functions_ingresos.js";
-            
             $this->views->getView($this,"ingresos",$data);
         }
         //Funcion obtener lista ingresos
@@ -171,6 +171,23 @@
             
             $data['datos_venta'] = $arrDatosVenta;
             $this->views->getView($this,"viewpdf_compromante_venta_media_carta",$data); 
+        }
+        public function aperturarCaja($args){
+            $arg = explode(',',$args);
+            $idCaja = $arg[0];
+            $estatus = 1;
+            $monto = $arg[1];
+            $apertura = $this->model->updateEstatusCaja($idCaja,$estatus,$monto);
+            if($apertura){
+                $caja = $this->model->insertCorteCaja($monto,$idCaja);
+                if($caja){
+                    $arrResponse = array('estatus' => true, 'msg' => 'Caja aperturado correctamente!');
+                }   
+            }else{
+                $arrResponse = array('estatus' => false, 'msg' => 'No es posible aperturar la caja!');                       
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
         }
 
         //Funcion para convertir base64 a Array

@@ -51,9 +51,9 @@
                                                     <div class="col-md-4">
                                                         <div>
                                                             <label>Desde.</label>
-                                                            <input type="date" class="form-control" placeholder="" value="2018-07-22">
+                                                            <input type="text" class="form-control" id="dateCorteDesde" placeholder="" value="" disabled>
                                                             <label>Hasta.</label>
-                                                            <input type="date" class="form-control" placeholder="" value="2018-07-22">
+                                                            <input type="text" class="form-control" id="dateCorteHasta" placeholder="" value="" disabled>
                                                         </div>
                                                     </div>
                                                 </div>

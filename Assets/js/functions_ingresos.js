@@ -18,7 +18,6 @@ let gradoSeleccionado;
 var formGenerarEdoCuenta = document.querySelector("#formGenerarEdoCuenta");
 document.addEventListener('DOMContentLoaded', function(){
     $('.select2').select2(); //Inicializar Select 2 en el input promociones
-
     let url = new URLSearchParams(location.search);
     let i= url.get('d');
     if(i != null){
@@ -502,4 +501,38 @@ function insertDatosAlServ(id,id_alumno,nombre_completo,nombre_servicio,precio_u
         }
       })
     
+}
+function fnAperturarCaja(idcaja){
+    Swal.fire({
+        title: 'Aperturar?',
+        input: 'number',
+        inputLabel: 'Cantidad apertura',
+        text:'Para aperturar, ingrese el monto total de apertura',
+        icon:'question',
+        inputValue: '',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Aperturar',
+        cancelButtonText:'Cancelar',
+        inputValidator: (value) => {
+            if (!value) {
+                return 'Ingrese una cantidad!'
+            }else{
+                let url = `${base_url}/Ingresos/aperturarCaja/${idcaja}/${value}`;
+                fetch(url)
+                .then(res => res.json())
+                .then((resultado) =>{
+                    if(resultado){
+                        Swal.fire('Exito!',resultado.msg,'success'
+                        ).then((result) =>{
+                            window.open(`${base_url}/Ingresos/`);
+                        })
+                    }else{
+                        Swal.fire('Error!',resultado.msg,'warning')
+                    }
+                }).catch(err => { throw err });
+            }
+        }
+    })
 }

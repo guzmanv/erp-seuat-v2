@@ -231,5 +231,23 @@
             $request = $this->select_all($sql);
             return $request;
         }
+
+        public function selectEstatusCaja(int $idUser){
+            $sql = "SELECT c.id AS id_caja,c.id_usuario_atiende,ec.estatus_caja FROM t_cajas AS c
+            INNER JOIN t_estatus_caja AS ec ON ec.id_caja = c.id
+            WHERE c.id_usuario_atiende = $idUser";
+            $request = $this->select($sql);
+            return $request;
+        }
+        public function updateEstatusCaja(int $idCaja, int $estatus,int $monto){
+            $sql = "UPDATE t_estatus_caja SET estatus_caja = ?,monto_caja = ? WHERE id = $idCaja";
+            $request = $this->update($sql,array($estatus,$monto));
+            return $request;
+        }
+        public function insertCorteCaja(int $monto, int $idCaja){
+            $sql = "INSERT INTO t_corte_caja(fechayhora_apertura_caja,cantidad_recibida,id_caja) VALUES(NOW(),?,?)";
+            $request = $this->insert($sql,array($monto,$idCaja));
+            return $request;
+        }
 	}
 ?>  

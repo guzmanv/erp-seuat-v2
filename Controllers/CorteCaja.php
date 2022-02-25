@@ -18,7 +18,27 @@
 		}
 		public function getCaja($idCaja){
 			$arrData = $this->model->selectCaja($idCaja);
-			echo json_encode($arrData['nombre'],JSON_UNESCAPED_UNICODE);
+			if($arrData){
+				$arrData['estatus'] = true;
+				$arrData['fechayhora_apertura_caja'] = date('Y-m-d h:i:s A', strtotime($arrData['fechayhora_apertura_caja']));
+				$arrData['fechayhora_actual'] = date('Y-m-d h:i:s A');
+			}else{
+				$arrData['estatus'] = false;
+			}
+			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+			die();
+		}
+		public function getTotalesMetodosPago(){
+			$arrData = $this->model->selectTotalesMetodosPago();
+			$array = 0;
+			foreach ($arrData as $key => $value) {
+				if($array[$value['id_metodo_pago']] == ''){
+					$array[$value['id_metodo_pago']] = 0; 
+				}
+				//$array[$value['id_metodo_pago']];
+				$array = $array+1;
+			}
+			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
 			die();
 		}
 	}
