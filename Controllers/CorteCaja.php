@@ -30,14 +30,14 @@
 		}
 		public function getTotalesMetodosPago(){
 			$arrData = $this->model->selectTotalesMetodosPago();
-			$array = 0;
-			foreach ($arrData as $key => $value) {
-				if($array[$value['id_metodo_pago']] == ''){
-					$array[$value['id_metodo_pago']] = 0; 
+			$array = [];
+			/* for($i = 0; $i<count($arrData); $i++){
+				//$array[$i] = $arrData[$i]['id_metodo_pago'];
+				if($array[$arrData[$i]['id_metodo_pago']] == ''){
+					$array[$arrData[$i]['id_metodo_pago']] = 0;
 				}
-				//$array[$value['id_metodo_pago']];
-				$array = $array+1;
-			}
+				$array[$arrData[$i]['id_metodo_pago']] += 1;
+			} */
 			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
 			die();
 		}
