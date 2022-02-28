@@ -71,84 +71,22 @@
                                                                     <th scope="col">Segun caja</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <th scope="row">Efectivo</th>
-                                                                    <td><input type="text" class="form-control" value="$10.00"></td>
-                                                                    <td><input type="text" class="form-control" value="$20.00"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">Cheque</th>
-                                                                    <td><input type="text" class="form-control" value="$25.00"></td>
-                                                                    <td><input type="text" class="form-control" value="$16.00"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">Trajeta de crédito</th>
-                                                                    <td><input type="text" class="form-control" value="$14.50"></td>
-                                                                    <td><input type="text" class="form-control" value="$85.00"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">Trajeta de débito</th>
-                                                                    <td><input type="text" class="form-control" value="$14.00"></td>
-                                                                    <td><input type="text" class="form-control" value="$98.00"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">Tickets</th>
-                                                                    <td><input type="text" class="form-control" value="$0.00"></td>
-                                                                    <td><input type="text" class="form-control" value="$1000,00.00"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">Total de ingresos</th>
-                                                                    <td><input type="text" class="form-control" value="$1000.00"></td>
-                                                                    <td><input type="text" class="form-control" value="$1000,00.00"></td>
-                                                                </tr>
+                                                            <tbody id="totalesEfecMetoPago">
                                                             </tbody>
+                                                            <tr><td>Totales</td><td class="text-center"><b><span id="totalSSistema">$0.00</span></b></td><td class="text-center"><b><span id="totalSCaja">$0.00</span></b></td></tr>
+
                                                         </table>
                                                     </div>
                                                     <div class="col-md-7">
                                                         <div class="card card-secondary">
                                                             <nav>
                                                                 <div class="nav nav-pills nav-fill" id="nav-tab" role="tablist">
-                                                                    <a class="nav-link tab-nav" id="step1-tab" data-toggle="tab" href="" >Efectivo</a>
-                                                                    <a class="nav-link tab-nav" id="step2-tab" data-toggle="tab" href="" >Cheque</a>
-                                                                    <a class="nav-link tab-nav" id="step3-tab" data-toggle="tab" href="" >Tarjeta crédito</a>
-                                                                    <a class="nav-link tab-nav" id="step4-tab" data-toggle="tab" href="" >Tarjeta débito</a>
-                                                                    <a class="nav-link tab-nav" id="step5-tab" data-toggle="tab" href="" >Tickets</a>
+
                                                                 </div>
                                                             </nav>
                                                             <form>
-                                                                <div class="card-body"> 
-                                                                    <div class="tab">
-                                                                        <div class="row">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="tab">
-                                                                        <div class="row">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="tab">
-                                                                        <div class="row">
-                                                                            <div class="form-group col-md-4">
-                                                                            </div>
-                                                                        </div>               
-                                                                    </div>   
-                                                                    <div class="tab">
-                                                                        <div class="row">
-                                                                            <div class="form-group col-md-4">
-                                                                                <label>Estado</label>
-                                                                            </div>
-                                                                        </div>               
-                                                                    </div>
-                                                                    <div class="tab">
-                                                                        <div class="row">
-                                                                            <div class="form-group col-md-6">
-                                                                                
-                                                                            </div>
-                                                                            <div class="form-group col-md-6">
-                                                                                
-                                                                            </div>
-                                                                        </div>               
-                                                                    </div>    
+                                                                <div class="card-body" id="content-nav"> 
+
                                                                 </div>
                                                             </form>
                                                         </div>
@@ -174,7 +112,7 @@
                                                                         <th>autorizado por</th>
                                                                     </tr>
                                                                 </thead>
-                                                                <tbody>
+                                                                <tbody id="tbodyDetallesVenta">
                                                                     
                                                                 </tbody>
                                                             </table>
@@ -182,9 +120,9 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label>Devoluciones.</label>
-                                                        <input type="text" class="form-control" value="$100,500.00">
+                                                        <input type="text" class="form-control" value="$0.00">
                                                         <label>Total egresos</label>
-                                                        <input type="text" class="form-control" value="$250,245.00">
+                                                        <input type="text" class="form-control" value="0.00">
                                                     </div>
                                                 </div>
                                             </div>
@@ -193,18 +131,18 @@
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-md-4">
-                                                        <label>Total CAJA</label>
-                                                        <input type="text" class="form-control" value="$200,500.00">
+                                                        <label>Faltante</label>
+                                                        <input type="text" class="form-control" value="$0.00" disabled>
                                                         <label>Sobrante</label>   
-                                                        <input type="text" class="form-control" value="$14,526.00">
+                                                        <input type="text" class="form-control" value="$0.00" disabled>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label>Observaciones</label>
                                                         <textarea type="text" class="form-control" rows="4" placeholder="Username"></textarea>
                                                     </div>
                                                     <div class="col-md-2 block">
-                                                        <button type="button" class="btn btn-primary col-12 mb-2 mt-2">Guardar</button>
-                                                        <button type="button" class="btn btn-primary col-12">Imprimir</button>
+                                                        <button type="button" class="btn btn-primary col-12 mb-2 mt-2" onclick="gnGuardarCorte()">Guardar</button>
+                                                        <button type="button" class="btn btn-primary col-12" onclick="imprimirCorte()">Imprimir</button>
                                                     </div>
                                                 </div>
                                             </div>

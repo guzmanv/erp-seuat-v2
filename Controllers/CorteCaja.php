@@ -30,15 +30,41 @@
 		}
 		public function getTotalesMetodosPago(){
 			$arrData = $this->model->selectTotalesMetodosPago();
-			$array = [];
-			/* for($i = 0; $i<count($arrData); $i++){
-				//$array[$i] = $arrData[$i]['id_metodo_pago'];
-				if($array[$arrData[$i]['id_metodo_pago']] == ''){
-					$array[$arrData[$i]['id_metodo_pago']] = 0;
+			$array;
+			for($i = 0; $i<count($arrData); $i++){
+				$id_metodo_pago = $arrData[$i]['id_metodo_pago'];
+				$total = $arrData[$i]['total'];
+				if(!isset($array[$id_metodo_pago])){
+					$array[$id_metodo_pago] = 0;
 				}
-				$array[$arrData[$i]['id_metodo_pago']] += 1;
-			} */
+				$array[$id_metodo_pago] += $total;
+				
+			}
+			$arrayValue = [];
+			foreach ($array as $key => $value) {
+				$valores = array('id'=>$key,'metodo'=>$this->model->selectMetodoPago($key)['descripcion'],'total'=>$value);
+				array_push($arrayValue,$valores);
+			}
+			$arrResponse['detalles'] = $arrData;
+			$arrResponse['totales'] = $arrayValue;
+			echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+			die();
+		}
+		public function getDetallesIngreso($idIngreso){
+			$arrData = $this->model->selectDetalleIngreso($idIngreso);
+			for($i = 0; $i<count($arrData); $i++){
+				$arrData[$i]['codigo'] = ($arrData[$i]['codigo_servicio'] == '')?$arrData[$i]['codigo_servicio_precarga']:$arrData[$i]['codigo_servicio'];
+				$arrData[$i]['nombre'] = ($arrData[$i]['nombre_servicio'] == '')?$arrData[$i]['nombre_servicio_precarga']:$arrData[$i]['nombre_servicio'];
+			}
 			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+			die();
+		}
+		public function setCorteCaja($arr){
+			/* $resCorteCaja = $this->model->updateCorteCaja($id_caja);
+			if($resCorteCaja){
+				$resStatuscaja = $this->model->updateStatusCaja($id_caja);
+			} */
+			echo json_encode($arr,JSON_UNESCAPED_UNICODE);
 			die();
 		}
 	}
