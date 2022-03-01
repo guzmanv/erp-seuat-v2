@@ -45,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function(){
             {"data":"carrera"},
             {"data":"grado"},
             {"data":"fecha"},
+            {"data":"factura"},
             {"data":"total_formato"},
 			{"data":"acciones"}
         ],
@@ -82,9 +83,6 @@ function ventaTotalDia(){
 }
 
 
-function fnCortePArcialDia(){
-    document.querySelector("#totalVentaCorteParcial").textContent = document.querySelector('#totalSaldo').textContent;
-}
 
 function detallesIngreso(value){
     let folio = document.getElementById(value).getAttribute('f');
@@ -94,19 +92,32 @@ function detallesIngreso(value){
     .then(res => res.json())
     .then((resultado) =>{
         document.querySelector('#observacionIngreso').textContent = resultado.observacion;
+        document.querySelector('#tableDetallesVentaModal').innerHTML = "";
         if(resultado.detalles.length != 0){
             let count = 0;
             resultado.detalles.forEach(element => {
-                console.log(element.prmociones_aplicadas);
                 count += 1;
+                let promociones = JSON.parse(element.promociones_aplicadas);
                 let table = document.querySelector('#tableDetallesVentaModal');
-                let row = `<tr><td>${count}</td><td>${element.nombre_servicio}</td><td>${formatoMoneda(element.precio_unitario)}</td><td><span class="badge badge-primary m-1">${element.promociones_aplicadas}</span><span class="badge badge-primary m-1">Promocion 2(12%)</span><span class="badge badge-primary m-1">Promocion 3(14%)</span></td></tr>`;
+                let badgePromociones = "";
+                let nombre_servicio = (element.nombre_servicio == null)?element.nombre_servicio_precarga:element.nombre_servicio;
+                let precio = (element.precio_unitario == null)?element.precio_unitario_precarga:element.precio_unitario;
+                if(promociones.length > 0){
+                    promociones.forEach(promocion => {
+                    badgePromociones += `<span class="badge badge-primary m-1">${promocion.nombre_promocion}(${promocion.descuento})</span>`;
+                    });
+                }else{
+                    badgePromociones = '<span class="badge badge-warning m-1">Sin promoción</span>';
+                }
+                let row = `<tr><td>${count}</td><td>${nombre_servicio}</td><td>${formatoMoneda(precio)}</td><td>${badgePromociones}</td></tr>`;
                 table.innerHTML += row;
             });
         }
     }).catch(err => {throw err});
 }
 
+
+//Funcion para imprimir Venta del Dia
 function fnImprimirReporteVentaDia(){
     Swal.fire({
         title: 'Imprmir?',
@@ -118,15 +129,29 @@ function fnImprimirReporteVentaDia(){
         confirmButtonText: 'Si, imprimir!',
         cancelButtonText: 'No'
       }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire(
-            'Exito!',
-            'Impresión con éxito.',
-            'success'
-          )
-        }
+            window.open(`${base_url}/VentasDia/imprimir_reporte_venta_dia/`,'_blank');
       })
 }
+//Funcion para guardar Corte
+function btnGuardarCorte(){
+    let totalVenta = 0;
+    let totalEfectivo = document.querySelector('#totalEfectivoCorte').value;
+    if(totalEfectivo == ""){
+        swal.fire("Atención", "Ingrese el total de Efectivo", "warning");
+        return false;
+    }
+    let url = `${base_url}/VentasDia/setCorteDia`
+    fetch(url)
+    .then(res => res.json())
+    .then((resultado) =>{
+        if(resultado.estatus){
+            swal.fire("Corte", resultado.msg, "success").then((result) =>{
+                $('.close').click();
+            });
+        }
+    }).catch(err => {throw err});
+}
+
 //Function para dar formato un numero a Moneda
 function formatoMoneda(numero){
     let str = numero.toString().split(".");

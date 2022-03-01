@@ -45,7 +45,11 @@ verEdoCta.addEventListener('click',function() {
 })
 
 //Consultar estado de cuenta y mostrar en Datatable
-function fnGetEstadoCuentaAlumno(matriculaRFAlumno,idAlumno){
+function fnGetEstadoCuentaAlumno(matriculaRFAlumno,idAlumno){ 
+/*     let url = `${base_url}/ConsultasIngresosEgresos/getEstadoCuenta/${matriculaRFAlumno}/${idAlumno}`;
+    fetch(url).then(res => res.json()).then((resultado) => {
+        console.log(resultado);
+    }).catch(err => { throw err }); */
     dataTableEdoCta = $('#tableEstadoCuenta').dataTable( {
         "aProcessing":true,
         "aServerSide":true,
@@ -60,8 +64,8 @@ function fnGetEstadoCuentaAlumno(matriculaRFAlumno,idAlumno){
             {"data":"numeracion"},
             {"data":"fecha"},
             {"data":"concepto"},
-            {"data":"subconcepto"},
-            {"data":"descripcion"},
+            {"data":"nombre_servicio"},
+            {"data":"nombre_servicio"},
             {"data":"cargo"},
             {"data":"abono"},
             {"data":"precio_unitario"},

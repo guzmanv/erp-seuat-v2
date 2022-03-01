@@ -33,6 +33,7 @@
                 $arrData[$i]['plantel'] = $array['plantel'];
                 $arrData[$i]['carrera'] = $array['nombre_carrera'];
                 $arrData[$i]['grado'] = $array['grado'];
+                $arrData[$i]['factura'] = 1;
                 $arrData[$i]['total_formato'] = '$ '.formatoMoneda($arrData[$i]['total']);
                 $arrData[$i]['acciones'] = '<button type="button"  id="'.$arrData[$i]['id'].'" f="'.$arrData[$i]['folio'].'" class="btn btn-secondary btn-xs" onclick="detallesIngreso('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#modalVentaDetallesDia">Detalles</button>';
             }
@@ -44,13 +45,30 @@
             $observacion = $this->model->selectObservacionIngreso($idIngreso);
             $response['observacion'] = ($observacion['observaciones'] == '' || $observacion['observaciones'] == NULL)?'Sin observación':$observacion['observaciones'];
             $detallesVenta = $this->model->selectDetallesVenta($idIngreso);
-            $response['detalles'] = $detallesVenta;
+            $response['detalles'] = $detallesVenta; 
             echo json_encode($response,JSON_UNESCAPED_UNICODE);
             die();
         }
 
-
+        public function setCorteDia(){
+            $response['estatus'] = true;
+            $response['msg'] = "Corte realizado correctamente";
+            echo json_encode($response,JSON_UNESCAPED_UNICODE);
+            die();
+        }
         
+        public function imprimir_reporte_venta_dia(){
+            $fechaActual = date("Y-m-d");
+            $arrData['datos'] = $this->model->selectDatosUsuario($this->idUser);
+            $arrData['ventas'] = $this->model->selectAllVentasDia($this->idUser,$fechaActual);
+            $arrData['total'] = 0;
+            foreach ($arrData['ventas'] as $key => $value) {
+                $arrData['total'] += $value['total'];
+            }
+            $this->views->getView($this,"viewpdf_reporte_ventas_dia",$arrData);
+            //var_dump($arrData);
+        }
+
         private function getDatosAlumno(int $idAlumno){
             $arrData = $this->model->selectDatosAlumno($idAlumno);
             $arrData['nombre_completo'] = $arrData['nombre_persona'].' '.$arrData['ap_paterno'].' '.$arrData['ap_materno'];

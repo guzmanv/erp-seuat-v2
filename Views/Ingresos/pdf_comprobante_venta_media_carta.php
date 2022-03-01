@@ -158,34 +158,36 @@ table.sin_borde{border:0px solid #ffffff; width: 100%;}
         <div id="fila-normal">
             <div class="subfila" style="width: 180px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;text-align:left">POR CONCEPTO DE: <b>INSCRIPCION</b></div>
             <div class="subfila" style="width: 50px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php 
-            if($data['datos_venta'][0]['codigo_servicio'] == 'IN'){
-                echo ('$ '.formatoMoneda($data['datos_venta'][0]['precio_unitario']));
+            if($data['datos_venta']['inscripcion'] != 0){
+                echo ('$ '.formatoMoneda($data['datos_venta']['inscripcion']));
+            }else{
+                echo '';
             }
             ?></div>
             <div class="subfila" style="width: 90px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;text-align:left"><b>COLEGIATURA</b></div>
             <div class="subfila" style="width: 50px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php 
-            if($data['datos_venta'][0]['codigo_servicio'] == 'CM'){
-                echo('$ '.formatoMoneda($data['datos_venta'][0]['precio_unitario']));
+            if($data['datos_venta']['colegiatura'] != 0){
+                echo ('$ '.formatoMoneda($data['datos_venta']['colegiatura']));
+            }else{
+                echo '';
             }
             ?></div>
             <div class="subfila" style="width: 50px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;text-align:left"><b>OTROS</b></div>
-            <div class="subfila" style="width: 100px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php 
-            if($data['datos_venta'][0]['codigo_servicio'] != 'CM' && $data['datos_venta'][0]['codigo_servicio'] != 'IN'){
-                echo($data['datos'][0]['nombre_servicio']);
-            }
-            ?></div>
+            <div class="subfila" style="width: 100px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; ">Otros</div>
             <div class="subfila" style="width: 10px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;text-align:left"></div>
-            <div class="subfila" style="width: 10px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php 
-            if($data['datos_venta'][0]['codigo_servicio'] != 'CM' && $data['datos_venta'][0]['codigo_servicio'] != 'IN'){
-                echo('$ '.formatoMoneda($data['datos_venta'][0]['precio_unitario']));
+            <div class="subfila" style="width: 50px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php 
+            if($data['datos_venta']['otros'] != 0){
+                echo ('$ '.formatoMoneda($data['datos_venta']['otros']));
+            }else{
+                echo '';
             }
             ?></div>
         </div>
         <div id="fila-normal">
             <div class="subfila" style="width: 140px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;text-align:left">LA CANTIDAD TOTAL DE:</div>
-            <div class="subfila" style="width: 200px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php echo('$ '.formatoMoneda($data['datos_venta'][0]['total'])) ?></div>
+            <div class="subfila" style="width: 200px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php echo('$ '.formatoMoneda($data['datos_venta']['total'])) ?></div>
             <div class="subfila" style="width: 10px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 4px;text-align:left"><b>(</b></div>
-            <div class="subfila" style="width: 380px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php echo(strtoupper(number_words($data['datos_venta'][0]['total'],"pesos","y","centavos"))) ?></div>
+            <div class="subfila" style="width: 380px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php echo(strtoupper(number_words($data['datos_venta']['total'],"pesos","y","centavos"))) ?></div>
             <div class="subfila" style="width: 10px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 4px;text-align:left"><b> ).</b></div>
         </div>
         <div id="fila-normal">

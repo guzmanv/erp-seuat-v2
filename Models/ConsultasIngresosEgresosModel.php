@@ -34,7 +34,7 @@
 			$request = $this->select($sql);
 			return $request;
 		}
-		public function selectEdoCuentaById(int $idAlumno){
+		/* public function selectEdoCuentaById(int $idAlumno){
 			$sql = "SELECT ing.id,s.codigo_servicio,s.nombre_servicio,ing.folio,p.descripcion,ing.observaciones,ingdet.abono,ingdet.cargo,s.precio_unitario,p.fecha AS fecha_pago,
 			ing.fecha AS fecha_pagado,ingdet.cantidad,ing.tipo_comprobante FROM t_ingresos AS ing 
 			INNER JOIN t_personas AS per ON ing.id_persona = per.id
@@ -45,6 +45,14 @@
 			LEFT JOIN t_precarga_cuenta AS p ON ingdet.id_precarga_cuenta = p.id
 			INNER JOIN t_servicios AS s ON ingdet.id_servicio = s.id
 			WHERE ing.id_persona = $idAlumno AND s.aplica_edo_cuenta = 1";
+			$request = $this->select_all($sql);
+			return $request;
+		} */
+		public function selectEdoCuentaById(int $idAlumno){
+			$sql = "SELECT ec.id,s.codigo_servicio,s.precio_unitario,ec.pagado FROM t_estado_cuenta AS ec
+			INNER JOIN t_precarga AS p ON ec.id_precarga = p.id
+			INNER JOIN t_servicios AS s ON p.id_servicio = s.id
+			WHERE ec.id_persona = $idAlumno";
 			$request = $this->select_all($sql);
 			return $request;
 		}
@@ -74,12 +82,12 @@
         }
 		//Obtener estatus del estado de cuenta por ID
         public function selectStatusEstadoCuentaById(int $idPersonaSeleccionada){
-            $sql = "SELECT *FROM t_ingresos WHERE id_persona = $idPersonaSeleccionada";
+            $sql = "SELECT *FROM t_estado_cuenta WHERE id_persona = $idPersonaSeleccionada";
             $request = $this->select_all($sql);
             return $request;
         }
 		//Obtener estatus del estado de cuenta por matricula interna/externa o RFC
-        public function selectStatusEstadoCuentaByMatrRFC($matriculaRFC){
+       /*  public function selectStatusEstadoCuentaByMatrRFC($matriculaRFC){
             $sql = "SELECT *FROM t_ingresos AS i
 			LEFT JOIN t_personas AS p ON i.id_persona = p.id
 			LEFT JOIN t_datos_fiscales AS df ON p.id_datos_fiscales = df.id
@@ -88,6 +96,44 @@
 			WHERE df.rfc = '$matriculaRFC' OR h.matricula_interna = '$matriculaRFC' OR h.matricula_externa = '$matriculaRFC'";
             $request = $this->select_all($sql);
             return $request;
-        }
+        } */
+		public function selectIdAlumnoByRFC($rfc){
+			$sql = "SELECT p.id FROM t_personas AS p
+			LEFT JOIN t_datos_fiscales AS df ON p.id_datos_fiscales = df.id
+			WHERE df.rfc = '$rfc'";
+			$request = $this->select($sql);
+			return $request;
+		}
+		public function selectIdAlumnoByMatricula($matricula){
+			$sql = "SELECT p.id FROM t_inscripciones AS ins
+			INNER JOIN t_personas AS p ON ins.id_personas = p.id
+			INNER JOIN t_historiales AS h ON ins.id_historial = h.id
+			WHERE h.matricula_externa = '' OR h.matricula_interna = '$matricula'";
+			$request = $this->select($sql);
+			return $request;
+		}
+
+
+
+
+
+		/////////////////////////
+		public function selectEdoCta(int $idAlumno){
+			$sql = "SELECT ec.id AS id_edo_cta,s.codigo_servicio,s.nombre_servicio,s.precio_unitario,p.fecha_limite_cobro,ec.pagado,p.id AS id_precarga
+			FROM t_estado_cuenta AS ec
+			INNER JOIN t_precarga AS p ON ec.id_precarga = p.id
+			INNER JOIN t_servicios AS s ON p.id_servicio = s.id
+			WHERE ec.id_persona = $idAlumno";
+			$request = $this->select_all($sql);
+			return $request;
+		}
+		public function selectDetallePago(int $idPrecarga, int $idPersona){
+            $sql = "SELECT i.id AS id_ingreso, i.folio, i.observaciones,idet.abono,idet.cargo,i.fecha,idet.cantidad,i.tipo_comprobante FROM t_ingresos_detalles AS idet
+            INNER JOIN t_precarga AS p ON idet.id_precarga = p.id 
+            LEFT JOIN t_ingresos i ON idet.id_ingresos = i.id 
+            WHERE i.id_persona = $idPersona AND p.id = $idPrecarga";
+			$request = $this->select($sql);
+			return $request;
+		}
 	}
 ?>

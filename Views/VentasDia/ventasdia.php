@@ -39,7 +39,7 @@
                                                 <div>
                                                     <div class="row">
                                                         <div class="col-md-6 form-group text-right">
-                                                            <button type="button" class="form-control btn btn-primary col-4" data-toggle="modal" data-target="#modalCorteParcialCaja" onclick="fnCortePArcialDia()">Corte parcial de caja</button>
+                                                            <a type="button" class="form-control btn btn-primary col-4" href="<?php echo BASE_URL ?>/CorteCaja">Corte parcial de caja</a>
                                                         </div>
                                                         <div class="col-md-6 form-group text-left"><button class="form-control btn btn-secondary col-4" onclick="fnImprimirReporteVentaDia()">Imprimir reporte de ventas</button></div>
                                                     </div>
@@ -59,6 +59,7 @@
                                                 <th>Carrera</th>
                                                 <th>Grado</th>
                                                 <th>Fecha</th>
+                                                <th>Factura</th>
                                                 <th>Total</th>
                                                 <th>Acciones</th>
                                             </tr>

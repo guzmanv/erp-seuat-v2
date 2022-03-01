@@ -1,5 +1,6 @@
 <?php
     headerAdmin($data);
+    getModal("HistorialPagosAlumno/modalHistorialPagosAlumno",$data);
 ?>
 <div id="contentAjax"></div>
 <div class="wrapper">
@@ -29,8 +30,7 @@
                                         <h1 class="h3 d-inline align-middle">Alumnos</h1>
                                     </div>
                                     <div class="row">
-                                        <div class="col-xl-8">
-                                            <div class="card">
+                                            <div class="card col-xl-8">
                                                 <div class="card-header pb-0">
                                                     <h5 class="card-title mb-0">Alumnos</h5>
                                                 </div>
@@ -38,13 +38,13 @@
                                                     <table id="tableAlumnos" class="table table-bordared table-hover table-striped table-sm">
                                                         <thead>
                                                             <tr>
-                                                                <th>#</th>
+                                                                <th width="5%">#</th>
                                                                 <th>Nombre</th>
                                                                 <th>Apellidos</th>
                                                                 <th>Plantel</th>
                                                                 <th>Carrera</th>
-                                                                <th>Grado y Grupo</th>
-                                                                <th>Acciones</th>
+                                                                <th width="10%">Grado y Grupo</th>
+                                                                <th width="5%">Acciones</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -53,9 +53,8 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-xl-4">
-                                            <div class="card">
+                  
+                                            <div class="card col-xl-4 card-info-alumno" style="display:none">
                                                 <div class="card-header">
                                                     <h5 class="card-title mb-0 name"></h5>
                                                 </div>
@@ -93,9 +92,9 @@
                                                     <ul class="timeline mt-2 mb-0 ultimos_movimientos">
                                                         
                                                     </ul>
+                                                    <a href="" id="ver_mas_detalles_alumno" data-toggle="modal" data-target="#modalHistorialPagosAlumno"><p><i style="color:blue">Ver <b>más</b></i></p></a>
                                                 </div>
                                             </div>
-                                        </div>
                                     </div>
                                 </div>   
                             </div>
