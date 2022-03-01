@@ -60,11 +60,14 @@
 			die();
 		}
 		public function setCorteCaja($arr){
-			/* $resCorteCaja = $this->model->updateCorteCaja($id_caja);
+			$array = explode(',',$arr);
+			$id_caja = $array[0];
+			$id_corte_caja = $array[1];
+			$resCorteCaja = $this->model->updateCorteCaja($id_corte_caja);
 			if($resCorteCaja){
 				$resStatuscaja = $this->model->updateStatusCaja($id_caja);
-			} */
-			echo json_encode($arr,JSON_UNESCAPED_UNICODE);
+			}
+			echo json_encode($resStatuscaja,JSON_UNESCAPED_UNICODE);
 			die();
 		}
 	}

@@ -33,7 +33,7 @@
                                                             </div>
                                                         </div>
                                                         <label>Fecha</label>
-                                                        <input type="text" class="form-control" value="<?php echo date("j/m/Y H:i:s A"); ?>">
+                                                        <input type="text" class="form-control" value="<?php echo date("j/m/Y H:i:s A"); ?>" disabled>
                                                     </div>
                                                     <div class="col-md-5">
                                                         <label>Cajero</label>

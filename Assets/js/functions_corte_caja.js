@@ -9,12 +9,22 @@ function fnSelectCajero(value){
     .then(res => res.json())
     .then((resultado) => {
         if(resultado.estatus){
-            idCaja = value;
-            idCorteCaja = resultado.id_corte_caja;
-            document.querySelector('#num_caja').value = resultado.nombre;
-            document.querySelector('#dateCorteDesde').value = resultado.fechayhora_apertura_caja;
-            document.querySelector('#dateCorteHasta').value = resultado.fechayhora_actual;
-            fnTotalesMetodosPago();
+            if(resultado.estatus_caja == 1){
+                idCaja = value;
+                idCorteCaja = resultado.id_corte_caja;
+                document.querySelector('#num_caja').value = resultado.nombre;
+                document.querySelector('#dateCorteDesde').value = resultado.fechayhora_apertura_caja;
+                document.querySelector('#dateCorteHasta').value = resultado.fechayhora_actual;
+                fnTotalesMetodosPago();
+            }else{
+                Swal.fire({
+                    title: 'Caja cerrada!',
+                    text: "La caja seleccionada, actualmente se encuentra cerrada!",
+                    icon: 'warning',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK'
+                  })
+            }
         }else{
             Swal.fire({
                 title: 'Caja cerrada!',
@@ -104,6 +114,10 @@ function fnChangeTotalSegunCaja(){
 }
 
 function gnGuardarCorte(){
+    if(idCaja == null || idCorteCaja == null){
+        swal.fire("Atención","Selecciona una caja/cajero","warning");
+        return false;
+    }
     let url = `${base_url}/CorteCaja/setCorteCaja/${idCaja}/${idCorteCaja}`;
     Swal.fire({
         title: 'Corte de caja',
@@ -122,7 +136,7 @@ function gnGuardarCorte(){
                 /* if(resultado){
                     Swal.fire(
                         'Exito!',
-                        'Corte realizar correctamnte, y la caja se cerrará automaticamente.',
+                        'Corte realizado correctamnte, y la <b>caja</b> se cerrará automaticamente.',
                         'success'
                     ).then((result) =>{
                         window.location.href = `${base_url}/Ingresos`;

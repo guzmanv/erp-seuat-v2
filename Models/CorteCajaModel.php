@@ -7,7 +7,7 @@
 		}
         public function selectCorteActual(){
             $sql = "SELECT *FROM t_corte_caja
-            WHERE fechayhora_cierre_caja != NULL";
+            WHERE fechayhora_cierre_caja != ''";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -56,9 +56,11 @@
             $request = $this->select($sql);
             return $request;
         }
-        /* public function updateCorteCaja(int $id_caja){
-            $sql = "UPDATE "
-        } */
+        public function updateCorteCaja(int $id_corte_caja){
+            $sql = "UPDATE t_corte_caja SET fechayhora_cierre_caja = NOW() WHERE id = $id_corte_caja";
+            $request = $this->update($sql,array());
+            return $request;
+        }
         public function updateStatusCaja(int $id_caja){
             $cantidad = 100;
             $sql = "UPDATE t_estatus_caja SET estatus_caja = ?,monto_caja = ? WHERE id_caja = $id_caja";
