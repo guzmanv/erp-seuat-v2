@@ -45,7 +45,8 @@
 			LEFT JOIN t_precarga AS p ON id.id_precarga = p.id
 			LEFT JOIN t_servicios AS s ON id.id_servicio = s.id
 			LEFT JOIN t_servicios AS spre ON p.id_servicio = spre.id
-			LEFT JOIN t_personas AS per ON i.id_usuario = per.id
+			LEFT JOIN t_usuarios AS us ON i.id_usuario = us.id
+			LEFT JOIN t_personas AS per ON us.id_persona = per.id
 			WHERE i.id_persona = $idAlumno ORDER BY i.fecha DESC";
 			$request = $this->select_all($sql);
 			return $request;
