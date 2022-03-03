@@ -29,11 +29,12 @@
         public function estatusCaja(int $idCaja){
             return $idCaja;
         }
-        public function selectTotalesMetodosPago(){
+        public function selectTotalesMetodosPago(int $id_usuario){
             $sql = "SELECT i.id AS id_ingreso,i.id_usuario,i.id_metodo_pago,i.total,mp.descripcion,
             i.fecha,i.folio,CONCAT(p.nombre_persona,' ',p.ap_paterno,' ',p.ap_materno)AS nombre_persona FROM t_ingresos AS i
             INNER JOIN t_metodos_pago AS mp ON i.id_metodo_pago = mp.id
-            INNER JOIN t_personas AS p ON i.id_persona = p.id";
+            INNER JOIN t_personas AS p ON i.id_persona = p.id
+            WHERE i.id_usuario = $id_usuario";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -66,6 +67,11 @@
             $cantidad = 100;
             $sql = "UPDATE t_estatus_caja SET estatus_caja = ?,monto_caja = ? WHERE id_caja = $id_caja";
             $request = $this->update($sql,array(0,$cantidad));
+            return $request;
+        }
+        public function selectIdUsuario(int $id_caja){
+            $sql = "SELECT id_usuario_atiende FROM t_cajas WHERE id = $id_caja";
+            $request = $this->select($sql);
             return $request;
         }
 	}

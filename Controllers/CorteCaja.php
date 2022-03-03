@@ -35,8 +35,9 @@
 			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
 			die();
 		}
-		public function getTotalesMetodosPago(){
-			$arrData = $this->model->selectTotalesMetodosPago();
+		public function getTotalesMetodosPago(int $id_caja){
+			$id_usuario = $this->model->selectIdUsuario($id_caja);
+			$arrData = $this->model->selectTotalesMetodosPago($id_usuario['id_usuario_atiende']);
 			$array;
 			for($i = 0; $i<count($arrData); $i++){
 				$id_metodo_pago = $arrData[$i]['id_metodo_pago'];
@@ -70,11 +71,14 @@
 			$array = explode(',',$arr);
 			$id_caja = $array[0];
 			$id_corte_caja = $array[1];
-			$resCorteCaja = $this->model->updateCorteCaja($id_corte_caja);
-			if($resCorteCaja){
+			$datos = json_decode(base64_decode($array[2]));
+			$comentario = $datos->observaciones;
+			$cantidadEntregada = 0;
+			//$resCorteCaja = $this->model->updateCorteCaja($id_corte_caja,$total_entregada,$id_usuario_entrega,$id_usuario_recibe,$comentario);
+			/*if($resCorteCaja){
 				$resStatuscaja = $this->model->updateStatusCaja($id_caja);
-			}
-			echo json_encode($resStatuscaja,JSON_UNESCAPED_UNICODE);
+			} */
+			echo json_encode($comentario,JSON_UNESCAPED_UNICODE);
 			die();
 		}
 	}
