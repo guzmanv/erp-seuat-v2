@@ -72,13 +72,33 @@
 			$id_caja = $array[0];
 			$id_corte_caja = $array[1];
 			$datos = json_decode(base64_decode($array[2]));
+			$total_entregada = $array[3];
+			$id_usuario_recibe = $this->model->selectIdUsuario($array[4]);
 			$comentario = $datos->observaciones;
-			$cantidadEntregada = 0;
-			//$resCorteCaja = $this->model->updateCorteCaja($id_corte_caja,$total_entregada,$id_usuario_entrega,$id_usuario_recibe,$comentario);
-			/*if($resCorteCaja){
-				$resStatuscaja = $this->model->updateStatusCaja($id_caja);
-			} */
-			echo json_encode($comentario,JSON_UNESCAPED_UNICODE);
+			$resCorteCaja = $this->model->updateCorteCaja($id_corte_caja,$total_entregada,$this->idUser,$id_usuario_recibe['id_usuario_atiende'],$comentario);
+			if($resCorteCaja){
+				$resStatuscaja = $this->model->updateStatusCaja($id_caja,$total_entregada);
+				if($resStatuscaja){
+					foreach ($datos->totales as $key => $value) {
+						$resDetalleCorteCaja = $this->model->insertDetalleCorteCaja($value->total,$value->total_caja,1,$this->idUser,$value->id_metodo_pago,$id_corte_caja);
+						if($resDetalleCorteCaja){
+							$arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente correctamente');
+						}else{
+							$arrResponse = array('estatus' => false, 'msg' => 'No se pudo guardar los datos');
+						}
+					}
+				}else{
+					$arrResponse = array('estatus' => false, 'msg' => 'No se pudo guardar los datos');
+				}
+			}else{
+				$arrResponse = array('estatus' => false, 'msg' => 'No se pudo guardar los datos');
+			}
+			echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+			die();
+		}
+		public function getCajeros(){
+			$arrData = $this->model->selectCajeros();
+			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
 			die();
 		}
 	}

@@ -1,7 +1,6 @@
     <?php
     headerAdmin($data);
-    //getModal('VentasDia/modalVentasDia',$data);
-    //getModal('VentasDia/modalDetallesVentaFolio',$data);
+    getModal('CorteCaja/modalCorteCaja',$data);
 ?>
 <div class="wrapper">
     <div class="content-wrapper">
@@ -141,7 +140,7 @@
                                                         <textarea type="text" class="form-control" id="observaciones" rows="4" placeholder="Observaciones"></textarea>
                                                     </div>
                                                     <div class="col-md-2 block">
-                                                        <button type="button" class="btn btn-primary col-12 mb-2 mt-2" onclick="gnGuardarCorte()">Guardar</button>
+                                                        <button type="button" class="btn btn-primary col-12 mb-2 mt-2"  onclick="gnGuardarCorte()">Guardar</button>
                                                         <button type="button" class="btn btn-primary col-12" onclick="imprimirCorte()">Imprimir</button>
                                                     </div>
                                                 </div>

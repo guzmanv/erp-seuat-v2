@@ -58,20 +58,30 @@
             $request = $this->select($sql);
             return $request;
         }
-        public function updateCorteCaja(int $id_corte_caja){
-            $sql = "UPDATE t_corte_caja SET fechayhora_cierre_caja = NOW() WHERE id = $id_corte_caja";
-            $request = $this->update($sql,array());
+
+
+        public function updateCorteCaja(int $id_corte_caja, $total_entregada,int $id_user_entrega,int $id_usuario_recibe,string $comentario){
+            $sql = "UPDATE t_corte_caja SET fechayhora_cierre_caja = NOW(),cantidad_entregada = ?,id_usuario_entrega = ?,id_usuario_recibe = ?,comentario = ? 
+            WHERE id = $id_corte_caja";
+            $request = $this->update($sql,array($total_entregada,$id_user_entrega,$id_usuario_recibe,$comentario));
             return $request;
         }
-        public function updateStatusCaja(int $id_caja){
-            $cantidad = 100;
+
+
+
+        public function updateStatusCaja(int $id_caja,$monto){
             $sql = "UPDATE t_estatus_caja SET estatus_caja = ?,monto_caja = ? WHERE id_caja = $id_caja";
-            $request = $this->update($sql,array(0,$cantidad));
+            $request = $this->update($sql,array(0,$monto));
             return $request;
         }
         public function selectIdUsuario(int $id_caja){
             $sql = "SELECT id_usuario_atiende FROM t_cajas WHERE id = $id_caja";
             $request = $this->select($sql);
+            return $request;
+        }
+        public function insertDetalleCorteCaja($cantidad_entregada,$cantidad_real_recibida,int $estatus,int $id_usuario_creacion,int $id_metodo_pago,int $id_corte_caja){
+            $sql = "INSERT INTO t_detalle_corte_caja(cantidad_entregada,cantidad_real_recibida,estatus,id_usuario_creacion,id_usuario_modificacion,fecha_creacion,fecha_actualizacion,id_metodo_pago,id_corte_caja) VALUES(?,?,?,?,?,NOW(),NOW(),?,?)";
+            $request = $this->insert($sql,array($cantidad_entregada,$cantidad_real_recibida,$estatus,$id_usuario_creacion,$id_usuario_creacion,$id_metodo_pago,$id_corte_caja));
             return $request;
         }
 	}
