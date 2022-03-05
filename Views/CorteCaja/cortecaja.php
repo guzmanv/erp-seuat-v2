@@ -26,7 +26,7 @@
                                                     <div class="col-md-3">
                                                         <label>Corte de caja No.</label>
                                                         <div class="input-group">
-                                                            <input type="text" class="form-control" value="<?php echo substr(str_repeat(0,3).$data['corte_actual'],-3) ?>" disabled>
+                                                            <input type="text" class="form-control" value="">
                                                             <div class="input-group-append">
                                                                 <span type="button" class="input-group-text" id="basic-addon2">Buscar</span>
                                                             </div>

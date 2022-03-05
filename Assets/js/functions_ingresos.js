@@ -518,6 +518,8 @@ function fnAperturarCaja(idcaja){
         inputValidator: (value) => {
             if (!value) {
                 return 'Ingrese una cantidad!'
+            }else if(value.length > 6){
+                return 'Solo se aceptan 6 digitos!'
             }else{
                 let url = `${base_url}/Ingresos/aperturarCaja/${idcaja}/${value}`;
                 fetch(url)

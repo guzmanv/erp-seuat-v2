@@ -19,7 +19,9 @@
 			$data['page_title'] = "Corte caja";
 			$data['page_name'] = "Corte caja";
 			$data['page_functions_js'] = "functions_corte_caja.js";
-			$data['corte_actual'] = count($this->model->selectCorteActual())+1;
+			//$data['corte_actual'] = count($this->model->selectCorteActual())+1;
+			$plantel = $this->model->selectPlantelCajero($this->idUser);
+			//$data['corte_actual'] = $this->model->sigFoliocorte($plantel['codigo_plantel']);
 			$data['cajeros'] = $this->model->selectCajeros();
 			$this->views->getView($this,"cortecaja",$data);
 		}
@@ -27,17 +29,20 @@
 			$arrData = $this->model->selectCaja($idCaja);
 			if($arrData){
 				$arrData['estatus'] = true;
-				$arrData['fechayhora_apertura_caja'] = date('Y-m-d h:i:s A', strtotime($arrData['fechayhora_apertura_caja']));
-				$arrData['fechayhora_actual'] = date('Y-m-d h:i:s A');
+				$arrData['fechayhora_apertura_caja'] = date('Y-m-d H:i:s A', strtotime($arrData['fechayhora_apertura_caja']));
+				$arrData['fechayhora_actual'] = date('Y-m-d H:i:s A');
 			}else{
 				$arrData['estatus'] = false;
 			}
 			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
 			die();
 		}
-		public function getTotalesMetodosPago(int $id_caja){
+		public function getTotalesMetodosPago($params){
+			$arrs = explode(',',$params);
+			$id_caja =  $arrs[0];
+			$fecha_apertura = $arrs[1];
 			$id_usuario = $this->model->selectIdUsuario($id_caja);
-			$arrData = $this->model->selectTotalesMetodosPago($id_usuario['id_usuario_atiende']);
+			$arrData = $this->model->selectTotalesMetodosPago($id_usuario['id_usuario_atiende'],$fecha_apertura);
 			$array;
 			for($i = 0; $i<count($arrData); $i++){
 				$id_metodo_pago = $arrData[$i]['id_metodo_pago'];
@@ -75,7 +80,12 @@
 			$total_entregada = $array[3];
 			$id_usuario_recibe = $this->model->selectIdUsuario($array[4]);
 			$comentario = $datos->observaciones;
-			$resCorteCaja = $this->model->updateCorteCaja($id_corte_caja,$total_entregada,$this->idUser,$id_usuario_recibe['id_usuario_atiende'],$comentario);
+
+			$codigo_plantel = $this->model->selectPlantelCajero($this->idUser);
+			$consecFolio = $this->model->sigFoliocorte($codigo_plantel['codigo_plantel']);
+			$nuevoFolio = $consecFolio['num_folio']+1;
+            $nuevoFolioConsecutivo = $codigo_plantel['codigo_plantel'].'CC'.date("mY").substr(str_repeat(0,4).$nuevoFolio,-4);
+			$resCorteCaja = $this->model->updateCorteCaja($nuevoFolioConsecutivo,$id_corte_caja,$total_entregada,$this->idUser,$id_usuario_recibe['id_usuario_atiende'],$comentario);
 			if($resCorteCaja){
 				$resStatuscaja = $this->model->updateStatusCaja($id_caja,$total_entregada);
 				if($resStatuscaja){

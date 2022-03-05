@@ -29,12 +29,12 @@
         public function estatusCaja(int $idCaja){
             return $idCaja;
         }
-        public function selectTotalesMetodosPago(int $id_usuario){
+        public function selectTotalesMetodosPago(int $id_usuario,$fecha_apertura){
             $sql = "SELECT i.id AS id_ingreso,i.id_usuario,i.id_metodo_pago,i.total,mp.descripcion,
             i.fecha,i.folio,CONCAT(p.nombre_persona,' ',p.ap_paterno,' ',p.ap_materno)AS nombre_persona FROM t_ingresos AS i
             INNER JOIN t_metodos_pago AS mp ON i.id_metodo_pago = mp.id
             INNER JOIN t_personas AS p ON i.id_persona = p.id
-            WHERE i.id_usuario = $id_usuario";
+            WHERE i.id_usuario = $id_usuario AND i.fecha >= '$fecha_apertura'";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -60,10 +60,10 @@
         }
 
 
-        public function updateCorteCaja(int $id_corte_caja, $total_entregada,int $id_user_entrega,int $id_usuario_recibe,string $comentario){
-            $sql = "UPDATE t_corte_caja SET fechayhora_cierre_caja = NOW(),cantidad_entregada = ?,id_usuario_entrega = ?,id_usuario_recibe = ?,comentario = ? 
+        public function updateCorteCaja(string $folio, int $id_corte_caja, $total_entregada,int $id_user_entrega,int $id_usuario_recibe,string $comentario){
+            $sql = "UPDATE t_corte_caja SET folio = ?,fechayhora_cierre_caja = NOW(),cantidad_entregada = ?,id_usuario_entrega = ?,id_usuario_recibe = ?,comentario = ? 
             WHERE id = $id_corte_caja";
-            $request = $this->update($sql,array($total_entregada,$id_user_entrega,$id_usuario_recibe,$comentario));
+            $request = $this->update($sql,array($folio,$total_entregada,$id_user_entrega,$id_usuario_recibe,$comentario));
             return $request;
         }
 
@@ -82,6 +82,20 @@
         public function insertDetalleCorteCaja($cantidad_entregada,$cantidad_real_recibida,int $estatus,int $id_usuario_creacion,int $id_metodo_pago,int $id_corte_caja){
             $sql = "INSERT INTO t_detalle_corte_caja(cantidad_entregada,cantidad_real_recibida,estatus,id_usuario_creacion,id_usuario_modificacion,fecha_creacion,fecha_actualizacion,id_metodo_pago,id_corte_caja) VALUES(?,?,?,?,?,NOW(),NOW(),?,?)";
             $request = $this->insert($sql,array($cantidad_entregada,$cantidad_real_recibida,$estatus,$id_usuario_creacion,$id_usuario_creacion,$id_metodo_pago,$id_corte_caja));
+            return $request;
+        }
+
+        public function sigFoliocorte(string $codigo_plantel){
+            $sql = "SELECT COUNT(folio) AS num_folios FROM  t_corte_caja WHERE folio LIKE '%$codigo_plantel%'";
+            $request = $this->select($sql);
+            return $request;
+        }
+
+        public function selectPlantelCajero(int $idUsuario){
+            $sql = "SELECT p.codigo_plantel FROM t_administrativo AS a
+            INNER JOIN t_planteles AS p ON a.id_plantel = p.id
+            WHERE a.id_usuario = $idUsuario LIMIT 1";
+            $request = $this->select($sql);
             return $request;
         }
 	}

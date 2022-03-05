@@ -25,7 +25,7 @@ function fnSelectCajero(value){
                 document.querySelector('#num_caja').value = resultado.nombre;
                 document.querySelector('#dateCorteDesde').value = resultado.fechayhora_apertura_caja;
                 document.querySelector('#dateCorteHasta').value = resultado.fechayhora_actual;
-                fnTotalesMetodosPago(id_caja);
+                fnTotalesMetodosPago(id_caja,resultado.fechayhora_apertura_caja);
             }else{
                 Swal.fire({
                     title: 'Caja cerrada!',
@@ -46,8 +46,9 @@ function fnSelectCajero(value){
         }
     }).catch(err => { throw err });
 }
-function fnTotalesMetodosPago(id_caja){
-    let url = `${base_url}/CorteCaja/getTotalesMetodosPago/${id_caja}`;
+function fnTotalesMetodosPago(id_caja,fecha_apertura){
+    console.log(fecha_apertura);
+    let url = `${base_url}/CorteCaja/getTotalesMetodosPago/${id_caja}/${fecha_apertura}`;
     fetch(url)
     .then(res => res.json())
     .then((resultado) =>{
