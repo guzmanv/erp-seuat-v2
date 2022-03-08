@@ -26,15 +26,14 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-12 row">
-                        <!--
+                    <div class="col-12 row">K
                         <div class="col-8">
                             <div class="card">
                                 <div class="card-body">
                                     <canvas id="myChart" style="width:100%;max-width:100%"></canvas>
                                 </div>
                             </div>
-                        </div>-->
+                        </div>
                         <!--
                         <div class="col-4 overflow-auto" style="height:435px;">
                             <div class="card">
@@ -147,14 +146,15 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php foreach ($data['cajeros'] as $key => $cajero) {  ?>
+                                                    <?php foreach ($data['cajeros'] as $key => $cajero) {  
+                                                        ?>
                                                         <tr>
                                                             <th scope="row"><i class="fas fa-arrow-alt-circle-down" style="color:red"></i></th>
                                                             <td><?php echo $cajero['nombre_sistema'] ?></td>
                                                             <td><?php echo $cajero['nombre_plantel'] ?></td>
                                                             <td><?php echo($cajero['nombre_persona'].' '.$cajero['ap_paterno'].' '.$cajero['ap_materno']) ?></td>
                                                             <td><?php echo $cajero['nombre_caja']?></td>
-                                                            <td><?php echo $cajero['total_venta'] ?></td>
+                                                            <td><?php echo '$ '. formatoMoneda($cajero['total_venta']) ?></td>
                                                             <?php 
                                                                 if($cajero['estatus_caja'] == 1){ ?>
                                                                     <td><span class="badge badge-success">Abieto</span></td>
