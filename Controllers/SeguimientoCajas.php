@@ -36,15 +36,33 @@
     }
     public function selectVentasAll(){
         $arrData = $this->model->selectVentasTotalAll();
-        $listFechas = [];
+        $dias = [];
+        $data = [];
+        $array = [];
         foreach ($arrData as $key => $value) {
-            if($listFechas[$value['fecha']] == '') {
-                $listFechas[$value['fecha']] = 0;
+            if(!in_array($value['fecha'],$dias)){
+                array_push($dias,$value['fecha']);
             }
-            $listFechas[$value['fecha']] += 1;
         }
-        $response['fechas'] = $listFechas;
-        echo json_encode($response,JSON_UNESCAPED_UNICODE);
+        foreach ($arrData as $key => $value) {
+            if(!in_array($value['id_plantel'],$data)){
+                array_push($data,$value['id_plantel']);
+            }
+        }
+        /* $arrValores = [];
+        foreach ($arrResponde as $key1 => $value1) {
+            $arr = [];
+            foreach ($arrData as $key2 => $value2) {
+                $valores = array('plantel'=>$value2['abreviacion_plantel'],'total'=>$value2['total']);
+                if($value2['fecha'] == $key1){
+                    array_push($arr,$valores);
+                }
+            }
+            $arrValores[$key1] = $arr;
+        } */
+        $array['dias'] = $dias;
+        $array['datos'] = $data;
+        echo json_encode($array,JSON_UNESCAPED_UNICODE);
 		die();
     }
   }

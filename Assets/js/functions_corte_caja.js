@@ -47,7 +47,6 @@ function fnSelectCajero(value){
     }).catch(err => { throw err });
 }
 function fnTotalesMetodosPago(id_caja,fecha_apertura){
-    console.log(fecha_apertura);
     let url = `${base_url}/CorteCaja/getTotalesMetodosPago/${id_caja}/${fecha_apertura}`;
     fetch(url)
     .then(res => res.json())
@@ -55,17 +54,18 @@ function fnTotalesMetodosPago(id_caja,fecha_apertura){
         let numeracion = -1;
         document.querySelector('#totalesEfecMetoPago').innerHTML = "";
         document.querySelector('#nav-tab').innerHTML = "";
+        document.querySelector('#content-nav').innerHTML = "";
         resultado['totales'].forEach(element => {
             let arr = {'id_metodo_pago':element.id,'total':element.total};
             arrTotales.push(arr);
             total += element.total;
             numeracion += 1;
-            let row = "<tr id='"+element.id+"'><th scope='row'>"+element.metodo+"</th><td><input type='text' class='form-control' value='"+formatoMoneda(element.total.toFixed(2))+"' disabled></td><td><input type='text' class='form-control' placeholder='$0.00' value='0' onkeyup = 'fnChangeTotalSegunCaja()'></td></tr>";
+            //let row = "<tr id='"+element.id+"'><th scope='row'>"+element.metodo+"</th><td><input type='text' class='form-control' value='"+formatoMoneda(element.total.toFixed(2))+"' disabled></td><td><input type='text' class='form-control' placeholder='$0.00' value='0' onkeyup = 'fnChangeTotalSegunCaja()'></td></tr>";
+            let row = "<tr id='"+element.id+"'><th scope='row'>"+element.metodo+"</th><td><input type='text' class='form-control' value='"+formatoMoneda(element.total.toFixed(2))+"' disabled></td><td><div class='input-group mb-3'><div class='input-group-prepend'><span class='input-group-text'>$<span></div><input type='text' class='form-control' value='' onkeyup='fnChangeTotalSegunCaja()'><div class='input-group-append'></div></div></td></tr>";
             let content = "";
             document.querySelector('#totalesEfecMetoPago').innerHTML += row;
             document.querySelector('#nav-tab').innerHTML +='<a class="nav-link tab-nav" id="'+numeracion+'-tab" data-toggle="tab" href="" onclick="fnNavTab('+numeracion+')" >'+element.metodo+'</a>';
             let numRow = 0;
-            document.querySelector('#content-nav').innerHTML = "";
             resultado['detalles'].forEach(detalle => {
                 if(detalle.id_metodo_pago == element.id){
                     numRow += 1
@@ -107,7 +107,7 @@ function fnChangeTotalSegunCaja(){
     let x = document.querySelector('#totalesEfecMetoPago');
     let totalCaja = 0;
     x.childNodes.forEach(element => {
-        let cantidad = element.childNodes[2].childNodes[0].value;
+        let cantidad = element.childNodes[2].childNodes[0].childNodes[1].value;
         let id_metodo = element.id;
         if(isNaN(cantidad)){
             Swal.fire({
@@ -117,7 +117,7 @@ function fnChangeTotalSegunCaja(){
                 confirmButtonColor: '#3085d6',
                 confirmButtonText: 'OK'
               }).then((result) =>{
-                element.childNodes[2].childNodes[0].value = 0;
+                element.childNodes[2].childNodes[0].childNodes[1].value = '';
             });
         }else{
             totalCaja += parseInt(cantidad);

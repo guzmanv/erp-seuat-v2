@@ -19,9 +19,7 @@
 			$data['page_title'] = "Corte caja";
 			$data['page_name'] = "Corte caja";
 			$data['page_functions_js'] = "functions_corte_caja.js";
-			//$data['corte_actual'] = count($this->model->selectCorteActual())+1;
 			$plantel = $this->model->selectPlantelCajero($this->idUser);
-			//$data['corte_actual'] = $this->model->sigFoliocorte($plantel['codigo_plantel']);
 			$data['cajeros'] = $this->model->selectCajeros();
 			$this->views->getView($this,"cortecaja",$data);
 		}

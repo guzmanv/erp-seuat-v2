@@ -14,7 +14,9 @@
         public function selectCajeros(){
             $sql = "SELECT c.id AS id_caja,p.id AS id_persona,p.nombre_persona,p.ap_paterno,p.ap_materno FROM t_cajas AS c
             INNER JOIN t_usuarios AS u ON c.id_usuario_atiende = u.id
-            INNER JOIN t_personas AS p ON u.id_persona = p.id";
+            INNER JOIN t_personas AS p ON u.id_persona = p.id
+            INNER JOIN t_estatus_caja AS ec ON ec.id_caja = c.id
+            WHERE ec.estatus_caja = 1";
             $request = $this->select_all($sql);
             return $request;
         }

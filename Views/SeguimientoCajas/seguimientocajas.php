@@ -26,7 +26,7 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-12 row">K
+                    <div class="col-12 row">
                         <div class="col-8">
                             <div class="card">
                                 <div class="card-body">
@@ -34,7 +34,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!--
+                        
                         <div class="col-4 overflow-auto" style="height:435px;">
                             <div class="card">
 						        <div class="card-body">
@@ -122,7 +122,7 @@
 					        </div>
                             
 
-                        </div>      -->
+                        </div>
                     </div>
                     <div class="col-lg-12">
                         <div class="card">
