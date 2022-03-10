@@ -1,19 +1,22 @@
-<!-- Modal -->
-<!-- <div class="modal fade" id="modalCorteCaja" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+
+<div class="modal fade" id="modalCorteCaja" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-confirm">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Corte de caja</h5>
                 <button type="button" onclick="cerrarModla()"class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                
-
             </div>
             <div class="modal-body">
                 <div class="col-12 text-center">
-                    
-                    <p><i class="fas fa-cash-register fa-3x"></i></p>
+                    <div class="icon-box" id="box-corte-done" style="color:#fff;margin: 0 auto;left: 0;right: 0;top: -70px;width: 95px;height: 95px;border-radius: 50%;z-index: 9;background: #28a745;padding: 15px;text-align: center;box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);display:none">
+                        <i class="fas fa-check" style="	font-size: 58px;position: relative;top: 3px;"></i>
+                    </div><br>
+                    <div class="icon-box" id="box-corte-error"  style="color:#fff;margin: 0 auto;left: 0;right: 0;top: -70px;width: 95px;height: 95px;border-radius: 50%;z-index: 9;background: #dc3545;padding: 15px;text-align: center;box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);display:none">
+                        <i class="fas fa-exclamation" style="font-size: 58px;position: relative;top: 3px;"></i>
+                    </div><br>
+                    <div id="msg-corte"></div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Cantidad a entregar</label>
                         <div class="text-center"><input type="text" class="form-control col-md-6 col-lg-6 m-auto" id="txtCantidadEntregar" placeholder="Ex: $1500.00" style="height:50px;font-size:24px"></div>
@@ -34,8 +37,8 @@
             </div>
         </div>
     </div>
-</div> -->
-<style>
+</div> 
+<!-- <style>
     <style>
 .modal-confirm {		
 	color: #636363;
@@ -132,4 +135,4 @@
 			</div>
 		</div>
 	</div>
-</div> 
+</div>  -->

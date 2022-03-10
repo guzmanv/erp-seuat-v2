@@ -77,6 +77,8 @@
 			$datos = json_decode(base64_decode($array[2]));
 			$total_entregada = $array[3];
 			$id_usuario_recibe = $this->model->selectIdUsuario($array[4]);
+			$faltante = $array[5];
+			$sobrante = $array[6];
 			$comentario = $datos->observaciones;
 
 			$codigo_plantel = $this->model->selectPlantelCajero($this->idUser);
@@ -101,6 +103,9 @@
 			}else{
 				$arrResponse = array('estatus' => false, 'msg' => 'No se pudo guardar los datos');
 			}
+			if($faltante != 0 || $sobrante != 0){
+				$this->model->insertDineroCaja($id_corte_caja,$faltante,$sobrante,$this->idUser,$comentario);
+			}
 			echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 			die();
 		}
@@ -108,6 +113,11 @@
 			$arrData = $this->model->selectCajeros();
 			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
 			die();
+		}
+		public function imprimir_comprobante_faltante($arr){
+			$arrayValue = explode(',',$arr);
+			$data['plantel'] = $this->model->selectPlantelUsuaurio($this->idUser);
+			$this->views->getView($this,'viewpdf_comprobante_faltante_corte_caja',$data);
 		}
 	}
 ?>

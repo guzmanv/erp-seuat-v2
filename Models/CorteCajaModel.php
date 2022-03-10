@@ -100,5 +100,17 @@
             $request = $this->select($sql);
             return $request;
         }
+        public function insertDineroCaja($id_corte_caja,$faltante,$sobrante,$id_user,$comentario){
+            $sql = "INSERT INTO t_dinero_caja(dinero_sobrante,dinero_faltante,fecha_sobrante_faltante,fecha_reembolso_faltante,estatus,fecha_creacion,id_usuario_creacion,id_corte_caja,observacion) VALUES(?,?,NOW(),NOW(),?,NOW(),?,?,?)";
+            $request = $this->insert($sql,array($sobrante,$faltante,1,$id_user,$id_corte_caja,$comentario));
+            return $request;
+        }
+        public function selectPlantelUsuaurio(int $idUser){
+            $sql = "SELECT *FROM t_administrativo AS a
+            INNER JOIN t_planteles AS p ON a.id_plantel = p.id
+            WHERE a.id_usuario = $idUser";
+            $request = $this->select($sql);
+            return $request;
+        }
 	}
 ?>  
