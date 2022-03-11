@@ -37,18 +37,35 @@
     public function selectVentasAll(){
         $arrData = $this->model->selectVentasTotalAll();
         $dias = [];
-        $data = [];
-        $array = [];
+        $planteles = [];
+        $arrGrafica = [];
         foreach ($arrData as $key => $value) {
             if(!in_array($value['fecha'],$dias)){
                 array_push($dias,$value['fecha']);
             }
         }
         foreach ($arrData as $key => $value) {
-            if(!in_array($value['id_plantel'],$data)){
-                array_push($data,$value['id_plantel']);
+            if($planteles[$value['id_plantel']] == ''){
+                $planteles[$value['id_plantel']] = null;
             }
+            $planteles[$value['id_plantel']] = $value['abreviacion_sistema'].'/'.$value['abreviacion_plantel'].'/'.$value['municipio'];
         }
+        foreach ($planteles as $key => $value) {
+            $data = ($key == 1)?[8,2,3,4,5,6]:[2,4,3,1,7,6];
+            $value1 = array('label'=>$value,'data'=>$data,'borderColor'=>$this->rand_color(),'fill'=>false);
+            array_push($arrGrafica,$value1);
+        }
+        /* foreach ($dias as $keyDia => $valueDia) {
+            //$valueDiia = 2022-03-12
+            $planteles = [];
+            foreach ($arrData as $keyData => $valueData) {
+                //$valueData = array
+                if($valueData['fecha'] == $valueDia){
+                    array_push($planteles,$valueData['id_plantel']);
+                }
+            }
+            $grafica[$valueDia] = $planteles;
+        } */
         /* $arrValores = [];
         foreach ($arrResponde as $key1 => $value1) {
             $arr = [];
@@ -61,9 +78,12 @@
             $arrValores[$key1] = $arr;
         } */
         $array['dias'] = $dias;
-        $array['datos'] = $data;
+        $array['datos'] = $arrGrafica;
         echo json_encode($array,JSON_UNESCAPED_UNICODE);
 		die();
+    }
+    public function rand_color() {
+        return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
     }
   }
 ?>
