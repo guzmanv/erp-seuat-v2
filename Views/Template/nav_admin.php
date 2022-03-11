@@ -449,6 +449,22 @@
                   </p>
               </a>
           </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/HistorialCorteCajas" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="activity"></i>
+                  <p>
+                      Historial de cortes
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/SeguimientoCajas" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="bar-chart-2"></i>
+                  <p>
+                      Seguimiento de cajas
+                  </p>
+              </a>
+          </li>
 <<<<<<< HEAD
 =======
         
