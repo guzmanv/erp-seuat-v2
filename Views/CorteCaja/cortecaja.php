@@ -1,7 +1,6 @@
     <?php
     headerAdmin($data);
-    //getModal('VentasDia/modalVentasDia',$data);
-    //getModal('VentasDia/modalDetallesVentaFolio',$data);
+    getModal('CorteCaja/modalCorteCaja',$data);
 ?>
 <div class="wrapper">
     <div class="content-wrapper">
@@ -27,7 +26,7 @@
                                                     <div class="col-md-3">
                                                         <label>Corte de caja No.</label>
                                                         <div class="input-group">
-                                                            <input type="text" class="form-control" value="<?php echo substr(str_repeat(0,3).$data['corte_actual'],-3) ?>" disabled>
+                                                            <input type="text" class="form-control" value="">
                                                             <div class="input-group-append">
                                                                 <span type="button" class="input-group-text" id="basic-addon2">Buscar</span>
                                                             </div>
@@ -132,16 +131,16 @@
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <label>Faltante</label>
-                                                        <input type="text" class="form-control" value="$0.00" disabled>
+                                                        <input type="text" class="form-control" id="faltante" value="$0.00" disabled>
                                                         <label>Sobrante</label>   
-                                                        <input type="text" class="form-control" value="$0.00" disabled>
+                                                        <input type="text" class="form-control" id="sobrante" value="$0.00" disabled>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label>Observaciones</label>
-                                                        <textarea type="text" class="form-control" rows="4" placeholder="Username"></textarea>
+                                                        <textarea type="text" class="form-control" id="observaciones" rows="4" placeholder="Observaciones"></textarea>
                                                     </div>
                                                     <div class="col-md-2 block">
-                                                        <button type="button" class="btn btn-primary col-12 mb-2 mt-2" onclick="gnGuardarCorte()">Guardar</button>
+                                                        <button type="button" class="btn btn-primary col-12 mb-2 mt-2"  onclick="gnGuardarCorte()">Guardar</button>
                                                         <button type="button" class="btn btn-primary col-12" onclick="imprimirCorte()">Imprimir</button>
                                                     </div>
                                                 </div>

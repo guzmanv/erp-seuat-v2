@@ -111,7 +111,7 @@
             $folio = $this->model->selectFolioSig($idAlumno);
             $idPlantel = $this->model->selectPlantelAlumno($idAlumno);
             if($idPlantel){
-                $reqIngreso = $this->model->insertIngresos($folio,$tipoPago,$tipoComprobante,$total,$observaciones,$idAlumno,$idPlantel['id']); 
+                $reqIngreso = $this->model->insertIngresos($folio,$tipoPago,$tipoComprobante,$total,$observaciones,$idAlumno,$idPlantel['id'],$this->idUser); 
                 if($reqIngreso){
                     foreach ($arrayDate as $key => $value) {
                         $idServicio = null;
@@ -121,7 +121,7 @@
                             $reqIngDetalles = $this->model->insertIngresosDetalle($value->cantidad,$value->precio_unitario,$value->precio_unitario,$total,$value->subtotal,0,0,json_encode($value->promociones),$idServicio,$idPrecarga,$reqIngreso);
                             $idEstadoCta = $value->id_servicio;  //ID edo cta a actualizar como pagado
                             if($reqIngDetalles){
-                                $reqEdoCtaUpdate = $this->model->updateEdoCta($idEstadoCta);
+                                $reqEdoCtaUpdate = $this->model->updateEdoCta($idEstadoCta,$this->idUser);
                                 //$arrResponse = $reqEdoCtaUpdate; Se se guardo correcxtamnete a Pagado
                             }
                             
@@ -179,10 +179,10 @@
             $monto = $arg[1];
             $apertura = $this->model->updateEstatusCaja($idCaja,$estatus,$monto);
             if($apertura){
-                $caja = $this->model->insertCorteCaja($monto,$idCaja);
+               $caja = $this->model->insertCorteCaja($monto,$idCaja);
                 if($caja){
                     $arrResponse = array('estatus' => true, 'msg' => 'Caja aperturado correctamente!');
-                }   
+                }
             }else{
                 $arrResponse = array('estatus' => false, 'msg' => 'No es posible aperturar la caja!');                       
             }

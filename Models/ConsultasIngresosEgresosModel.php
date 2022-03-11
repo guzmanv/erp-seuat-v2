@@ -59,12 +59,13 @@
 		public function selectDatosAlumnoById(int $idAlumno){
 			$sql = "SELECT p.id,p.nombre_persona,p.ap_paterno,p.ap_materno,h.matricula_interna,pl.nombre_sistema,
 			pl.nombre_plantel,pe.nombre_carrera,pl.categoria,pl.cve_centro_trabajo,pl.domicilio,pl.cod_postal,pl.colonia,
-			pl.localidad,pl.municipio,pl.estado,pr.nombre_periodo,p.tel_celular,p.email,sc.nombre_salon FROM t_inscripciones AS i
+			pl.localidad,pl.municipio,pl.estado,pr.nombre_periodo,p.tel_celular,p.email,sa.nombre_salon FROM t_inscripciones AS i
 			INNER JOIN t_historiales AS h ON i.id_historial = h.id
 			INNER JOIN t_personas AS p ON i.id_personas = p.id
 			INNER JOIN t_plan_estudios AS pe ON i.id_plan_estudios = pe.id
 			INNER JOIN t_planteles AS pl ON pe.id_plantel = pl.id
 			INNER JOIN t_salones_compuesto AS sc ON i.id_salon_compuesto = sc.id
+			INNER JOIN t_salones AS sa ON sc.id_salon = sa.id
 			INNER JOIN t_periodos AS pr ON sc.id_periodo = pr.id
 			WHERE i.id_personas = $idAlumno";
 			$request = $this->select($sql);

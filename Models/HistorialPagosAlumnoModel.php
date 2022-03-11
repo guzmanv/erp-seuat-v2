@@ -9,10 +9,11 @@
         public function selectEstudiantes(){
             $sql = "SELECT p.id,p.nombre_persona,CONCAT(p.ap_paterno,' ',p.ap_materno) AS apellidos,pe.nombre_carrera,
 			CONCAT(pl.abreviacion_sistema,' (',pl.abreviacion_plantel,'/',pl.municipio,')') AS nombre_plantel,
-			CONCAT(i.grado,' (',sc.nombre_salon,')') AS grado_grupo FROM t_inscripciones AS i
+			CONCAT(i.grado,' (',sa.nombre_salon,')') AS grado_grupo FROM t_inscripciones AS i
 			INNER JOIN t_plan_estudios AS pe ON i.id_plan_estudios = pe.id
 			INNER JOIN t_planteles AS pl ON pe.id_plantel = pl.id
 			LEFT JOIN t_salones_compuesto AS sc ON i.id_salon_compuesto = sc.id
+			INNER JOIN t_salones AS sa ON sc.id_salon = sa.id
 			INNER JOIN t_personas AS p ON i.id_personas = p.id";
             $request = $this->select_all($sql);
             return $request;
@@ -45,7 +46,8 @@
 			LEFT JOIN t_precarga AS p ON id.id_precarga = p.id
 			LEFT JOIN t_servicios AS s ON id.id_servicio = s.id
 			LEFT JOIN t_servicios AS spre ON p.id_servicio = spre.id
-			LEFT JOIN t_personas AS per ON i.id_usuario = per.id
+			LEFT JOIN t_usuarios AS us ON i.id_usuario = us.id
+			LEFT JOIN t_personas AS per ON us.id_persona = per.id
 			WHERE i.id_persona = $idAlumno ORDER BY i.fecha DESC";
 			$request = $this->select_all($sql);
 			return $request;

@@ -159,9 +159,9 @@
         } */
         
         //Insertar un nuevo Ingreso
-        public function insertIngresos(string $folio,int $formaPago, string $tipoComprobante,int $total,string $observaciones,int $idAlumno, int $idPlantel){
+        public function insertIngresos(string $folio,int $formaPago, string $tipoComprobante,int $total,string $observaciones,int $idAlumno, int $idPlantel,int $idUser){
             $sqlIngresos = "INSERT INTO t_ingresos(fecha,folio,estatus,id_metodo_pago,tipo_comprobante,referencia,total,observaciones,recibo_inscripcion,id_plantel,id_persona,id_usuario) VALUES(NOW(),?,?,?,?,?,?,?,?,?,?,?)";
-            $requestIngresos = $this->insert($sqlIngresos,array($folio,1,$formaPago,$tipoComprobante,$folio,$total,$observaciones,1,$idPlantel,$idAlumno,1));
+            $requestIngresos = $this->insert($sqlIngresos,array($folio,1,$formaPago,$tipoComprobante,$folio,$total,$observaciones,1,$idPlantel,$idAlumno,$idUser));
             return $requestIngresos;
         }
         //Insertar un nuevo ingreso detalle
@@ -220,9 +220,9 @@
             $request = $this->select($sql);
             return $request;
         }
-        public function updateEdoCta(int $id){
+        public function updateEdoCta(int $id,int $idUser){
             $sql = "UPDATE t_estado_cuenta SET pagado = ? ,id_usuario_actualizacion = ?,fecha_actualizacion = NOW() WHERE id = $id";
-            $request = $this->update($sql,array(1,1));
+            $request = $this->update($sql,array(1,$idUser));
             return $request;
         }
 
@@ -233,14 +233,14 @@
         }
 
         public function selectEstatusCaja(int $idUser){
-            $sql = "SELECT c.id AS id_caja,c.id_usuario_atiende,ec.estatus_caja FROM t_cajas AS c
+            $sql = "SELECT c.id AS id_caja,c.id_usuario_atiende,ec.estatus_caja,c.nombre FROM t_cajas AS c
             INNER JOIN t_estatus_caja AS ec ON ec.id_caja = c.id
             WHERE c.id_usuario_atiende = $idUser";
             $request = $this->select($sql);
             return $request;
         }
         public function updateEstatusCaja(int $idCaja, int $estatus,int $monto){
-            $sql = "UPDATE t_estatus_caja SET estatus_caja = ?,monto_caja = ? WHERE id = $idCaja";
+            $sql = "UPDATE t_estatus_caja SET estatus_caja = ?,monto_caja = ? WHERE id_caja = $idCaja";
             $request = $this->update($sql,array($estatus,$monto));
             return $request;
         }

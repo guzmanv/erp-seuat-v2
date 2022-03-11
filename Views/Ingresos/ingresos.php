@@ -128,7 +128,7 @@
 						                        <div class="card-body">
 							                        <div class="row">
 								                        <div class="col mt-0">
-									                        <h5 class="card-title">CAJA 1</h5>
+									                        <h5 class="card-title"><?php echo($data['estatus_caja']['nombre'])?></h5>
 								                        </div>
                                                         <div class="col-auto">
                                                             <div class="avatar">
