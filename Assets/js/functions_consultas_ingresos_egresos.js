@@ -152,7 +152,6 @@ function fnGetDatosAlumno(matriculaRFAlumno,idAlumno){
             document.querySelector('#saldoServicios').innerHTML = formatoMoneda(resultado.saldoServicios.toFixed(2));
         }else{
             swal.fire("Atención","El alumno no tiene estado de cuenta","warning");
-            //cardsEdoCta.style.display = "none";
             return false; 
         }
     }).catch(err => { throw err });

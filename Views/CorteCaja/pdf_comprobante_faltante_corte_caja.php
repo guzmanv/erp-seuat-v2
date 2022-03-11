@@ -144,6 +144,7 @@ $datosPlantel = $data['plantel'];
         <div style="width:759px; font-size:16px; font-weight: bold; letter-spacing: 0.2em; text-align: center; "> COMPROBANTE DE FALTANTES DE EFECTIVOS</div>
         <div class="linea-titulo" style="margin-bottom:20px; "></div>
     </div>
+
     <div class="edo_cta">
             <table>
                 <tr>
@@ -156,10 +157,10 @@ $datosPlantel = $data['plantel'];
                     <td colspan="2" class="text-align-right">Segun Caja</td>
                 </tr>
                 <tr class="item">
-                    <td colspan="2"><p style="font-size:10px">2022-12-05</p></td>
+                    <td colspan="2"><p style="font-size:10px"><?php echo DATE('d-m-Y H:i:s') ?></p></td>
                     <td colspan="2"><p style="font-size:10px">Caja</p></td>
-                    <td colspan="2"><p style="font-size:10px">$10,000.00</p></td>
-                    <td colspan="2" class="text-align-right">$8,900.00</td>
+                    <td colspan="2"><p style="font-size:10px"><?php echo '$ '.formatoMoneda($data['total_sistema']) ?></p></td>
+                    <td colspan="2" class="text-align-right"><?php echo '$ '.formatoMoneda($data['total_caja'])?></td>
                 </tr>
                 <tr class="total">
                     <td></td>
@@ -168,7 +169,7 @@ $datosPlantel = $data['plantel'];
                     <td></td>
                     <td></td>
                     <td colspan="3" style="text-align:right">
-                        <b>Faltante: $100.00</b>
+                        Faltante: <b><?php echo '$ '.formatoMoneda($data['faltante'])?></b>
                     </td>
                 </tr>
                 <tr class="total">
@@ -178,7 +179,7 @@ $datosPlantel = $data['plantel'];
                     <td></td>
                     <td></td>
                     <td colspan="3" style="text-align:right">
-                        <b>Sobrante: $0.00</b>
+                        Sobrante: <b><?php echo '$ '.formatoMoneda($data['sobrante'])?></b>
                     </td>
                 </tr>   
             </table>
