@@ -53,7 +53,7 @@
 				echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
 				die();
 			}
-			
+
 
 			public function getCategoria_servicio($id){
 				//if($_SESSION['permisosMod']['r']){
@@ -88,21 +88,21 @@
 						$intEstatus = intval($_POST['listEstatus']);
 						$strFecha_creacion = strClean($_POST['txtFecha_creacion']);
 						$strFecha_actualizacion = strClean($_POST['txtFecha_actualizacion']);
-						$intId_usuario_creacion = intval($_POST['txtId_usuario_creacion']);
-						$intId_usuario_actualizacion = intval($_POST['txtId_usuario_actualizacion']);
+						$intId_usuario_creacion = intval($_SESSION['idUser']);
+						$intId_usuario_actualizacion = intval($_SESSION['idUser']);
 
 
 						if($intIdCategoria_servicios == 0)
 						{
 							//Crear
-							$request_categoria_servicios = $this->model->insertCategoria_servicios($strNombre_categoria, 
-																								   $intEstatus, 
-																								   $strFecha_creacion, 
-																								   $strFecha_actualizacion, 
-																								   $intId_usuario_creacion, 
+							$request_categoria_servicios = $this->model->insertCategoria_servicios($strNombre_categoria,
+																								   $intEstatus,
+																								   $strFecha_creacion,
+																								   $strFecha_actualizacion,
+																								   $intId_usuario_creacion,
 																								   $intId_usuario_actualizacion);
 																								   $option = 1;
-						} 
+						}
 
 						if($request_categoria_servicios > 0 )
 						{
@@ -111,7 +111,7 @@
 								$arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente.');
 							}
 						}else if($request_categoria_servicios == 'exist'){
-							
+
 							$arrResponse = array('estatus' => false, 'msg' => '¡Atención! La categoría ya existe.');
 						}else{
 							$arrResponse = array("estatus" => false, "msg" => 'No es posible almacenar los datos.');
@@ -137,15 +137,15 @@
 							$strNombre_categoria =  strClean($_POST['txtNombre_categoriaup']);
 							$intEstatus = intval($_POST['listEstatusup']);
 							$strFecha_actualizacion = strClean($_POST['txtFecha_actualizacionup']);
-							$intId_usuario_actualizacion = intval($_POST['txtId_usuario_actualizacionup']);
+							$intId_usuario_actualizacion = intval($_SESSION['idUser']);
 							$request_categoria_servicios = "";
 
 								if($intIdCategoria_servicios <> 0)
 								{
-									$request_categoria_servicios = $this->model->updateCategoria_servicios($intIdCategoria_servicios, 
-																											$strNombre_categoria, 
-																											$intEstatus, 
-																											$strFecha_actualizacion, 
+									$request_categoria_servicios = $this->model->updateCategoria_servicios($intIdCategoria_servicios,
+																											$strNombre_categoria,
+																											$intEstatus,
+																											$strFecha_actualizacion,
 																											$intId_usuario_actualizacion);
 																											$option = 1;
 								}
@@ -159,7 +159,7 @@
 								}else{
 										$arrResponse = array("estatus" => false, "msg" => 'No es posible actualizar los datos, probablemente existe un registro con el mismo nombre o presenta algún problema con la red.');
 								}
-							}	
+							}
 					echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 				 //}
 				}
@@ -171,7 +171,7 @@
 			{
 				if($_POST)
 				{
-					//if($_SESSION['permisosMod']['d']){ 
+					//if($_SESSION['permisosMod']['d']){
 						$intIdCategoria_servicios = intval($_POST['idCategoria_servicios']);
 						$requestDelete = $this->model->deleteCategoria_servicios($intIdCategoria_servicios);
 						if($requestDelete == 'ok')
@@ -186,7 +186,7 @@
 					//}
 				}
 				die();
-			}	
+			}
 
 
 

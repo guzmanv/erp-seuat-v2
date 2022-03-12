@@ -13,7 +13,7 @@
                 <form id="formCategoria_servicios" name="formCategoria_servicios" autocomplete="off">
                     <input type="hidden" id="idCategoria_servicios" name="idCategoria_servicios" value="">
                     <input type="hidden" id="listEstatus" name="listEstatus" value="1">
-                    <input type="hidden" id="txtFecha_creacion" name="txtFecha_creacion" value="2021-10-23 00:00:00">
+                    <input type="hidden" id="txtFecha_creacion" name="txtFecha_creacion" value="<?php echo date("Y-m-d\TH-i");?>">
                     <input type="hidden" id="txtFecha_actualizacion" name="txtFecha_actualizacion" value="0000-00-00 00:00:00">
                     <input type="hidden" id="txtId_usuario_creacion" name="txtId_usuario_creacion" value="1">
                     <input type="hidden" id="txtId_usuario_actualizacion" name="txtId_usuario_actualizacion" value="NULL">
@@ -28,7 +28,7 @@
       <div class="modal-footer">
         <a class="btn btn-outline-secondary icono-color-principal btn-inline cerrarModal" href="#" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>
         <button id="btnActionForm" type="submit" class="btn btn-primary btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i> Guardar</button>
-      </div>  
+      </div>
       </form>
     </div>
   </div>

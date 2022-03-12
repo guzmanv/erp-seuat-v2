@@ -215,6 +215,15 @@
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="<?php echo BASE_URL ?>/DashboardSeguimiento" class="nav-link active">
+              <i class="ml-3 mr-2" data-feather="grid"></i>
+              <!--<i class="nav-icon fas fa-tachometer-alt"></i>-->
+              <p>
+                Dashboard Prospección
+              </p>
+            </a>
+          </li>
 
           <li class="nav-header"><h6>DIRC</h6></li>
           <li class="nav-item">

@@ -22,6 +22,20 @@
           </small>
 
           <div class="card card-dark">
+<<<<<<< HEAD
+
+            <form class="formSubcampania" id="formSubcampania" name="formSubcampania" autocomplete="off">
+
+              <input type="hidden" id="idSubcampania" name="idSubcampania" value="">
+              <input type="hidden" id="listaEstatus" name="listaEstatus" value="1">
+              <input type="hidden" id="txtFechaCreacion" name="txtFechaCreacion" value="<?php echo date("Y-m-d");?>">
+              <input type="hidden" id="txtFechaActualizacion" name="txtFechaActualizacion" value="0000-00-00">
+              <input type="hidden" id="txtIdUsuarioCreacion" name="txtIdUsuarioCreacion" value="1">
+              <input type="hidden" id="txtIdUsuarioActualizacion" name="txtIdUsuarioActualizacion" value="1">
+
+              <div class="card-body">
+
+=======
             <form class="formSubcampania" id="formSubcampania" name="formSubcampania" autocomplete="off">
               <input type="hidden" id="idSubcampania" name="idSubcampania" value="">
               <input type="hidden" id="listaEstatus" name="listaEstatus" value="1">
@@ -32,6 +46,7 @@
 
               <div class="card-body">
 
+>>>>>>> ramaSubcampania
                 <!-- ESTO FALTA VER SI APLICA O USO OTRA FORMA -->
 
                 <div class="form-group">
@@ -51,41 +66,68 @@
 
                 <div class="form-group">
                   <label for="txtNombreSubcampania">Subcampaña <span class="required">*</span> </label>
+<<<<<<< HEAD
+                  <input type="text" id="txtNombreSubcampania" name="txtNombreSubcampania" class="form-control valid validText" placeholder="Ingrese una nueva Subcampaña" name="Ingresa el nombre de la Subcampaña" required="" autofocus disabled>
+=======
                   <input type="text" id="txtNombreSubcampania" name="txtNombreSubcampania" class="form-control valid validText" placeholder="Ingrese una nueva Subcampaña" name="Ingresa el nombre de la Subcampaña" required="" autofocus><!-- disabled-->
+>>>>>>> ramaSubcampania
                 </div>
 
                 <div class="form-group">
                   <label for="txtFechaInicio">Fecha de inicio (<span class="required">*</span>)</label>
+<<<<<<< HEAD
+                  <input type="date" id="txtFechaInicio" name="txtFechaInicio" class="form-control valid validText" placeholder="Inicio de la Subcampaña" name="Ingrese la fecha de Inicio" value="<?php echo date("Y-m-d"); ?>" required="" autofocus disabled>
+=======
                   <input type="date" id="txtFechaInicio" name="txtFechaInicio" class="form-control valid validText" placeholder="Inicio de la Subcampaña" name="Ingrese la fecha de Inicio" required="" autofocus><!-- disabled-->
                   <small id="fechaInicio"></small>
+>>>>>>> ramaSubcampania
                 </div>
 
                 <div class="form-group">
                   <label for="txtFechaFin">Fecha Limite (<span class="required">*</span>)</label>
+<<<<<<< HEAD
+                  <input type="date" id="txtFechaFin" name="txtFechaFin" class="form-control valid validText" placeholder="Fin de la Subcampaña" name="Fecha limite" required="" autofocus disabled>
+=======
                   <input type="date" id="txtFechaFin" name="txtFechaFin" class="form-control valid validText" placeholder="Fin de la Subcampaña" name="Fecha limite" required="" autofocus><!-- disabled-->
                   <small id="fechaFin"></small>
+>>>>>>> ramaSubcampania
                 </div>
 
                 <div class="form-group">
                   <label for="txtPresupuesto">presupuesto <span class="required">*</span> </label>
+<<<<<<< HEAD
+                  <input type="number" id="txtPresupuesto" name="txtPresupuesto" class="form-control valid validText" placeholder="Ingrese el presupuesto" name="Ingrese el presupuesto" onkeyup="showHint(this.value)" required="" autofocus disabled>
+=======
                   <input type="number" id="txtPresupuesto" name="txtPresupuesto" class="form-control valid validText" placeholder="Ingrese el presupuesto" name="Ingrese el presupuesto" onkeyup="showHint(this.value)" required="" autofocus><!-- disabled-->
+>>>>>>> ramaSubcampania
                   <small id="smlPresupuesto"></small>
                 </div>
 
 
               </div>
 
+<<<<<<< HEAD
+              </form>
+
+          </div>
+=======
           </div>
 
 
+>>>>>>> ramaSubcampania
 
         </div>
         <div class="modal-footer">
           <a class="btn btn-outline-secondary icono-color-principal btn-inline cerrarModal" href="#" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>
           <button id="btnActionForm" type="submit" class="btn btn-primary btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i> Guardar</button>
         </div>
+<<<<<<< HEAD
+
+
+=======
 
 </form>
+>>>>>>> ramaSubcampania
 
     </div>
 

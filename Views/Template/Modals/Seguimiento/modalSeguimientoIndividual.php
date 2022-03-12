@@ -8,40 +8,49 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="row ">
-                    <label for="" class="text-lg text-center"><i class="fas fa-reply"></i> Respuestas rápidas</label>
-                </div>
-                <!-- <div class="form-check">
-                    <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="" id="" value="checkedValue" checked>
-                    Display value
-                  </label>
-                </div> -->
-                <div class="row">
-                    <div class="col-md-6">
-                        <div id="respuestasRapidas1" class="form-check">
 
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div id="respuestasRapidas2" class="form-check">
+            <form id="formSeguimientoProspectoIndividual" name="formSeguimientoProspectoIndividual">
 
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="form-group col-md-12">
-                        <label>Comentarios:</label>
-                        <textarea name="txtComentarioSegInd" id="txtComentarioSegInd" class="form-control form-control-sm" cols="20" rows="3" placeholder="Comentario"></textarea>
-                    </div>
-                </div>
-            </div>
+              <input type="hidden" id="idProsInd" name="idProsInd" value="">
+
+              <div class="modal-body">
+                  <div class="row ">
+                      <label for="" class="text-lg text-center"><i class="fas fa-reply"></i> Respuestas rápidas</label>
+                  </div>
+                  <div class="row">
+                      <ul class="list-inline">
+                          <li class="list-inline-item"><span class="badge badge-danger">NO INTERESADO</span></li>
+                          <li class="list-inline-item"><span class="badge badge-info">PROBLEMAS DE COMUNICACIÓN</span></li>
+                          <li class="list-inline-item"><span class="badge badge-primary">INTERACCIÓN SIN DEFINIR</span></li>
+                          <li class="list-inline-item"><span class="badge badge-success"> <i class="fa fa-check-circle-o"></i> INTERESADO</span></li>
+                      </ul>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-6">
+                          <div id="respuestasRapidas1" class="form-check">
+
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div id="respuestasRapidas2" class="form-check">
+
+                          </div>
+                      </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                      <div class="form-group col-md-12">
+                          <label>Comentarios:</label>
+                          <textarea name="txtComentarioSegInd" id="txtComentarioSegInd" class="form-control form-control-sm" cols="20" rows="3" placeholder="Comentario"></textarea>
+                      </div>
+                  </div>
+              </div>
+
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Confirmar seguimiento <i class="fa fa-check-circle"></i></button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelarModalSegInd">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Confirmar seguimiento <i class="fa fa-check-circle"></i></button>
             </div>
+            </form>
         </div>
     </div>
 </div>

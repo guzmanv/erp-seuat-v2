@@ -11,7 +11,8 @@
             <div class="modal-body">
                 <div class="card card-secondary">
                     <form id="formProspectoEdit" name="formProspectoEdit">
-                        <input type="hidden" id="idTurnoEdit" name="idTurnoEdit" value="">
+                        <input type="hidden" id="idPersonaEdit" name="idPersonaEdit" value="">
+                        <input type="hidden" id="idProspectoEdit" name="idProspectoEdit" value="">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-12">
@@ -41,27 +42,55 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-12">
-                                    <label for="">Nivel de estudios de interés:</label>
-                                    <select name="slctNivelEstudiosEdit" id="slctNivelEstudiosEdit"></select>
+                                    <label for="">Plantel de interés:</label>
+                                    <select class="form-control" name="slctPlantelEdit" id="slctPlantelEdit">
+                                        <option value="">Seleccionar...</option>
+                                        <?php
+                                        foreach ($data['planteles'] as $value) {
+                                        ?>
+                                            <option value="<?= $value['id'] ?>"><?= $value['nombre_plantel'] ?></option>
+                                        <?php
+                                        }
+                                        ?>
+                                    </select>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="">Plantel de interés:</label>
-                                    <select name="slctPlantelEdit" id="slctPlantelEdit"></select>
-                                    <!-- <input type="text" id="txtTelefonoCelEdit" name="txtTelefonoCelEdit" class="form-control form-control-sm" placeholder="EJ: 0123456789" requred=""> -->
+                                <div class="form-group col-md-12">
+                                    <label for="">Nivel de estudios de interés:</label>
+                                    <select class="form-control" name="slctNivelEstudiosEdit" id="slctNivelEstudiosEdit" onchange="nivelSeleccionado(value)">
+                                        <option value="">Seleccionar...</option>
+                                        <?php
+                                        foreach ($data['niveles'] as $value) {
+                                        ?>
+                                            <option value="<?= $value['id'] ?>"><?= $value['nombre_nivel_educativo'] ?></option>
+                                        <?php
+                                        }
+                                        ?>
+                                    </select>
+
                                 </div>
-                                <div class="form-group col-md-6">
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
                                     <label for="">Carrera de interés:</label>
-                                    <select name="slctCarreraEdit" id="slctCarreraEdit"></select>
-                                    <!-- <input type="text" id="txtTelefonoCelEdit" name="txtTelefonoCelEdit" class="form-control form-control-sm" placeholder="EJ: 0123456789" requred=""> -->
+                                    <select class="form-control" name="slctCarreraEdit" id="slctCarreraEdit">
+                                        <option value="">Seleccionar...</option>
+                                        <?php
+                                        foreach ($data['carreras'] as  $value) {
+                                        ?>
+                                            <option value="<?= $value['id'] ?>"><?= $value['nombre_carrera'] ?></option>
+                                        <?php
+                                        }
+                                        ?>
+                                    </select>
                                 </div>
                             </div>
                         </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalEdit"><i class="fa fa-fw fa-lg fa-times-circle icono-azul" id="cancelarModalTurnoEdit"></i>Cancelar</a>
+                <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalEdit"><i class="fa fa-fw fa-lg fa-times-circle icono-azul" id="cancelarModalEditDatosProspecto"></i>Cancelar</a>
                 <button id="btnActionFormEdit" type="submit" class="btn btn-outline-secondary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Actualizar</span></button>
             </div>
             </form>

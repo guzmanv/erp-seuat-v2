@@ -5,6 +5,7 @@ getModal('Seguimiento/modalAgendarProspecto',$data);
 getModal('Seguimiento/modalEgresado',$data);
 getModal('Seguimiento/modalSeguimiento',$data);
 getModal('Seguimiento/modalSeguimientoIndividual',$data);
+getModal('Seguimiento/modalNvoProspecto',$data);
 ?>
 
 <div class="contentAjax">
@@ -22,6 +23,17 @@ getModal('Seguimiento/modalSeguimientoIndividual',$data);
               <h1 class="m-0">
                 <?= $data['page_title'] ?>
               </h1>
+
+            </div>
+            <div class="col-sm-5">
+
+              <ol class="breadcrumb float-sm-right btn-block">
+
+                <button type="button" onClick="ftnNvoProspecto();" class="btn btn-inline btn-primary btn-sm btn-block" >
+                  <i class="fa fa-plus-circle fa-md"></i> Nuevo Prospecto
+                </button>
+
+              </ol>
 
             </div>
 
@@ -48,7 +60,7 @@ getModal('Seguimiento/modalSeguimientoIndividual',$data);
                       <tr>
 
                         <th width="3%">#</th>
-                        <th width="25%">Nombre completo</th>
+                        <th width="18%">Nombre completo</th>
                         <th>Alias</th>
                         <th>Teléfono celular</th>
                         <th witdh="2%">Plantel de interés</th>
