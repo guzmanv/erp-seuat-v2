@@ -15,14 +15,17 @@
         </button>
 
       </div>
+
+
+
       <div class="modal-body">
         <small class="text-muted pb-4">
           Los campos con asterisco (<span class="required">*</span>) son obligatorios..
         </small>
 
         <div class="card card-dark">
-
           <form id="formCampanias" name="formCampanias" autocomplete="off">
+
             <input type="hidden" id="idCampanias" name="idCampanias" value="">
             <input type="hidden" id="listaEstatus" name="listaEstatus" value="1">
             <input type="hidden" id="txtFechaCreacion" name="txtFechaCreacion" value="<?php echo date("Y-m-d\TH-i");?>">
@@ -53,17 +56,17 @@
               </div>
 <!--presupuesto-->
             </div>
-            <div class="modal-footer">
-              <a class="btn btn-outline-secondary icono-color-principal btn-inline cerrarModal" href="#" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>
-              <button id="btnActionForm" type="submit" class="btn btn-primary btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i> Guardar</button>
-            </div>
 
-          </form>
 
         </div>
 
       </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-secondary icono-color-principal btn-inline cerrarModal" href="#" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>
+        <button id="btnActionForm" type="submit" class="btn btn-primary btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i> Guardar</button>
+      </div>
 
+</form>
     </div>
 
   </div>

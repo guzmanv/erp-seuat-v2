@@ -12,14 +12,16 @@
 
       </div>
 
+
+
       <div class="modal-body">
 
         <small class="text-muted">Los campos con asterisco (<span class="required">*</span>) son obligatorios.</small>
 
         <div class="card mt-1">
 
-          <form id="formCampaniasup" name="idCampaniasUp" autocomplete="off">
 
+          <form id="formCampaniasup" name="idCampaniasUp" autocomplete="off">
             <input type="hidden" id="idCampaniasUp" name="idCampaniasUp">
             <input type="hidden" id="txtFechaActualizacionUp" name="txtFechaActualizacionUp" value="">
             <input type="hidden" id="txtIdUsuarioActualizacionUp" name="txtIdUsuarioActualizacionUp">
@@ -60,16 +62,16 @@
 
             </div>
 
-            <div class="modal-footer">
-              <a class="btn btn-outline-secondary icono-color-principal btn-inline cerrarModal" href="#" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>
-              <button id="btnActionForm" type="submit" class="btn btn-primary btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i> Actualizar</button>
-            </div>
 
-          </form>
 
         </div>
 
       </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-secondary icono-color-principal btn-inline cerrarModal" href="#" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>
+        <button id="btnActionForm" type="submit" class="btn btn-primary btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i> Actualizar</button>
+      </div>
+  </form>
 
     </div>
   </div>
