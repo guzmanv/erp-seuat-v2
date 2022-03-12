@@ -48,12 +48,13 @@ document.addEventListener('DOMContentLoaded', function(){
 	       	let strFechaInicio = document.querySelector("#txtFechaInicio").value;
 	      	let strFechaFin = document.querySelector("#txtFechaFin").value;
 	      	let intEstatus = document.querySelector("#listaEstatus").value;
-	      	let strFechaCreacion = document.querySelector("#txtFechaCreacion").vale;
-	      	let strFechaActualizacion = document.querySelector("#txtFechaActualizacion").vale;
-	      	let intIdUsuarioCreacion = document.querySelector("#txtIdUsuarioCreacion").vale;
-	      	let intIdUsuarioActualizacion = document.querySelector("#txtIdUsuarioActualizacion").vale;
+	      	let strFechaCreacion = document.querySelector("#txtFechaCreacion").value;
+	      	let strFechaActualizacion = document.querySelector("#txtFechaActualizacion").value;
+	      	let intIdUsuarioCreacion = document.querySelector("#txtIdUsuarioCreacion").value;
+	      	let intIdUsuarioActualizacion = document.querySelector("#txtIdUsuarioActualizacion").value;
+					let intPresupuesto = document.querySelector("#txtPresupuesto").value;
 
-			if(strNombreCampania == '' || strFechaInicio == '' || strFechaFin == '' || intEstatus == '' || strFechaCreacion == '' || intIdUsuarioCreacion == '')
+			if(strNombreCampania == '' || strFechaInicio == '' || strFechaFin == '' || intEstatus == '' || strFechaCreacion == '' || intIdUsuarioCreacion == '' || intPresupuesto == '')
 			{
 					swal.fire("Atención", "Todos los campos son obligatorios." , "warning");
 					return false;
@@ -94,10 +95,12 @@ document.addEventListener('DOMContentLoaded', function(){
 					let intIdCampania = document.querySelector('#idCampaniasUp').value;
 			    let strNombreCampania = document.querySelector('#txtNombreCampaniasUp').value;
 			    let intEstatus = document.querySelector('#listEstatusUp').value;
-			    let strFechaActualizacion = document.querySelector('#txtFechaActualizacionUp').value;
 			    let intIdUsuarioActualizacion = document.querySelector('#txtIdUsuarioActualizacionUp').value;
+					let strFechaInicioActualizacion = document.querySelector("#txtFechaInicioUp").value;
+					let strFechaFinActualizacion =  document.querySelector("#txtFechaFinUp").value;
+					let intPresupuesto = document.querySelector("#txtPresupuestoUp").value;
 
-			    if(strNombreCampania == '' || intEstatus == '' || intIdUsuarioActualizacion == '')
+			    if(strNombreCampania == '' || intEstatus == '' || intIdUsuarioActualizacion == '' || strFechaInicioActualizacion == '' || strFechaFinActualizacion == '' || intPresupuesto == '')
 					{
 						swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
 						return false;
@@ -160,6 +163,9 @@ function fntEditCampanias(element,id){
 			if(objData.estatus){
 					document.querySelector("#idCampaniasUp").value = objData.data.id;
 					document.querySelector("#txtNombreCampaniasUp").value = objData.data.nombre_campania;
+					document.querySelector("#txtFechaInicioUp").value = objData.data.fecha_inicio;
+					document.querySelector("#txtFechaFinUp").value = objData.data.fecha_fin;
+					document.querySelector("#txtPresupuestoUp").value = objData.data.presupuesto;
 					document.querySelector("#txtIdUsuarioActualizacionUp").value = 1;
 
 					if(objData.data.estatus == 1)

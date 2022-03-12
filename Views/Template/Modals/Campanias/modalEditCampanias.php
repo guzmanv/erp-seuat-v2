@@ -34,6 +34,21 @@
               </div>
 
               <div class="form-group">
+                <label for="txtFechaInicioUp">Fecha de inicio (<span class="required">*</span>)</label>
+                <input type="date" id="txtFechaInicioUp" name="txtFechaInicioUp" class="form-control valid validText" placeholder="Inicio de la campaña" name="Ingresa la fecha de inicio" required="" autofocus>
+              </div>
+
+              <div class="form-group">
+                <label for="txtFechaFinUp">Fecha limite (<span class="required">*</span>)</label>
+                <input type="date" id="txtFechaFinUp" name="txtFechaFinUp" class="form-control valid validText" placeholder="Fin de la campaña" name="Fecha limite" required="" autofocus>
+              </div>
+
+              <div class="form-group">
+                <label for="txtPresupuestoUp">Presupuesto (<span class="required">*</span>)</label>
+                <input type="number" id="txtPresupuestoUp" name="txtPresupuestoUp" class="form-control valid validText" placeholder="Ingrese presupuesto" name="Fecha limite" required="" autofocus>
+              </div>
+
+              <div class="form-group">
 
                 <label>Estatus <span class="required">*</span></label>
                 <select class="custom-select" id="listEstatusUp" name="listEstatusUp" required="">

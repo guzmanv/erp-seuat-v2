@@ -47,6 +47,11 @@
                 <input type="date" id="txtFechaFin" name="txtFechaFin" class="form-control valid validText" placeholder="Fin de la campaña" name="Fecha limite" required="" autofocus>
               </div>
 
+              <div class="form-group">
+                <label for="txtFechaFin">Presupuesto (<span class="required">*</span>)</label>
+                <input type="number" id="txtPresupuesto" name="txtPresupuesto" class="form-control valid validText" placeholder="Ingrese presupuesto" name="Fecha limite" required="" autofocus>
+              </div>
+<!--presupuesto-->
             </div>
             <div class="modal-footer">
               <a class="btn btn-outline-secondary icono-color-principal btn-inline cerrarModal" href="#" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cancelar</a>

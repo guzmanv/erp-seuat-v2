@@ -69,42 +69,44 @@ class Campania extends Controllers{
 
   public function setCampanias(){
     if($_POST){
-      if(empty($_POST['txtNombreCampanias']) || empty($_POST['listaEstatus']) || empty($_POST['txtIdUsuarioCreacion'])){
+      if(empty($_POST['txtNombreCampanias']) || empty($_POST['listaEstatus']) || empty($_POST['txtIdUsuarioCreacion']) || empty($_POST['txtPresupuesto'])){
         $arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
       }else{
-        $intIdCampania = intval($_POST['idCampanias']);
-        $strNombreCampanias = strClean($_POST['txtNombreCampanias']);
-        $strFechaInicio = strClean($_POST['txtFechaInicio']);
-        $strFechaFin = strClean($_POST['txtFechaFin']);
-        //$strFechaFin = strClean("12-12-2021");
-        $intEstatus = intval($_POST['listaEstatus']);
-        $strFechaCreacion = strClean($_POST['txtFechaCreacion']);
-        $strFechaActualizacion = strClean($_POST['txtFechaActualizacion']);
-        $intIdUsuarioCreacion = intval($_POST['txtIdUsuarioCreacion']);
-        $intIdUsuarioActualizacion = intval($_POST['txtIdUsuarioActualizacion']);
 
-        if ($intIdCampania == 0) {
-          //Crear
-          $requestCampanias = $this->model->insertCampania($strNombreCampanias,
-                                                           $strFechaInicio,
-                                                           $strFechaFin,
-                                                           $intEstatus,
-                                                           $strFechaCreacion,
-                                                           $strFechaActualizacion,
-                                                           $intIdUsuarioCreacion,
-                                                           $intIdUsuarioActualizacion);
-                                                           $option = 1;
-        }
-        if($requestCampanias > 0){
-          if($option == 1){
-            $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente.');
+          $intIdCampania = intval($_POST['idCampanias']);
+          $strNombreCampanias = strClean($_POST['txtNombreCampanias']);
+          $strFechaInicio = strClean($_POST['txtFechaInicio']);
+          $strFechaFin = strClean($_POST['txtFechaFin']);
+          $intPresupuesto = intval($_POST['txtPresupuesto']);
+          $intEstatus = intval($_POST['listaEstatus']);
+          $strFechaCreacion = strClean($_POST['txtFechaCreacion']);
+          $strFechaActualizacion = strClean($_POST['txtFechaActualizacion']);
+          $intIdUsuarioCreacion = intval($_POST['txtIdUsuarioCreacion']);
+          $intIdUsuarioActualizacion = intval($_POST['txtIdUsuarioActualizacion']);
+
+          if ($intIdCampania == 0) {
+            //Crear
+            $requestCampanias = $this->model->insertCampania($strNombreCampanias,
+                                                             $strFechaInicio,
+                                                             $strFechaFin,
+                                                             $intEstatus,
+                                                             $strFechaCreacion,
+                                                             $strFechaActualizacion,
+                                                             $intIdUsuarioCreacion,
+                                                             $intIdUsuarioActualizacion,
+                                                             $intPresupuesto);
+                                                             $option = 1;
           }
-        }else if($requestCampanias == 'exit'){
-          $arrResponse = array('estatus' => false, 'msg' => '¡Atención! La Campaña ya esxiste');
-        }else{
-          $arrResponse = array("estatus" => false, "msg" => 'No es posible almacenar los datos.');
+          if($requestCampanias > 0){
+            if($option == 1){
+              $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente.');
+            }
+          }else if($requestCampanias == 'exit'){
+            $arrResponse = array('estatus' => false, 'msg' => '¡Atención! La Campaña ya esxiste');
+          }else{
+            $arrResponse = array("estatus" => false, "msg" => 'No es posible almacenar los datos.');
+          }
         }
-      }
       echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
     }
     die();
@@ -112,32 +114,67 @@ class Campania extends Controllers{
 
   public function setCampaniasUp(){
     if($_POST){
-      if(empty($_POST['txtNombreCampaniasUp']) || empty($_POST['listEstatusUp']) || empty($_POST['txtIdUsuarioActualizacionUp'])){
+      if(empty($_POST['txtNombreCampaniasUp']) || empty($_POST['listEstatusUp']) || empty($_POST['txtIdUsuarioActualizacionUp']) || empty($_POST['txtFechaInicioUp']) || empty($_POST['txtFechaFinUp']) || empty($_POST['txtPresupuestoUp'])){
         // echo '<script>console.log("Hola mundo")</script>';
         $arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
       }else{
+
         $intIdCampania = intval($_POST['idCampaniasUp']);
         $strNombreCampania = strClean($_POST['txtNombreCampaniasUp']);
         $intEstatus = intval($_POST['listEstatusUp']);
-        $strFechaActualizacion = strClean($_POST['txtFechaActualizacionUp']);
         $intIdUsuarioActualizacion = intval($_POST['txtIdUsuarioActualizacionUp']);
+        $strFechaInicioActualizacion = strClean($_POST['txtFechaInicioUp']);
+        $strFechaFinActualizacion = strClean($_POST['txtFechaFinUp']);
+        $intPresupuesto = intval($_POST['txtPresupuestoUp']);
         $requestCampanias = "";
 
-        if($intIdCampania <> 0){
+        $selectSubcampania = $this->model->selectSubcampania($intIdCampania);
+        if(count($selectSubcampania) > 0){
+
+          $arrData = $this->model->selectFecha($intIdCampania);
+          if(($arrData['fecha_inicio'] == $strFechaInicioActualizacion) && ($arrData['fecha_fin'] == $strFechaFinActualizacion)){
+
+            $requestCampanias = $this->model->updateCampanias($intIdCampania,
+                                                                $strNombreCampania,
+                                                                $intEstatus,
+                                                                $intIdUsuarioActualizacion,
+                                                                $strFechaInicioActualizacion,
+                                                                $strFechaFinActualizacion,
+                                                                $intPresupuesto);
+                                                                $option = 1;
+
+          }else{
+
+            $contSub = 1;
+
+          }
+
+        }else{
+
           $requestCampanias = $this->model->updateCampanias($intIdCampania,
-                                                            $strNombreCampania,
-                                                            $intEstatus,
-                                                            $strFechaActualizacion,
-                                                            $intIdUsuarioActualizacion);
-                                                            $option = 1;
+                                                              $strNombreCampania,
+                                                              $intEstatus,
+                                                              $intIdUsuarioActualizacion,
+                                                              $strFechaInicioActualizacion,
+                                                              $strFechaFinActualizacion,
+                                                              $intPresupuesto);
+                                                              $option = 1;
+
         }
         if($requestCampanias > 0){
           if($option == 1){
             $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente.');
           }
+        }else if($contSub){
+
+          $arrResponse = array("estatus" => false, "msg" => 'No puede editar la campaña esta campaña esta vinculada '.count($selectSubcampania).' subcampañas, favor de eliminarlas antes de editar.');
+
         }else{
+
           $arrResponse = array("estatus" => false, "msg" => 'No es posible actualizar los datos, probablemente existe un registro con el mismo nombre o presenta algún problema con la red.');
+
         }
+
       }//Este es del primer else
       echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
     }

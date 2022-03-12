@@ -42,7 +42,7 @@
               <thead>
                 <tr>
                   <th width="7%">#</th>
-                  <th>Nombre</th>
+                  <th width="15%">Nombre</th>
                   <th width="7%">Fecha de Inicio</th>
                   <th width="7%">Fecha Limite</th>
                   <th width="7%">Estatus</th>
