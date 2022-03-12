@@ -24,57 +24,47 @@
           <form id="formAgendaProspectoSeguimiento" name="formAgendaProspectoSeguimiento">
 
             <input type="hidden" id="idAgendaLtrUp" name="idAgendaLtrUp" value="">
-            <input type="hidden" id="txtLectura" name="txtLectura" value="">
+            <input type="hidden" id="txtEstatus" name="txtEstatus" value="">
 
             <div class="card-body">
 
               <div class="container-fluid">
 
-                <div class="row text-center">
-
-                  <div class="col">
-
-                    <label>
-
-                      <b>INFORMACIÓN</b>
-
-                    </label>
-                    <br>
-                    <label for="txtInformacion" id="txtInformacion"></label>
+                <!--Caja perfil-->
+                  <div class="card-body box-profile" id="txtInformacion">
 
                   </div>
-
-                  <div class="col">
-
-                    <label>
-
-                      <b>MENSAJE RECORDATORIO</b>
-
-                    </label>
-                    <br>
-                    <label for="lblMsgRecordatorio" id="lblMsgRecordatorio"></label>
-
-                  </div>
-
-                </div>
+                <!--/Caja perfil-->
 
               </div>
 
-            </div>
+              <div class="container-fluid" id="cartaAtencion">
 
-            <span class="text-muted pb-4" style="margin-left:2%">
-              <b>Fecha Registro: </b> <small id="fechaRegistro"></small>
-            </span>
+                <!-- <div class="card card-success">
+                  <div class="card-header">
+                    <h3 class="card-title">Success</h3>
 
-            <br>
+                  </div>
+                  <div class="card-body">
+                    <span class="text-muted pb-4" style="margin-left:2%">
+                      <b>Fecha Registro: </b> <small id="fechaRegistro"></small>
+                    </span>
 
-            <span class="text-muted pb-4" style="margin-left:2%">
-              Seguimiento <b id="nombre"></b>
-            </span>
+                    <br>
 
-            <div class="form-group" style="margin-left:1%">
-              <span class="card-title valign-wrapper" id="lectura">
-              </span>
+                    <span class="text-muted pb-4" style="margin-left:2%">
+                      Seguimiento <b id="nombre"></b>
+                    </span>
+
+                    <div class="form-group" style="margin-left:1%">
+                      <span class="card-title valign-wrapper" id="estatus">
+                      </span>
+                    </div>
+                  </div>
+                </div> -->
+
+              </div>
+
             </div>
 
           </form>

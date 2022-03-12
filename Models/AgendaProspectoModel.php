@@ -21,25 +21,25 @@
     }
 
     public function selectAgendaProspectos(){
-      $sql = "SELECT id, fecha_programada, hora_programada, asunto, lectura FROM t_agenda";
+      $sql = "SELECT id, fecha_programada, hora_programada, asunto, estatus FROM t_agenda";
       $request = $this->select_all($sql);
       return $request;
     }
 
     public function selectAgendaProspecto(int $intIdAgenda_guardado){
       $this->intId = $intIdAgenda_guardado;
-      $sql = "SELECT t_personas.nombre_persona, t_personas.ap_paterno, t_personas.ap_materno, t_personas.tel_celular, t_personas.tel_fijo, t_agenda.id, t_agenda.fecha_registro, t_agenda.fecha_programada, t_agenda.hora_programada, t_agenda.asunto, t_agenda.detalle, t_agenda.lectura, t_agenda.id_usuario_atendio FROM t_agenda INNER JOIN t_personas ON t_agenda.id_persona = t_personas.id WHERE t_agenda.id = $this->intId";
+      $sql = "SELECT t_personas.nombre_persona, t_personas.ap_paterno, t_personas.ap_materno, t_personas.tel_celular, t_personas.tel_fijo, t_agenda.id, t_agenda.fecha_registro, t_agenda.fecha_programada, t_agenda.hora_programada, t_agenda.asunto, t_agenda.detalle, t_agenda.estatus, t_agenda.id_usuario_atendio FROM t_agenda INNER JOIN t_personas ON t_agenda.id_persona = t_personas.id WHERE t_agenda.id = $this->intId";
       $request = $this->select($sql);
       return $request;
     }
 
-    public function lecturaUpdate(int $idA, int $lectura){
+    public function estatusUpdate(int $idA, int $estatus){
 
       $this->intIdAgenda = $idA;
-      $this->intLectura = $lectura;
+      $this->intEstatus = $estatus;
 
-      $sql = "UPDATE t_agenda SET lectura = ? WHERE id = ?";
-      $arrData = array($this->intLectura, $this->intIdAgenda);
+      $sql = "UPDATE t_agenda SET estatus = ? WHERE id = ?";
+      $arrData = array($this->intEstatus, $this->intIdAgenda);
       $request = $this->update($sql,$arrData);
 
       return $request;

@@ -42,12 +42,12 @@ class AgendaProspecto extends Controllers{
       $arrData[$i]['id_guardado'] = $arrData[$i]['id'];
       $arrData[$i]['id'] = $i+1;
 
-      if($arrData[$i]['lectura'] == 2) {
+      if($arrData[$i]['estatus'] == 2) {
 
 
-        $arrData[$i]['lectura'] = '
+        $arrData[$i]['estatus'] = '
                                    <a class="cerrarModal btnAgendarProspecto" onClick="ftnAgendarProspecto(this,'.$arrData[$i]['id_guardado'].')" title="'.$arrData[$i]['asunto'].'">
-                                     <span class="badge badge-success">
+                                     <span class="badge badge-info">
                                        Atendido
                                      </span>
                                    </a>
@@ -55,9 +55,9 @@ class AgendaProspecto extends Controllers{
 
       }else{
 
-        $arrData[$i]['lectura'] = '
+        $arrData[$i]['estatus'] = '
                                    <a class="cerrarModal btnAgendarProspecto"   onClick="ftnAgendarProspecto(this,'.$arrData[$i]['id_guardado'].')" title="'.$arrData[$i]['asunto'].'">
-                                     <span class="badge badge-danger">
+                                     <span class="badge badge-secondary">
                                       Pendiente
                                      </span>
                                    </a>
@@ -84,11 +84,63 @@ class AgendaProspecto extends Controllers{
 
       }else{
 
-        $arrData['info'] = '<b>HABLAR A: </b>'.$arrData['nombre_persona'].' '.$arrData['ap_paterno'].' '.$arrData['ap_materno'].'<br>
-                        <b>EL DÍA: </b>'.$arrData['fecha_programada'].'<br>
-                        <b>A LAS: </b>'.$arrData['hora_programada'].'<b> HORAS</b> <br>
-                        <b>AL TELEFONO </b>'.$arrData['tel_celular'].'<br>
-                        <b>O AL </b>'.$arrData['tel_fijo'];
+        $arrData['info'] = '<div class="card card-widget widget-user">
+                                <!-- Add the bg color to the header using any of the bg-* classes -->
+
+                                <div class="widget-user-header bg-info">
+                                  <h3 class="widget-user-username">'.$arrData['nombre_persona'].' '.$arrData['ap_paterno'].' '.$arrData['ap_materno'].'</h3>
+                                  <h5 class="widget-user-desc">Prospecto</h5>
+                                </div>
+
+                                <div class="card-footer">
+
+                                  <div class="row">
+
+                                    <div class="col-sm-4 border-right">
+                                      <div class="description-block">
+                                        <h5 class="description-header"><i class="fas fa-calendar"></i> FECHA</h5>
+                                        <span class="description-text">'.$arrData['fecha_programada'].'</span>
+                                      </div>
+                                      <!-- /.description-block -->
+                                    </div>
+
+                                    <!-- /.col -->
+
+                                    <div class="col-sm-4 border-right">
+                                      <div class="description-block">
+                                        <h5 class="description-header"><i class="fas fa-clock"></i> HORA</h5>
+                                        <span class="description-text">'.$arrData['hora_programada'].'</span>
+                                      </div>
+                                      <!-- /.description-block -->
+                                    </div>
+
+                                    <!-- /.col -->
+
+                                    <div class="col-sm-4">
+                                      <div class="description-block">
+                                        <h5 class="description-header"><i class="fas fa-phone"></i> Telefono(s)</h5>
+                                        <span class="description-text">'.$arrData['tel_celular'].' / '.$arrData['tel_fijo'].'</span>
+                                      </div>
+                                      <!-- /.description-block -->
+                                    </div>
+
+                                    <!-- /.col -->
+                                  </div>
+
+                                  <!-- /.row -->
+                                  <br><br>
+                                  <div class="info-box bg-light">
+                                    <span class="info-box-icon bg-light"><i class="far fa-envelope"></i></span>
+
+                                    <div class="info-box-content">
+                                      <span class="info-box-number">MENSAJE</span>
+                                      <p >'.$arrData['detalle'].'</p>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                  </div>
+                                </div>
+                              </div>';
+
         $arrResponse = array('estatus' => true, 'data' => $arrData);
 
       }
@@ -100,18 +152,18 @@ class AgendaProspecto extends Controllers{
     die();
   }
 
-  public function setLecturaProspecto(){
+  public function setEstatusProspecto(){
 
     if($_POST){
-      if(empty($_POST['idAgendaLtrUp']) || empty($_POST['txtLectura'])){
+      if(empty($_POST['idAgendaLtrUp']) || empty($_POST['txtEstatus'])){
           $arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
       }else{
         $intIdAgenda = intval($_POST['idAgendaLtrUp']);
-        $intLectura = intvaL($_POST['txtLectura']);
+        $intEstatus = intvaL($_POST['txtEstatus']);
 
         if($intIdAgenda <> 0) {
 
-          $request = $this->model->lecturaUpdate($intIdAgenda, $intLectura);
+          $request = $this->model->estatusUpdate($intIdAgenda, $intEstatus);
           $option = 1;
 
         }
