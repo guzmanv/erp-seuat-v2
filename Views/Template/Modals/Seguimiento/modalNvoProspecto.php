@@ -7,12 +7,11 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="formPersonaNuevo" name="formPersonaNuevo" >
             <div class="modal-body">
                 <div class="card card-secondary">
-
+                    <form id="formPersonaNuevo" name="formPersonaNuevo" >
                         <input type="hidden" id="idNuevo" name="idNuevo" value="">
-                        <div class="card-body">
+                        <div class="card-body overflow-auto" style="height:435px;">
 
                             <div class="card mb-3 card-secondary collapsed-card" id="cardDatosPer" name="cardDatosPer">
                               <div class="card-header text-white">
@@ -36,41 +35,6 @@
                                         <input type="text" id="txtNombreNuevo" name="txtNombreNuevo" class="form-control" placeholder="Nombre" onkeyup="validarPersona()" name="">
                                     </div>
 
-                                  </div>
-
-                                  <div class="col-4">
-
-                                    <div class="form-group">
-                                        <label>Apellido Materno</label>
-                                        <input type="text" id="txtApellidoMaNuevo" name="txtApellidoMaNuevo" class="form-control" placeholder="Apellido Materno" onkeyup="validarPersona()"  name="">
-                                    </div>
-
-                                  </div>
-
-                                  <div class="col-4">
-
-                                    <div class="form-group">
-                                        <label>Apellido Paterno</label>
-                                        <input type="text" id="txtApellidoPaNuevo" name="txtApellidoPaNuevo" class="form-control" placeholder="Apellido Paterno" onkeyup="validarPersona()"  name="">
-                                    </div>
-
-                                  </div>
-
-                                </div>
-
-                                <div class="row">
-
-                                  <div class="col-6">
-
-                                    <div class="form-group">
-                                        <label>Alias</label>
-                                        <input type="text" id="txtAlias" name="txtAlias" class="form-control" placeholder="Alias" onkeyup="validarPersona()"  name="">
-                                    </div>
-
-                                  </div>
-
-                                  <div class="col-3">
-
                                     <div class="form-group">
                                         <label>Sexo</label>
                                         <select class="form-control" id="listSexoNuevo" name="listSexoNuevo" onchange="validarPersona()">
@@ -79,23 +43,6 @@
                                         <option value="M">M</option>
                                         </select>
                                     </div>
-
-                                  </div>
-
-                                  <div class="col-3">
-
-                                    <div class="form-group">
-                                        <label>Fecha de nacimento</label>
-                                        <input type="date" id="txtFechaNacimientoNuevo" name="txtFechaNacimientoNuevo" class="form-control" placeholder="Fecha de Nacimiento" onchange="validarPersona()"  name="">
-                                    </div>
-
-                                  </div>
-
-                                </div>
-
-                                <div class="row">
-
-                                  <div class="col-4">
 
                                     <div class="form-group">
 
@@ -111,21 +58,46 @@
                                   <div class="col-4">
 
                                     <div class="form-group">
+                                        <label>Apellido Paterno</label>
+                                        <input type="text" id="txtApellidoPaNuevo" name="txtApellidoPaNuevo" class="form-control" placeholder="Apellido Paterno" onkeyup="validarPersona()"  name="">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Alias</label>
+                                        <input type="text" id="txtAlias" name="txtAlias" class="form-control" placeholder="Alias" onkeyup="validarPersona()"  name="">
+                                    </div>
+
+                                    <div class="form-group">
                                         <label>Ocupacion</label>
                                         <input type="text" id="txtOcupacionNuevo" name="txtOcupacionNuevo" class="form-control" placeholder="Ocupacion" onkeyup="validarPersona()" name="">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Fecha de nacimento</label>
+                                        <input type="date" id="txtFechaNacimientoNuevo" name="txtFechaNacimientoNuevo" class="form-control" placeholder="Fecha de Nacimiento" onchange="validarPersona()"  name="">
                                     </div>
 
                                   </div>
                                   <div class="col-4">
 
                                     <div class="form-group">
+                                        <label>Apellido Materno</label>
+                                        <input type="text" id="txtApellidoMaNuevo" name="txtApellidoMaNuevo" class="form-control" placeholder="Apellido Materno" onkeyup="validarPersona()"  name="">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Edad</label>
+                                        <input type="number" id="txtEdadNuevo" name="txtEdadNuevo" class="form-control" placeholder="Edad" onkeyup="validarPersona()" name="">
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="">Escolaridad</label>
                                         <select class="form-control" name="slctEscolaridad" id="slctEscolaridad" onkeyup="validarPersona()" >
                                             <option value="">Seleccionar...</option>
                                             <?php
-                                            foreach ($data['lvls'] as $value) {
+                                            foreach ($data['niveles'] as $value) {
                                             ?>
-                                                <option value="<?= $value['id'] ?>"><?= $value['nombre_escolaridad'] ?></option>
+                                                <option value="<?= $value['id'] ?>"><?= $value['nombre_nivel_educativo'] ?></option>
                                             <?php
                                             }
                                             ?>
@@ -301,18 +273,6 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group col-md-12">
-                                        <label>Campaña Actual: </label>
-                                        <?php
-                                        foreach ($data['campania'] as $value) {
-                                        ?>
-                                            <input type="hidden" id="idCampania" name="idCampania" value="<?= $value['id'] ?>">
-                                            <input type="text" id="txtCampania" name="txtPlantelProcedencia" class="form-control text-muted" placeholder="Plantel de Procedencia" onkeydown="validarProspecto()" name="" required value="<?= $value['nombre_campania'] ?>" disabled>
-                                        <?php
-                                        }
-                                        ?>
-                                    </div>
-
                                     <!-- <div class="form-group col-md-12">
                                       <label for="">Marcar si es <span class="text-danger"> <b>ALUMNO EGRESADO</b></span></label>
                                       <input type="checkbox"  class="form-control" name="egresado" id="egresado" value="1">
@@ -332,14 +292,6 @@
                                             <?php
                                             }
                                             ?>
-                                        </select>
-
-                                    </div>
-
-                                    <div class="form-group col-md-12">
-                                        <label for="">Subcampaña a Prospectar:</label>
-                                        <select class="form-control" name="slctSubcampania" id="slctSubcampania">
-                                            <!-- <option value="">Seleccionar...</option> -->
                                         </select>
 
                                     </div>
