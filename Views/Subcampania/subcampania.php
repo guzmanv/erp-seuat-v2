@@ -27,7 +27,7 @@
 
               <ol class="breadcrumb float-sm-right btn-block">
                 <button type="button" onclick="openModal();" class="btn btn-inline btn-primary btn-sm btn-block">
-                  <i class="fa fa-plus-circle fa-md">Nuevo</i>
+                  <i class="fa fa-plus-circle fa-md"></i> Nuevo
                 </button>
               </ol>
 
@@ -56,7 +56,7 @@
                         <tr>
 
                           <th width="7%">#</th>
-                          <th>Nombre</th>
+                          <th width="12%">Nombre</th>
                           <th width="7%">Fecha Inicio</th>
                           <th width="7%">Fecha Fin</th>
                           <th width="12%">Campaña</th>
