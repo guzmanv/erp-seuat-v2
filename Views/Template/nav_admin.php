@@ -297,7 +297,7 @@
               </a>
           </li>
           <li class="nav-header"><h6>Prospección</h6></li>
-          <li class="nav-item">
+         <!--  <li class="nav-item">
               <a href="<?php echo BASE_URL ?>/Campania" class="nav-link">
                   <i class="ml-3 mr-2" data-feather="server"></i>
                   <p>
@@ -320,7 +320,64 @@
                       Seguimiento
                   </p>
               </a>
+          </li> -->
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Categoria_servicios" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="layout"></i>
+                  <!--<i class="nav-icon fas fa-university"></i>-->
+                  <p>
+                      categoria servicios
+                  </p>
+              </a>
           </li>
+
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Campania" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="calendar"></i>
+                  <!--<i class="nav-icon fas fa-university"></i>-->
+                  <p>
+                      Campaña
+                  </p>
+              </a>
+          </li>
+
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Subcampania" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="calendar"></i>
+                  <!--<i class="nav-icon fas fa-university"></i>-->
+                  <p>
+                      Subcampaña
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Seguimiento/seguimiento_prospectos" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="fast-forward"></i>
+                  <!--<i class="nav-icon fas fa-university"></i>-->
+                  <p>
+                      Seguimiento de prospección
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/AgendaProspecto" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="calendar"></i>
+                  <!--<i class="nav-icon fas fa-university"></i>-->
+                  <p>
+                      Agenda
+                  </p>
+              </a>
+          </li>
+
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/MedioCaptacion" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="crosshair"></i>
+                  <p>
+                      Medios de Captacion
+                  </p>
+              </a>
+          </li>
+
           <li class="nav-header"><h6>Control Escolar</h6></li>
                <li class="nav-item">
               <a href="<?php echo BASE_URL ?>/Inscripcion/controlescolar" class="nav-link">
