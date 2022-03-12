@@ -68,14 +68,6 @@
             $request = $this->select_all($sql);
             return $request;
         }
-        //Obtener plantel del Alumno
-        public function selectPlantelAlumno(int $idPersonaSeleccionada){
-            $sql = "SELECT plte.id FROM t_inscripciones AS ins
-            INNER JOIN t_plan_estudios AS plnest ON ins.id_plan_estudios = plnest.id
-            INNER JOIN t_planteles AS plte ON plnest.id_plantel = plte.id WHERE ins.id_personas = $idPersonaSeleccionada LIMIT 1";
-            $request = $this->select($sql);
-            return $request;
-        }
         //Obtener carrera del Alumno
         public function selectCarreraAlumno(int $idPersonaSeleccionada){
             $sql = "SELECT id_plan_estudios FROM t_inscripciones WHERE id_personas = $idPersonaSeleccionada LIMIT 1";
@@ -247,6 +239,22 @@
         public function insertCorteCaja(int $monto, int $idCaja){
             $sql = "INSERT INTO t_corte_caja(fechayhora_apertura_caja,cantidad_recibida,id_caja) VALUES(NOW(),?,?)";
             $request = $this->insert($sql,array($monto,$idCaja));
+            return $request;
+        }
+
+        //Obtener plantel del Alumno
+        public function selectPlantelAlumno(int $idPersonaSeleccionada){
+            $sql = "SELECT plte.id FROM t_inscripciones AS ins
+            INNER JOIN t_plan_estudios AS plnest ON ins.id_plan_estudios = plnest.id
+            INNER JOIN t_planteles AS plte ON plnest.id_plantel = plte.id WHERE ins.id_personas = $idPersonaSeleccionada LIMIT 1";
+            $request = $this->select($sql);
+            return $request;
+        }
+
+        public function selectPlantelUSer(int $idUser){
+            $sql = "SELECT p.id FROM t_administrativo AS ad 
+            INNER JOIN t_planteles AS p ON ad.id_plantel = p.id WHERE ad.id_usuario = $idUser LIMIT 1";
+            $request = $this->select($sql);
             return $request;
         }
 	}

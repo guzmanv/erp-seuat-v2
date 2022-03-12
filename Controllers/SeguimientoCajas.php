@@ -50,40 +50,30 @@
             }
             $planteles[$value['id_plantel']] = $value['abreviacion_sistema'].'/'.$value['abreviacion_plantel'].'/'.$value['municipio'];
         }
-        foreach ($planteles as $key => $value) {
-            $data = ($key == 1)?[8,2,3,4,5,6]:[2,4,3,1,7,6];
-            $value1 = array('label'=>$value,'data'=>$data,'borderColor'=>$this->rand_color(),'fill'=>false);
+        $arrColores = ['','#f44336','#e91e63','#9c27b0','#673ab7','#3f51b5','#2196f3','#03a9f4','#00bcd4','#009688','#4caf50','#ff5722','#ff5722','#f50057'];
+        foreach ($planteles as $keyPlantel => $valuePlantel) {
+            $id_plantel = $keyPlantel;
+            $nombre_plantel = $valuePlantel;
+            $data = [];
+            foreach ($dias as $keyDias => $valueDias) {
+                $dia = $valueDias;
+                $valor = 0;
+                foreach ($arrData as $key => $value) {
+                    if($value['id_plantel'] == $id_plantel && $value['fecha'] == $dia){
+                        //array_push($data,$value['total']);
+                        $valor = intval($value['total']);
+                    }
+                }
+                array_push($data,$valor);
+            }
+            $value1 = array('label'=>$valuePlantel,'data'=>$data,'borderColor'=>$arrColores[$keyPlantel],'fill'=>false);
             array_push($arrGrafica,$value1);
+            $data = array();
         }
-        /* foreach ($dias as $keyDia => $valueDia) {
-            //$valueDiia = 2022-03-12
-            $planteles = [];
-            foreach ($arrData as $keyData => $valueData) {
-                //$valueData = array
-                if($valueData['fecha'] == $valueDia){
-                    array_push($planteles,$valueData['id_plantel']);
-                }
-            }
-            $grafica[$valueDia] = $planteles;
-        } */
-        /* $arrValores = [];
-        foreach ($arrResponde as $key1 => $value1) {
-            $arr = [];
-            foreach ($arrData as $key2 => $value2) {
-                $valores = array('plantel'=>$value2['abreviacion_plantel'],'total'=>$value2['total']);
-                if($value2['fecha'] == $key1){
-                    array_push($arr,$valores);
-                }
-            }
-            $arrValores[$key1] = $arr;
-        } */
         $array['dias'] = $dias;
         $array['datos'] = $arrGrafica;
         echo json_encode($array,JSON_UNESCAPED_UNICODE);
 		die();
-    }
-    public function rand_color() {
-        return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
     }
   }
 ?>

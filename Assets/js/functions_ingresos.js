@@ -16,6 +16,7 @@ listTipoCobro.disabled = true;
 let tipoCobroSeleccionado;
 let gradoSeleccionado;
 var formGenerarEdoCuenta = document.querySelector("#formGenerarEdoCuenta");
+
 document.addEventListener('DOMContentLoaded', function(){
     $('.select2').select2(); //Inicializar Select 2 en el input promociones
     let url = new URLSearchParams(location.search);
@@ -432,7 +433,8 @@ function btnCobrarCmbio(){
         let url = ` ${base_url}/Ingresos/setIngresos?idP=${idPersonaSeleccionada}&tipoP=${metodoPago}&tipoCom=${tipoComprobante}&observacion=${observaciones}&date=${jsonToString(arrServicios)}`
 
         fetch(url).then(res => res.json()).then((resultado) => {
-           if(resultado.estatus){
+            console.log(resultado);
+            if(resultado.estatus){
                 let cambio = intEfectivo-total;
                 swal.fire("Exito",`${resultado.msg}<br>Su cambio es de:<h1><b>${formatoMoneda(cambio.toFixed(2))}</b></h1>`,"success").then((result) =>{
                     if(result.isConfirmed){

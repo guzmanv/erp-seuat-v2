@@ -109,7 +109,8 @@
                 }
             }
             $folio = $this->model->selectFolioSig($idAlumno);
-            $idPlantel = $this->model->selectPlantelAlumno($idAlumno);
+            //$idPlantel = $this->model->selectPlantelAlumno($idAlumno);
+            $idPlantel = $this->model->selectPlantelUSer($this->idUser);
             if($idPlantel){
                 $reqIngreso = $this->model->insertIngresos($folio,$tipoPago,$tipoComprobante,$total,$observaciones,$idAlumno,$idPlantel['id'],$this->idUser); 
                 if($reqIngreso){
@@ -138,7 +139,7 @@
                 }else{
                     $arrResponse = array('estatus' => false, 'msg' => 'No es posible Guardar los Datos');
                 }
-            }   
+            }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
