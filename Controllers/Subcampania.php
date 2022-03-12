@@ -92,11 +92,12 @@
           $strFechaActualizacion = strClean($_POST['txtFechaActualizacion']);
           $intIdUsuarioCreacion = intval($_POST['txtIdUsuarioCreacion']);
           $intIdUsuarioActualizacion = intval($_POST['txtIdUsuarioActualizacion']);
+          $intPresupuesto = intval($_POST['txtPresupuesto']);
 
-          $fechaFinCorr = $this->model->selectFechaFin($intIdCampania);
-          $arrData = $fechaFinCorr['fecha_fin'];
+          $fechas = $this->model->selectFechas($intIdCampania);
+          $arrData = $fechas['fecha_fin'];
           if($arrData >= $strFechaFin){
-            if(date("Y-m-d\TH-i") < $strFechaInicio){
+            if($fechas['fecha_inicio'] >= $strFechaInicio){
               if($intIdSubcampania == 0){
                 //Crear
                 $requestSubcampania = $this->model->insertSubcampania($strNombreSubcampania,
@@ -107,7 +108,8 @@
                                                                       $strFechaCreacion,
                                                                       $strFechaActualizacion,
                                                                       $intIdUsuarioCreacion,
-                                                                      $intIdUsuarioActualizacion);
+                                                                      $intIdUsuarioActualizacion,
+                                                                      $intPresupuesto);
                                                                       $option = 1;
               }
               if($requestSubcampania > 0){
@@ -143,6 +145,9 @@
           $intEstatus = intval($_POST['listaEstatusUp']);
           $strFechaActualizacion = strClean($_POST['txtFechaActualizacionUp']);
           $intIdUsuarioActualizacion = intval($_POST['txtIdUsuarioActualizacionUp']);
+          $fechaInicoActualizacion = strClean($_POST['txtFechaInicioUp']);
+          $fechaFinActualizacion = strClean($_POST['txtFechaFinUp']);
+          $intPresupuesto = intval($_POST['txtPresupuestoUp']);
           $requestSubcampania = "";
 
           if($intIdSubcampania <> 0){
@@ -150,7 +155,10 @@
                                                                   $strNombreSubcampania,
                                                                   $intEstatus,
                                                                   $strFechaActualizacion,
-                                                                  $intIdUsuarioActualizacion);
+                                                                  $intIdUsuarioActualizacion,
+                                                                  $fechaInicoActualizacion,
+                                                                  $fechaFinActualizacion,
+                                                                  $intPresupuesto);
                                                                   $option = 1;
           }
           if($requestSubcampania > 0){
@@ -182,18 +190,122 @@
       die();
     }
 
-    public function getFechaFinCampania($idCampania){
+    public function getFechas($idCampania){
       $intIdCampania = $idCampania;
       if($intIdCampania){
-        $arrData = $this->model->selectFechaFin($intIdCampania);
+        $arrData = $this->model->selectFechas($intIdCampania);
         if(empty($arrData)){
           $arrResponse = array('estatus' => false, 'msg' => 'Datos no encontrados.');
         }else{
+
+          setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
+          $arrData['fecha_i'] = strftime("%d de %B de %Y", strtotime($arrData['fecha_inicio']));
+          $arrData['fecha_f'] = strftime("%d de %B de %Y", strtotime($arrData['fecha_fin']));
           $arrResponse = array('estatus' => true, 'data' => $arrData);
         }
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
       }
       die();
+    }
+
+
+    public function getPresupuesto($idCampania){
+
+      $intIdCampania = $idCampania;
+      $data = 0;
+      $presupuesto = 0;
+      if($intIdCampania){
+
+        $arrData = $this->model->selectPresupuesto($intIdCampania);
+        if(empty($arrData)){
+
+          $arrResponse = array('estatus' => false, 'msg' => 'Datos no encontrados');
+
+        }else{
+
+          $subCampPresupuesto = $this->model->selectPresupuestosSubCampania($intIdCampania);
+          if(!empty($subCampPresupuesto)){
+
+            for($i = 0; $i < count($subCampPresupuesto); $i++){
+
+              $data =  $data + intval($subCampPresupuesto[$i]['presupuesto']);
+
+            }
+            $presupuesto = intval($arrData['presupuesto']);
+            $presupuesto = $presupuesto - $data;
+
+          }else{
+
+            $presupuesto = intval($arrData['presupuesto']);
+
+          }
+
+          $arrResponse = array('estatus' => true, 'data' => $presupuesto);
+
+        }
+
+        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+
+      }
+
+      die();
+
+    }
+
+    public function setAjaxPresupuesto($params){
+
+      $pres = 0;
+      $porcen = 0;
+      $presupuesto = 0;
+      $data = 0;
+
+      $idSubcampania = "";
+      $presupuestoActual = "";
+      $arrParams = explode(',', $params);
+      $ajaxTxt = intval($arrParams[0]);
+      $id = $arrParams[1];
+      if(count($arrParams) == 3){
+        $idSubcampania = intval($arrParams[2]);
+        $presupuestoActual = $this->model->selectSubcampanias($idSubcampania);
+      }
+
+      $arrData = $this->model->selectPresupuesto($id);
+      $presupuesto = intval($arrData['presupuesto']);
+      $subCampPresupuesto = $this->model->selectPresupuestosSubCampania($id);
+      if(!empty($subCampPresupuesto)){
+
+        for($i = 0; $i < count($subCampPresupuesto); $i++){
+
+          $data =  $data + intval($subCampPresupuesto[$i]['presupuesto']);
+
+        }
+
+        if(!($presupuestoActual == "")){
+
+          $data = $data - intval($presupuestoActual['presupuesto']);
+          if($data < 0){
+            $data = $data * -1;
+          }
+
+        }
+
+        $presupuesto = $presupuesto - $data;
+
+      }
+
+      $pres =  $presupuesto - $ajaxTxt;
+
+      if($pres > 0){
+
+        $arrResponse = array('estatus' => true, 'data' => $pres, 'color' => 'text-success', 'porcentaje' => $porcen, 'msg' => '');
+
+      }else if($pres < 0){
+
+        $arrResponse = array('estatus' => false, 'data' => 0, 'color' => 'text-danger', 'porcentaje' => $porcen, 'msg' => '<b>No puede usar mas de lo que se destino a la campaña</b>');
+
+      }
+      echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+
     }
 
   }

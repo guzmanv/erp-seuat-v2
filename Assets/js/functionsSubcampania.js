@@ -53,8 +53,9 @@ document.addEventListener('DOMContentLoaded', function(){
 			let intIdUsuarioCreacion = document.querySelector('#txtIdUsuarioCreacion').value;
 			let intIdUsuarioActualizacion = document.querySelector('#txtIdUsuarioActualizacion').value;
 			let intIdCampania = document.querySelector('#selectIdCampania').value;
+			let intPresupuesto = document.querySelector('#txtPresupuesto').value;
 
-      if(strNombreSubcampania == '' || strFechaInicio == '' || strFechaFin == '' || intEstatus == '' || strFechaCreacion == '' || intIdUsuarioCreacion == '' || intIdCampania == ''){
+      if(strNombreSubcampania == '' || strFechaInicio == '' || strFechaFin == '' || intEstatus == '' || strFechaCreacion == '' || intIdUsuarioCreacion == '' || intIdCampania == '' || intPresupuesto == ''){
 
         swal.fire("Atencion", "Todos los campos son obligatorios.", "warning");
         return false;
@@ -96,8 +97,11 @@ document.addEventListener('DOMContentLoaded', function(){
 			let intEstatus = document.querySelector('#listaEstatusUp').value;
 			let strFechaActualizacion = document.querySelector('#txtFechaActualizacionUp').value;
 			let intIdUsuarioActualizacion = document.querySelector('#txtIdUsuarioActualizacionUp').value;
+			let strFechaInicioActualizacion = document.querySelector('#txtFechaInicioUp').value;
+			let strFechaFinActualizacion = document.querySelector('#txtFechaFinUp').value;
+			let intPresupuesto = document.querySelector('#txtPresupuestoUp').value;
 
-			if(strNombreSubcampania == '' || intEstatus == '' || intIdUsuarioActualizacion == ''){
+			if(strNombreSubcampania == '' || intEstatus == '' || intIdUsuarioActualizacion == '' || strFechaInicioActualizacion == '' || strFechaFinActualizacion == '' || intPresupuesto == ''){
 				swal.fire("Atencion", "Todos los campos son obligatorios", "warning");
         return false;
 			}
@@ -149,9 +153,16 @@ function ftnEditarSubcampania(element,id){
 			let objData = JSON.parse(request.responseText);
 			if(objData.estatus){
 
+				let pres = objData.data.presupuesto;
+				let presu = pres.split('.');
+				let presupuesto = Number(presu[0]);
+
 				document.querySelector("#idSubcampaniaUp").value = objData.data.id;
 				document.querySelector("#txtNombreSubcampaniaUp").value = objData.data.nombre_sub_campania;
 				document.querySelector("#txtIdUsuarioActualizacionUp").value = 1;
+				document.querySelector("#IdCampania").value = objData.data.id_campania;
+				document.querySelector("#txtFechaFinUp").value = objData.data.fecha_fin;
+				document.querySelector("#txtPresupuestoUp").value = presupuesto;
 
 				if(objData.data.estatus == 1){
 					var optionSelect = '<option value="1" selected class="notBlock">Activo</option>';
@@ -175,18 +186,95 @@ function sltSelectCampania(){
 	//Declaro el valor a recibir opteniendo el valor del select (Id de la campaña)
 	let valueFechaFin = document.getElementById("selectIdCampania").value;
 	//Pregunto si el valor esta vacio o no
-	if(valueFechaFin == ""){
+	if(valueFechaFin == "Seleccione una Campaña"){
 		swal.fire("Atención", "Seleccione una Campaña", "warning");
 	}else{
 		//Mando a llamar al controlador SubCampania con el metodo que hacer la consulta a la base de datos, con el valor
-		let url = base_url+"/Subcampania/getFechaFinCampania/"+valueFechaFin;
+		let url = base_url+"/Subcampania/getFechas/"+valueFechaFin;
 			fetch(url)
 				.then(res => res.json())
 				.then((resultado) => {
+					var smlFechaFin = `<label ">La fecha de fin es: <b>${resultado.fecha_f}</b></label>`
+					var smlFechaInicio = `<label ">La fecha de inicio es: <b>${resultado.fecha_i}</b></label>`
+
+					document.querySelector('#txtFechaInicio').value = resultado.fecha_inicio;
+					document.querySelector('#fechaInicio').innerHTML = smlFechaInicio;
+
 					document.querySelector('#txtFechaFin').value = resultado.fecha_fin;
+					document.querySelector('#fechaFin').innerHTML = smlFechaFin;
+					// document.getElementById('txtNombreSubcampania').disabled = false;
+					// document.getElementById('txtFechaFin').disabled = false;
+					// document.getElementById('txtFechaInicio').disabled = false;
+					// document.getElementById('txtPresupuesto').disabled = false;
+					//Dejo esto comentado hasta saber como arreglar el problema que le sale a Emmanuel.
 				})
 				.catch(err =>{throw err});
+		let urlw = base_url+"/Subcampania/getPresupuesto/"+valueFechaFin;
+		fetch(urlw)
+			.then(res => res.json())
+			.then((data) => {
+
+				console.log(data.data);
+				var smlPresupuesto = `<label>El presupuesto es de: <b>$${data.data}</b> MXN</label>`
+
+				document.querySelector('#smlPresupuesto').innerHTML = smlPresupuesto
+
+			})
+			.catch(err => {throw err})
 	}
+}
+
+function showHint(intp) {
+  if (intp.length == 0) {
+    document.getElementById("txtPresupuesto").innerHTML = "";
+    return;
+  }
+  const xhttp = new XMLHttpRequest();
+  xhttp.onload = function() {
+
+		let objData = JSON.parse(this.responseText);
+		var smlPresupuesto = `<label class="${objData.color}">El presupuesto es de: <b>$${objData.data}.00</b> MXN ${objData.msg}</label>`
+
+		if(!objData.estatus){
+			document.querySelector('#txtPresupuesto').value = null;
+		}
+
+    document.getElementById("smlPresupuesto").innerHTML = smlPresupuesto;
+
+  }
+	let idCampania = document.getElementById("selectIdCampania").value;
+	console.log(idCampania);
+	let url = base_url+"/Subcampania/setAjaxPresupuesto/"+intp+"/"+idCampania;
+  xhttp.open("GET", url);
+  xhttp.send();
+}
+
+function editSubcampaniaAjax(intp){
+
+	if (intp.length == 0) {
+    document.getElementById("txtPresupuestoUp").innerHTML = "";
+    return;
+  }
+  const xhttp = new XMLHttpRequest();
+  xhttp.onload = function() {
+
+		let objData = JSON.parse(this.responseText);
+		var smlPresupuesto = `<label class="${objData.color}">El presupuesto es de: <b>$${objData.data}.00</b> MXN ${objData.msg}</label>`
+
+		if(!objData.estatus){
+			document.querySelector('#txtPresupuestoUp').value = null;
+		}
+
+    document.querySelector("#smlPresupuestoUp").innerHTML = smlPresupuesto;
+
+  }
+	let idCampania = document.getElementById("IdCampania").value;
+	let idSubcampania = document.getElementById("idSubcampaniaUp").value;
+	console.log(idCampania);
+	let url = base_url+"/Subcampania/setAjaxPresupuesto/"+intp+"/"+idCampania+"/"+idSubcampania;
+  xhttp.open("GET", url);
+  xhttp.send();
+
 }
 
 function openModal(){
