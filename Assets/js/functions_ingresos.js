@@ -271,6 +271,10 @@ function mostrarTotalCuentaServicios(){
         });
         total += subtotal;
     });
+    if(`${total}`.length >= 8){
+        swal.fire("Atención","El total debe ser igual o menor de 7 digitos","warning");
+        return false;
+    }
     totalDesc = total - (total * (descuentoPorc/100));
     document.querySelector('#txtSubtotal').innerHTML = `${formatoMoneda(total)}`;
     document.querySelector('#txtDescuento').innerHTML = `${descuentoPorc}%`;
@@ -280,6 +284,10 @@ function mostrarTotalCuentaServicios(){
 function modCantidadServ(val){
     let cantidad = val.value;
     let idServicio = val.id.split('cantidad')[1];
+    if(val.value.length >= 11){
+        swal.fire("Atención","La cantidad debe ser menor de 11 dígitos","warning");
+        return false;
+    }
     arrServicios.forEach(servicio => {
         if(servicio.id_servicio == idServicio){
             servicio.cantidad = cantidad;

@@ -14,7 +14,7 @@
         $data['page_title'] = "Seguimiento cajas";
         $data['page_name'] = "seguimiento cajas";
         $data['page_functions_js'] = "functions_seguimiento_cajas.js";
-        $data['cajeros'] = $this->selectCajeros(null);
+        $data['cajeros'] = $this->model->selectCajeros(null);
         $this->views->getView($this,"seguimientocajas",$data);
     }
     public function selectCajeros($idPlantel){

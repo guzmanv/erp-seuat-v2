@@ -26,7 +26,7 @@
                         <div class="card">
                             <div class="card-body">
                                <p class="card-text">
-                                    <table id="tableHistorialCorteCajas" class="table table-bordared table-striped table-sm">
+                                    <table id="tableHistorialCorteCajas" class="table table-bordared table-striped table-sm" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>#</th>

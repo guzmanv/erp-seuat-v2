@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function(){
         "ordering": true,
         "info": true,
         "autoWidth": false,
-        //"scrollY": '42vh',
         "scrollCollapse": true,
         "bDestroy": true,
         "order": [[ 0, "asc" ]],
