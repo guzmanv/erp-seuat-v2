@@ -247,9 +247,9 @@ function mostrarServiciosTabla(){
             }
         });
         if(servicio['tipo_servicio'] == 'col'){
-            document.querySelector("#tableServicios").innerHTML += `<tr><td>${totalServicios}</td><td>${servicio.nombre_servicio}</td><td>${formatoMoneda(servicio.precio_unitario)}</td><td><input id='cantidad${servicio.id_servicio}' type='number' style='width: 6em;' value='${servicio.cantidad}' min='0' onkeyup='modCantidadServ(this)' disabled></td><td>${descuentoPorc}%</td><td>${formatoMoneda(servicio.subtotal.toFixed(2))}</td>${servicio.acciones}</tr>`
+            document.querySelector("#tableServicios").innerHTML += `<tr><td>${totalServicios}</td><td>${servicio.nombre_servicio}</td><td>${formatoMoneda(servicio.precio_unitario)}</td><td><input id='cantidad${servicio.id_servicio}' type='number' style='width: 6em;' value='${servicio.cantidad}' min='0' onkeyup='modCantidadServ(this)' onchange='modCantidadServ(this)' disabled></td><td>${descuentoPorc}%</td><td>${formatoMoneda(servicio.subtotal.toFixed(2))}</td>${servicio.acciones}</tr>`
         }else{
-            document.querySelector("#tableServicios").innerHTML += `<tr><td>${totalServicios}</td><td>${servicio.nombre_servicio}</td><td>${formatoMoneda(servicio.precio_unitario)}</td><td><input id='cantidad${servicio.id_servicio}' type='number' style='width: 6em;' value='${servicio.cantidad}' min='0' onkeyup='modCantidadServ(this)'></td><td>${descuentoPorc}%</td><td>${formatoMoneda(servicio.subtotal.toFixed(2))}</td>${servicio.acciones}</tr>`
+            document.querySelector("#tableServicios").innerHTML += `<tr><td>${totalServicios}</td><td>${servicio.nombre_servicio}</td><td>${formatoMoneda(servicio.precio_unitario)}</td><td><input id='cantidad${servicio.id_servicio}' type='number' style='width: 6em;' value='${servicio.cantidad}' min='0' onkeyup='modCantidadServ(this)' onchange='modCantidadServ(this)'></td><td>${descuentoPorc}%</td><td>${formatoMoneda(servicio.subtotal.toFixed(2))}</td>${servicio.acciones}</tr>`
         }
     });
     mostrarTotalCuentaServicios();
@@ -271,10 +271,7 @@ function mostrarTotalCuentaServicios(){
         });
         total += subtotal;
     });
-    if(`${total}`.length >= 8){
-        swal.fire("Atención","El total debe ser igual o menor de 7 digitos","warning");
-        return false;
-    }
+
     totalDesc = total - (total * (descuentoPorc/100));
     document.querySelector('#txtSubtotal').innerHTML = `${formatoMoneda(total)}`;
     document.querySelector('#txtDescuento').innerHTML = `${descuentoPorc}%`;
@@ -282,6 +279,7 @@ function mostrarTotalCuentaServicios(){
 }
 //function para cambiar cantidad de los servicios en Tabla
 function modCantidadServ(val){
+    console.log(val);
     let cantidad = val.value;
     let idServicio = val.id.split('cantidad')[1];
     if(val.value.length >= 11){
@@ -516,7 +514,6 @@ function fnAperturarCaja(idcaja){
     Swal.fire({
         title: 'Aperturar?',
         input: 'number',
-        inputLabel: 'Cantidad apertura',
         text:'Para aperturar, ingrese el monto total de apertura',
         icon:'question',
         inputValue: '',
@@ -530,6 +527,8 @@ function fnAperturarCaja(idcaja){
                 return 'Ingrese una cantidad!'
             }else if(value.length > 6){
                 return 'Solo se aceptan 6 digitos!'
+            }else if(value < 0){
+                return 'No se aceptan números negativos'
             }else{
                 let url = `${base_url}/Ingresos/aperturarCaja/${idcaja}/${value}`;
                 fetch(url)

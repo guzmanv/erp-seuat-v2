@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="cerrarModalBuscarPersona"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cerrar</a>
+                <a class="btn btn-outline-secondary icono-color-principal btn-primary btn-inline" href="#" data-dismiss="modal" id="cerrarModalBuscarPersona"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i>Cerrar</a>
             </div>
         </div>
     </div>

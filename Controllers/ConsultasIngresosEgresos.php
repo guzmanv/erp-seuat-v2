@@ -121,6 +121,12 @@
                 if($isMatricula){
                     $idAlumno = $isMatricula['id'];
                 }
+                if($isMatricula == false && $isRFC == false){
+                    $arrData['estatus'] = false;
+                    echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+                    die();
+                    break;
+                }
                 $estatus = $this->model->selectStatusEstadoCuentaById($idAlumno);
                 if(count($estatus) > 0){
                     $arrData['estatus'] = true;
@@ -145,7 +151,7 @@
                 }else{
                     $arrData['estatus'] = false;
                     $arrData['datos'] = null;
-                }
+                } */
             }else{
                 $estatus = $this->model->selectStatusEstadoCuentaById($idAlumno);
                 if(count($estatus) > 0){
@@ -173,7 +179,7 @@
                     $arrData['datos'] = null;
                 }
             }
-            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            echo json_encode($isMatricula,JSON_UNESCAPED_UNICODE);
             die();
         }
 

@@ -123,26 +123,21 @@
                                             </div>
                                         </div>
                                     <?php }else{ ?>
-                                        <div class="col-12 d-flex justify-content-center">
-                                            <div class="card col-3">
+                                        <div class="col-12 d-flex mt-5 justify-content-center">
+                                            <div class="card col-3 text-center">
+                                                <div class="rounded-circle text-center" style="background-color:#d3e2f7;width:100px;height:100px;position:absolute;top:0;left:50%;transform:translate(-50%,-50%)">
+                                                    <img src="<?php echo media() ?>/images/icons/close.png" width="80px"></img>
+                                                </div><br><br>
 						                        <div class="card-body">
-							                        <div class="row">
-								                        <div class="col mt-0">
-									                        <h5 class="card-title"><?php echo($data['estatus_caja']['nombre'])?></h5>
-								                        </div>
-                                                        <div class="col-auto">
-                                                            <div class="avatar">
-                                                                <div class="avatar-title rounded-circle bg-primary-light">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layout"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-							                        </div>
-							                        <img src="<?php echo media() ?>/images/icons/close.png" width="80px"></img>
-                                                    <span class="badge badge-warning">Cerrado</span>
-                                                    <div class="m-2 text-center">
-                                                        <button type="button" class="btn btn-primary btn-sm" onclick="fnAperturarCaja(<?php echo($data['estatus_caja']['id_caja']) ?>)">clik aqui para aperturar</button>
-							                        </div>
+                                                    <div class="text-center">
+							                            <div class="col-12">
+									                        <h5><b><?php echo($data['estatus_caja']['nombre'])?></b></h5>
+							                            </div>
+                                                        <span class="badge badge-warning"> Cerrada </span>
+                                                        <div class="m-2 text-center">
+                                                            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="fnAperturarCaja(<?php echo($data['estatus_caja']['id_caja']) ?>)"><b>Clik aqui</b> para aperturar</button>
+							                            </div>
+                                                    </div>
 						                        </div>
 					                        </div>
                                         </div>
