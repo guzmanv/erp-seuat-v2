@@ -447,7 +447,7 @@
           <li class="nav-header"><h6>Servicios</h6></li>                        
           <li class="nav-item">
               <a href="<?php echo BASE_URL ?>/Servicios" class="nav-link">
-                  <i class="ml-3 mr-2" data-feather="dollar-sign"></i>
+                  <i class="ml-3 mr-2" data-feather="shopping-bag"></i>
                   <p>
                       Servicios
                   </p>
@@ -455,7 +455,7 @@
           </li>
           <li class="nav-item">
               <a href="<?php echo BASE_URL ?>/Categoria_servicios" class="nav-link">
-                  <i class="ml-3 mr-2" data-feather="dollar-sign"></i>
+                  <i class="ml-3 mr-2" data-feather="globe"></i>
                   <p>
                       Categoria Servicios
                   </p>
@@ -463,7 +463,7 @@
           </li>
           <li class="nav-item">
               <a href="<?php echo BASE_URL ?>/Promocion" class="nav-link">
-                  <i class="ml-3 mr-2" data-feather="dollar-sign"></i>
+                  <i class="ml-3 mr-2" data-feather="gift"></i>
                   <p>
                       Promoción
                   </p>
@@ -471,7 +471,7 @@
           </li>
           <li class="nav-item">
               <a href="<?php echo BASE_URL ?>/Unidad_medida" class="nav-link">
-                  <i class="ml-3 mr-2" data-feather="dollar-sign"></i>
+                  <i class="ml-3 mr-2" data-feather="flag"></i>
                   <p>
                       Unidad de medida
                   </p>
