@@ -1,24 +1,40 @@
-let tableCategoria_servicios;
+let tableServicios;
 let rowTable = "";
 let divLoading = document.querySelector("#divLoading");
 
+window.addEventListener('load', function(){
+    fntUnidadMedida();
+    fntCategoriaServicios();
+    fntPlanteles();
+}, false);
+
 
 document.addEventListener('DOMContentLoaded', function(){
-	tableCategoria_servicios = $('#tableCategoria_servicios').dataTable( {
+	tableServicios = $('#tableServicios').dataTable( {
 		"aProcessing":true,
 		"aServerSide":true,
 			"language": {
 				"url": " "+base_url+"/Assets/plugins/Spanish.json"
 			},
 			"ajax":{
-					"url": " "+base_url+"/Categoria_servicios/getCategoria_servicios",
+					"url": " "+base_url+"/Servicios/getServicios",
 					"dataSrc":""
 			},
 			"columns":[
-					{"data":"id"},
-					{"data":"nombre_categoria"},
-					{"data":"estatus"},
+					{"data":"IdServicios"},
+					{"data":"CodigoServicio"},
+					{"data":"NombreServicio"},
+                    {data:null, "render":
+                    function ( data, type, row ) {
+                        return "$ " + data.PrecioUnitario + " ";
+                        }
+                    },
+                    {"data":"AplicaEdoCuenta"},
+					{"data":"EstatusServicios"},
+                    {"data":"Plantel"},
+                    {"data":"Municipio"},
 					{"data":"options"}
+                    
 			],
 			"responsive": true,
 			"paging": true,
@@ -31,33 +47,61 @@ document.addEventListener('DOMContentLoaded', function(){
 			"scrollCollapse": true,
 			"bDestroy": true,
 			"iDisplayLength": 25,
-			"order": [[0,"desc"]]
+			"order": [[ 0,"desc" ]]
 	});
 
+
+            // Casilla de verificación enlazar función al evento OnClick
+            document.getElementById('chkAplica_edo_cuenta').onclick = function() {
+                if(this.checked) {
+                    document.querySelector("#chkAplica_edo_cuenta").value = 1;
+                    alert(this.value);
+                }else{
+                    // Retorna falso si no esta checkeado
+                }
+            };
+
+
 	// Crear
-	if(document.querySelector("#formCategoria_servicios")){
-		let formCategoria_servicios = document.querySelector("#formCategoria_servicios");
-		formCategoria_servicios.onsubmit = function(e) {
+	if(document.querySelector("#formServicios")){
+		let formServicios = document.querySelector("#formServicios");
+		formServicios.onsubmit = function(e) {
 			e.preventDefault();
 			
-			let intIdCategoria_servicios = document.querySelector('#idCategoria_servicios').value;
-			let strNombre_categoria = document.querySelector('#txtNombre_categoria').value;
+			let intIdServicio = document.querySelector('#idServicio').value;
+            let strCodigo_servicio = document.querySelector('#txtCodigo_servicio').value;
+			let strNombre_servicio = document.querySelector('#txtNombre_servicio').value;
+            let intPrecio_unitario = document.querySelector('#txtPrecio_unitario').value;
+            let intAplica_edo_cuenta = document.querySelector('#chkAplica_edo_cuenta').value;
+            let strAnio_fiscal = document.querySelector('#listAnioFiscal').value;
 			let intEstatus = document.querySelector('#listEstatus').value;
-			let strFecha_creacion = document.querySelector('#txtFecha_creacion').value;
-			let strFecha_actualizacion = document.querySelector('#txtFecha_actualizacion').value;
-			let intId_usuario_creacion = document.querySelector('#txtId_usuario_creacion').value;
-			let intId_usuario_actualizacion = document.querySelector('#txtId_usuario_actualizacion').value;
+            let strFecha_creacion = document.querySelector('#txtFecha_creacion').value;
+            let strFecha_actualizacion = document.querySelector('#txtFecha_actualizacion').value;
+            let intId_usuario_creacion = document.querySelector('#txtId_usuario_creacion').value;
+            let intId_usuario_actualizacion = document.querySelector('#txtId_usuario_actualizacion').value;
+            let intIdPlantel = document.querySelector('#listIdPlantel').value;
+            let intIdCategoria_servicio = document.querySelector('#listIdCategoria_servicio').value;
+            let intIdUnidades_medida = document.querySelector('#listIdUnidades_medida').value;
 			
-			if(strNombre_categoria == '' || intEstatus == '' || strFecha_creacion == '' || intId_usuario_creacion == '' )
+			if(strCodigo_servicio == '' || strNombre_servicio == '' || intPrecio_unitario == '' || strAnio_fiscal == '' || intEstatus == '' || strFecha_creacion == '' || intId_usuario_creacion == '' || intIdPlantel == '' || intIdCategoria_servicio == '' || intIdUnidades_medida == '' )
 			{
 					swal.fire("Atención", "Todos los campos son obligatorios." , "warning");
 					return false;
 			}
+			/*
+			let elementsValid = document.getElementsByClassName("valid");
+			for (let i = 0; i < elementsValid.length; i++) { 
+					if(elementsValid[i].classList.contains('is-invalid')) { 
+						swal.fire("Atención", "Por favor verifique los campos en rojo." , "error");
+						return false;
+					} 
+			} */
+
 
 			divLoading.style.display = "flex";
 			let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-			let ajaxUrl = base_url+'/Categoria_servicios/setCategoria_servicios'; 
-			let formData = new FormData(formCategoria_servicios);
+			let ajaxUrl = base_url+'/Servicios/setServicio'; 
+			let formData = new FormData(formServicios);
 			request.open("POST",ajaxUrl,true);
 			request.send(formData);
 			request.onreadystatechange = function() {
@@ -65,10 +109,10 @@ document.addEventListener('DOMContentLoaded', function(){
 						let objData = JSON.parse(request.responseText);
 						if(objData.estatus)
 						{
-							$('#modalFormCategoria_servicios').modal("hide");
-							formCategoria_servicios.reset();
-							swal.fire("Categoría de servicios", objData.msg, "success");
-							tableCategoria_servicios.api().ajax.reload();
+							$('#modalFormServicios').modal("hide");
+							formServicios.reset();
+							swal.fire("Servicios", objData.msg, "success");
+							tableServicios.api().ajax.reload();
 						}else{
 							swal.fire("Error", objData.msg, "error");
 						}
@@ -141,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-function fntEditCategoria_servicios(element,id){
+function fntEditPromocion(element,id){
 	rowTable = element.parentNode.parentNode.parentNode.parentNode.parentNode;
 	//console.log(rowTable);
 	let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
@@ -156,6 +200,7 @@ function fntEditCategoria_servicios(element,id){
 			if(objData.estatus){
 					document.querySelector("#idCategoria_serviciosup").value = objData.data.id;
 					document.querySelector("#txtNombre_categoriaup").value = objData.data.nombre_categoria;
+					//document.querySelector("#txtFecha_actualizacionup").value = document.querySelector('#txtFecha_actualizacionup').value;
 					document.querySelector("#txtId_usuario_actualizacionup").value = 1;
 
 					if(objData.data.estatus == 1)
@@ -180,29 +225,77 @@ function fntEditCategoria_servicios(element,id){
 
 
 
+function fntUnidadMedida(){
+	if(document.querySelector('#listIdUnidades_medida')){
+			let ajaxUrl = base_url+'/Servicios/getSelectUnidadMedida';
+			let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+			request.open("GET",ajaxUrl,true);
+			request.send();
+			request.onreadystatechange = function() {
+					if(request.readyState == 4 && request.status == 200) {
+							document.querySelector('#listIdUnidades_medida').innerHTML = request.responseText;
+							//$('#listUnidadMedida').selectpicker('render');
+					}
+			}
+	}
+}
+
+
+function fntCategoriaServicios(){
+	if(document.querySelector('#listIdCategoria_servicio')){
+			let ajaxUrl = base_url+'/Servicios/getSelectCategoriaServicios';
+			let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+			request.open("GET",ajaxUrl,true);
+			request.send();
+			request.onreadystatechange = function() {
+					if(request.readyState == 4 && request.status == 200) {
+							document.querySelector('#listIdCategoria_servicio').innerHTML = request.responseText;
+					}
+			}
+	}
+}
+
+
+function fntPlanteles(){
+	if(document.querySelector('#listIdPlantel')){
+			let ajaxUrl = base_url+'/Servicios/getSelectPlanteles';
+			let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+			request.open("GET",ajaxUrl,true);
+			request.send();
+			request.onreadystatechange = function() {
+					if(request.readyState == 4 && request.status == 200) {
+							document.querySelector('#listIdPlantel').innerHTML = request.responseText;
+					}
+			}
+	}
+}
+
+
+
 function openModal(){
 	rowTable = "";
-	$('#modalFormCategoria_servicios').modal({
+	$('#modalFormServicios').modal({
 		backdrop: 'static',
 		keyboard: false,
 	});
 
-	$('#modalFormCategoria_servicios').modal('show');
+	$('#modalFormServicios').modal('show');
 }
 
 
 $(".cerrarModal").click(function(){
-	$("#modalFormCategoria_servicios").modal('hide');
-    	$("#modalFormCategoria_servicios_editar").modal('hide');
+	$("#modalFormServicios").modal('hide');
+
 });
 
 
 
-function fntDelCategoria_servicios(id) {
+function fntDelServicio(id) {
+	//var idServicio = id;
     swal.fire({
         icon: "question",
-        title: "Eliminar Categoría",
-        text: "¿Realmente quiere eliminar la categoría seleccionada?",
+        title: "Eliminar Servicio",
+        text: "¿Realmente quiere eliminar el servicio seleccionado?",
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: '#045FB4',
@@ -214,8 +307,8 @@ function fntDelCategoria_servicios(id) {
         if (result.isConfirmed) 
         {
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            let ajaxUrl = base_url+'/Categoria_servicios/delCategoria_servicios';
-            let strData = "idCategoria_servicios="+id; 
+            let ajaxUrl = base_url+'/Servicios/delServicio';
+            let strData = "idServicio="+id; 
             request.open("POST",ajaxUrl,true);
             request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             request.send(strData);
@@ -225,7 +318,7 @@ function fntDelCategoria_servicios(id) {
                     if(objData.estatus)
                     {
                         swal.fire("Eliminar!", objData.msg , "success");
-                        tableCategoria_servicios.api().ajax.reload(); 
+                        tableServicios.api().ajax.reload(); 
                     } else {
                         swal.fire("Atención!", objData.msg , "error");
                     }
@@ -234,3 +327,8 @@ function fntDelCategoria_servicios(id) {
         }
     });
 }
+
+
+
+
+

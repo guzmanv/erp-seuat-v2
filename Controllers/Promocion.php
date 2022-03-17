@@ -35,11 +35,11 @@
 
 				for ($i=0; $i < count($arrData); $i++) {
 
-					if($arrData[$i]['estatus'] == 1)
+					if($arrData[$i]['EstatusPromocion'] == 1)
 					{
-						$arrData[$i]['estatus'] = '<span class="badge badge-dark">Activo</span>';
+						$arrData[$i]['EstatusPromocion'] = '<span class="badge badge-dark">Activo</span>';
 					}else{
-						$arrData[$i]['estatus'] = '<span class="badge badge-secondary">Inactivo</span>';
+						$arrData[$i]['EstatusPromocion'] = '<span class="badge badge-secondary">Inactivo</span>';
 					}
 
 					$arrData[$i]['options'] = '
@@ -49,9 +49,9 @@
 							<i class="fas fa-layer-group"></i> &nbsp; Acciones
 							</button>
 							<div class="dropdown-menu">
-								<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditPromocion" onClick="fntPromocion(this,'.$arrData[$i]['id'].')" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>
+								<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditPromocion" onClick="fntEditPromocion(this,'.$arrData[$i]['IdPromocion'].')" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>
 								<div class="dropdown-divider"></div>
-								<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelPromocion" onClick="fntDelPromocion('.$arrData[$i]['id'].')" title="Eliminar"> &nbsp;&nbsp; <i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>
+								<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelPromocion" onClick="fntDelPromocion('.$arrData[$i]['IdPromocion'].')" title="Eliminar"> &nbsp;&nbsp; <i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>
 							</div>
 						</div>
 					</div>';
@@ -64,7 +64,7 @@
 
 			public function getCategoria_servicio($id){
 				//if($_SESSION['permisosMod']['r']){
-					$intIdCategoria_servicios = intval(strClean($id)); //intval(strClean($idrol));
+					$intIdCategoria_servicios = intval(strClean($id));
 					if($intIdCategoria_servicios > 0)
 					{
 						$arrData = $this->model->selectCategoria_servicio($intIdCategoria_servicios);
@@ -77,6 +77,23 @@
 						echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 					}
 				//}
+				die();
+			}
+
+
+
+			public function getSelectServicios(){
+				$htmlOptions = "<option value='' selected>- Elige un servicio -</option>";
+				$arrData = $this->model->selectServicios();
+				if(count($arrData) > 0 ){
+					for ($i=0; $i < count($arrData); $i++) {
+						if($arrData[$i]['estatus'] == 1){
+							
+							$htmlOptions .= '<option value="'.$arrData[$i]['id'].'">'.$arrData[$i]['nombre_servicio'].'</option>';
+						}
+					}
+				}
+				echo $htmlOptions;
 				die();
 			}
 
@@ -97,25 +114,6 @@
 				die();
 			}
 
-
-			// Eliminar
-			public function getSelectSubcampania2($idCampania){
-				//if($_SESSION['permisosMod']['r']){
-					$intIdCampania = intval(strClean($idCampania)); //intval(strClean($idrol));
-					if($intIdCampania > 0)
-					{
-						$arrData = $this->model->selectSubcampanias($intIdCampania);
-						if(empty($arrData))
-						{
-							$arrResponse = array('estatus' => false, 'msg' => 'Datos no encontrados.');
-						}else{
-							$arrResponse = array('estatus' => true, 'data' => $arrData);
-						}
-						echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-					}
-				//}
-				die();
-			}
 
 
 
@@ -145,7 +143,7 @@
 				//if($_SESSION['permisosMod']['w']){
 					if(empty($_POST['txtNombre_promocion']) || empty($_POST['listEstatus']) || empty($_POST['txtPorcentaje_descuento']) || empty($_POST['txtFecha_inicio']) || empty($_POST['txtFecha_fin']) || empty($_POST['txtId_usuario_creacion'])  || empty($_POST['listSubcampania']))
 						{
-							$arrResponse = array("estatus" => false, "msg" => 'Todos los campos son obligatorios.');
+							$arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
 						}else{
 						$intIdPromocion = intval($_POST['idPromocion']);
 						$strNombre_promocion =  strClean($_POST['txtNombre_promocion']);
@@ -159,6 +157,7 @@
 						$intId_usuario_creacion = intval($_POST['txtId_usuario_creacion']);
 						$intId_usuario_actualizacion = intval($_POST['txtId_usuario_actualizacion']);
 						$intId_subcampania = intval($_POST['listSubcampania']);
+						$intId_servicio = intval($_POST['listServicios']);
 
 
 						if($intIdPromocion == 0)
@@ -174,7 +173,8 @@
 																			   $strFecha_actualizacion, 
 																			   $intId_usuario_creacion, 
 																			   $intId_usuario_actualizacion, 
-																			   $intId_subcampania);
+																			   $intId_subcampania,
+																			   $intId_servicio);
 																			   $option = 1;
 						} 
 
@@ -198,47 +198,6 @@
 			}
 
 
-			public function setCategoria_servicios_up()
-			{
-				if($_POST)
-				{ //dep ($_POST); die();
-				//if($_SESSION['permisosMod']['w']){
-						if(empty($_POST['txtNombre_categoriaup']) || empty($_POST['listEstatusup']) || empty($_POST['txtId_usuario_actualizacionup']))
-						{
-							$arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
-						}else{
-							$intIdCategoria_servicios = intval($_POST['idCategoria_serviciosup']);
-							$strNombre_categoria =  strClean($_POST['txtNombre_categoriaup']);
-							$intEstatus = intval($_POST['listEstatusup']);
-							$strFecha_actualizacion = strClean($_POST['txtFecha_actualizacionup']);
-							$intId_usuario_actualizacion = intval($_POST['txtId_usuario_actualizacionup']);
-							$request_categoria_servicios = "";
-
-								if($intIdCategoria_servicios <> 0)
-								{
-									$request_categoria_servicios = $this->model->updateCategoria_servicios($intIdCategoria_servicios, 
-																																													$strNombre_categoria, 
-																																													$intEstatus, 
-																																													$strFecha_actualizacion, 
-																																													$intId_usuario_actualizacion);
-																																													$option = 1;
-								}
-
-								if($request_categoria_servicios > 0 )
-								{
-									if($option == 1)
-									{
-											$arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente.');
-									}
-								}else{
-										$arrResponse = array("estatus" => false, "msg" => 'No es posible actualizar los datos, probablemente existe un registro con el mismo nombre o presenta algún problema con la red.');
-								}
-						}
-					echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-				 //}
-				}
-				die();
-			}
 
 
 			public function delPromocion()

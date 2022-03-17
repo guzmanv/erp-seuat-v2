@@ -22,6 +22,10 @@
                         <input type="text" id="txtNombre_promocion" name="txtNombre_promocion" class="form-control form-control-sm valid validText" placeholder="Ingrese el nombre de una promoción"  name="Ingrese el nombre de una promoción" required="" >
                       </div>
                       <div class="form-group">
+                        <label for="listServicios">Servicios</label>
+                        <select class="form-control form-control-sm select2 select2-primary" data-dropdown-css-class="select2-primary" data-live-search="true" id="listServicios" name="listServicios" style="width: 100%;" required="" ></select>
+                      </div>
+                      <div class="form-group">
                         <label>Descripción</label>
                         <textarea class="form-control form-control-sm" id="txtDescripcion" name="txtDescripcion" rows="2" placeholder="Descripción de la promoción" required></textarea>
                       </div>
@@ -43,14 +47,14 @@
                         </div>
 
                         <div class="form-group col-md-7 border shadow-sm p-2 bg-white rounded text-center">
-                          <label class="border-bottom btn-block">Subcampaña</label>
+                          <label class="border-bottom btn-block">Promoción</label>
                           <div class="form-row">
                             <div class="form-group col-md-6">
-                              <label for="niveleducativo">Campañas</label>
+                              <label for="listCampania">Campañas</label>
                               <select class="form-control form-control-sm" id="listCampania" name="listCampania" onchange="fntSelectSubcampanias(value)" style="width: 100%;" required="" ></select>
                             </div>
                             <div class="form-group col-md-6">
-                              <label>Subcampañas</label>
+                              <label for="listSubcampania">Subcampañas</label>
                               <select class="form-control form-control-sm" id="listSubcampania" name="listSubcampania" style="width: 100%;" required="" >
                                 <option value="">- Seleccionar subcampaña -</option>
                               </select>  
@@ -64,7 +68,7 @@
                       </div>
                       <div class="form-group col-md-8 text-center">
                             <label for="inputCity"><b>% descuento autorizado</b></label>
-                            <input type="number" id="txtPorcentaje_descuento" name="txtPorcentaje_descuento" min="1" max="100" step="1" class="form-control text-center" style="height:50px; font-size: 24px">
+                            <input type="number" id="txtPorcentaje_descuento" name="txtPorcentaje_descuento" min="1" max="100" step="1" class="form-control invalid text-center" style="height:50px; font-size: 24px" required="">
                       </div>
                       </div>
 
