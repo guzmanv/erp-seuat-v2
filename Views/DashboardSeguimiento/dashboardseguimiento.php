@@ -23,6 +23,7 @@ getModal('Campanias/modalEditCampanias', $data);
         </div>
 
         <div class="content">
+            
             <div class="container-fluid">
                 <div class="row">
                     <label>Seleccione un plantel</label>
