@@ -1,14 +1,14 @@
 <?php
   headerAdmin($data);
-  getModal('Promocion/modalNuevaPromocion',$data);
-  //getModal('Promocion/modalEditPromocion',$data);
+  getModal('UnidadMedida/modalNuevaUnidadMedida',$data);
+  getModal('UnidadMedida/modalEditUnidadMedida',$data);
 ?>
 
 <div id="contentAjax"></div>
 
 <div class="wrapper">
 
-  <!-- Content Wrapper. Contains page content -->
+
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -38,26 +38,24 @@
 
 
             <div class="card">
-              <div class="card-body">
-                <p class="card-text">
-                <table id="tablePromocion" class="table table-bordered table-striped table-hover table-sm">
-                  <thead>
-                  <tr>
-                    <th width="7%">ID</th>
-                    <th>Promoción</th>
-                    <th>Servicio aplicado</th>
-                    <th width="10%">% descuento</th>
-                    <th width="7%">Estatus</th>
-                    <th width="12%">Acciones</th>
-                  </tr>
-                  </thead>
-                  <tbody>
+					<div class="card-body">
+						<p class="card-text">
+						<table id="tableUnidadMedida" class="table table-bordered table-striped table-hover table-sm">
+						<thead>
+						<tr>
+							<th width="7%">ID</th>
+							<th>Unidad de medida</th>
+							<th width="7%">Estatus</th>
+							<th width="12%">Acciones</th>
+						</tr>
+						</thead>
+						<tbody>
 
-                  </tbody>
+						</tbody>
 
-                </table>
-              </p>
-              </div>
+						</table>
+						</p>
+					</div>
             </div>
 
 
@@ -66,14 +64,12 @@
           </div>
           
         </div>
-      </div><!-- /.container-fluid -->
+      </div>
     </div>
     <!-- /.content -->
   </div>
-  <!-- /.content-wrapper -->
 
- 
 </div>
-<!-- ./wrapper -->
+
 
 <?php footerAdmin($data); ?>
