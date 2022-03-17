@@ -136,8 +136,7 @@ function buscarPersona(){
 function fnGetDatosAlumno(matriculaRFAlumno,idAlumno){
     let url = `${base_url}/ConsultasIngresosEgresos/getDatosAlumno/${matriculaRFAlumno}/${idAlumno}`;
     fetch(url).then(res => res.json()).then((resultado) => {
-        console.log(resultado);
-        /* if(resultado.estatus){
+        if(resultado.estatus){
             cardsEdoCta.style.display = "block";
             var table = $('#tableEstadoCuenta').DataTable();
             table.clear().draw();
@@ -152,9 +151,9 @@ function fnGetDatosAlumno(matriculaRFAlumno,idAlumno){
             document.querySelector('#saldoColegiaturas').innerHTML = formatoMoneda(resultado.saldoColegiaturas.toFixed(2));
             document.querySelector('#saldoServicios').innerHTML = formatoMoneda(resultado.saldoServicios.toFixed(2));
         }else{
-            swal.fire("Atención","El alumno no tiene estado de cuenta","warning");
+            swal.fire("Atención",resultado.msg,"warning");
             return false; 
-        } */
+        }
     }).catch(err => { throw err });
 }
 
