@@ -378,37 +378,17 @@
                   </p>
               </a>
           </li>
+          <li class="nav-header"><h6>Servicios</h6></li>                        
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Servicios" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="dollar-sign"></i>
+                  <p>
+                      Servicios
+                  </p>
+              </a>
+          </li>
 
           <li class="nav-header"><h6>Ingresos y Egresos</h6></li>                        
-          <!-- <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="ml-3 mr-2" data-feather="dollar-sign"></i>
-              <p>
-                Ingresos y Egresos
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                   <i class="ml-3 mr-2" data-feather="circle"></i>
-                  <p>Ingresos</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                   <i class="ml-3 mr-2" data-feather="circle"></i>
-                  <p>Egresos</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                   <i class="ml-3 mr-2" data-feather="circle"></i>
-                  <p>Consultas</p>
-                </a>
-              </li>
-            </ul>
-          </li> -->
           <li class="nav-item">
               <a href="<?php echo BASE_URL ?>/Ingresos" class="nav-link">
                   <i class="ml-3 mr-2" data-feather="dollar-sign"></i>
