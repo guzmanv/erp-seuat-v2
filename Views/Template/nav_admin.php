@@ -453,6 +453,31 @@
                   </p>
               </a>
           </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Categoria_servicios" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="dollar-sign"></i>
+                  <p>
+                      Categoria Servicios
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Promocion" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="dollar-sign"></i>
+                  <p>
+                      Promoción
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Unidad_medida" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="dollar-sign"></i>
+                  <p>
+                      Unidad de medida
+                  </p>
+              </a>
+          </li>
+
 
           <li class="nav-header"><h6>Ingresos y Egresos</h6></li>                        
           <li class="nav-item">
