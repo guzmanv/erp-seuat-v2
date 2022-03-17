@@ -1,24 +1,37 @@
-let tableCategoria_servicios;
+let tablePromocion;
 let rowTable = "";
 let divLoading = document.querySelector("#divLoading");
 
+window.addEventListener('load', function(){
+    	fntCampanias();
+	fntServicios();
+	$('.select2').select2()
+}, false);
+
 
 document.addEventListener('DOMContentLoaded', function(){
-	tableCategoria_servicios = $('#tableCategoria_servicios').dataTable( {
+	tablePromocion = $('#tablePromocion').dataTable( {
 		"aProcessing":true,
 		"aServerSide":true,
 			"language": {
 				"url": " "+base_url+"/Assets/plugins/Spanish.json"
 			},
 			"ajax":{
-					"url": " "+base_url+"/Categoria_servicios/getCategoria_servicios",
+					"url": " "+base_url+"/Promocion/getPromociones",
 					"dataSrc":""
 			},
 			"columns":[
-					{"data":"id"},
-					{"data":"nombre_categoria"},
-					{"data":"estatus"},
+					{"data":"IdPromocion"},
+					{"data":"NombrePromocion"},
+					{"data":"NombreServicio"},
+                    {data:null, "render":
+                    function ( data, type, row ) {
+                        return data.PorcentajeDescuento + " " + "%";
+                        }
+                    },
+					{"data":"EstatusPromocion"},
 					{"data":"options"}
+                    
 			],
 			"responsive": true,
 			"paging": true,
@@ -31,33 +44,39 @@ document.addEventListener('DOMContentLoaded', function(){
 			"scrollCollapse": true,
 			"bDestroy": true,
 			"iDisplayLength": 25,
-			"order": [[0,"desc"]]
+			"order": [[ 0,"desc" ]]
 	});
 
 	// Crear
-	if(document.querySelector("#formCategoria_servicios")){
-		let formCategoria_servicios = document.querySelector("#formCategoria_servicios");
-		formCategoria_servicios.onsubmit = function(e) {
+	if(document.querySelector("#formPromocion")){
+		let formPromocion = document.querySelector("#formPromocion");
+		formPromocion.onsubmit = function(e) {
 			e.preventDefault();
 			
-			let intIdCategoria_servicios = document.querySelector('#idCategoria_servicios').value;
-			let strNombre_categoria = document.querySelector('#txtNombre_categoria').value;
+			let intIdPromocion = document.querySelector('#idPromocion').value;
+			let strNombre_promocion = document.querySelector('#txtNombre_promocion').value;
+            let strDescripcion = document.querySelector('#txtDescripcion').value;
 			let intEstatus = document.querySelector('#listEstatus').value;
+            let strPorcentaje_descuento = document.querySelector('#txtPorcentaje_descuento').value;
+            let strFecha_inicio = document.querySelector('#txtFecha_inicio').value;
+            let strFecha_fin = document.querySelector('#txtFecha_fin').value;
 			let strFecha_creacion = document.querySelector('#txtFecha_creacion').value;
 			let strFecha_actualizacion = document.querySelector('#txtFecha_actualizacion').value;
 			let intId_usuario_creacion = document.querySelector('#txtId_usuario_creacion').value;
 			let intId_usuario_actualizacion = document.querySelector('#txtId_usuario_actualizacion').value;
+            let intId_subcampania = document.querySelector('#listSubcampania').value;
+			let intId_servicio = document.querySelector('#listServicios');
 			
-			if(strNombre_categoria == '' || intEstatus == '' || strFecha_creacion == '' || intId_usuario_creacion == '' )
+			if(strNombre_promocion == '' || intEstatus == '' || strPorcentaje_descuento == '' || strFecha_inicio == '' || strFecha_fin == '' || intId_usuario_creacion == '' || intId_subcampania == '' || intId_servicio == '' )
 			{
 					swal.fire("Atención", "Todos los campos son obligatorios." , "warning");
 					return false;
 			}
-
+			
 			divLoading.style.display = "flex";
 			let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-			let ajaxUrl = base_url+'/Categoria_servicios/setCategoria_servicios'; 
-			let formData = new FormData(formCategoria_servicios);
+			let ajaxUrl = base_url+'/Promocion/setPromocion'; 
+			let formData = new FormData(formPromocion);
 			request.open("POST",ajaxUrl,true);
 			request.send(formData);
 			request.onreadystatechange = function() {
@@ -65,10 +84,10 @@ document.addEventListener('DOMContentLoaded', function(){
 						let objData = JSON.parse(request.responseText);
 						if(objData.estatus)
 						{
-							$('#modalFormCategoria_servicios').modal("hide");
-							formCategoria_servicios.reset();
-							swal.fire("Categoría de servicios", objData.msg, "success");
-							tableCategoria_servicios.api().ajax.reload();
+							$('#modalFormPromocion').modal("hide");
+							formPromocion.reset();
+							swal.fire("Promociones", objData.msg, "success");
+							tablePromocion.api().ajax.reload();
 						}else{
 							swal.fire("Error", objData.msg, "error");
 						}
@@ -141,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-function fntEditCategoria_servicios(element,id){
+function fntEditPromocion(element,id){
 	rowTable = element.parentNode.parentNode.parentNode.parentNode.parentNode;
 	//console.log(rowTable);
 	let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
@@ -156,6 +175,7 @@ function fntEditCategoria_servicios(element,id){
 			if(objData.estatus){
 					document.querySelector("#idCategoria_serviciosup").value = objData.data.id;
 					document.querySelector("#txtNombre_categoriaup").value = objData.data.nombre_categoria;
+					//document.querySelector("#txtFecha_actualizacionup").value = document.querySelector('#txtFecha_actualizacionup').value;
 					document.querySelector("#txtId_usuario_actualizacionup").value = 1;
 
 					if(objData.data.estatus == 1)
@@ -179,30 +199,77 @@ function fntEditCategoria_servicios(element,id){
 }
 
 
+function fntServicios(){
+	if(document.querySelector('#listServicios')){
+			let ajaxUrl = base_url+'/Promocion/getSelectServicios';
+			let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+			request.open("GET",ajaxUrl,true);
+			request.send();
+			request.onreadystatechange = function() {
+					if(request.readyState == 4 && request.status == 200) {
+							document.querySelector('#listServicios').innerHTML = request.responseText;
+							//$('#listServicios').selectpicker('render');
+					}
+			}
+	}
+}
+
+
+function fntCampanias(){
+	if(document.querySelector('#listCampania')){
+			let ajaxUrl = base_url+'/Promocion/getSelectCampanias';
+			let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+			request.open("GET",ajaxUrl,true);
+			request.send();
+			request.onreadystatechange = function() {
+					if(request.readyState == 4 && request.status == 200) {
+							document.querySelector('#listCampania').innerHTML = request.responseText;
+					}
+			}
+	}
+}
+
+
+
+function fntSelectSubcampanias(idCampania){
+	if(document.querySelector('#listSubcampania')){
+		let ajaxUrl = base_url+'/Promocion/getSelectSubcampania/'+idCampania;
+		let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+		request.open("GET",ajaxUrl,true);
+		request.send();
+		request.onreadystatechange = function() {
+				if(request.readyState == 4 && request.status == 200) {
+						document.querySelector('#listSubcampania').innerHTML = request.responseText;
+				}
+		}
+	}
+}
+
 
 function openModal(){
 	rowTable = "";
-	$('#modalFormCategoria_servicios').modal({
+	$('#modalFormPromocion').modal({
 		backdrop: 'static',
 		keyboard: false,
 	});
 
-	$('#modalFormCategoria_servicios').modal('show');
+	$('#modalFormPromocion').modal('show');
 }
 
 
 $(".cerrarModal").click(function(){
-	$("#modalFormCategoria_servicios").modal('hide');
-    	$("#modalFormCategoria_servicios_editar").modal('hide');
+	$("#modalFormPromocion").modal('hide');
+	$("#modalFormPromocion_editar").modal('hide');
 });
 
 
 
-function fntDelCategoria_servicios(id) {
+function fntDelPromocion(id) {
+	var idPromocion = id;
     swal.fire({
         icon: "question",
-        title: "Eliminar Categoría",
-        text: "¿Realmente quiere eliminar la categoría seleccionada?",
+        title: "Eliminar Promoción",
+        text: "¿Realmente quiere eliminar la promoción seleccionada?",
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: '#045FB4',
@@ -214,8 +281,8 @@ function fntDelCategoria_servicios(id) {
         if (result.isConfirmed) 
         {
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            let ajaxUrl = base_url+'/Categoria_servicios/delCategoria_servicios';
-            let strData = "idCategoria_servicios="+id; 
+            let ajaxUrl = base_url+'/Promocion/delPromocion';
+            let strData = "idPromocion="+id; 
             request.open("POST",ajaxUrl,true);
             request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             request.send(strData);
@@ -225,7 +292,7 @@ function fntDelCategoria_servicios(id) {
                     if(objData.estatus)
                     {
                         swal.fire("Eliminar!", objData.msg , "success");
-                        tableCategoria_servicios.api().ajax.reload(); 
+                        tablePromocion.api().ajax.reload(); 
                     } else {
                         swal.fire("Atención!", objData.msg , "error");
                     }
@@ -234,3 +301,8 @@ function fntDelCategoria_servicios(id) {
         }
     });
 }
+
+
+
+
+
