@@ -51,8 +51,8 @@ class Categoria_serviciosModel extends Mysql
         {
             $query_insert = "INSERT INTO t_categoria_servicios(nombre_categoria,estatus,fecha_creacion,fecha_actualizacion,id_usuario_creacion,id_usuario_actualizacion) VALUES(?,?,?,?,?,?)";
             $arrData = array($this->strNombre_categoria, $this->intEstatus, $this->strFecha_creacion, $this->strFecha_actualizacion, $this->intId_usuario_creacion, $this->intId_usuario_actualizacion );
-            $request_insert = $this->insert($query_insert,$arrData);
-            $return = $request_insert;
+           /*  $request_insert = $this->insert($query_insert,$arrData); */
+            $return = $this->intId_usuario_actualizacion;
         }else{
             $return = "exist";
         }

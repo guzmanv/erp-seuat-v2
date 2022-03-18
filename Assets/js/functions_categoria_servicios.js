@@ -63,7 +63,8 @@ document.addEventListener('DOMContentLoaded', function(){
 			request.onreadystatechange = function() {
 					if(request.readyState == 4 && request.status == 200) {
 						let objData = JSON.parse(request.responseText);
-						if(objData.estatus)
+						console.log(objData);
+						/* if(objData.estatus)
 						{
 							$('#modalFormCategoria_servicios').modal("hide");
 							formCategoria_servicios.reset();
@@ -71,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function(){
 							tableCategoria_servicios.api().ajax.reload();
 						}else{
 							swal.fire("Error", objData.msg, "error");
-						}
+						} */
 					}
 					divLoading.style.display = "none";
 					return false;

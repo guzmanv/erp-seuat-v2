@@ -104,7 +104,7 @@
 																								   $option = 1;
 						} 
 
-						if($request_categoria_servicios > 0 )
+						/* if($request_categoria_servicios > 0 )
 						{
 							if($option == 1)
 							{
@@ -115,7 +115,8 @@
 							$arrResponse = array('estatus' => false, 'msg' => '¡Atención! La categoría ya existe.');
 						}else{
 							$arrResponse = array("estatus" => false, "msg" => 'No es posible almacenar los datos.');
-						}
+						} */
+						$arrResponse =  $request_categoria_servicios;
 					}
 					echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 				 //}
