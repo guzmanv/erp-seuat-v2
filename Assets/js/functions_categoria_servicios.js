@@ -34,26 +34,30 @@ document.addEventListener('DOMContentLoaded', function(){
 			"order": [[0,"desc"]]
 	});
 
+	document.getElementById('chk_aplica_colegiatura').onclick = function() {
+		if(this.checked) {
+			document.querySelector("#chk_aplica_colegiatura").value = 1;
+		}else{
+			document.querySelector("#chk_aplica_colegiatura").value = 0;
+		}
+	};
+	
+
 	// Crear
 	if(document.querySelector("#formCategoria_servicios")){
 		let formCategoria_servicios = document.querySelector("#formCategoria_servicios");
 		formCategoria_servicios.onsubmit = function(e) {
 			e.preventDefault();
-			
 			let intIdCategoria_servicios = document.querySelector('#idCategoria_servicios').value;
+			let strClave_categoria = document.querySelector('#txtClave_categoria').value;
 			let strNombre_categoria = document.querySelector('#txtNombre_categoria').value;
 			let intEstatus = document.querySelector('#listEstatus').value;
-			let strFecha_creacion = document.querySelector('#txtFecha_creacion').value;
-			let strFecha_actualizacion = document.querySelector('#txtFecha_actualizacion').value;
-			let intId_usuario_creacion = document.querySelector('#txtId_usuario_creacion').value;
-			let intId_usuario_actualizacion = document.querySelector('#txtId_usuario_actualizacion').value;
 			
-			if(strNombre_categoria == '' || intEstatus == '' || strFecha_creacion == '' || intId_usuario_creacion == '' )
-			{
-					swal.fire("Atención", "Todos los campos son obligatorios." , "warning");
-					return false;
+			if(intIdCategoria_servicios == '' || strClave_categoria == '' || strNombre_categoria == '' || intEstatus == '' ){
+				swal.fire("Atención", "Todos los campos son obligatorios." , "warning");
+				return false;
 			}
-
+			
 			divLoading.style.display = "flex";
 			let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
 			let ajaxUrl = base_url+'/Categoria_servicios/setCategoria_servicios'; 

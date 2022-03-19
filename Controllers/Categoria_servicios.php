@@ -74,35 +74,22 @@
 			}
 
 
-			public function setCategoria_servicios()
-			{
+			public function setCategoria_servicios(){
 				if($_POST){
-				//if($_SESSION['permisosMod']['w']){
-					if(empty($_POST['txtNombre_categoria']) || empty($_POST['listEstatus'])  || empty($_POST['txtId_usuario_creacion']))
-						{
-							$arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
-						}else{
-
+					if(($_POST['idCategoria_servicios'] == '') || ($_POST['txtClave_categoria'] == '')  || ($_POST['txtNombre_categoria'] == '') || ($_POST['listEstatus'] == '')){
+						$arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
+					}else{
 						$intIdCategoria_servicios = intval($_POST['idCategoria_servicios']);
+						$strClave_categoria = strClean($_POST['txtClave_categoria']);
 						$strNombre_categoria =  strClean($_POST['txtNombre_categoria']);
+						$intAplica_colegiatura = intVal($_POST['chk_aplica_colegiatura']);
 						$intEstatus = intval($_POST['listEstatus']);
-						$strFecha_creacion = strClean($_POST['txtFecha_creacion']);
-						$strFecha_actualizacion = strClean($_POST['txtFecha_actualizacion']);
-						$intId_usuario_creacion = intval($_POST['txtId_usuario_creacion']);
-						$intId_usuario_actualizacion = intval($_POST['txtId_usuario_actualizacion']);
-
-
-						if($intIdCategoria_servicios == 0)
-						{
+						if($intIdCategoria_servicios == 0){
 							//Crear
-							$request_categoria_servicios = $this->model->insertCategoria_servicios($strNombre_categoria, 
-																								   $intEstatus, 
-																								   $strFecha_creacion, 
-																								   $strFecha_actualizacion, 
-																								   $intId_usuario_creacion, 
-																								   $intId_usuario_actualizacion);
-																								   $option = 1;
-						} 
+							$request_categoria_servicios = $this->model->insertCategoria_servicios($strClave_categoria,$strNombre_categoria,$intAplica_colegiatura,$intEstatus,$_SESSION['idUser']);
+							$arrResponse = $request_categoria_servicios;
+							
+						}
 
 						/* if($request_categoria_servicios > 0 )
 						{
@@ -116,7 +103,7 @@
 						}else{
 							$arrResponse = array("estatus" => false, "msg" => 'No es posible almacenar los datos.');
 						} */
-						$arrResponse =  $request_categoria_servicios;
+						//$arrResponse =  $request_categoria_servicios;
 					}
 					echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 				 //}
