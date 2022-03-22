@@ -358,3 +358,11 @@ function fnEditServicio(value,id){
 		
 	}).catch(err => {throw err}); 
 }
+
+//Funcion para Aceptar solo Numeros en un Input
+function validarNumeroInput(event){
+    if(event.charCode >= 48 && event.charCode <= 57){
+        return true;
+    }
+    return false;
+}

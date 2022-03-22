@@ -16,11 +16,11 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="txtNombre_categoria">Clave categoría <span class="required">*</span></label>
-                                <input type="text" id="txtClave_categoria" name="txtClave_categoria" class="form-control valid validText" placeholder="Ingrese una clave de categoría"  name="Ingresa el nombre de la clave" required="" autofocus>
+                                <input type="text" id="txtClave_categoria" name="txtClave_categoria" class="form-control valid validText" placeholder="Ingrese una clave de categoría" maxlength='70' required="" autofocus>
                             </div>
                             <div class="form-group">
                                 <label for="txtNombre_categoria">Nombre categoría <span class="required">*</span></label>
-                                <input type="text" id="txtNombre_categoria" name="txtNombre_categoria" class="form-control valid validText" placeholder="Ingrese una nueva categoría"  name="Ingresa el nombre de la categoría" required="" autofocus>
+                                <input type="text" id="txtNombre_categoria" name="txtNombre_categoria" class="form-control valid validText" placeholder="Ingrese una nueva categoría" maxlength='100'  required="" autofocus>
                             </div>
                             <div class="form-row">
 								<div class="form-group col-sm-12 col-md-12">
@@ -30,6 +30,7 @@
                                     </div>
 								</div>
 							</div>
+
                         </div>
                     </div>
             </div>

@@ -1,7 +1,7 @@
 <?php
   headerAdmin($data);
   getModal('Promocion/modalNuevaPromocion',$data);
-  //getModal('Promocion/modalEditPromocion',$data);
+  getModal('Promocion/modalEditPromocion',$data);
 ?>
 
 <div id="contentAjax"></div>

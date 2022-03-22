@@ -16,17 +16,17 @@
 							<div class="form-row">
 								<div class="form-group col-sm-12 col-md-6">
 									<label for="txtCodigo_servicio">Código </label>
-									<input type="text" id="txtCodigo_servicio_edit" name="txtCodigo_servicio" class="form-control form-control-sm valid validText" placeholder="Ingrese el código para indentificar el servicio"  name="Ingrese el código para indentificar el servicio" required="" >
+									<input type="text" id="txtCodigo_servicio_edit" name="txtCodigo_servicio" class="form-control form-control-sm valid validText" placeholder="Ingrese el código para indentificar el servicio"  maxlength="10" required="" >
 								</div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-sm-12 col-md-10">
 									<label for="txtNombre_servicio">Nombre servicio </label>
-									<input type="text" id="txtNombre_servicio_edit" name="txtNombre_servicio" class="form-control form-control-sm valid validText" placeholder="Ingrese el nombre del nuevo servicio"  name="Ingrese el nombre del nuevo servicio" required="" >
+									<input type="text" id="txtNombre_servicio_edit" name="txtNombre_servicio" class="form-control form-control-sm valid validText" placeholder="Ingrese el nombre del nuevo servicio"  maxlength="100" required="" >
 								</div>
 								<div class="form-group col-sm-12 col-md-2">
 									<label for="txtPrecio_unitario">Precio </label>
-									<input type="text" id="txtPrecio_unitario_edit" name="txtPrecio_unitario" class="form-control form-control-sm valid validText" placeholder="Precio"  name="Ingrese el precio del servicio" required="" >
+									<input type="text" id="txtPrecio_unitario_edit" name="txtPrecio_unitario" class="form-control form-control-sm valid validText" placeholder="Precio"  onkeypress="return validarNumeroInput(event)" required="" >
 								</div>
 							</div>
 							<div class="form-row">
