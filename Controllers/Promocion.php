@@ -81,13 +81,18 @@ class Promocion extends Controllers
     }
 	public function getSelectServiciosEdit($id)
     {
-        $htmlOptions = "<option value='' selected>- Elige un servicio -</option>";
+        $htmlOptions = "";
         $arrData = $this->model->selectServicios();
         if (count($arrData) > 0) {
             for ($i = 0; $i < count($arrData); $i++) {
-				if($arrData[$i]['id'] == $id){
-					$htmlOptions .= '<option value="' . $arrData[$i]['id'] . '">' . $arrData[$i]['nombre_servicio'] . '</option>';
-				}
+				if ($arrData[$i]['estatus'] == 1) {
+                    if($arrData[$i]['id'] == $id){
+                        $htmlOptions .= '<option value="' . $arrData[$i]['id'] . '" selected>' . $arrData[$i]['nombre_servicio'] . '</option>';
+                    }else{
+                        $htmlOptions .= '<option value="' . $arrData[$i]['id'] . '">' . $arrData[$i]['nombre_servicio'] . '</option>';
+                    }
+                }
+				
             }
         }
         echo $htmlOptions;

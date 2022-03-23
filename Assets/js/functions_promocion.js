@@ -167,25 +167,25 @@ function fntEditPromocion(element, id) {
 		if (request.readyState == 4 && request.status == 200) {
 			let objData = JSON.parse(request.responseText);
 			if (objData.estatus) {
-				console.log(objData.data);
 				document.querySelector('#idPromocion_edit').value = objData.data.id;
 				document.querySelector('#txtNombre_promocion_edit').value = objData.data.nombre_promocion;
-				let ajaxUrl = base_url + '/Promocion/getSelectServicios';
+				let ajaxUrl = base_url + '/Promocion/getSelectServiciosEdit/'+objData.data.id;
 				let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
 				request.open("GET", ajaxUrl, true);
 				request.send();
 				request.onreadystatechange = function () {
 					if (request.readyState == 4 && request.status == 200) {
+                        console.log(request.responseText);
 						document.querySelector('#listServicios_edit').innerHTML = request.responseText;
 					}
 				}
-				$('#listServicios_edit').val('32');
+				/*$('#listServicios_edit').val('32');
 				$('#listServicios_edit').trigger('change');
 				//document.querySelector('#listServicios_edit').querySelector('option[value="'+objData.data.id_servicio+'"]').selected = true;
 				//let select = $('#listServicios_edit').select2();
 				//$('#listServicios_edit').val(objData.data.id_servicio).trigger('change');
 
-				document.querySelector('#txtDescripcion_edit').value = objData.data.descripcion;
+				document.querySelector('#txtDescripcion_edit').value = objData.data.descripcion;*/
 				$('#modal_form_promocion_edit').modal('show');
 
 			} else {
