@@ -41,7 +41,9 @@ class PromocionModel extends Mysql
         return $request;
     } */
     public function selectPromocion(int $id){
-        $sql = "SELECT *FROM t_promociones WHERE id = $id";
+        $sql = "SELECT p.id,p.nombre_promocion,p.id_servicio,p.descripcion,p.fecha_inicio,p.fecha_fin,s.id_campania,s.id AS id_subcampania,p.porcentaje_descuento,p.estatus FROM t_promociones AS p 
+        INNER JOIN t_subcampania AS s ON p.id_subcampania = s.id
+        WHERE p.id = $id";
         $request = $this->select($sql);
         return $request;
     }
@@ -63,7 +65,7 @@ class PromocionModel extends Mysql
     public function selectSubcampanias($intIdCampania)
     {
         $this->intIdCampania = $intIdCampania;
-        $sql = "SELECT id, nombre_sub_campania, fecha_inicio, fecha_fin, estatus FROM t_subcampania WHERE id_campania = $this->intIdCampania AND estatus !=0 ORDER BY fecha_inicio ASC LIMIT 10 ";
+        $sql = "SELECT id, nombre_sub_campania, fecha_inicio, fecha_fin, estatus FROM t_subcampania WHERE id_campania = $this->intIdCampania AND estatus !=0 ORDER BY fecha_inicio ASC LIMIT 1  ";
         $request = $this->select_all($sql);
         return $request;
     }
@@ -97,6 +99,13 @@ class PromocionModel extends Mysql
             $return = "exist";
         }
         return $return;
+    }
+
+
+    public function updatePromocion(int $intId_promocion,int $intId_campania,int $intId_servicio,int $intId_subcampania,string $strDescripcion,string $strFecha_fin,string $strFecha_inicio,string $strNombre_promocion,int $intPorcentaje_descuento,int $id_user,$intEstatus){
+        $sql = "UPDATE t_promociones SET nombre_promocion = ?,descripcion = ?,estatus = ?,porcentaje_descuento = ?,fecha_inicio = ?,fecha_fin = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ?,id_subcampania = ?,id_servicio = ? WHERE id = $intId_promocion";
+        $request = $this->update($sql,array($strNombre_promocion,$strDescripcion,$intEstatus,$intPorcentaje_descuento,$strFecha_inicio,$strFecha_fin,$id_user,$intId_subcampania,$intId_servicio));
+        return $request;
     }
 
     public function updateCategoria_servicios(int $id, string $nombre_categoria, int $estatus, string $fecha_actualizacion, int $id_usuario_actualizacion)

@@ -28,9 +28,9 @@ class Unidad_medidaModel extends Mysql
     }
 
 
-    public function insertUnidad_medida(string $nombre_unidad_medida, int $estatus, int $id_usuario_creacion, int $id_usuario_actualizacion, string $fecha_creacion, string $fecha_actualizacion){
+    public function insertUnidad_medida(int $intIdUnidad_medida,string $strNombre,int $intEstatus,string $strTipo,string $strClave,int $id_user){
 
-        $return = "";
+       /*  $return = "";
         $this->strNombre_unidad_medida = $nombre_unidad_medida;
         $this->intEstatus = $estatus;
         $this->intId_usuario_creacion = $id_usuario_creacion;
@@ -50,8 +50,8 @@ class Unidad_medidaModel extends Mysql
             $return = $request_insert;
         }else{
             $return = "exist";
-        }
-        return $return;
+        } */
+        return $id_user   ;
     }	
 
 

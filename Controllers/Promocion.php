@@ -17,6 +17,7 @@ class Promocion extends Controllers
         $data['page_name'] = "promocion_servicios";
         $data['page_functions_js'] = "functions_promocion.js";
 		$data['servicios'] = $this->model->selectServicios();
+		$data['campanias'] = $this->model->selectCampanias();
         $this->views->getView($this, "promocion", $data);
     }
 
@@ -136,8 +137,7 @@ class Promocion extends Controllers
 
     public function setPromocion()
     {
-        if ($_POST) { //dep($_POST); die();
-            //if($_SESSION['permisosMod']['w']){
+        if ($_POST) {
             if (empty($_POST['txtNombre_promocion']) || empty($_POST['listEstatus']) || empty($_POST['txtPorcentaje_descuento']) || empty($_POST['txtFecha_inicio']) || empty($_POST['txtFecha_fin']) || empty($_POST['txtId_usuario_creacion']) || empty($_POST['listSubcampania'])) {
                 $arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
             } else {
@@ -189,9 +189,39 @@ class Promocion extends Controllers
         die();
     }
 
+	public function upPromocion(){
+        if ($_POST) {
+            if (empty($_POST['idPromocion_edit']) || empty($_POST['listCampania_edit']) || empty($_POST['listServicios_edit']) || empty($_POST['listSubcampania_edit']) || empty($_POST['txtDescripcion_edit']) || empty($_POST['txtFecha_fin_edit']) || empty($_POST['txtFecha_inicio_edit']) || empty($_POST['txtNombre_promocion_edit']) || empty($_POST['txtPorcentaje_descuento_edit'])) {
+                $arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
+            } else {                
+				$intId_promocion = intval($_POST['idPromocion_edit']);
+				$intId_campania = intval($_POST['listCampania_edit']);
+				$intId_servicio = intval($_POST['listServicios_edit']);
+				$intId_subcampania = intval($_POST['listSubcampania_edit']);
+				$strDescripcion = strClean($_POST['txtDescripcion_edit']);
+				$strFecha_fin = strClean($_POST['txtFecha_fin_edit']);
+				$strFecha_inicio = strClean($_POST['txtFecha_inicio_edit']);
+				$strNombre_promocion = strClean($_POST['txtNombre_promocion_edit']);
+				$intPorcentaje_descuento = intval($_POST['txtPorcentaje_descuento_edit']);
+				$intEstatus = intval($_POST['listEstatusEdit']);
+				$request_promocion = $this->model->updatePromocion($intId_promocion,$intId_campania,$intId_servicio,$intId_subcampania,$strDescripcion,$strFecha_fin,$strFecha_inicio,$strNombre_promocion,$intPorcentaje_descuento,$_SESSION['idUser'],$intEstatus);
+				if($request_promocion){
+					$arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente.');
+				}else{
+					$arrResponse = array("estatus" => false, "msg" => 'No es posible almacenar los datos.');
+				}
+            }
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            //}
+        }
+        die();
+    }
+
 	public function getPromocion(int $id){
 		$arrData = $this->model->selectPromocion($id);
 		if($arrData){
+			$arrData['fecha_fin'] = date('Y-m-d');
+			$arrData['fecha_inicio'] = date('Y-m-d');
 			$arrResponse['estatus'] = true;
 			$arrResponse['data'] = $arrData;
 		}
