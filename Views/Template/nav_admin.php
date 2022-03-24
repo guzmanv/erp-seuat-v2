@@ -477,6 +477,14 @@
                   </p>
               </a>
           </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/PrecargaCuenta" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="navigation"></i>
+                  <p>
+                      Precarga cuenta
+                  </p>
+              </a>
+          </li>
 
 
           <li class="nav-header"><h6>Ingresos y Egresos</h6></li>                        
