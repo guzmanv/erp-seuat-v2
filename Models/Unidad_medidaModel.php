@@ -43,11 +43,11 @@ class Unidad_medidaModel extends Mysql{
 
 
 
-    public function selectUnidad_medida(int $intIdUnidad_medida)
+    public function selectUnidad_medida(int $intId)
     {
         //Buscar una unidad de medida
-        $this->intIdUnidad_medida = $intIdUnidad_medida;
-        $sql = "SELECT * FROM t_unidades_medida WHERE id = $this->intIdUnidad_medida";
+        $this->intId = $intId;
+        $sql = "SELECT * FROM t_unidades_medida WHERE id = $this->intId";
         $request = $this->select($sql);
         return $request;
     }
@@ -75,14 +75,13 @@ class Unidad_medidaModel extends Mysql{
     }
 
 
-    public function deleteUnidad_medida(int $idunidad_medida)
-		{
-			$this->intIdUnidad_medida = $idunidad_medida;
-			$sql = "SELECT * FROM t_servicios WHERE id_unidades_medida = $this->intIdUnidad_medida";
+    public function deleteUnidad_medida(int $idunidad_medida){
+			$this->intId = $idunidad_medida;
+			$sql = "SELECT * FROM t_servicios WHERE id_unidades_medida = $this->intId";
 			$request = $this->select_all($sql);
 			if(empty($request))
 			{
-				$sql = "UPDATE t_unidades_medida SET estatus = ? WHERE id = $this->intIdUnidad_medida";
+				$sql = "UPDATE t_unidades_medida SET estatus = ? WHERE id = $this->intId";
 				$arrData = array(0);
 				$request = $this->update($sql,$arrData);
 				if($request)

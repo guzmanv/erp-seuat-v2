@@ -124,10 +124,8 @@ class Unidad_medida extends Controllers
         die();
     }
 
-    public function delUnidad_medida()
-    {
+    public function delUnidad_medida(){
         if ($_POST) {
-            //if($_SESSION['permisosMod']['d']){
             $intIdUnidad_medida = intval($_POST['idUnidad_medida']);
             $requestDelete = $this->model->deleteUnidad_medida($intIdUnidad_medida);
             if ($requestDelete == 'ok') {
@@ -138,7 +136,6 @@ class Unidad_medida extends Controllers
                 $arrResponse = array('estatus' => false, 'msg' => 'Error al eliminar la unidad de medida.');
             }
             echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
-            //}
         }
         die();
     }

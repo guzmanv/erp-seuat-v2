@@ -176,7 +176,6 @@ function fntDelUnidad_medida(id) {
 		confirmButtonText: "Si, eliminar!",
 		cancelButtonText: "No, cancelar!"
 	}).then((result) => {
-
 		if (result.isConfirmed) {
 			let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
 			let ajaxUrl = base_url + '/Unidad_medida/delUnidad_medida';
