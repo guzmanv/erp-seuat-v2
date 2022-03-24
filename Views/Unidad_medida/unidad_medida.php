@@ -32,8 +32,10 @@
                                     class="table table-bordered table-striped table-hover table-sm">
                                     <thead>
                                         <tr>
-                                            <th width="7%">ID</th>
-                                            <th>Unidad de medida</th>
+                                            <th width="7%">#</th>
+                                            <th>Tipo</th>
+                                            <th>Clave</th>
+                                            <th>Nombre</th>
                                             <th width="7%">Estatus</th>
                                             <th width="12%">Acciones</th>
                                         </tr>

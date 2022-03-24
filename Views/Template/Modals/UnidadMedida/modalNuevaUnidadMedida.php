@@ -16,15 +16,15 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="txtTipo">Tipo <span class="required">*</span></label>
-                                <input type="text" id="txtTipo" name="txtTipo" class="form-control valid validText" placeholder="Ingrese el tipo de unidad de medida" required="" autofocus>
+                                <input type="text" id="txtTipo" name="txtTipo" class="form-control valid validText" placeholder="Ingrese el tipo de unidad de medida" required="" maxlength="100" autofocus>
                             </div>
                             <div class="form-group">
                                 <label for="txtClave">Clave <span class="required">*</span></label>
-                                <input type="text" id="txtClave" name="txtClave" class="form-control valid validText" placeholder="Ingrese la clave de unidad de medida" required="" autofocus>
+                                <input type="text" id="txtClave" name="txtClave" class="form-control valid validText" placeholder="Ingrese la clave de unidad de medida" required="" maxlength="30" autofocus>
                             </div>
                             <div class="form-group">
                                 <label for="txtNombre">Nombre unidad de medida <span class="required">*</span></label>
-                                <input type="text" id="txtNombre" name="txtNombre" class="form-control valid validText" placeholder="Ingrese el nombre de la nueva unidad de medida" required="" autofocus>
+                                <input type="text" id="txtNombre" name="txtNombre" class="form-control valid validText" placeholder="Ingrese el nombre de la nueva unidad de medida" required="" maxlength="70" autofocus>
                             </div>
                         </div>
                 </div>

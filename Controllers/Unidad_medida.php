@@ -23,15 +23,13 @@ class Unidad_medida extends Controllers
     public function getUnidad_medidas()
     {
         $arrData = $this->model->selectUnidad_medidas();
-
         for ($i = 0; $i < count($arrData); $i++) {
-
+            $arrData[$i]['numeracion'] = $i+1;
             if ($arrData[$i]['estatus'] == 1) {
                 $arrData[$i]['estatus'] = '<span class="badge badge-dark">Activo</span>';
             } else {
                 $arrData[$i]['estatus'] = '<span class="badge badge-secondary">Inactivo</span>';
             }
-
             $arrData[$i]['options'] = '
 					<div class="text-center">
 						<div class="btn-group">
@@ -61,23 +59,20 @@ class Unidad_medida extends Controllers
 				$strTipo = strClean($_POST['txtTipo']);
 				$strClave = strClean($_POST['txtClave']);
 				if ($intIdUnidad_medida == 0) {
-                    $request_unidad_medida = $this->model->insertUnidad_medida($intIdUnidad_medida,$strNombre,$intEstatus,$strTipo,$strClave,$_SESSION['idUser']);
+                    $requestUnidadMedida = $this->model->insertUnidad_medida($intIdUnidad_medida,$strNombre,$intEstatus,$strTipo,$strClave,$_SESSION['idUser']);
+                    if($requestUnidadMedida){
+                        if($requestUnidadMedida == 'exist'){
+                            $arrResponse = array('estatus' => false,'msg'=>'¡Atención! el nombre d ela unidad de medida ya existe');
+                        }else{
+                            $arrResponse = array('estatus' => true,'msg'=>'Datos guardados correctamente');
+                        }
+                    }else{
+                        $arrResponse = array('estatus' => false,'msg'=>'No es posible almacenar los datos');
+                    }
 					
                 }
-
-                /*if ($request_unidad_medida > 0) {
-                    if ($option == 1) {
-                        $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente.');
-                    }
-
-                } else if ($request_unidad_medida == 'exist') {
-
-                    $arrResponse = array('estatus' => false, 'msg' => '¡Atención! el nombre de la unidad de medida ya existe.');
-                } else {
-                    $arrResponse = array("estatus" => false, "msg" => 'No es posible almacenar los datos.');
-                } */
             } 
-            echo json_encode($request_unidad_medida, JSON_UNESCAPED_UNICODE);
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         }
         die();
     }
@@ -101,31 +96,27 @@ class Unidad_medida extends Controllers
 
     public function setUnidad_medida_up(){
         if ($_POST) { 
-            if (empty($_POST['txtNombre_unidad_medidaup']) || empty($_POST['listEstatusup']) || empty($_POST['txtId_usuario_actualizacionup'])) {
+            if (empty($_POST['idUnidad_medidaup']) || empty($_POST['txtTipoEdit']) || empty($_POST['txtClaveEdit']) || empty($_POST['txtNombreEdit']) || empty($_POST['listEstatusEdit'])) {
                 $arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
             } else {
-                $intIdUnidad_medida = intval($_POST['idUnidad_medidaup']);
-                $strNombre_unidad_medida = strClean($_POST['txtNombre_unidad_medidaup']);
-                $intEstatus = intval($_POST['listEstatusup']);
-                $strFecha_actualizacion = strClean($_POST['txtFecha_actualizacionup']);
-                $intId_usuario_actualizacion = intval($_POST['txtId_usuario_actualizacionup']);
-                $request_unidad_medida = "";
-
-                if ($intIdUnidad_medida != 0) {
-                    $request_unidad_medida = $this->model->updateUnidad_medida($intIdUnidad_medida,
-                        $strNombre_unidad_medida,
-                        $intEstatus,
-                        $strFecha_actualizacion,
-                        $intId_usuario_actualizacion);
-                    $option = 1;
-                }
-
-                if ($request_unidad_medida > 0) {
-                    if ($option == 1) {
-                        $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente.');
+                $intId = intval($_POST['idUnidad_medidaup']);
+                $strTipo = strClean($_POST['txtTipoEdit']);
+                $strClave = strClean($_POST['txtClaveEdit']);
+                $strNombre = strClean($_POST['txtNombreEdit']);
+                $intEstatus = intval($_POST['listEstatusEdit']);
+                $intIdUser = $_SESSION['idUser'];
+                if ($intId != 0) {
+                    $requestUnidadMedida = $this->model->updateUnidad_medida($intId,$strTipo,$strClave,$strNombre,$intEstatus,$intIdUser);
+                    if($requestUnidadMedida){
+                        if($requestUnidadMedida === "exist"){
+                            $arrResponse = array('estatus' => false, 'msg' => 'Existe un registro con el mismo nombre.');
+                        }else{
+                            $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente.');
+                        }
+                    }else{
+                        $arrResponse = array('estatus' => false, 'msg' => 'No es posible actualizar los datos.');
                     }
-                } else {
-                    $arrResponse = array("estatus" => false, "msg" => 'No es posible actualizar los datos, probablemente existe un registro con el mismo nombre o presenta algún problema con la red.');
+                    
                 }
             }
             echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
