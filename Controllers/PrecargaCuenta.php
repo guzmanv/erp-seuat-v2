@@ -18,15 +18,28 @@
 			$data['page_name'] = "Precarga cuenta";
 			$data['page_content'] = "";
             $data['planteles'] = $this->model->selectPlanteles();
+            $data['periodos'] = $this->model->selectPeriodos();
+            $data['grados'] = $this->model->selectGrados();
 			$data['page_functions_js'] = "functions_precarga_cuenta.js";
 			$this->views->getView($this,"precargaCuenta",$data);
 		}
-        public function getPlanEstudios($idPlantel){
+        public function getPlanEstudios($arrgs){
+			$args = explode(",",$arrgs);
+			$idPlantel = $args[0];
+			$idNivel = $args[1];
             if($idPlantel == 'Todos'){
-                $arrData = $this->model->selectPlanEstudios();
+				if($idNivel == 'null'){
+					$arrData = $this->model->selectPlanEstudios();
+				}else{
+					$arrData = $this->model->selectPlanEstudiosByNivel($idNivel);
+				}
             }else{
                 $idPlantel = intval($idPlantel);
-                $arrData = $this->model->selectPlanEstudiosByPlantel($idPlantel);
+				if($idNivel == 'null' || $idNivel == 'Todos'){
+					$arrData = $this->model->selectPlanEstudiosByPlantel($idPlantel);
+				}else{
+					$arrData = $this->model->selectPlanEstudiosByPlantelNivel($idPlantel,$idNivel);
+				}
             }
             for($i = 0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
@@ -41,5 +54,30 @@
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
         }
+		public function getNivelesByPlantel($idPlantel){
+			if($idPlantel == 'Todos'){
+				$arrData = $this->model->seletNiveles();
+			}else{
+				$idPlantel = intval($idPlantel);
+				$arrData = $this->model->selectNivelesByPlantel($idPlantel);
+			}
+			echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+			die();
+		}
+
+		public function setPrecarga($args){
+			$params = explode(",",$args);
+			//let url = `${base_url}/PrecargaCuenta/setPrecarga/${grado}/${periodo}/${datos}/${idPlantel}/${nivel}`;
+			$idPlantel = intval($params[3]);
+			$idNivel = intval($params[4]);
+			$idPeriodo = intval($params[1]);
+			$idGrado = intval($params[0]);
+			$arrDatos = json_decode(base64_decode($params[2]));
+			if($idPlantel == 0 || $idNivel == 0 || $idPeriodo == 0 || $idGrado == 0){
+                $arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
+			}
+			echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+			die();
+		}
 	}
 ?>

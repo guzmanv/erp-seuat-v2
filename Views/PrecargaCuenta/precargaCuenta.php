@@ -1,7 +1,7 @@
 <?php
     headerAdmin($data);
-/*     getModal("Inscripcion/modalNuevaInscripcion",$data);
-    getModal("Inscripcion/modalDocumentacion",$data);
+    getModal("PrecargaCuenta/modalEditarServicio",$data);
+    /*getModal("Inscripcion/modalDocumentacion",$data);
     getModal("Inscripcion/modalEditInscripcion",$data);
     getModal("Inscripcion/modalListaInscritos",$data); */
 ;
@@ -30,11 +30,11 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
-                            <div class="card-body">
+                            <div class="card-body row">
                                 <div class="col-md-6">
                                     <label>Selecciona un plantel</label>
                                     <select class="custom-select" id="listPlantelDatatable"
-                                        onchange="fnPlantelSeleccionadoDatatable(value)">
+                                        onchange="fnPlantelSeleccionadoDatatable(value,null)">
                                         <option selected>Todos</option>
                                         <?php 
                                             foreach ($data['planteles'] as $key => $value) {
@@ -46,6 +46,13 @@
                                         ?>
                                     </select>
                                 </div>
+                                <div class="col-md-6">
+                                    <label>Selecciona un nivel</label>
+                                    <select class="custom-select" id="listNivelDatatable" onchange="fnNivelSeleccionadoDatatable(value)">
+                                        <option selected>Todos</option>
+                                        
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -54,13 +61,13 @@
                             <div class="card-body">
                                 <h2 class="card-title" id="nombrePlantelDatatable"></h2>
                                 <p class="card-text">
-                                <table id="tablePlanEstudios"
-                                    class="table table-bordared table-hover table-striped table-sm">
+                                <table id="tablePlanEstudios" class="table table-bordared table-hover table-striped table-sm">
                                     <thead>
                                         <tr>
                                             <th>#</th>
                                             <th>Plantel</th>
                                             <th>Plan de estudios</th>
+                                            <th>Nivel educativo</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -72,7 +79,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 div_precarga">
                         <div class="card">
                             <div class="card-body">
                                 <div class="alert alert-dark text-center" role="alert">
@@ -88,8 +95,8 @@
                                                     <th scope="col">Codigo</th>
                                                     <th scope="col">Nombre</th>
                                                     <th scope="col">Precio unitario</th>
-                                                    <th scope="col">Categoria</th>
-                                                    <th scope="col">Editar</th>
+                                                    <th scope="col">Nuevo precio</th>
+                                                    <th scope="col">Acciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tableServicios">
@@ -115,11 +122,11 @@
                                                         <tr>
                                                             <td>
                                                                 <label>Periodo</label>
-                                                                <select class="custom-select">
+                                                                <select class="custom-select" id="selectPeriodo">
                                                                     <option selected="">Seleccionar...</option>
-                                                                    <option value="1">Septiembre - Diciembre 2022</option>
-                                                                    <option value="2">Enero - Febrero 2023</option>
-                                                                    <option value="3">Marzo - Abril 2023</option>
+                                                                    <?php foreach ($data['periodos'] as $key => $value) { ?>
+                                                                        <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_periodo'] ?></option>
+                                                                    <?php }?>
                                                                 </select>
                                                             </td>
                                                             <td>
@@ -129,24 +136,18 @@
                                                             </td>
                                                             <td>
                                                                 <label>Grado</label>
-                                                                <select class="custom-select">
+                                                                <select class="custom-select" id="selectGrado">
                                                                     <option selected="">Seleccionar...</option>
-                                                                    <option value="1">1</option>
-                                                                    <option value="2">2</option>
-                                                                    <option value="3">3</option>
-                                                                    <option value="3">4</option>
-                                                                    <option value="3">5</option>
-                                                                    <option value="3">6</option>
-                                                                    <option value="3">7</option>
-                                                                    <option value="3">8</option>
-                                                                    <option value="3">9</option>
+                                                                    <?php foreach ($data['grados'] as $key => $grado) { ?>
+                                                                        <option value="<?php echo $grado['id']?>"><?php echo $grado['nombre_grado'] ?></option>
+                                                                    <?php }?>
                                                                 </select>
                                                             </td>
                                                         </tr>
                                                     </tbody>
                                                 </table><br>
                                                 <div class="col-12 text-center">
-                                                    <button type="button" class="btn btn-primary col-6">Guardar</button>
+                                                    <button type="button" onclick="fnGuardarPrecarga()" class="btn btn-primary col-6">Guardar</button>
                                                 </div>
                                             </div>
                                         </div>
