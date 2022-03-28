@@ -1,4 +1,5 @@
 let idPlantel = null;
+let idPlanEstudios = null;
 let nivel = null;
 let formEditServicio = document.querySelector("#form_servicio_edit");
 let arrDatosNew = [];
@@ -47,7 +48,8 @@ function fnPlantelSeleccionadoDatatable(value,nivel){
     $('#tablePlanEstudios').DataTable();
     fnListNiveles(idPlantel,nivel);
 }
-function fnServicios(idPlantel){
+function fnServicios(idPlantel,planestudios){
+    idPlanEstudios = planestudios;
     let url = `${base_url}/PrecargaCuenta/getServicios/${idPlantel}`;
     //window.scrollTo(0,document.body.scrollHeight);
     $('html,body').animate({scrollTop: $(".div_precarga").offset().top},'slow');
@@ -107,31 +109,10 @@ formEditServicio.onsubmit = function(e){
     document.querySelector('#np-'+idServicio).textContent = formatoMoneda(parseInt(nuevoPrecio).toFixed(2));
     arrDatosNew.forEach(servicios => {
         if(servicios.id == idServicio){
-            servicios.precio_unitario = parseInt(nuevoPrecio).toFixed(2);
+            servicios.precio_nuevo = parseInt(nuevoPrecio).toFixed(2);
             servicios.fecha_limite_pago = fechaLimitePago;
         }
     });
-    console.log(arrDatosNew);
-    /* let estatus = false;
-    arrDatosNew.forEach(element => {
-        if(element.id_servicio == idServicio){
-            estatus = true;
-        }else{
-            estatus = false;
-        }
-    });
-    if(estatus){
-        arrDatosNew.forEach(element => {
-            if(element.idServicio == idServicio){
-                element.nuevo_precio = nuevoPrecio;
-                element.fecha_limite_pago = fechaLimitePago;
-            }
-        });
-    }else{
-        
-    }
-    let arr = {'nombre_servicio': nombreServicio,'id_servicio':idServicio,'precio_actual':intPrecioActual,'nuevo_precio':nuevoPrecio,'fecha_limite_pago':fechaLimitePago};
-    arrDatosNew.push(arr); */
     $(".close").click();
 
 }
@@ -140,11 +121,56 @@ function fnGuardarPrecarga(){
     let grado = document.querySelector('#selectGrado').value;
     let periodo = document.querySelector('#selectPeriodo').value;
     let datos = convStrToBase64(JSON.stringify(arrDatosNew));
-    let url = `${base_url}/PrecargaCuenta/setPrecarga/${grado}/${periodo}/${datos}/${idPlantel}/${nivel}`;
-    fetch(url).then((res) => res.json()).then(resultado =>{
-        console.log(resultado);
-    }).catch(err => {throw err});
-    
+    let data = {'id_plantel':idPlantel,'datos':datos};
+    if(idPlantel == 'Todos' || idPlantel == "" || idPlantel == undefined){
+        swal.fire("Atención", "Selecciona un plantel", "warning");
+        return false;
+    }
+    if(nivel == 'Todos' || nivel == "" || nivel == undefined){
+        swal.fire("Atención", "Selecciona un nivel", "warning");
+        return false;
+    }
+    if(arrDatosNew.length == 0){
+        swal.fire("Atención", "No ha seleccionaro servicios, selecciona una carrera para ver los servicios", "warning");
+        return false; 
+    }
+    if(periodo == 0){
+        swal.fire("Atención", "Selecciona un periodo", "warning");
+        return false;
+    }
+    if(grado == 0){
+        swal.fire("Atención", "Selecciona un grado", "warning");
+        return false;
+    }
+    let estatus = false;
+    let num = 0;
+    let newArrDatos = [];
+    arrDatosNew.forEach(element => {
+        if(element.hasOwnProperty('precio_nuevo') || element.hasOwnProperty('fecha_limite_pago')){
+            let arr = {'id':element.id,'precio_nuevo':element.precio_nuevo,'fecha_limite_pago':element.fecha_limite_pago};
+            newArrDatos.push(arr);
+            num += 1;
+        }
+    });
+    if(arrDatosNew.length == num){
+        //console.log(newArrDatos);
+        /*let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${nivel}/${grado}/${periodo}/${JSON.stringify(newArrDatos)}/${idPlanEstudios}`;
+            fetch(url).then((res) => res.json()).then(resultado =>{
+                console.log(resultado);
+            }).catch(err => {throw err});*/
+        arrDatosNew.forEach(element => {
+            let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${nivel}/${grado}/${periodo}/${element.id}/${element.precio_nuevo}/${element.fecha_limite_pago}/${idPlanEstudios}`;
+            fetch(url).then((res) => res.json()).then(resultado =>{
+                if(resultado){
+                    swal.fire("Atención", "Datos guardados correctamente", "success");
+                }
+            }).catch(err => {throw err});
+        });
+    }else{
+        swal.fire("Atención", "Falta completar la edicion de servicios", "warning");
+        return false;
+    }
+
 }
 
 function mostrarServiciosTabla(){

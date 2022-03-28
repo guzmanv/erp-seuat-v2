@@ -123,7 +123,7 @@
                                                             <td>
                                                                 <label>Periodo</label>
                                                                 <select class="custom-select" id="selectPeriodo">
-                                                                    <option selected="">Seleccionar...</option>
+                                                                    <option value="0" selected="">Seleccionar...</option>
                                                                     <?php foreach ($data['periodos'] as $key => $value) { ?>
                                                                         <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_periodo'] ?></option>
                                                                     <?php }?>
@@ -137,7 +137,7 @@
                                                             <td>
                                                                 <label>Grado</label>
                                                                 <select class="custom-select" id="selectGrado">
-                                                                    <option selected="">Seleccionar...</option>
+                                                                    <option value="0" selected="">Seleccionar...</option>
                                                                     <?php foreach ($data['grados'] as $key => $grado) { ?>
                                                                         <option value="<?php echo $grado['id']?>"><?php echo $grado['nombre_grado'] ?></option>
                                                                     <?php }?>

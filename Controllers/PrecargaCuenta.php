@@ -43,7 +43,7 @@
             }
             for($i = 0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
-                $arrData[$i]['options'] = "<button type='button' class='btn btn-primary btn-sm center' onclick='fnServicios(".$arrData[$i]['id_plantel'].")'>Ver</button>";
+                $arrData[$i]['options'] = "<button type='button' class='btn btn-primary btn-sm center' onclick='fnServicios(".$arrData[$i]['id_plantel'].",".$arrData[$i]['id'].")'>Ver</button>";
             }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
@@ -67,15 +67,24 @@
 
 		public function setPrecarga($args){
 			$params = explode(",",$args);
-			//let url = `${base_url}/PrecargaCuenta/setPrecarga/${grado}/${periodo}/${datos}/${idPlantel}/${nivel}`;
-			$idPlantel = intval($params[3]);
-			$idNivel = intval($params[4]);
-			$idPeriodo = intval($params[1]);
-			$idGrado = intval($params[0]);
-			$arrDatos = json_decode(base64_decode($params[2]));
-			if($idPlantel == 0 || $idNivel == 0 || $idPeriodo == 0 || $idGrado == 0){
-                $arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
-			}
+			$idPlantel = intval($params[0]);
+			$idNivel = intval($params[1]);
+			$idGrado = intval($params[2]);
+			$idPeriodo = intval($params[3]);
+			$idServicio = intval($params[4]);
+            $precioNuevo = $params[5];
+            $fechaLimitePago = $params[6];
+            $idPlanEstudios = $params[7];
+            if(empty($idPlantel) && empty($idNivel) && empty($idGrado) && empty($idPeriodo) && empty($idServicio) && empty($precioNuevo) && empty($fechaLimitePago)){
+                $arrResponse = array('estatus' => false, 'msg' => 'Error en los datos.');
+            }else{
+                $arrData = $this->model->insertPrecargaCuenta($idPlantel,$idPlanEstudios,$idNivel,$idGrado,$idPeriodo,$idServicio,$precioNuevo,$fechaLimitePago,$_SESSION['idUser']);
+                if($arrData){
+                    $arrResponse = true;
+                }else{
+                    $arrResponse = false;
+                }
+            }
 			echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
 			die();
 		}

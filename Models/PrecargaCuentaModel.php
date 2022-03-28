@@ -75,5 +75,10 @@ class PrecargaCuentaModel extends Mysql
         $request = $this->select_all($sql);
         return $request;
     }
+    public function insertPrecargaCuenta(int $idPlantel,int $idPlanEstudios,int $idNivel,int $idGrado,int $idPeriodo,int $idServicio,$precioNuevo,$fechaLimitePago,$idUser){
+        $sql = "INSERT INTO t_precarga(cobro_total,fecha_limite_cobro,estatus,id_usuario_creacion,fecha_creacion,id_servicio,id_plan_estudios,id_periodo,id_grado) VALUES(?,?,?,?,NOW(),?,?,?,?)";
+        $request = $this->insert($sql,array($precioNuevo,$fechaLimitePago,1,$idUser,$idServicio,$idPlanEstudios,$idPeriodo,$idGrado));
+        return $request;
+    }
 
 }
