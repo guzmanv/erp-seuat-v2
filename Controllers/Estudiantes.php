@@ -17,6 +17,9 @@
 			$data['page_functions_js'] = "functions_estudiantes.js";
 			$this->views->getView($this,"estudiantes",$data);
 		}
+
+
+        
 		/* public function verificados(){
 			$data['page_id'] = 0;
 			$data['page_tag'] = "Estudiantes";
