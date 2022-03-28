@@ -21,6 +21,7 @@
             $data['categoria_persona'] = $this->model->selectCategoriasPersona();
             $data['grados_estudios'] = $this->model->selectGradosEstudios();
             $data['planteles'] = $this->model->selectPlanteles();
+            $data['nivel_carrera_interes'] = $this->model->selectNivelesEducativos();
             $data['medios_captacion'] = $this->model->selectMediosCaptacion();
             $this->views->getView($this,"persona",$data);
         }
@@ -90,7 +91,7 @@
                     $arrResponse = array('estatus' => true, 'mgg' => 'No es posible actualizar los datos');
                 }
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
         }
         public function getMunicipios(){
             $idEstado = $_GET['idestado'];

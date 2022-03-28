@@ -4,10 +4,11 @@
             parent::__construct();
         }
         public function selectPersonas(){
-            $sql = "SELECT per.id, per.alias,per.nombre_persona, per.ap_paterno, per.ap_materno, per.email, per.tel_celular,
-            per.direccion,per.estatus,cat.nombre_categoria FROM t_personas AS per
-            INNER JOIN t_categoria_personas AS cat ON per.id_categoria_persona = cat.id 
-            WHERE per.estatus !=0 AND per.id_categoria_persona = 1 ORDER BY per.id DESC";
+            $sql = "SELECT p.id,p.alias,p.nombre_persona,p.ap_paterno,p.ap_materno,p.email,p.tel_celular,
+            p.direccion,p.estatus,c.nombre_categoria FROM t_personas AS p
+            LEFT JOIN t_asignacion_categoria_persona AS ac ON ac.id_persona = p.id
+            INNER JOIN t_categoria_personas AS c ON ac.id_categoria_persona = c.id
+            WHERE p.estatus != 0 AND ac.id_categoria_persona = 1 ORDER BY p.id DESC";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -45,6 +46,11 @@
             $request = $this->select_all($sql);
             return $request;
         }
+        public function selectNivelesEducativos(){
+            $sql = "SELECT *FROM t_nivel_educativos";
+            $request = $this->select_all($sql);
+            return $request;
+        }
         public function insertPersona($data, int $idUSer){
             $alias = $data['txtAliasNuevo'];
             $nombre = $data['txtNombreNuevo'];
@@ -71,10 +77,19 @@
             $medioCaptacion = $data['listMediosCaptacion'];
             $escuelaProcedencia = ($data['txtNombreEscuelaProc'] == '')?null:$data['txtNombreEscuelaProc'];
             $observacion = $data['txtObservacion'];
-            $sql = "INSERT INTO t_personas(nombre_persona,ap_paterno,ap_materno,alias,direccion,edad,sexo,cp,colonia,tel_celular,tel_fijo,email,edo_civil,ocupacion,curp,fecha_nacimiento,validacion_doctos,validacion_datos_personales,id_nivel_carrera_interes,id_carrera_interes,estatus,fecha_creacion,fecha_actualizacion,id_categoria_persona,id_rol,id_plantel_interes,id_localidad,id_escolaridad,id_medio_captacion,id_usuario_creacion,id_usuario_actualizacion,id_usuario_verificacion_datos_personales,id_usuario_verificacion_doctos,escuela_procedencia,observacion) 
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),NOW(),?,?,?,?,?,?,?,?,?,?,?,?)";
-            $request = $this->insert($sql,array($nombre,$apellidoP,$apellidoM,$alias,$direccion,$edad,$sexo,$cp,$colonia,$telefonoCelular,$telefonoFijo,$email,$estadoCivil,$ocupacion,$CURP,$fechaNacimiento,0,0,$nivelCarreraInteres,$carreraInteres,1,1,1,$plantelInteres,$localidad,$grado,$medioCaptacion,$idUSer,$idUSer,null,null,$escuelaProcedencia,$observacion));
-            return $request;
+            $sqlPersona = "INSERT INTO t_personas(nombre_persona,ap_paterno,ap_materno,alias,direccion,edad,sexo,cp,colonia,tel_celular,tel_fijo,email,edo_civil,ocupacion,curp,fecha_nacimiento,estatus,fecha_creacion,id_rol,id_localidad,id_escolaridad,id_usuario_creacion) 
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?,?,?)";
+            $requestPersona = $this->insert($sqlPersona,array($nombre,$apellidoP,$apellidoM,$alias,$direccion,$edad,$sexo,$cp,$colonia,$telefonoCelular,$telefonoFijo,$email,$estadoCivil,$ocupacion,$CURP,$fechaNacimiento,1,1,$localidad,$grado,$idUSer));
+            if($requestPersona){
+                $idPersona = $requestPersona;
+                $sqlAsignCategoria = "INSERT INTO t_asignacion_categoria_persona(fecha_alta,validacion_datos_personales,validacion_doctos,estatus,fecha_creacion,id_usuario_creacion,id_persona,id_categoria_persona) VALUES(NOW(),?,?,?,NOW(),?,?,?)";
+                $requestAsignCategoria = $this->insert($sqlAsignCategoria,array(0,0,1,$idUSer,$idPersona,$categoriaPersona));
+                if($requestAsignCategoria){
+                    $sqlProspecto = "INSERT INTO t_prospectos(escuela_procedencia,observaciones,id_plantel_interes,id_nivel_carrera_interes,id_carrera_interes,id_medio_captacion,id_subcampania,id_persona) VALUES(?,?,?,?,?,?,?,?)";
+                    $requestProspecto = $this->insert($sqlProspecto,array($escuelaProcedencia,$observacion,$plantelInteres,$nivelCarreraInteres,$carreraInteres,$medioCaptacion));
+                }
+            }
+            return $requestAsignCategoria;
         }
 
         public function updatePersona($idPersona,$data,int $idUSer){
@@ -122,7 +137,7 @@
         }
         public function selectCarrerasInteres($idNivel){
             $idNivel = $idNivel;
-            $sql = "SELECT *FROM t_carrera_interes WHERE id_nivel_carrera = $idNivel";
+            $sql = "SELECT *FROM t_carrera_interes WHERE id_nivel_educativo = $idNivel";
             $request = $this->select_all($sql);
             return $request;
         }
