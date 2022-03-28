@@ -74,52 +74,6 @@
         }
 
 
-        //PARA ACTUALIZAR TUTORES
-        // public function setAdminisTutores_up()
-        // {
-        //     if($_POST)
-        //     {
-        //         if(empty($_POST['txtNombreTutorUp']) || empty($_POST['txtApellidoPatTutorUp']) || empty($_POST['txtApellidoMatTutorUp']) 
-        //             || empty($_POST['txtDirreccionUp']) || empty($_POST['txtTelCelularUp']) || empty($_POST['txtTelFijoUp']) 
-        //             || empty($_POST['txtCorreoUp'])||empty($_POST['listEstatusUp']) || empty($_POST['txtId_Usuario_ActualizacionUp']))
-        //         {
-        //             $arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
-        //         }else{
-        //             $intIdAdminisTurores = intval($_POST['idAdminTutoresUp']);
-        //             $strNombreTutor = strClean($_POST['txtNombreTutorUp']);
-        //             $strApellidoPatTutor = strClean($_POST['txtApellidoPatTutorUp']);
-        //             $strApellidoMatTutor = strClean($_POST['txtApellidoMatTutorUp']);
-        //             $strDirreccion = strClean($_POST['txtDirreccionUp']);
-        //             $strTelCelular = strClean($_POST['txtTelCelularUp']);
-        //             $strTelFijo = strClean($_POST['txtTelFijoUp']);
-        //             $strCorreo = strClean($_POST['txtCorreoUp']);
-        //             $intEstatus = intval($_POST['listEstatusUp']);
-        //             $strFecha_Actualizacion = strClean($_POST['txtFecha_ActualizacionUp']);
-        //             $intId_Usuario_Actualizacion = intval($_POST['txtId_Usuario_ActualizacionUp']);
-        //             $request_Adminis_tutores = "";
-
-        //             if($intIdAdminisTurores <> 0)
-        //             {
-        //                 $request_Adminis_tutores = $this->model->updateAdministTutores($intIdAdminisTurores, $strNombreTutor, 
-        //                 $strApellidoPatTutor, $strApellidoMatTutor, $strDirreccion, $strTelCelular, $strTelFijo, $strCorreo, $intEstatus,
-        //                 $strFecha_Actualizacion, $intId_Usuario_Actualizacion);
-        //                 $option = 1;
-        //             }
-
-        //             if($request_Adminis_tutores > 0 )
-        //             {
-        //                 if($option == 1)
-        //                 {
-        //                     $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente.');
-        //                 }
-        //             }else{
-        //                 $arrResponse = array("estatus" => false, "msg" => 'No es posible actualizar los datos, probablemente existe un registro con el mismo nombre o presenta algún problema con la red.');
-        //             }
-        //         }
-        //         echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-        //     }
-        //     die();
-        // }
 
         //PARA ACTUALIZAR DATOS
     public function setAdminisTutores_up()
