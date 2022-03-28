@@ -412,7 +412,50 @@
                   </p>
               </a>
           </li>
+          
+
           <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Grados/grados" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="award"></i>
+                  <p>
+                      Grados
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Periodos/periodos" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="thermometer"></i>
+                  <p>
+                      Periodos
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Salones_compuestos/salones_compuestos" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="archive"></i>
+                  <p>
+                      Salones Compuestos
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Ciclos/ciclos" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="circle"></i>
+                  <p>
+                      Ciclos
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Generacion/generacion" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="bar-chart"></i>
+                  <p>
+                      Generaciones
+                  </p>
+              </a>
+          </li>
+          
+          <!--<li class="nav-item">
               <a href="<?php echo BASE_URL ?>/Salones/salon" class="nav-link">
                   <i class="ml-3 mr-2" data-feather="twitch"></i>
                   <p>
@@ -443,7 +486,7 @@
                       Secciones
                   </p>
               </a>
-          </li>
+          </li>-->
           <li class="nav-header"><h6>Servicios</h6></li>                        
           <li class="nav-item">
               <a href="<?php echo BASE_URL ?>/Servicios" class="nav-link">
