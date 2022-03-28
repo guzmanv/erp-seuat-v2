@@ -19,7 +19,7 @@
                     <div class="card-body">
                       <div class="form-group">
                         <label for="txtNombre_promocion">Nombre promoción </label>
-                        <input type="text" id="txtNombre_promocion" name="txtNombre_promocion" class="form-control form-control-sm valid validText" placeholder="Ingrese el nombre de una promoción"  name="Ingrese el nombre de una promoción" required="" >
+                        <input type="text" id="txtNombre_promocion" name="txtNombre_promocion" class="form-control form-control-sm valid validText" placeholder="Ingrese el nombre de una promoción"  maxlength="45" required="" >
                       </div>
                       <div class="form-group">
                         <label for="listServicios">Servicios</label>
