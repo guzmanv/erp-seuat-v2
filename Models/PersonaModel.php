@@ -51,7 +51,7 @@
             $request = $this->select_all($sql);
             return $request;
         }
-        public function insertPersona($data, int $idUSer){
+        public function insertPersona($data, int $idUSer,int $id_subcampania){
             $alias = $data['txtAliasNuevo'];
             $nombre = $data['txtNombreNuevo'];
             $apellidoP = ($data['txtApellidoPaNuevo'] == '')?null:$data['txtApellidoPaNuevo'];
@@ -86,10 +86,10 @@
                 $requestAsignCategoria = $this->insert($sqlAsignCategoria,array(0,0,1,$idUSer,$idPersona,$categoriaPersona));
                 if($requestAsignCategoria){
                     $sqlProspecto = "INSERT INTO t_prospectos(escuela_procedencia,observaciones,id_plantel_interes,id_nivel_carrera_interes,id_carrera_interes,id_medio_captacion,id_subcampania,id_persona) VALUES(?,?,?,?,?,?,?,?)";
-                    $requestProspecto = $this->insert($sqlProspecto,array($escuelaProcedencia,$observacion,$plantelInteres,$nivelCarreraInteres,$carreraInteres,$medioCaptacion));
+                    $requestProspecto = $this->insert($sqlProspecto,array($escuelaProcedencia,$observacion,$plantelInteres,$nivelCarreraInteres,$carreraInteres,$medioCaptacion,$id_subcampania,$idPersona));
                 }
             }
-            return $requestAsignCategoria;
+            return $requestProspecto;
         }
 
         public function updatePersona($idPersona,$data,int $idUSer){
@@ -165,6 +165,11 @@
 				}
 			}
 			return $request;
+        }
+        public function selectSubcampania(){
+            $sql = "SELECT *FROM t_subcampania ORDER BY fecha_fin DESC LIMIT 1";
+            $request = $this->select($sql);
+            return $request;
         }
     }
 ?>

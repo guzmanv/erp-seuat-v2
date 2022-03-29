@@ -49,7 +49,7 @@ formPersonaNueva.onsubmit = function(e){
     let txtMedioCaptacion = document.querySelector('#listMediosCaptacion').value;
     let txtLocalidad = document.querySelector('#listLocalidadNuevo').value;
     let txtObservacion = document.querySelector('#txtObservacion').value;
-
+    let radioCaptacion = document.getElementsByName('radioMedios_captacion');
     if (txtNombre == '' || txtAlias == '' || txtSexo == '' || txtMedioCaptacion == '' || txtLocalidad == '' || txtObservacion == ''){
         swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
         return false;
@@ -62,8 +62,7 @@ formPersonaNueva.onsubmit = function(e){
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
-            console.log(objData);
-            /* if(objData.estatus){
+            if(objData.estatus){
                 formPersonaNueva.reset();
                 swal.fire("Persona",objData.msg,"success").then((result) =>{
                     $('#dimissModalNuevo').click();
@@ -71,7 +70,7 @@ formPersonaNueva.onsubmit = function(e){
                 tablePersonas.api().ajax.reload();
             }else{
                 swal.fire("Error",objData.msg,"error");
-            } */
+            }
         }
     }
 }
@@ -372,7 +371,8 @@ function fntVerPersona(idPersona){
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
-            if(objData){
+            console.log(objData);
+            /* if(objData){
                 document.querySelector("#idVer").value = objData.id;
                 document.querySelector("#txtNombreVer").value = objData.nombre_persona;    
                 document.querySelector("#txtAliasVer").value = objData.alias;    
@@ -406,7 +406,7 @@ function fntVerPersona(idPersona){
                 }else{
                     document.querySelector('#listEstatusVer').innerHTML = "<option>Inactivo</option>";
                 }
-            }
+            } */
         }
     }
 }

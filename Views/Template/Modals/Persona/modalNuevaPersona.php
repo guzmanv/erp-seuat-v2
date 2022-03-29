@@ -150,6 +150,7 @@
                                         </div>
 								    </div>
                                 </div>
+
                                 <div class="card col-md-12 p-0">
                                     <div class="card-header" style="background-color: #D5DBDB !important">
 									    <h5 class="card-title mb-0">Ubicación</h5>

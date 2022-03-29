@@ -34,11 +34,11 @@
         public function getPersonaEdit($idPersona){
             $idPersona = $idPersona;
             $arrData = $this->model->selectPersonaEdit($idPersona);
-            if($arrData['nombre_plantel_interes'] == null){
+            /* if($arrData['nombre_plantel_interes'] == null){
                 $arrData['plantel_interes'] = "Sin Plantel";
             }else{
                 $arrData['plantel_interes'] = $arrData['nombre_plantel_interes'];
-            }
+            } */
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
         }
@@ -76,7 +76,8 @@
                 $intIdPersonaEdit = intval($_POST['idEdit']);
             }
             if($intIdPersonaNueva == 1){
-                $arrData = $this->model->insertPersona($data,$this->idUser);
+                $id_subcampania = $this->model->selectSubcampania();
+                $arrData = $this->model->insertPersona($data,$this->idUser,$id_subcampania['id']);
                 if($arrData){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
                 }else{
@@ -84,14 +85,14 @@
                 }
             }
             if($intIdPersonaEdit !=0){
-                $arrData = $this->model->updatePersona($intIdPersonaEdit,$data,$this->idUser);
+                $arrData = $this->model->updatePersona($intIdPersonaEdit,$data,$this->idUser,$id_subcampania['id']);
                 if($arrData){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos Actualizados Correctamente');
                 }else{
                     $arrResponse = array('estatus' => true, 'mgg' => 'No es posible actualizar los datos');
                 }
             }
-            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
         }
         public function getMunicipios(){
             $idEstado = $_GET['idestado'];
