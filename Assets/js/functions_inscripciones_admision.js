@@ -97,7 +97,6 @@ formInscripcionNueva.onsubmit = function(e){
     var strNombreTutor = document.querySelector('#txtNombreTutorAgregar').value;
     var strAppPaternoTutor = document.querySelector('#txtAppPaternoTutorAgregar').value;
     var strAppMaternoTutor = document.querySelector('#txtAppMaternoTutorAgregar').value;
-    console.log(strNombrePersona);
     if(strNombrePersona == '' || intPlantel == '' || intCarrera == '' || intGrado == '' || intTurno == '' || strNombreTutor == '' || strAppPaternoTutor == ''|| strAppMaternoTutor == '' ){
         swal.fire("Atención","Atención todos los campos son obligatorios","warning");
         return false;
@@ -110,11 +109,9 @@ formInscripcionNueva.onsubmit = function(e){
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
-            //console.log(objData);
             if(objData.estatus){
                 formInscripcionNueva.reset();
                 swal.fire("Inscripcion",objData.msg,"success").then((result) =>{
-                    //s$('.close').click();
                     Swal.fire({
                         title: 'Solicitud',
                         text:'Desea imprimir la solicitud de inscripcion?',
@@ -135,7 +132,7 @@ formInscripcionNueva.onsubmit = function(e){
                 });
                 tableInscripciones.api().ajax.reload();
             }else{
-                swal.fire("Error",objData.msg,"error");
+                 swal.fire("Error",objData.msg,"error");
             }
         }
         return false;
@@ -316,7 +313,6 @@ function pasarTab(n) {
         fetch(url)
             .then(res => res.json())
             .then((resultado) => {
-                console.log(resultado);
                 document.querySelector('#txtNombreTutorAgregar').value = resultado['nombre_persona'];
                 document.querySelector('#txtAppPaternoTutorAgregar').value = resultado['ap_paterno'];
                 document.querySelector('#txtAppMaternoTutorAgregar').value = resultado['ap_materno'];
@@ -368,7 +364,6 @@ function pasarTab(n) {
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
-            console.log(objData);
             if(objData){   
                 document.querySelector("#txtNombreEdit").value = objData[0].nombre_persona+" "+objData[0].ap_paterno+" "+objData[0].ap_materno;
                 document.querySelector('#listPlantelEdit').querySelector('option[value="'+objData[0].id_plantel+'"]').selected = true;
@@ -526,7 +521,7 @@ function accionesUsuariosSeleccionados(value){
                             }else{
                                 Swal.fire('Error!',resultado.msg,'error');
                             }
-                        }).catch(err => {throw err});
+                        }).catch(err => {throw err}); 
                     }
                 })
             }

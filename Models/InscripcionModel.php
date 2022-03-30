@@ -99,7 +99,7 @@
             return $request;
         }
 
-        public function insertInscripcion($data){
+        public function insertInscripcion($data,$idUser){
             $idPersona = $data['idPersonaSeleccionada'];
             $idPlantel = $data['listPlantelNuevo'];
             $idCarrera = $data['listCarreraNuevo'];
@@ -124,8 +124,8 @@
             }
             $direccionTutor = $data['txtDireccionNuevo'];
             $idSubcampania = $data['idSubcampaniaNuevo'];
-            $sql = "INSERT INTO t_tutores(nombre_tutor,appat_tutor,apmat_tutor,direccion,tel_celular,tel_fijo,email) VALUES(?,?,?,?,?,?,?)";
-            $request = $this->insert($sql,array($nombreTutor,$appPatTutor,$appMatTutor,$direccionTutor,$telCelularTutor,$telFijoTutor,$emailTutor));
+            $sql = "INSERT INTO t_tutores(nombre_tutor,appat_tutor,apmat_tutor,direccion,tel_celular,tel_fijo,email,estatus,id_usuario_creacion,fecha_creacion) VALUES(?,?,?,?,?,?,?,?,?,NOW())";
+            $request = $this->insert($sql,array($nombreTutor,$appPatTutor,$appMatTutor,$direccionTutor,$telCelularTutor,$telFijoTutor,$emailTutor,1,$idUser));
             if($request){
                 $idTutor = $request;
                 $sql_documentos = "SELECT doc.id FROM t_plan_estudios AS plan
@@ -149,13 +149,7 @@
                             $requestEmpresa = $this->update($sqlEmpresa,array($empresa));
                         }
                     }
-                    /* $sql_inscripcion = "INSERT INTO t_inscripciones(folio_impreso,folio_sistema,tipo_ingreso,grado,id_horario,id_plan_estudios,id_personas,id_tutores,id_documentos,id_salon,id_subcampania,id_usuario_creacion,fecha_actualizacion,id_usuario_actualizacion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)";
-                    $request_inscripcion = $this->insert($sql_inscripcion,array($folioSistema,$folioSistema,$tipoIngreso,$grado,$turno,$idCarrera,$idPersona,$idPersona,$idDocumentos,$idSalon,$idSubcampania,1,1));
-                    if($request_inscripcion){
-                        $idInscripcion = $request_inscripcion;
-                       $sql_historial = "INSERT INTO t_historiales(aperturado,inscrito,egreso,pasante,titulado,baja,matricula_interna,matricula_externa,fecha_inscrito,fecha_egreso,fecha_pasante,fecha_titulado,fecha_baja,id_inscripcion) VALUES(?,?,?,?,?,?,?,?,NOW(),?,?,?,?,?)";
-                        $request_historial = $this->insert($sql_historial,array(0,1,0,0,0,0,null,null,null,null,null,null,$idInscripcion));
-                    } */
+
                 }
             }
             return $request_inscripcion;
@@ -264,7 +258,7 @@
                 $idHistorial = $requestHistorial['id_historial'];
                 $sql = "UPDATE t_historiales SET inscrito = ?,cancelado = ?,fecha_cancelado = NOW() WHERE id= $idHistorial";
                 $request = $this->update($sql,array(0,1));
-            }
+            } 
             return $request;
         }
         public function updatePosponerInscripcion(int $idInscripcion, int $idSubcampania){

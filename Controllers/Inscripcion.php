@@ -1,3 +1,4 @@
+
 <?php
     class Inscripcion extends Controllers{
         public function __construct(){
@@ -111,7 +112,7 @@
             }
             //Nueva
             if($intIdInscripcionNueva == 0){
-                $arrData = $this->model->insertInscripcion($data);
+                $arrData = $this->model->insertInscripcion($data,$_SESSION['idUser']);
                 if($arrData){
                     $arrResponse = array('estatus' => true,'data'=> $arrData, 'msg' => 'Inscripcion realizado correctamente!');
                 }else{
