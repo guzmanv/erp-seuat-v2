@@ -34,11 +34,11 @@
         public function getPersonaEdit($idPersona){
             $idPersona = $idPersona;
             $arrData = $this->model->selectPersonaEdit($idPersona);
-            /* if($arrData['nombre_plantel_interes'] == null){
+            if($arrData['nombre_plantel_interes'] == null){
                 $arrData['plantel_interes'] = "Sin Plantel";
             }else{
                 $arrData['plantel_interes'] = $arrData['nombre_plantel_interes'];
-            } */
+            }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
         }

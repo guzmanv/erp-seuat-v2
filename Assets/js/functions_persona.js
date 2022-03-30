@@ -371,8 +371,7 @@ function fntVerPersona(idPersona){
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
-            console.log(objData);
-            /* if(objData){
+            if(objData){
                 document.querySelector("#idVer").value = objData.id;
                 document.querySelector("#txtNombreVer").value = objData.nombre_persona;    
                 document.querySelector("#txtAliasVer").value = objData.alias;    
@@ -406,7 +405,7 @@ function fntVerPersona(idPersona){
                 }else{
                     document.querySelector('#listEstatusVer').innerHTML = "<option>Inactivo</option>";
                 }
-            } */
+            }
         }
     }
 }
