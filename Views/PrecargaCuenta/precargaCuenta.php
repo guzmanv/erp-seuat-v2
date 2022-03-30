@@ -86,9 +86,9 @@
                                 <div class="alert alert-dark text-center" role="alert">
                                     <b>PRECARGA CUENTA</b>
                                 </div> 
-                                <div class="alert alert-danger col-6 div_alert_precarga" role="alert">
+                                <div class="d-flex justify-content-center"><div class="alert div_alert_precarga" style="background-color:#EF9A9A"role="alert">
                                     Selecciona un plantel para poder agregar <b>Servicios</b>
-                                </div>     
+                                </div></div>
                                 <div class="row div_datos_precarga">
                                 <div class="col-md-4">
                                         <div class="card">
@@ -143,11 +143,10 @@
                                             <thead>
                                                 <div class="d-flex justify-content-end">
                                                     <div class="form-group col-6">
-                                                        <input class="form-control" type="text" id="txtNombre_servicio" placeholder="Nombre del servicio">
+                                                        <input class="form-control" type="text" id="txtNombre_servicio" placeholder="Nombre del servicio" disabled>
                                                     </div>
                                                     <div class="form-group col-2">
                                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_buscar_servicios" >Buscar</button>
-                                                        <button type="button" id="btnAgregar_servicio_tabla" class="btn btn-success"><i class="fas fa-plus"></i></button>
                                                     </div>
                                                 </div>
                                                 <tr>

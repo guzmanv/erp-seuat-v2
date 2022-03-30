@@ -96,7 +96,7 @@
 				for($i = 0; $i<count($arrData); $i++){
 					$arrData[$i]['numeracion'] = $i+1;
 					$arrData[$i]['precio'] = '$'.formatoMoneda($arrData[$i]['precio_unitario']);
-					$arrData[$i]['options'] = '<button type="button" class="btn btn-primary btn-xs" n="'.$arrData[$i]['nombre_servicio'].'" c="'.$arrData[$i]['codigo_servicio'].'" onclick="fnSeleccionarServicio(this,'.$arrData[$i]['id'].','.$arrData[$i]['precio_unitario'].')">Seleccionar</button>';
+					$arrData[$i]['options'] = '<button type="button" class="btn btn-primary btn-xs" n="'.$arrData[$i]['nombre_servicio'].'" c="'.$arrData[$i]['codigo_servicio'].'" onclick="fnSeleccionarServicio(this,'.$arrData[$i]['id'].','.$arrData[$i]['precio_unitario'].')">Agregar</button>';
 				}
 			}else{
 				$arrData = null;
