@@ -43,7 +43,7 @@
             }
             for($i = 0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
-                $arrData[$i]['options'] = "<button type='button' class='btn btn-primary btn-sm center' onclick='fnServicios(".$arrData[$i]['id_plantel'].",".$arrData[$i]['id'].")'>Ver</button>";
+                $arrData[$i]['options'] = "<button type='button' class='btn btn-primary btn-xs center' onclick='fnSeleccionarPlanEstudios(".$arrData[$i]['id_plantel'].",".$arrData[$i]['id'].")'>Seleccionar</button>";
             }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
@@ -86,6 +86,22 @@
                 }
             }
 			echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+			die();
+		}
+
+		public function getServiciosByInput($valueInput){
+			$input = strClean($valueInput);
+			if($input != ""){
+				$arrData = $this->model->selectServiciosByInput($input);
+				for($i = 0; $i<count($arrData); $i++){
+					$arrData[$i]['numeracion'] = $i+1;
+					$arrData[$i]['precio'] = '$'.formatoMoneda($arrData[$i]['precio_unitario']);
+					$arrData[$i]['options'] = '<button type="button" class="btn btn-primary btn-xs" n="'.$arrData[$i]['nombre_servicio'].'" c="'.$arrData[$i]['codigo_servicio'].'" onclick="fnSeleccionarServicio(this,'.$arrData[$i]['id'].','.$arrData[$i]['precio_unitario'].')">Seleccionar</button>';
+				}
+			}else{
+				$arrData = null;
+			}
+			echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
 			die();
 		}
 	}
