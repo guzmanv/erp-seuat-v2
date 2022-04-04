@@ -50,74 +50,6 @@ document.addEventListener('DOMContentLoaded', function(){
     }); 
 
 
-    //ACTUALIZAR TUTORES
-    if(document.querySelector('#formAdminTutoresUp')){
-        let formAdminTutoresUp = document.querySelector('#formAdminTutoresUp');
-        formAdminTutoresUp.onsubmit = function(e){
-            e.preventDefault();
-
-            let intIdAdminisTurores = document.querySelector('#idAdminTutoresUp').value;
-            let strNombreTutor = document.querySelector('#txtNombreTutorUp').value;
-            let strApellidoPatTutor = document.querySelector('#txtApellidoPatTutorUp').value;
-            let strApellidoMatTutor = document.querySelector('#txtApellidoMatTutorUp').value;
-            let strDirreccion = document.querySelector('#txtDirreccionUp').value;
-            let strTelCelular = document.querySelector('#txtTelCelularUp').value;
-            let strTelFijo = document.querySelector('#txtTelFijoUp').value;
-            let strCorreo = document.querySelector('#txtCorreoUp').value;
-            let strFecha_Actualizacion = document.querySelector('#txtFecha_ActualizacionUp ').value;
-            let intId_Usuario_Actualizacion = document.querySelector('#txtId_Usuario_ActualizacionUp').value;
-            let intEstatus = document.querySelector('#listEstatusUp').value;
-            
-            if(strNombreTutor == '' || strApellidoPatTutor == '' || strApellidoMatTutor == '' || strDirreccion == '' 
-                || strTelCelular == '' || strTelFijo == '' || strCorreo == '' || intId_Usuario_Actualizacion == '')
-            {
-                swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
-				return false;
-            }
-
-            divLoading.style.display = "flex";
-            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            let ajaxUrl = base_url+'/Administracion_tutores/setAdminisTutores_up';
-            let formData = new FormData(formAdminTutoresUp);
-            request.open("POST",ajaxUrl,true);
-            request.send(formData);
-
-            request.onreadystatechange = function(){
-                if(request.readyState == 4 && request.status == 200){
-
-                    let objData = JSON.parse(request.responseText);
-                    if(objData.estatus)
-                    {
-                        if(rowTable == ""){
-                            tableAdministracionTutores.api().ajax.reload();
-                        }else{
-                            htmlEstatus = intEstatus == 1 ?
-                            '<span class="badge badge-dark">Activo</span>' :
-							'<span class="badge badge-secondary">Inactivo</span>';
-							rowTable.cells[1].textContent = strNombreTutor;
-                            rowTable.cells[2].textContent = strApellidoPatTutor;
-                            rowTable.cells[3].textContent = strApellidoMatTutor;
-                            rowTable.cells[4].textContent = strDirreccion;
-                            rowTable.cells[5].textContent = strTelCelular;
-                            rowTable.cells[6].textContent = strTelFijo;
-                            rowTable.cells[7].textContent = strCorreo;
-                            rowTable.cells[8].innerHTML = htmlEstatus;
-							rowTable = "";
-                        }
-
-                        $('#ModalFormAdministracTutoresEditar').modal('hide');
-                        formAdminTutoresUp.reset();
-                        swal.fire("Administración tutores ", objData.msg, "success");
-                    }else{
-                        swal.fire("Error", objData.msg , "error");
-                    }
-                }
-                divLoading.style.display = "none";
-				return false;
-            }
-        }
-    }
-
 
 
     // Actualizar
@@ -161,16 +93,14 @@ document.addEventListener('DOMContentLoaded', function(){
 							tableAdministracionTutores.api().ajax.reload();
 						}else{
 							htmlEstatus = intEstatus == 1 ?
-							'<span class="badge badge-dark">Activo</span>' :
+                            '<span class="badge badge-dark">Activo</span>' :
 							'<span class="badge badge-secondary">Inactivo</span>';
-							rowTable.cells[1].textContent = strNombreTutor;
-							rowTable.cells[2].textContent = strApellidoPatTutor;
-							rowTable.cells[3].textContent = strApellidoMatTutor;
-                            rowTable.cells[4].textContent = strDirreccion;
-                            rowTable.cells[5].textContent = strTelCelular;
-                            rowTable.cells[6].textContent = strTelFijo;
-                            rowTable.cells[7].textContent = strCorreo;
-							rowTable.cells[8].innerHTML = htmlEstatus;
+							rowTable.cells[1].textContent = strNombreTutor + " "+strApellidoPatTutor + " "+strApellidoMatTutor;
+                            rowTable.cells[2].textContent = strDirreccion;
+                            rowTable.cells[3].textContent = strTelCelular;
+                            rowTable.cells[4].textContent = strTelFijo;
+                            rowTable.cells[5].textContent = strCorreo;
+                            rowTable.cells[6].innerHTML = htmlEstatus;
 							rowTable = "";
 						}
 																			
