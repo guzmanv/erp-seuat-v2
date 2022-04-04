@@ -44,7 +44,7 @@ function fnObtenerTotales(plantel)
         }
         console.log(data)
     })
-    .catch(function (err){
-        console.log('Error ',err)
-    })
+    // .catch(function (err){
+    //     console.log('Error ',err)
+    // })
 }
