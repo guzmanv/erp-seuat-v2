@@ -80,5 +80,10 @@ class PrecargaCuentaModel extends Mysql
         $request = $this->insert($sql,array($precioNuevo,$fechaLimitePago,1,$idUser,$idServicio,$idPlanEstudios,$idPeriodo,$idGrado));
         return $request;
     }
+    public function selectServiciosByInput($value){
+        $sql = "SELECT *FROM t_servicios WHERE nombre_servicio LIKE '%$value%'";
+        $request = $this->select_all($sql);
+        return $request;
+    }
 
 }

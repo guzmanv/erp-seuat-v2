@@ -1,7 +1,8 @@
 <?php
     headerAdmin($data);
     getModal("PrecargaCuenta/modalEditarServicio",$data);
-    /*getModal("Inscripcion/modalDocumentacion",$data);
+    getModal("PrecargaCuenta/modalBuscarServicios",$data);
+    /*
     getModal("Inscripcion/modalEditInscripcion",$data);
     getModal("Inscripcion/modalListaInscritos",$data); */
 ;
@@ -15,13 +16,13 @@
                     <div class="col-sm-7">
                         <h1 class="m-0"><?= $data['page_title'] ?></h1>
                     </div>
-                    <div class="col-sm-5">
+                    <!-- <div class="col-sm-5">
                         <ol class="breadcrumb float-sm-right btn-block">
                             <button type="button" class="btn btn-inline btn-primary btn-sm btn-block"
                                 data-toggle="modal" data-target="#ModalFormNuevaInscripcion"><i
                                     class="fa fa-plus-circle fa-md"></i>Nuevo</button>
                         </ol>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -84,27 +85,12 @@
                             <div class="card-body">
                                 <div class="alert alert-dark text-center" role="alert">
                                     <b>PRECARGA CUENTA</b>
-                                </div>      
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <table class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th><input type="checkbox"aria-label="Checkbox for following text input"></th>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">Codigo</th>
-                                                    <th scope="col">Nombre</th>
-                                                    <th scope="col">Precio unitario</th>
-                                                    <th scope="col">Nuevo precio</th>
-                                                    <th scope="col">Acciones</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tableServicios">
-                                                
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="col-md-4">
+                                </div> 
+                                <div class="d-flex justify-content-center"><div class="alert div_alert_precarga" style="background-color:#EF9A9A"role="alert">
+                                    Selecciona un plantel para poder agregar <b>Servicios</b>
+                                </div></div>
+                                <div class="row div_datos_precarga">
+                                <div class="col-md-4">
                                         <div class="card">
                                             <div class="card-body">
                                                 <table class="table">
@@ -151,6 +137,32 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <div class="d-flex justify-content-end">
+                                                    <div class="form-group col-6">
+                                                        <input class="form-control" type="text" id="txtNombre_servicio" placeholder="Nombre del servicio" disabled>
+                                                    </div>
+                                                    <div class="form-group col-2">
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_buscar_servicios" >Buscar</button>
+                                                    </div>
+                                                </div>
+                                                <tr>
+                                                    <th><input type="checkbox"aria-label="Checkbox for following text input"></th>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Codigo</th>
+                                                    <th scope="col">Nombre</th>
+                                                    <th scope="col">Precio unitario</th>
+                                                    <th scope="col">Nuevo precio</th>
+                                                    <th scope="col">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tableServicios">
+                                                
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>

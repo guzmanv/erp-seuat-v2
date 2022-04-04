@@ -3,6 +3,7 @@ let idPlanEstudios = null;
 let nivel = null;
 let formEditServicio = document.querySelector("#form_servicio_edit");
 let arrDatosNew = [];
+let tableServicios;
 
 document.addEventListener('DOMContentLoaded', function(){
     let selectPlantel = document.querySelector('#listPlantelDatatable');
@@ -10,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function(){
         nivel = null;
         fnPlantelSeleccionadoDatatable(selectPlantel.value, nivel);
     }
+    document.querySelector('.div_datos_precarga').style.display = "none";
 });
 
 function fnPlantelSeleccionadoDatatable(value,nivel){
@@ -48,13 +50,17 @@ function fnPlantelSeleccionadoDatatable(value,nivel){
     $('#tablePlanEstudios').DataTable();
     fnListNiveles(idPlantel,nivel);
 }
-function fnServicios(idPlantel,planestudios){
+function fnSeleccionarPlanEstudios(plantel,planestudios){
     idPlanEstudios = planestudios;
-    let url = `${base_url}/PrecargaCuenta/getServicios/${idPlantel}`;
-    //window.scrollTo(0,document.body.scrollHeight);
+    idPlantel = plantel;
     $('html,body').animate({scrollTop: $(".div_precarga").offset().top},'slow');
-    //window.scrollTo:{y:"#tableServicios", offsetY: $(window).innerHeight() / 2 - $('#tableServicios').height() / 2, x:"#tableServicios", offsetX: $(window).innerWidth() / 2 - $('#tableServicios').width() / 2, autoKill:false};
-    fetch(url).then((res) => res.json()).then(resultado =>{
+    if(idPlantel > 0){
+        document.querySelector('.div_datos_precarga').style.display = "flex";
+        //console.log(arrDatosNew);
+        document.querySelector('.div_alert_precarga').style.display = "none";
+    }
+    //let url = `${base_url}/PrecargaCuenta/getServicios/${idPlantel}`;
+/*     fetch(url).then((res) => res.json()).then(resultado =>{
         if(resultado.length > 0){
             arrDatosNew = resultado;
             mostrarServiciosTabla();
@@ -63,7 +69,7 @@ function fnServicios(idPlantel,planestudios){
             document.querySelector('#tableServicios').innerHTML = "<tr><td colspan='7'><div class='alert alert-danger text-center' role='alert'>No hay datos.</div></td></tr>";
             
         }
-    }).catch(err => {throw err});
+    }).catch(err => {throw err}); */
 }
 function fnListNiveles(idPlantel,nivel){
     let url = `${base_url}/PrecargaCuenta/getNivelesByPlantel/${idPlantel}`;
@@ -175,13 +181,68 @@ function fnGuardarPrecarga(){
 
 function mostrarServiciosTabla(){
     let contador = 0;
-    document.querySelector('#tableServicios').innerHTML = "";
+    //document.querySelector('#tableServicios').innerHTML = "";
     arrDatosNew.forEach(element => {
         contador += 1;
-        document.querySelector('#tableServicios').innerHTML += '<tr><th><input type="checkbox" aria-label="Checkbox for following text input"></th><th scope="row">'+contador+'</th><td>'+element.codigo_servicio+'</td><td>'+element.nombre_servicio+'</td><td>'+formatoMoneda(element.precio_unitario)+'</td><td id="np-'+element.id+'">$0.00</td><td><a type="button" n="'+element.nombre_servicio+'" p="'+element.precio_unitario+'" onclick="fnEditServicio(this,'+element.id+')" data-toggle="modal" data-target="#modal_editar_servicio"><i class="fas fa-pencil-alt"></i></a><a type="button" data-toggle="modal" data-target="#exampleModal"><i class="far fa-eye ml-3"></i></a></td></tr>';
+        document.querySelector('#tableServicios').innerHTML += 'sjdiisdjisidjisjijsij';
+        console.log(contador);
     });
 }
 
+function buscarServicio(){
+    let value = document.querySelector('#busquedaServicio').value;
+    let url = `${base_url}/PrecargaCuenta/getServiciosByInput/${value}`;
+    fetch(url).then((res) => res.json()).then(resultado =>{
+            tableServicios = $('#tableServicios').dataTable( {
+            "aProcessing":true,
+            "aServerSide":true,
+            "language": {
+                "url": " "+base_url+"/Assets/plugins/Spanish.json"
+            },
+            "ajax":{
+                "url": url,
+                "dataSrc":""
+            },
+            "columns":[
+                {"data":"numeracion"},
+                {"data":"nombre_servicio"},
+                {"data":"codigo_servicio"},
+                {"data":"subcodigo_servicio"},
+                {"data":"precio"},
+                {"data":"anio_fiscal"},
+                {"data":"options"}
+            ],
+            "responsive": true,
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            //"scrollY": '42vh',
+            "scrollCollapse": true,
+            "bDestroy": true,
+            "order": [[ 0, "asc" ]],
+            "iDisplayLength": 5
+        });
+        $('#tableServicios').DataTable();
+    }).catch(err => {throw err});
+}
+
+function fnSeleccionarServicio(value,id,precio){
+    document.querySelector('#busquedaServicio').value = "";
+    $('.cerrarModalEdit').click();
+    buscarServicio();
+    let nombreServicio = value.getAttribute('n');
+    let codigoServicio = value.getAttribute('c');
+    let idServicio = id;
+    let precioUnitario = precio;
+    document.querySelector('#txtNombre_servicio').value = nombreServicio;
+    let arrValue = {'id_servicio':idServicio,'nombre_servicio':nombreServicio,'codigo':codigoServicio,'precio_unitario':precioUnitario,'nuevo_precio':null,'fecha_limite_pago':null};
+    arrDatosNew.push(arrValue);
+    //console.log(arrDatosNew);
+    mostrarServiciosTabla();
+}
 //Function para dar formato un numero a Moneda
 function formatoMoneda(numero){
     let str = numero.toString().split(".");
