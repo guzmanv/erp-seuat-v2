@@ -14,7 +14,7 @@
 
     public function selectMediosCaptacion(){
 
-      $sql = "SELECT * FROM t_medio_captacion WHERE estatus !=0";
+      $sql = "SELECT * FROM t_medio_captacion ORDER BY fecha_creacion DESC";
       $request = $this->select_all($sql);
       return $request;
 

@@ -15,10 +15,10 @@
 
     public function MedioCaptacion(){
 
-      $data['page_tag'] = "Medios de Captacion";
-      $data['page_title'] = "Medios de Captacion";
+      $data['page_tag'] = "Medios de captación";
+      $data['page_title'] = "Medios de captación";
       $data['page_name'] = "medio_captacion";
-      $data['page_functions_js'] = "functionsMedioCapatacion.js";
+      $data['page_functions_js'] = "functions_medio_captacion.js";
       $this->views->getView($this,"MedioCaptacion",$data);
 
     }
@@ -28,13 +28,13 @@
       $arrData = $this->model->selectMediosCaptacion();
       for($i = 0; $i < count($arrData); $i++){
 
-        $arrData[$i]['id_gurardado'] = $arrData[$i]['id'];
-        $arrData[$i]['id'] = $i+1;
-
-        if($arrData[$i]['estatus'] == 1){
-
-          $arrData[$i]['estatus'] = '<span class="badge badge-dark">Activo</span>';
-        }else{
+        $arrData[$i]['numeracion'] = $i + 1;
+        if($arrData[$i]['estatus'] == 1)
+        {
+          $arrData[$i]['estatus'] = '<span class="badge badge-primary">Activo</span>';
+        }
+        else
+        {
           $arrData[$i]['estatus'] = '<span class="badge badge-secondary">Inactivo</span>';
         }
 
@@ -45,9 +45,9 @@
             <i class="fas fa-layer-group"></i> &nbsp; Acciones
             </button>
             <div class="dropdown-menu">
-              <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditMedioCaptacion" onClick="fntEditMedioCaptacion(this,'.$arrData[$i]['id_gurardado'].')" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>
+              <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditMedioCaptacion" onClick="fntEditMedioCaptacion(this,'.$arrData[$i]['id'].')" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>
               <div class="dropdown-divider"></div>
-              <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelMedioCaptacion" onClick="fntDelMedioCaptacion('.$arrData[$i]['id_gurardado'].')" title="Eliminar"> &nbsp;&nbsp; <i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>
+              <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelMedioCaptacion" onClick="fntDelMedioCaptacion('.$arrData[$i]['id'].')" title="Eliminar"> &nbsp;&nbsp; <i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>
             </div>
           </div>
         </div>';
