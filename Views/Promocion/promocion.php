@@ -1,7 +1,7 @@
 <?php
   headerAdmin($data);
   getModal('Promocion/modalNuevaPromocion',$data);
-  //getModal('Promocion/modalEditCategoriaServicios',$data);
+  getModal('Promocion/modalEditPromocion',$data);
 ?>
 
 <div id="contentAjax"></div>
@@ -44,7 +44,8 @@
                   <thead>
                   <tr>
                     <th width="7%">ID</th>
-                    <th>Nombre</th>
+                    <th>Promoción</th>
+                    <th>Servicio aplicado</th>
                     <th width="10%">% descuento</th>
                     <th width="7%">Estatus</th>
                     <th width="12%">Acciones</th>
@@ -71,17 +72,7 @@
   </div>
   <!-- /.content-wrapper -->
 
-  <!-- Control Sidebar -->
-
-  <!--<aside class="control-sidebar control-sidebar-dark">
-     Control sidebar content goes here -->
-    <!--<div class="p-3">
-      <h5>Title</h5>
-      <p>Sidebar content</p>
-    </div>
-  </aside>-->
-  <!-- /.control-sidebar -->
-
+ 
 </div>
 <!-- ./wrapper -->
 

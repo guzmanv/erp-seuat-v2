@@ -412,7 +412,50 @@
                   </p>
               </a>
           </li>
+          
+
           <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Grados/grados" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="award"></i>
+                  <p>
+                      Grados
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Periodos/periodos" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="thermometer"></i>
+                  <p>
+                      Periodos
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Salones_compuestos/salones_compuestos" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="archive"></i>
+                  <p>
+                      Salones Compuestos
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Ciclos/ciclos" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="circle"></i>
+                  <p>
+                      Ciclos
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Generacion/generacion" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="bar-chart"></i>
+                  <p>
+                      Generaciones
+                  </p>
+              </a>
+          </li>
+          
+          <!--<li class="nav-item">
               <a href="<?php echo BASE_URL ?>/Salones/salon" class="nav-link">
                   <i class="ml-3 mr-2" data-feather="twitch"></i>
                   <p>
@@ -443,38 +486,51 @@
                       Secciones
                   </p>
               </a>
+          </li>-->
+          <li class="nav-header"><h6>Servicios</h6></li>                        
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Servicios" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="shopping-bag"></i>
+                  <p>
+                      Servicios
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Categoria_servicios" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="globe"></i>
+                  <p>
+                      Categoria Servicios
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Promocion" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="gift"></i>
+                  <p>
+                      Promoción
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/Unidad_medida" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="flag"></i>
+                  <p>
+                      Unidad de medida
+                  </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="<?php echo BASE_URL ?>/PrecargaCuenta" class="nav-link">
+                  <i class="ml-3 mr-2" data-feather="navigation"></i>
+                  <p>
+                      Precarga cuenta
+                  </p>
+              </a>
           </li>
 
+
           <li class="nav-header"><h6>Ingresos y Egresos</h6></li>                        
-          <!-- <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="ml-3 mr-2" data-feather="dollar-sign"></i>
-              <p>
-                Ingresos y Egresos
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                   <i class="ml-3 mr-2" data-feather="circle"></i>
-                  <p>Ingresos</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                   <i class="ml-3 mr-2" data-feather="circle"></i>
-                  <p>Egresos</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                   <i class="ml-3 mr-2" data-feather="circle"></i>
-                  <p>Consultas</p>
-                </a>
-              </li>
-            </ul>
-          </li> -->
           <li class="nav-item">
               <a href="<?php echo BASE_URL ?>/Ingresos" class="nav-link">
                   <i class="ml-3 mr-2" data-feather="dollar-sign"></i>

@@ -121,6 +121,13 @@
                 if($isMatricula){
                     $idAlumno = $isMatricula['id'];
                 }
+                if($isMatricula == false && $isRFC == false){
+                    $arrData['estatus'] = false;
+                    $arrData['msg'] = "Los datos ingresados no se encuentra en la base de datos";
+                    echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+                    die();
+                    finish();
+                }
                 $estatus = $this->model->selectStatusEstadoCuentaById($idAlumno);
                 if(count($estatus) > 0){
                     $arrData['estatus'] = true;
@@ -145,6 +152,7 @@
                 }else{
                     $arrData['estatus'] = false;
                     $arrData['datos'] = null;
+                    $arrData['msg'] = "El alumno no cuenta con un estado de cuenta";
                 }
             }else{
                 $estatus = $this->model->selectStatusEstadoCuentaById($idAlumno);
@@ -171,6 +179,7 @@
                 }else{
                     $arrData['estatus'] = false;
                     $arrData['datos'] = null;
+                    $arrData['msg'] = "El alumno no cuenta con un estado de cuenta";
                 }
             }
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);

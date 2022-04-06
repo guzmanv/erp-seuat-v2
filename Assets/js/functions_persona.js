@@ -49,7 +49,7 @@ formPersonaNueva.onsubmit = function(e){
     let txtMedioCaptacion = document.querySelector('#listMediosCaptacion').value;
     let txtLocalidad = document.querySelector('#listLocalidadNuevo').value;
     let txtObservacion = document.querySelector('#txtObservacion').value;
-
+    let radioCaptacion = document.getElementsByName('radioMedios_captacion');
     if (txtNombre == '' || txtAlias == '' || txtSexo == '' || txtMedioCaptacion == '' || txtLocalidad == '' || txtObservacion == ''){
         swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
         return false;

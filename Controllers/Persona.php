@@ -21,6 +21,7 @@
             $data['categoria_persona'] = $this->model->selectCategoriasPersona();
             $data['grados_estudios'] = $this->model->selectGradosEstudios();
             $data['planteles'] = $this->model->selectPlanteles();
+            $data['nivel_carrera_interes'] = $this->model->selectNivelesEducativos();
             $data['medios_captacion'] = $this->model->selectMediosCaptacion();
             $this->views->getView($this,"persona",$data);
         }
@@ -75,7 +76,8 @@
                 $intIdPersonaEdit = intval($_POST['idEdit']);
             }
             if($intIdPersonaNueva == 1){
-                $arrData = $this->model->insertPersona($data,$this->idUser);
+                $id_subcampania = $this->model->selectSubcampania();
+                $arrData = $this->model->insertPersona($data,$this->idUser,$id_subcampania['id']);
                 if($arrData){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
                 }else{
@@ -83,7 +85,7 @@
                 }
             }
             if($intIdPersonaEdit !=0){
-                $arrData = $this->model->updatePersona($intIdPersonaEdit,$data,$this->idUser);
+                $arrData = $this->model->updatePersona($intIdPersonaEdit,$data,$this->idUser,$id_subcampania['id']);
                 if($arrData){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos Actualizados Correctamente');
                 }else{

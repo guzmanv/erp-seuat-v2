@@ -121,9 +121,9 @@
                                             <select class="form-control form-control-sm" id="listNivelCarreraInteres" name="listNivelCarreraInteres" onchange="nivelCarreraInteresSeleccionado(value)" >
                                                 <option value="">Seleccionar</option>
                                             <?php 
-                                                foreach ($data['grados_estudios'] as $value) {
+                                                foreach ($data['nivel_carrera_interes'] as $value) {
                                                     ?>
-                                                        <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_escolaridad'] ?></option>
+                                                        <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_nivel_educativo'] ?></option>
                                                     <?php
                                                 }
                                             ?>
@@ -150,6 +150,7 @@
                                         </div>
 								    </div>
                                 </div>
+
                                 <div class="card col-md-12 p-0">
                                     <div class="card-header" style="background-color: #D5DBDB !important">
 									    <h5 class="card-title mb-0">Ubicación</h5>

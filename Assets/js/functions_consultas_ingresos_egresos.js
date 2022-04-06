@@ -151,7 +151,7 @@ function fnGetDatosAlumno(matriculaRFAlumno,idAlumno){
             document.querySelector('#saldoColegiaturas').innerHTML = formatoMoneda(resultado.saldoColegiaturas.toFixed(2));
             document.querySelector('#saldoServicios').innerHTML = formatoMoneda(resultado.saldoServicios.toFixed(2));
         }else{
-            swal.fire("Atención","El alumno no tiene estado de cuenta","warning");
+            swal.fire("Atención",resultado.msg,"warning");
             return false; 
         }
     }).catch(err => { throw err });
