@@ -68,14 +68,16 @@ class SeguimientoModel extends Mysql{
     }
 
     public function selectProspectos(){
-        $sql = "SELECT pe.id,CONCAT(pe.nombre_persona,' ',pe.ap_paterno,' ', pe.ap_materno) as nombre_completo, cat_pe.nombre_categoria, pe.alias, pe.tel_celular, plt.nombre_plantel, crr.nombre_carrera, med.medio_captacion
+        $sql = "SELECT pe.id, CONCAT(pe.nombre_persona, ' ', pe.ap_paterno, ' ', pe.ap_materno) as nombre_completo, cat_per.nombre_categoria, pe.alias,
+        pe.tel_celular, plt.nombre_plantel, crr_int.nombre_carrera, med.medio_captacion
         FROM t_personas as pe
-        INNER JOIN t_categoria_personas as cat_pe ON pe.id_categoria_persona = cat_pe.id
-        INNER JOIN t_prospectos as pro ON pro.id_persona = pe.id
-        LEFT JOIN t_planteles as plt ON pro.id_plantel_interes = plt.id
-        LEFT JOIN t_carrera_interes as crr ON pro.id_carrera_interes = crr.id
-        INNER JOIN t_medio_captacion as med ON pro.id_medio_captacion = med.id
-        WHERE pe.estatus != 0 AND pe.id_categoria_persona = 1 OR pe.id_categoria_persona = 5
+        INNER JOIN t_asignacion_categoria_persona as asig_cat ON asig_cat.id_persona = pe.id 
+        INNER JOIN t_categoria_personas as cat_per ON asig_cat.id_categoria_persona = cat_per.id 
+        INNER JOIN t_prospectos as pros ON pros.id_persona = pe.id
+        INNER JOIN t_planteles as plt ON pros.id_plantel_interes = plt.id
+        INNER JOIN t_carrera_interes as crr_int ON pros.id_carrera_interes = crr_int.id 
+        INNER JOIN t_medio_captacion as med ON pros.id_medio_captacion = med.id
+        WHERE pe.estatus != 0 AND asig_cat.id_categoria_persona = 1 OR asig_cat.id_categoria_persona = 5
         ORDER BY pe.id DESC";
         $request = $this->select_all($sql);
         return $request;
@@ -201,7 +203,7 @@ class SeguimientoModel extends Mysql{
 
     public function selectSeguimientoProspecto(int $idPer){
         $this->intIdPers = $idPer;
-        $sql = "SELECT sp.fecha_de_seguimiento, sp.comentario, CONCAT(per2.nombre_persona, ' ', per2.ap_paterno,' ', per2.ap_materno) as nombre_asesor, resp.respuesta_rapida
+        $sql = "SELECT DATE_FORMAT(sp.fecha_de_seguimiento,'%d-%m-%Y') AS fecha_de_seguimiento, sp.comentario, CONCAT(per2.nombre_persona, ' ', per2.ap_paterno,' ', per2.ap_materno) as nombre_asesor, resp.respuesta_rapida
         FROM t_seguimiento_prospecto AS sp
         LEFT JOIN t_prospectos AS p ON sp.id_prospecto = p.id
         INNER JOIN t_personas AS per ON p.id_persona = per.id

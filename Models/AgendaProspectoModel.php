@@ -21,7 +21,7 @@
     }
 
     public function selectAgendaProspectos(){
-      $sql = "SELECT id, fecha_programada, hora_programada, asunto, estatus FROM t_agenda";
+      $sql = "SELECT id, fecha_programada, hora_programada, asunto, estatus FROM t_agenda ORDER BY fecha_programada DESC";
       $request = $this->select_all($sql);
       return $request;
     }
